@@ -13,7 +13,7 @@ const Login = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm p-6 bg-white rounded shadow-md sm:max-w-md lg:max-w-lg">
         <h2 className="mb-6 text-2xl font-semibold text-center text-gray-800">
-          Login Again!!!!
+          Login Next!!!
         </h2>
         <form>
           
