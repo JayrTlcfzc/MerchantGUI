@@ -55,7 +55,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     <div
       className={cn(
         "bg-white border-r border-gray-200 h-screen transition-all duration-300 ease-in-out relative",
-        isOpen ? "w-64" : "w-16"
+        isOpen ? "w-64 rounded-tr-lg rounded-br-lg" : "w-16 rounded-tr-lg rounded-br-lg"
       )}
     >
       {/* Toggle Button */}
