@@ -66,14 +66,15 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         {isOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Logo */}
+      {/* Logo and Text */}
       {isOpen && (
-        <div className="flex justify-center items-center h-32">
+        <div className="flex flex-col justify-center items-center h-32">
           <img
             src={logo}
             alt="Nufin Logo"
             className="transition-all duration-300 w-24 border border-gray-300 rounded"
           />
+          <span className="text-4xl mt-2 text-[#23587C]">N U F I N</span> {/* Updated text size and color */}
         </div>
       )}
 
