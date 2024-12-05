@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import RegisterSubscriber from "./pages/AccountManagement/registerSubscriber";
 import SearchSubscriber from "./pages/AccountManagement/searchSubscriber";
+import ViewPendingSubscriber from "./pages/AccountManagement/viewPendingSubscriber";
 import Layout from "./components/Layout";
 import "./index.css";
 
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/dashboard" element={<Layout username="John Doe"><Dashboard /></Layout>} />
         <Route path="/account/register" element={<Layout username="John Doe"><RegisterSubscriber /></Layout>} />
         <Route path="/account/search" element={<Layout username="John Doe"><SearchSubscriber /></Layout>} />
+        <Route path="/account/view-pending" element={<Layout username="John Doe"><ViewPendingSubscriber /></Layout>} />
       </Routes>
     </Router>
   </React.StrictMode>
