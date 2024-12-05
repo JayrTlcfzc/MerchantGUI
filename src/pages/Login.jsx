@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import LoginImage from '../assets/LoginImage.png';
-import OTP from "./OTP";
+import OTPModal from "./OTPModal";
+
+// import PasswordModal from "./PasswordModal"
+// import PinModal from "./PinModal"
 
 const Login = () => {
   const [msisdn, setMsisdn] = useState("");
@@ -91,7 +94,7 @@ const Login = () => {
       
             <button
               type="submit"
-              onClick={() => setOpenModal('OTP')}
+              onClick={() => setOpenModal('OTPModal')}
               className="w-1/2 mx-auto block items-center px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Login
@@ -99,9 +102,11 @@ const Login = () => {
           </form>
         </div>
       </div>
-      {openModal === 'OTP' && (
-        <OTP openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
+      {openModal === 'OTPModal' && (
+        <OTPModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
       )}
+      {/* <PasswordModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
+      {/* <PinModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
     </div>
   );
 };

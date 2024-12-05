@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { FaUserLock } from 'react-icons/fa'
 
-export default function OTP ({handleClose=()=>{}}) {
+export default function OTPModal ({handleClose=()=>{}}) {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
     const handleChange = (e, index) => {
