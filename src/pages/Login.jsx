@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import LoginImage from '../assets/LoginImage.png';
+import OTP from "./OTP";
 
 const Login = () => {
   const [msisdn, setMsisdn] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [openModal, setOpenModal] = useState('');
 
   const handleMsisdnChange = (e) => {
     const input = e.target.value;
@@ -89,6 +91,7 @@ const Login = () => {
       
             <button
               type="submit"
+              onClick={() => setOpenModal('OTP')}
               className="w-1/2 mx-auto block items-center px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Login
@@ -96,6 +99,9 @@ const Login = () => {
           </form>
         </div>
       </div>
+      {openModal === 'OTP' && (
+        <OTP openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
+      )}
     </div>
   );
 };
