@@ -3,6 +3,7 @@ import LoginImage from '../assets/LoginImage.png';
 
 const Login = () => {
   const [msisdn, setMsisdn] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleMsisdnChange = (e) => {
     const input = e.target.value;
@@ -10,15 +11,19 @@ const Login = () => {
     setMsisdn(sanitizedInput);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  }
+
   return (
     <div className="flex flex-row min-h-screen bg-white">
 
-      <div className="w-full h-screen">
+      <div className="w-full h-screen hidden md:block">
         <img src={LoginImage} className="max-content h-full object-cover" alt="Login Illustration"   />
       </div>
 
       <div className="flex flex-col min-h-screen items-center justify-center w-full">
-        <div className="w-full max-w-sm p-6 sm:max-w-md lg:max-w-lg">
+        <div className="w-full max-w-sm p-6 sm:max-w-md lg:max-w-lg shadow-lg md:shadow-none">
           <h2 className="mb-6 text-5xl font-bold text-center text-gray-800 tracking-wider text-shadow-lg">
             LOGIN
           </h2>
@@ -66,7 +71,7 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your password"
@@ -75,7 +80,10 @@ const Login = () => {
             </div>
 
             <div className="flex items-center mb-4">
-              <input type="checkbox" className="mr-2 w-4 h-4 cursor-pointer rounded" />
+              <input type="checkbox"
+                checked={showPassword}
+                onChange={togglePasswordVisibility}
+                className="mr-2 w-4 h-4 cursor-pointer rounded" />
               <label>Show Password</label>
             </div>
       
