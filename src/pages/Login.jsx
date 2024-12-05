@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LoginImage from '../assets/LoginImage.png';
 
 const Login = () => {
   const [msisdn, setMsisdn] = useState("");
@@ -10,34 +11,39 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-sm p-6 bg-white rounded shadow-md sm:max-w-md lg:max-w-lg">
-        <h2 className="mb-6 text-2xl font-semibold text-center text-gray-800">
-          Login
-        </h2>
-        <form>
-          
-          <div className="flex flex-wrap gap-4 mb-4">
-           
-            <div className="flex-1">
+    <div className="flex flex-row min-h-screen bg-white">
+
+      <div className="w-full h-screen">
+        <img src={LoginImage} className="max-content h-full object-cover" alt="Login Illustration"   />
+      </div>
+
+      <div className="flex flex-col min-h-screen items-center justify-center w-full">
+        <div className="w-full max-w-sm p-6 sm:max-w-md lg:max-w-lg">
+          <h2 className="mb-6 text-5xl font-bold text-center text-gray-800 tracking-wider text-shadow-lg">
+            LOGIN
+          </h2>
+          <form>
+            
+            <div className="flex flex-wrap gap-4 mb-4">
               <label
                 htmlFor="username"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="block mb-2 text-sm font-bold text-gray-700"
               >
                 Username
               </label>
               <input
                 type="text"
                 id="username"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your username"
                 required
               />
             </div>
-            <div className="flex-1">
+
+            <div className="mb-4">
               <label
                 htmlFor="msisdn"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="block mb-2 text-sm font-bold text-gray-700"
               >
                 MSISDN
               </label>
@@ -46,38 +52,41 @@ const Login = () => {
                 id="msisdn"
                 value={msisdn}
                 onChange={handleMsisdnChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your MSISDN"
                 required
               />
             </div>
-          </div>
 
-        
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-700"
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-bold text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div className="flex items-center mb-4">
+              <input type="checkbox" className="mr-2 w-4 h-4 cursor-pointer rounded" />
+              <label>Show Password</label>
+            </div>
+      
+            <button
+              type="submit"
+              className="w-1/2 mx-auto block items-center px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-
-         
-          <button
-            type="submit"
-            className="w-full px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-          >
-            Login
-          </button>
-        </form>
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
