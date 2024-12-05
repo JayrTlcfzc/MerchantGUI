@@ -90,8 +90,8 @@ const registerSubscriber = () => {
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Account Type</option>
-                <option value="personal">Personal</option>
-                <option value="business">Business</option>
+                <option value="MCOM">MCOM</option>
+                <option value="DISTRIBUTOR">DISTRIBUTOR</option>
               </select>
             </div>
             <div>
