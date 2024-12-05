@@ -85,7 +85,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               <button
                 onClick={() => toggleItem(item.id)}
                 className={cn(
-                  "w-full flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors",
+                  "w-full flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-[#215172] hover:text-white transition-colors",
                   expandedItem === item.id && "bg-gray-100"
                 )}
               >
@@ -106,7 +106,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                     <Link
                       key={subItem.path}
                       to={subItem.path}
-                      className="block py-2 px-3 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+                      className="block py-2 px-3 text-sm text-gray-600 hover:bg-[#215172] hover:text-white rounded-md transition-colors"
                     >
                       {subItem.title}
                     </Link>
