@@ -46,7 +46,7 @@ const SearchSubscriber = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-200 p-8">
       {/* Search Bar */}
       <div className="p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-lg font-semibold text-gray-800 flex items-center justify-center mb-4">

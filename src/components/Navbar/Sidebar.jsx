@@ -23,6 +23,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         subItems: [
           { title: "Register Subscriber", path: "/account/register" },
           { title: "Search Subscriber", path: "/account/search" },
+          { title: "View Pending Subscriber", path: "/account/view-pending" },
         ],
       },
       {
