@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Eye, Search, X } from "lucide-react";
 
-const viewWebUsers = () => {
+const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");
     const [searchInput, setSearchInput] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -130,7 +130,7 @@ const viewWebUsers = () => {
 
             <div>
                 {/* Table Content */}
-                <table className='min-w-full divide-y table-auto border-collapse rounded-lg shadow overflow-hidden shadow-md' >
+                <table className='min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md' >
                     <thead className="rounded bg-[#D95F08] text-white">
                         <tr className="divide-x divide-gray-200">
                             <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("userid")}>
@@ -224,4 +224,4 @@ const viewWebUsers = () => {
   )
 }
 
-export default viewWebUsers
+export default ViewWebUsers

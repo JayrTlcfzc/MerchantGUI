@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const registerSubscriber = () => {
+const RegisterSubscriber = () => {
   const [formData, setFormData] = useState({
     nickname: '',
     mobileNumber: '',
@@ -347,7 +347,7 @@ const registerSubscriber = () => {
           <button
             type="submit"
             onClick={handleSubmit}
-            className="px-6 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-6 py-2 text-white bg-[#23587C] rounded-md  focus:outline-none focus:ring-2"
           >
             Register
           </button>
@@ -360,4 +360,4 @@ const registerSubscriber = () => {
   );
 };
 
-export default registerSubscriber;
+export default RegisterSubscriber;

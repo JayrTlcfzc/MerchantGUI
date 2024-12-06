@@ -32,6 +32,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         icon: Search,
         subItems: [
           { title: "View Web Users", path: "/web-users/view-web-users" },
+          { title: "Register New Users", path: "/web-users/register-new-user" }
         ],
       },
       {
