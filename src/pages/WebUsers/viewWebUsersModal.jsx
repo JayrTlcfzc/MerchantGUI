@@ -1,32 +1,26 @@
 import React from 'react'
 import { useState } from 'react';
 import { FaUser, FaUserPen } from 'react-icons/fa6'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
   
   const [formData, setFormData] = useState({
-    nickname: '',
-    mobileNumber: '',
-    accountType: '',
-    accountStatus: '',
-    firstName: '',
-    secondName: '',
-    lastName: '',
-    nationality: '',
-    dateOfBirth: '',
-    placeOfBirth: '',
-    gender: '',
-    idNumber: '',
-    idDescription: '',
-    idExpiry: '',
+    userid: '',
+    username: '',
+    msisdn: '',
+    otpmsisdn: '',
     company: '',
-    profession: '',
     email: '',
-    alternateNumber: '',
-    buildingNumber: '',
-    streetName: '',
-    cityVillage: '',
-    region: '',
+    firstname: '',
+    lastname: '',
+    department: '',
+    userlevel: '',
+    status: '',
+    locked: '',
+    datacreated: '',
+    datemodified: '',
   });
 
   const handleChange = (e) => {
@@ -38,7 +32,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     e.preventDefault();
 
     // Simulate form submission success or failure
-    const isFormValid = formData.nickname && formData.mobileNumber && formData.accountType && formData.accountStatus && formData.firstName && formData.lastName;
+    const isFormValid = formData.userid && formData.username && formData.msisdn && formData.otpmsisdn && formData.company && formData.email && formData.firstname && formData.lastname && formData.department && formData.userlevel && formData.status && formData.locked && formData.datacreated && formData.datemodified;
     
     if (isFormValid) {
       toast.success("Registration successful!");
@@ -51,69 +45,69 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
 
-          <div className="bg-white rounded-lg shadow-lg p-6 max-w-full">
+          <div className="bg-white rounded-lg shadow-lg max-w-full pb-6">
 
-            <div className='flex flex-row justify-center items-center bg-[#D95F08]'>
-                <FaUserPen className='text-2xl text-white' />
-                <h2 className="text-2xl font-semibold text-white ml-2">
+            <div className='flex flex-row items-center bg-[#D95F08] rounded-t-lg p-2'>
+                <FaUserPen className='text-2xl text-white ml-2 mr-2' />
+                <h2 className="text-xl font-semibold text-white">
                   EDIT USER
                 </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="nickname">Nickname</label>
-              <input
-                type="text"
-                name="nickname"
-                id="nickname"
-                value={formData.nickname}
-                onChange={handleChange}
-                placeholder="Nickname"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-6 mx-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="nickname">USER ID</label>
+                <input
+                  type="text"
+                  name="userid"
+                  id="userid"
+                  value={formData.userid}
+                  onChange={handleChange}
+                  placeholder="User ID"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="mobileNumber">USERNAME</label>
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Username"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="accountType">Account Type</label>
+                <select
+                  name="accountType"
+                  id="accountType"
+                  value={formData.accountType}
+                  onChange={handleChange}
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Account Type</option>
+                  <option value="MCOM">MCOM</option>
+                  <option value="DISTRIBUTOR">DISTRIBUTOR</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="accountStatus">Account Status</label>
+                <select
+                  name="accountStatus"
+                  id="accountStatus"
+                  value={formData.accountStatus}
+                  onChange={handleChange}
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Account Status</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="mobileNumber">Authorized Mobile Number</label>
-              <input
-                type="text"
-                name="mobileNumber"
-                id="mobileNumber"
-                value={formData.mobileNumber}
-                onChange={handleChange}
-                placeholder="Mobile Number"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="accountType">Account Type</label>
-              <select
-                name="accountType"
-                id="accountType"
-                value={formData.accountType}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Account Type</option>
-                <option value="MCOM">MCOM</option>
-                <option value="DISTRIBUTOR">DISTRIBUTOR</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="accountStatus">Account Status</label>
-              <select
-                name="accountStatus"
-                id="accountStatus"
-                value={formData.accountStatus}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Account Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
 
             <div className="flex justify-center gap-4">
                 <button

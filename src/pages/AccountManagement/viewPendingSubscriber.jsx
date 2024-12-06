@@ -107,25 +107,25 @@ const ViewPendingSubscriber = () => {
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
                 <span className="flex items-center justify-between">
                   FIRST NAME
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
                 <span className="flex items-center justify-between">
                   LAST NAME
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
                 <span className="flex items-center justify-between">
                   MSISDN
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
                 <span className="flex items-center justify-between">
                   STATUS
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                 </span>
               </th>
             </tr>
