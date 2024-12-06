@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Eye, Search, X } from "lucide-react";
+import ViewWebUsersModal from './viewWebUsersModal.jsx';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");
@@ -8,6 +9,7 @@ const ViewWebUsers = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
+    const [openModal, setOpenModal] = useState('');
 
     const data = [
         { userid: 1, username: "User1", msisdn: 345876, firstname: "Abdul",lastname: "Jafar", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
@@ -178,7 +180,11 @@ const ViewWebUsers = () => {
                                     <td className="px-4 py-2">{item.lastname}</td>
                                     <td className="px-4 py-2">{item.userlevel}</td>
                                     <td className="px-4 py-2">{item.status}</td>
-                                    <td className='px-4 py-2 flex justify-center h-full cursor-pointer'><Eye className='hover:text-[#D95F08]' /></td>
+                                    <td className='px-4 py-2 flex justify-center h-full cursor-pointer'>
+                                      <Eye
+                                        onClick={() => setOpenModal('viewWebUsersModal')}
+                                        className='hover:text-[#D95F08]' />
+                                    </td>
                                 </tr>
                             ))
                         ) : (
@@ -224,6 +230,10 @@ const ViewWebUsers = () => {
                     </button>
                 </div>
             </div>
+            {openModal === 'viewWebUsersModal' && (
+              <ViewWebUsersModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
+            )}
+            {/* <ViewWebUsersModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
         </div>
     )
 }
