@@ -254,7 +254,6 @@ const ViewWebUsers = () => {
             {openModal === 'viewWebUsersModal' && (
               <ViewWebUsersModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
             )}
-            {/* <ViewWebUsersModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
         </div>
     )
 }
