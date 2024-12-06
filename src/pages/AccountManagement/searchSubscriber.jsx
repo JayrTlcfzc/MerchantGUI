@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FaMagnifyingGlass } from 'react-icons/fa6'
 
 const SearchSubscriber = () => {
   const [startDate, setStartDate] = useState(null);
@@ -46,17 +47,11 @@ const SearchSubscriber = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-200 p-8">
       {/* Search Bar */}
       <div className="p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-lg font-semibold text-gray-800 flex items-center justify-center mb-4">
-        <span className="text-orange-500 mr-2">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-4.35-4.35m1.39-4.03A7.5 7.5 0 1012.5 5.5 7.5 7.5 0 0017.64 16.64z"
-          />
-        </span>
+        <FaMagnifyingGlass className="mr-2 text-[#D95F08]" />
         SEARCH SUBSCRIBER
       </h2>
 
@@ -75,7 +70,7 @@ const SearchSubscriber = () => {
           className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
         />
 
-        <button className="w-1/3 px-6 py-2 bg-orange-500 text-white rounded-md shadow-md hover:bg-orange-600">
+        <button className="w-1/3 px-6 py-2 bg-[#D95F08] text-white rounded-md shadow-md hover:bg-[#FC8937]">
           SEARCH
         </button>
       </div>
@@ -104,7 +99,7 @@ const SearchSubscriber = () => {
           />
         </div>
 
-        <button className="w-1/3 px-6 py-2 bg-orange-500 text-white rounded-md shadow-md hover:bg-orange-600">
+        <button className="w-1/3 px-6 py-2 bg-[#D95F08] text-white rounded-md shadow-md hover:bg-[#FC8937]">
           DOWNLOAD LIST
         </button>
       </div>

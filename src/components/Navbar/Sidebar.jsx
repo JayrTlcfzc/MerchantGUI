@@ -23,13 +23,17 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         subItems: [
           { title: "Register Subscriber", path: "/account/register" },
           { title: "Search Subscriber", path: "/account/search" },
+          { title: "View Pending Subscriber", path: "/account/view-pending" },
         ],
       },
       {
         id: "webUsers",
         title: "Web Users",
         icon: Search,
-        subItems: [],
+        subItems: [
+          { title: "View Web Users", path: "/web-users/view-web-users" },
+          { title: "Register New Users", path: "/web-users/register-new-user" }
+        ],
       },
       {
         id: "funds",
@@ -55,7 +59,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       <div
         className={cn(
           "bg-white h-screen transition-all duration-300 ease-in-out relative",
-          "rounded-tr-2xl rounded-br-2xl" // Increased the radius to 2xl
+          "rounded-tr-2xl rounded-br-2xl z-10" // Increased the radius to 2xl
         )}
       >
         
