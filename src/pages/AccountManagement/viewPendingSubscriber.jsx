@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye, Search } from "lucide-react";
+import { Eye, Search, ArrowDownUp, X } from "lucide-react";
 
 const ViewPendingSubscriber = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -58,7 +58,7 @@ const ViewPendingSubscriber = () => {
         <button
           key={i}
           onClick={() => paginate(i)}
-          className={`px-3 py-1 mx-1 rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-gray-200 text-gray-700'}`}
         >
           {i}
         </button>
@@ -68,8 +68,8 @@ const ViewPendingSubscriber = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white p-6 rounded shadow-md">
+    <div className="min-h-screen bg-gray-200 p-8">
+      <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
         {/* Page Title */}
         <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-10">
@@ -95,7 +95,7 @@ const ViewPendingSubscriber = () => {
             <X 
                 color='#BFBFBF'
                 onClick={() => setSearchInput('')}
-                className='absolute right-2 top-1/2 -translate-y-1/2' 
+                className='absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer' 
             />) 
           }
         </div>
@@ -104,17 +104,29 @@ const ViewPendingSubscriber = () => {
         <table className="min-w-full divide-y table-auto border-collapse rounded-lg shadow overflow-hidden shadow-md">
           <thead className="rounded bg-[#D95F08] text-white">
             <tr className="divide-x divide-gray-200">
-              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("firstname")}>
-                FIRST NAME
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
+                <span className="flex items-center justify-between">
+                  FIRST NAME
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("lastname")}>
-                LAST NAME
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
+                <span className="flex items-center justify-between">
+                  LAST NAME
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("msisdn")}>
-                MSISDN
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
+                <span className="flex items-center justify-between">
+                  MSISDN
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("status")}>
-                STATUS
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                <span className="flex items-center justify-between">
+                  STATUS
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                </span>
               </th>
             </tr>
           </thead>
@@ -142,14 +154,14 @@ const ViewPendingSubscriber = () => {
         <div className="flex justify-center mt-4 space-x-1">
           <button
             onClick={() => paginate(1)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
             disabled={currentPage === 1}
           >
             «
           </button>
           <button
             onClick={() => paginate(currentPage - 1)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
             disabled={currentPage === 1}
           >
             ‹
@@ -157,14 +169,14 @@ const ViewPendingSubscriber = () => {
           {renderPageNumbers()} {/* PAGE NUMBERS */}
           <button
             onClick={() => paginate(currentPage + 1)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
             disabled={currentPage === totalPages}
           >
             ›
           </button>
           <button
             onClick={() => paginate(totalPages)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
             disabled={currentPage === totalPages}
           >
             »

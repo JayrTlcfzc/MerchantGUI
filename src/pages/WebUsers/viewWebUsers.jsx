@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Eye, Search, X } from "lucide-react";
+import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import ViewWebUsersModal from './viewWebUsersModal.jsx';
 
 const ViewWebUsers = () => {
@@ -68,7 +68,7 @@ const ViewWebUsers = () => {
                 <button
                 key={i}
                 onClick={() => paginate(i)}
-                className={`px-3 py-1 mx-1 rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-transparent text-gray-700'}`}
+                className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-transparent text-gray-700'}`}
                 >
                 {i}
                 </button>
@@ -79,10 +79,10 @@ const ViewWebUsers = () => {
 
     return (
         <div className="min-h-screen bg-gray-200 p-8">
-            <div className="p-6 bg-white shadow-md rounded-lg">
+            <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
-                <h2 className="text-lg font-semibold text-gray-800 flex items-center justify-center mb-4">
+                <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-4">
                     <Eye color="#D95F08" className="mr-2" /> VIEW WEB USERS
                 </h2>
 
@@ -142,26 +142,47 @@ const ViewWebUsers = () => {
                 <table className='min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md' >
                     <thead className="rounded bg-[#D95F08] text-white">
                         <tr className="divide-x divide-gray-200">
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("userid")}>
-                                USER ID
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
+                                <span className="flex items-center justify-between">
+                                    USER ID
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("username")}>
-                                USERNAME
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
+                                <span className="flex items-center justify-between">
+                                    USERNAME
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("msisdn")}>
-                                MSISDN
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
+                                <span className="flex items-center justify-between">
+                                    MSISDN
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("firstname")}>
-                                FIRST NAME
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
+                                <span className="flex items-center justify-between">
+                                    FIRST NAME
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("lastname")}>
-                                LAST NAME
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
+                                <span className="flex items-center justify-between">
+                                    LAST NAME
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("username")}>
-                                USER LEVEL
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
+                                <span className="flex items-center justify-between">
+                                    USER LEVEL
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
-                            <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("status")}>
-                                STATUS
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                                <span className="flex items-center justify-between">
+                                    STATUS
+                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4 opacity-0 group-hover:opacity-100"/>
+                                </span>
                             </th>
                             <th className="px-4 py-2">
                                 ACTION
@@ -201,14 +222,14 @@ const ViewWebUsers = () => {
                 <div className="flex justify-center mt-4 space-x-1">
                     <button
                         onClick={() => paginate(1)}
-                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
                         disabled={currentPage === 1}
                     >
                         «
                     </button>
                     <button
                         onClick={() => paginate(currentPage - 1)}
-                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
                         disabled={currentPage === 1}
                     >
                         ‹
@@ -216,14 +237,14 @@ const ViewWebUsers = () => {
                     {renderPageNumbers()}
                     <button
                         onClick={() => paginate(currentPage + 1)}
-                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
                         disabled={currentPage === totalPages}
                     >
                         ›
                     </button>
                     <button
                         onClick={() => paginate(totalPages)}
-                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold"
+                        className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
                         disabled={currentPage === totalPages}
                     >
                         »
