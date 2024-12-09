@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DialogContent } from "./ui/dialog";
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { FaCircleCheck, FaTriangleExclamation } from 'react-icons/fa6';
 
 const StatusModal = ({ isOpen, onClose, status, message }) => {
   if (!isOpen) return null;
@@ -9,9 +9,9 @@ const StatusModal = ({ isOpen, onClose, status, message }) => {
       <DialogContent className="modal-animation glass-effect sm:max-w-[425px]">
         <div className="flex flex-col items-center justify-center p-6">
           {status === 'success' ? (
-            <CheckCircle2 className="w-16 h-16 text-green-500 mb-4" />
+            <FaCircleCheck className="w-20 h-20 text-[#0FBA00] mb-4" />
           ) : (
-            <XCircle className="w-16 h-16 text-red-500 mb-4" />
+            <FaTriangleExclamation className="w-20 h-20 text-[#C60000] mb-4" />
           )}
           <h2 className="text-2xl font-semibold mb-2">
             {status === 'success' ? 'Success!' : 'Error'}
