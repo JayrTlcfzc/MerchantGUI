@@ -36,8 +36,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleOpenModal = (message) => {
-    setModalMessage(message);
+  const handleOpenModal = (modalMessage) => {
+    setModalMessage(modalMessage);
     setOpenModal('confirmationModal');
   };
 
@@ -269,7 +269,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 >
                     RESET PASSWORD
                 </button>
-                
+
                 {!locked ? (
                   <button
                   onClick={() => handleOpenModal('LOCK')}
@@ -279,20 +279,31 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleOpenModal('LOCK')}
-                    className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"
+                    onClick={() => handleOpenModal('UNLOCK')}
+                    className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold"
                     >
                         UNLOCK
                     </button>
                 )}
-                
-                <button
-                    onClick={() => handleOpenModal('DEACTIVATE')}
-                    className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold"
-                >
-                    DEACTIVATE
-                </button>
+
+                {!deactivated ? (
+                  <button
+                  onClick={() => handleOpenModal('DEACTIVATE')}
+                  className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold"
+                  >
+                      DEACTIVATE
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleOpenModal('ACTIVATE')}
+                    className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold"
+                    >
+                        ACTIVATE
+                    </button>
+                )}
+
               </div>
+              
               <div className='flex gap-2'>
                 {!onEdit ? (
                   <button
@@ -324,7 +335,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
             <ConfirmationModal
               openModal={Boolean(openModal)}
               handleCloseModal={handleCloseModal}
-              message={modalMessage}
+              modalMessage={modalMessage}
               locked={locked} 
               setLocked={setLocked} 
               deactivated={deactivated} 

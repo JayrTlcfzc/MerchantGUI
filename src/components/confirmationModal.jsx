@@ -1,11 +1,19 @@
 import React from 'react'
 import { useState } from 'react';
 import { FaExclamationCircle } from 'react-icons/fa'
+import StatusModal from './statusModal';
 
 
-export default function confirmationModal ({openModal, handleCloseModal, message, locked, setLocked, deactivated, setDeactivated}) {
+export default function confirmationModal ({openModal, handleCloseModal, modalMessage, locked, setLocked, deactivated, setDeactivated}) {
 
   if (!openModal) return null;
+
+  const handleUseStateToggle = () => {
+    {modalMessage === "LOCK" || modalMessage === "UNLOCK" ? (
+      setLocked(!locked)
+    ) : (setDeactivated(!deactivated))}
+    handleCloseModal();
+  }
 
 return (
   <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -19,13 +27,13 @@ return (
       </div>
 
       <p className="text-gray-600 mt-4 mb-6">
-        Are you sure you want to <span className='font-bold'>{message}</span> this user
+        Are you sure you want to <span className='font-bold'>{modalMessage}</span> this user
       </p>
 
       <div className="flex justify-center gap-4">
           <button
               className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0E8804]"
-              onClick={handleCloseModal}
+              onClick={handleUseStateToggle}
           >
               YES
           </button>
