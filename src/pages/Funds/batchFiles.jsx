@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
+import { FaFolder } from "react-icons/fa6";
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -102,8 +103,9 @@ const BatchFiles = () => {
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-10">
-                <Folder color="#D95F08" className="mr-2" /> Batch Files
+                <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-8">
+                    <FaFolder className="text-[#D95F08] mr-2" />
+                    Batch Files
                 </h2>
 
                 {/* Action Selection Button */}

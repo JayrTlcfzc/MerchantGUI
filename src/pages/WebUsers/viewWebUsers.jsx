@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
+import { FaEye } from "react-icons/fa6";
 import ViewWebUsersModal from '../../components/viewWebUsersModal.jsx';
 
 const ViewWebUsers = () => {
@@ -91,7 +92,8 @@ const ViewWebUsers = () => {
 
                 {/* Page Title */}
                 <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-4">
-                    <Eye color="#D95F08" className="mr-2" /> VIEW WEB USERS
+                <FaEye className="text-[#D95F08] mr-2" />
+                VIEW WEB USERS
                 </h2>
 
                 {/* Search User*/}
