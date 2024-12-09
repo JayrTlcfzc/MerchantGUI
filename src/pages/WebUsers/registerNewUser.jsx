@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StatusModal from '../../components/statusModal';  
 import { toast } from 'sonner';
+import { FaUserPlus } from 'react-icons/fa6';
 
 const RegisterNewUser = () => {  
   const [modalState, setModalState] = useState({
@@ -38,7 +39,11 @@ const RegisterNewUser = () => {
       <div className="w-full max-w-4xl">
         {/* Register New User Title outside of the border */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Register New User</h1>
+          <h2 className="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center">
+            <FaUserPlus className="text-[#D95F08] mr-2" />
+            Register New User
+          </h2>
+
           <p className="text-gray-600">Please fill in the account details below</p>
         </div>
 

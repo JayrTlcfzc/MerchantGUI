@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import StatusModal from '../../components/statusModal';
 import PasswordModal from '../../components/PasswordModal';
 import OTPModal from '../../components/OTPModal';
+import { FaBuildingColumns } from 'react-icons/fa6';
 
 const WalletToBank = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
@@ -20,10 +21,11 @@ const WalletToBank = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold mb-8 flex items-center gap-2 text-center">
+    <div className="flex flex-col items-center justify-center p-4">
+      <h2 className="text-3xl font-bold mb-8 flex items-center text-center">
+        <FaBuildingColumns className="text-[#D95F08] mr-2" />
         Wallet To Bank
-      </h1>
+      </h2>
       <div className="bg-white p-6 rounded-lg shadow-md w-11/12 max-w-3xl border-2 border-[#23587C]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>

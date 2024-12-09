@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Eye, Search, ArrowDownUp, X } from "lucide-react";
+import { Search, ArrowDownUp, X } from "lucide-react";
+import { FaEye } from "react-icons/fa6";
 
 const ViewPendingSubscriber = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -72,8 +73,9 @@ const ViewPendingSubscriber = () => {
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
         {/* Page Title */}
-        <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-10">
-          <Eye color="#D95F08" className="mr-2" /> View Pending Subscriber
+        <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-6">
+        <FaEye className="text-[#D95F08] mr-2" />
+          View Pending Subscriber
         </h2>
 
         {/* Search Area */}

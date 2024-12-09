@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ClipboardPlus, Search, ArrowDownUp, X} from "lucide-react";
+import { FaClipboardList } from "react-icons/fa6";
 
 const RequestReports = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -70,7 +71,8 @@ const RequestReports = () => {
 
         {/* Page Title */}
         <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-10">
-          <ClipboardPlus color="#D95F08" className="mr-2" /> Request Reports
+          <FaClipboardList className="text-[#D95F08] mr-2" />
+          Request Reports
         </h2>
 
         {/* Request Button */}

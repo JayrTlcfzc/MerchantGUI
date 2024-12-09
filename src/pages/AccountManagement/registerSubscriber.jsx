@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 const RegisterSubscriber = () => {
   const [formData, setFormData] = useState({
@@ -50,7 +51,10 @@ const RegisterSubscriber = () => {
   return (
     <div className="min-h-screen bg-gray-200 p-8">
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6 text-center">Registration Form</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
+          <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
+          Registration Form
+        </h2>
 
         {/* Account Information */}
         <div className="mb-8">

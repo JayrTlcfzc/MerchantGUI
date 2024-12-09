@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StatusModal from '../../components/statusModal';
+import { FaUpload } from 'react-icons/fa6';
 
 function BatchPaymentUpload() {
   const [fileName, setFileName] = useState('No file chosen');
@@ -27,15 +28,14 @@ function BatchPaymentUpload() {
   };
 
   return (
-    <div className="flex flex-col items-center py-10">
+    <div className="flex flex-col items-center p-4">
       {/* Header */}
-      <div className="flex flex-row text-center mb-16">
-        <img 
-          src="/path-to-logo" 
-          alt="Logo" 
-          className="mx-auto mb-4 w-12" 
-        />
-        <h1 className="text-2xl font-bold">BATCH PAYMENT UPLOAD</h1>
+      <div className="flex flex-row text-center mb-6">
+        
+        <h2 className="text-3xl font-bold mb-8 text-gray-800 flex items-center text-center">
+          <FaUpload className="text-[#D95F08] mr-2" />
+          BATCH PAYMENT UPLOAD
+        </h2>
       </div>
 
       {/* File Upload Container */}

@@ -3,6 +3,7 @@ import StatusModal from '../../components/statusModal';
 import OTPModal from '../../components/OTPModal';
 import PasswordModal from '../../components/PasswordModal';
 import PinModal from '../../components/PinModal';
+import { FaMoneyBills } from 'react-icons/fa6';
 
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
@@ -25,10 +26,11 @@ const AllocateCash = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold mb-8 flex items-center gap-2 text-center">
+    <div className="flex flex-col items-center justify-center p-4">
+      <h2 className="text-3xl font-bold mb-8 text-gray-800 flex items-center text-center">
+        <FaMoneyBills className="text-[#D95F08] mr-2" />
         Allocate Cash
-      </h1>
+      </h2>
       <div className="bg-white p-6 rounded-2xl shadow-md w-11/12 max-w-3xl border-2 border-[#23587C]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>

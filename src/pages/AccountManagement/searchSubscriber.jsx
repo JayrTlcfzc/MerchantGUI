@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaMagnifyingGlass } from 'react-icons/fa6'
+import { FaMagnifyingGlass, FaAddressCard } from 'react-icons/fa6'
 
 const SearchSubscriber = () => {
   const [startDate, setStartDate] = useState(null);
@@ -50,10 +50,10 @@ const SearchSubscriber = () => {
     <div className="min-h-screen bg-gray-200 p-8">
       {/* Search Bar */}
       <div className="p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-lg font-semibold text-gray-800 flex items-center justify-center mb-4">
-        <FaMagnifyingGlass className="mr-2 text-[#D95F08]" />
-        SEARCH SUBSCRIBER
-      </h2>
+        <h2 className="text-xl font-semibold text-gray-800 flex items-center justify-center mb-4">
+          <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
+          SEARCH SUBSCRIBER
+        </h2>
 
       {/* First row - MSISDN dropdown and input */}
       <div className="flex gap-4 mb-4">
@@ -110,7 +110,8 @@ const SearchSubscriber = () => {
       {/* Subscriber Details */}
       <div className="mt-8 bg-white shadow-md rounded-lg p-6">
         {/* Account Details */}
-        <h2 className="text-xl font-semibold mb-4 text-center">
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
+          <FaAddressCard className="text-[#D95F08] mr-2"/>
           VIEW SUBSCRIBER DETAILS
         </h2>
         <h3 className="text-lg font-semibold mb-4 text-gray-700">
