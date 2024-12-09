@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { X } from "lucide-react";
-import ConfirmationModal from './confirmationModal';
-import StatusModal from './statusModal';
+import confirmationModal from '../confirmationModal';
+import StatusModal from '../statusModal';
 
-export default function RequestReportsModal({ handleClose = () => {} }) {
+export default function ChangePasswordModal({ handleClose = () => {} }) {
     // State to manage form data
     const [formData, setFormData] = useState({
-        reportType: '',
-        msisdn: '',
-        dateFrom: '',
-        dateTo: ''
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
     });
 
     // State to manage modals and messages
@@ -42,19 +41,19 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        const isFormValid = formData.reportType && formData.msisdn && formData.dateFrom && formData.dateTo;
+        const isFormValid = formData.oldPassword && formData.newPassword && formData.confirmPassword;
         if (isFormValid) {
             console.log('Form Submitted', formData);
             setModalState({
                 isOpen: true,
                 status: 'success',
-                message: 'Report request submitted successfully!'
+                message: 'Password changed successfully!'
             });
         } else {
             setModalState({
                 isOpen: true,
                 status: 'error',
-                message: 'Please fill in all required fields.'
+                message: 'Sorry, changing password failed. Try again later!'
             });
         }
     };
@@ -65,7 +64,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>
                     <div className='flex flex-row'>
                         <h2 className="text-xl font-semibold text-white">
-                            REQUEST REPORTS
+                            CHANGE PASSWORD
                         </h2>
                     </div>
                     <div>
@@ -76,50 +75,38 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 {/* Input fields */}
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6 mb-8 mt-6 mx-6">
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="reportType">Types of Report</label>
-                        <select
-                            name="reportType"
-                            id="reportType"
-                            value={formData.reportType}
-                            onChange={handleChange}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option>Select Type of Report</option>
-                            <option value="Transaction Money">Transaction Money</option>
-                            <option value="User Registration">User Registration</option>
-                            <option value="Wallet To Bank">Wallet To Bank</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="msisdn">MSISDN</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="oldPassword">Old Password</label>
                         <input
-                            name="msisdn"
-                            id="msisdn"
-                            value={formData.msisdn}
+                            type='password'
+                            name="oldPassword"
+                            id="oldPassword"
+                            value={formData.oldPassword}
                             onChange={handleChange}
-                            placeholder="MSISDN"
+                            placeholder="Enter old password"
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateFrom">Date From</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="newPassword">New Password</label>
                         <input
-                            type="date"
-                            name="dateFrom"
-                            id="dateFrom"
-                            value={formData.dateFrom}
+                            type='password'
+                            name="newPassword"
+                            id="newPassword"
+                            value={formData.newPassword}
                             onChange={handleChange}
+                            placeholder="Enter new password"
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateTo">Date To</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="confirmPassword">Confirm Password</label>
                         <input
-                            type="date"
-                            name="dateTo"
-                            id="dateTo"
-                            value={formData.dateTo}
+                            type='password'
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            value={formData.confirmPassword}
                             onChange={handleChange}
+                            placeholder="Re-enter new password"
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
@@ -144,10 +131,6 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 <ConfirmationModal
                     openModal={Boolean(openModal)}
                     modalMessage={modalMessage}
-                    locked={locked} 
-                    setLocked={setLocked} 
-                    deactivated={deactivated} 
-                    setDeactivated={setDeactivated}
                     handleCloseModal={handleCloseModal}
                     onProceed={handleUseStateToggle}
                 />
