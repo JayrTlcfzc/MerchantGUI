@@ -15,6 +15,7 @@ const Layout = ({ children, username }) => {
     <div className="flex flex-col w-full">
       {/* Header overlapping the sidebar */}
       <header className="bg-[#23587C] text-white p-4 flex justify-between items-center -ml-16">
+        
         <img src={Logo} className="fixed left-20 rounded z-0" />
         <div className="ml-auto text-white text-lg font-medium">{username}</div>
       </header>

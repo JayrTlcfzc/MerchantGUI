@@ -78,6 +78,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   
         {/* Logo and Text */}
         {isOpen && (
+           <Link to="/dashboard">
           <div className="flex flex-col justify-center items-center h-32">
             <img
               src={logo}
@@ -86,6 +87,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             />
             <span className="text-4xl mt-2 text-[#23587C]">N U F I N</span> {/* Updated text size and color */}
           </div>
+          </Link>
         )}
   
         {/* Menu Items */}
