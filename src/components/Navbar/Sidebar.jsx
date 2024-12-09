@@ -42,8 +42,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         subItems: [ 
           { title: "Allocate Cash", path: "/funds/allocate-cash" },
           { title: "Wallet To Bank", path: "/funds/wallet-to-bank" },
-          { title: "Batch Uploaded Files", path: "/funds/batch-uploaded-files" },
-          { title: "Batch Files", path: "/funds/batch-files" }
+          { title: "Batch Files", path: "/funds/batch-files" },
+          { title: "Batch Payment Upload", path: "/funds/batch-payment-upload" },
+          { title: "Batch Uploaded Files", path: "/funds/batch-uploaded-files" }
         ],
       },
       {
