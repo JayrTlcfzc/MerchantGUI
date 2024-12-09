@@ -12,6 +12,7 @@ import AuditTrail from "./pages/AuditTrail/auditTrail";
 import AllocateCash from "./pages/Funds/allocateCash";
 import WalletToBank from "./pages/Funds/walletToBank";
 import BatchUploadedFiles from "./pages/Funds/batchUploadedFiles";
+import BatchPaymentUpload from "./pages/Funds/batchPaymentUpload";
 import BatchFiles from "./pages/Funds/batchFiles";
 import RequestReports from "./pages/Reports/requestReports";
 
@@ -40,6 +41,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/funds/allocate-cash" element={<Layout username="John Doe"><AllocateCash /></Layout>} />
         <Route path="/funds/wallet-to-bank" element={<Layout username="John Doe"><WalletToBank /></Layout>} />
         <Route path="/funds/batch-uploaded-files" element={<Layout username="John Doe"><BatchUploadedFiles /></Layout>} />
+        <Route path="/funds/batch-payment-upload" element={<Layout username="John Doe"><BatchPaymentUpload /></Layout>} />
         <Route path="/funds/batch-files" element={<Layout username="John Doe"><BatchFiles /></Layout>} />
 
         {/* Reports */}
