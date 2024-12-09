@@ -1,48 +1,22 @@
 import React, { useState } from 'react';
 import StatusModal from '../../components/statusModal';
-
-const Modal = ({ isOpen, onClose, title, children, onProceed, proceedLabel, cancelLabel }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6">
-        <h2 className="text-xl font-bold mb-4 text-center">
-          {title}
-        </h2>
-        <div className="mb-6 text-center">{children}</div>
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            {cancelLabel || 'Cancel'}
-          </button>
-          <button
-            onClick={onProceed}
-            className="px-4 py-2 bg-[#23587C] text-white rounded hover:bg-blue-600"
-          >
-            {proceedLabel || 'Proceed'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+import PasswordModal from '../../components/PasswordModal';
+import OTPModal from '../../components/OTPModal';
 
 const WalletToBank = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
-  const [isPinModalOpen, setPinModalOpen] = useState(false);
+  const [isOTPModalOpen, setOTPModalOpen] = useState(false); // OTP modal state
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
 
-  const handleAllocate = () => setPasswordModalOpen(true);
+  const handleAllocate = () => setPasswordModalOpen(true); // Open password modal on click
   const handleProceedPassword = () => {
-    setPasswordModalOpen(false);
-    setPinModalOpen(true);
+    setPasswordModalOpen(false); // Close password modal
+    setOTPModalOpen(true); // Open OTP modal
   };
-  const handleProceedPin = () => {
-    setPinModalOpen(false);
-    setModalState({ isOpen: true, status: 'success', message: 'Transaction Successful!' });
+
+  const handleProceedOTP = () => {
+    setOTPModalOpen(false); // Close OTP modal
+    setModalState({ isOpen: true, status: 'success', message: 'Transaction Successful!' }); // Show status modal
   };
 
   return (
@@ -110,51 +84,32 @@ const WalletToBank = () => {
       </div>
 
       {/* Password Modal */}
-      <Modal
-        isOpen={isPasswordModalOpen}
-        onClose={() => setPasswordModalOpen(false)}
-        title="Authentication"
-        proceedLabel="Proceed"
-        cancelLabel="Cancel"
-        onProceed={handleProceedPassword}
-      >
-        <p className="mb-4 text-center">Please enter your <strong>Password</strong></p>
-        <input
-          type="password"
-          className="p-3 border rounded-md shadow-sm w-full focus:ring focus:ring-blue-300 focus:outline-none"
-          placeholder="Password"
+      {isPasswordModalOpen && (
+        <PasswordModal
+          isOpen={isPasswordModalOpen}
+          onClose={() => setPasswordModalOpen(false)}
+          onProceed={handleProceedPassword}
         />
-      </Modal>
+      )}
 
-      {/* PIN Modal */}
-      <Modal
-        isOpen={isPinModalOpen}
-        onClose={() => setPinModalOpen(false)}
-        title="Authentication"
-        proceedLabel="Proceed"
-        cancelLabel="Cancel"
-        onProceed={handleProceedPin}
-      >
-        <p className="mb-4 text-center">Please enter your <strong>PIN</strong></p>
-        <div className="flex justify-center gap-2">
-          {[...Array(4)].map((_, index) => (
-            <input
-              key={index}
-              type="text"
-              maxLength="1"
-              className="p-3 border rounded-md shadow-sm w-12 text-center focus:ring focus:ring-blue-300 focus:outline-none"
-            />
-          ))}
-        </div>
-      </Modal>
+      {/* OTP Modal */}
+      {isOTPModalOpen && (
+        <OTPModal
+          isOpen={isOTPModalOpen}
+          onClose={() => setOTPModalOpen(false)}
+          onProceed={handleProceedOTP}
+        />
+      )}
 
       {/* Status Modal */}
-      <StatusModal
-        isOpen={modalState.isOpen}
-        onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))}
-        status={modalState.status}
-        message={modalState.message}
-      />
+      {modalState.isOpen && (
+        <StatusModal
+          isOpen={modalState.isOpen}
+          onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))}
+          status={modalState.status}
+          message={modalState.message}
+        />
+      )}
     </div>
   );
 };
