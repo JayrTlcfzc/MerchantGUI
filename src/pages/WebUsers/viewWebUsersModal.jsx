@@ -4,12 +4,15 @@ import { FaUser, FaUserPen } from 'react-icons/fa6'
 import { X } from "lucide-react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ConfirmationModal from '../../components/confirmationModal';
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
 
   const [onEdit, setOnEdit] = useState(false);
   const [locked, setLocked] = useState(false);
   const [deactivated, setDeactivated] = useState(false);
+  const [openModal, setOpenModal] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
   
   const [formData, setFormData] = useState({
     userId: '',
@@ -33,11 +36,21 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleOpenModal = (message) => {
+    setModalMessage(message);
+    setOpenModal('confirmationModal');
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal('');
+    setModalMessage('');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Simulate form submission success or failure
-    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otpmMisdn && formData.company && formData.email && formData.firstName && formData.lastName && formData.department && formData.userLevel && formData.status && formData.locked && formData.dateCreated && formData.dateModified;
+    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otpMsisdn && formData.company && formData.email && formData.firstName && formData.lastName && formData.department && formData.userLevel && formData.status && formData.locked && formData.dateCreated && formData.dateModified;
     
     if (isFormValid) {
       toast.success("Registration successful!");
@@ -251,16 +264,30 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
             <div className="flex justify-between gap-10 mx-6">
               <div className='flex gap-2'>
                 <button
+                    onClick={() => handleOpenModal('RESET PASSWORD')}
                     className="px-4 py-2 text-white bg-[#E88B00] rounded hover:bg-[#FFA51E] font-bold"
                 >
                     RESET PASSWORD
                 </button>
-                <button
+                
+                {!locked ? (
+                  <button
+                  onClick={() => handleOpenModal('LOCK')}
+                  className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"
+                  >
+                      LOCK
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleOpenModal('LOCK')}
                     className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"
-                >
-                    LOCK
-                </button>
+                    >
+                        UNLOCK
+                    </button>
+                )}
+                
                 <button
+                    onClick={() => handleOpenModal('DEACTIVATE')}
                     className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold"
                 >
                     DEACTIVATE
@@ -293,7 +320,17 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
 
             </div>
           </div>
-
+          {openModal === 'confirmationModal' && (
+            <ConfirmationModal
+              openModal={Boolean(openModal)}
+              handleCloseModal={handleCloseModal}
+              message={modalMessage}
+              locked={locked} 
+              setLocked={setLocked} 
+              deactivated={deactivated} 
+              setDeactivated={setDeactivated} 
+            />
+          )}
         </div>
   )
 }
