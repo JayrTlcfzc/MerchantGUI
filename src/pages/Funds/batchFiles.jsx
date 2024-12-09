@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
+import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -8,7 +9,8 @@ const BatchFiles = () => {
     const [sortConfig, setSortConfig] = useState({ key: "fileid", direction: "ascending" });
     const [activeButton, setActiveButton] = useState('REQUESTS');
     const [dropdownVisible, setDropdownVisible] = useState(null);
-
+    const dropdownRef = useRef(null);
+    
     const data = [
         { fileid: 1040, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ABDUL", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ABDUL", dateapproved: "2024-05-17 11:01:12", uploadedby: "ABDUL" },
         { fileid: 2103, datecreated: "2019-11-23 11:01:12", dateuploaded: "2022-12-29 08:24:15", filename: "BATCH-PAYMENT.xlsx", status: "FAILED", confirmedby: "JUAN", dateconfirmed: "2022-12-30 01:10:54", approvedby: "JUAN", dateapproved: "2022-05-17 11:01:12", uploadedby: "JUAN" },
@@ -19,19 +21,32 @@ const BatchFiles = () => {
         { fileid: 98765, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
     ];
 
-    
-    const handleButtonClick = (buttonName) => { 
-        setActiveButton(buttonName);
-    };
-
-    const handleSearch = (event) => {
-        setSearchInput(event.target.value);
-    };
-
     // For Ellipsis Dropdown
     const handleEllipsisClick = (index) => {
         setDropdownVisible(dropdownVisible === index ? null : index);
     };
+
+    const handleButtonClick = (buttonName) => { 
+        setActiveButton(buttonName);
+        setDropdownVisible(null);
+    };
+    
+    const handleSearch = (event) => {
+        setSearchInput(event.target.value);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownVisible(null);
+        }
+    };
+    
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => { 
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const sortedData = [...data].sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -135,7 +150,7 @@ const BatchFiles = () => {
 
                 {/* Table Content */}
                 {activeButton === 'REQUESTS' && (
-                    <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
+                    <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
                         <thead className="rounded bg-[#D95F08] text-white">
                             <tr className="divide-x divide-gray-200">
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
@@ -223,11 +238,39 @@ const BatchFiles = () => {
                                         onClick={() => handleEllipsisClick(index)}
                                         />
                                         {dropdownVisible === index && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
-                                            <ul>
-                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
-                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
-                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 3</li>
+                                        <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
+                                            <ul className="flex flex-row gap-1">
+                                                <div>
+                                                    <li className="px-4 py-2">MSISDN:</li>
+                                                    <li className="px-4 py-2">IP:</li>
+                                                    <li className="px-4 py-2">ACTION: </li>
+                                                </div>
+                                                <div>
+                                                    <li className="px-4 py-2 font-medium">0125638761</li>
+                                                    <li className="px-4 py-2 font-medium">101.02.100</li>
+                                                    <li className="px-4 py-2 flex flex-row gap-2">
+                                                        <div className="relative group">
+                                                            <FaCircleInfo className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]" />
+                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            Details
+                                                            </span>
+                                                        </div>
+                                                        <div className="relative group">
+                                                            <FaCircleCheck className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
+                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            Accept
+                                                            </span>
+                                                        </div>
+                                                        <div className="relative group">
+                                                            <FaCircleXmark className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
+                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            Reject
+                                                            </span>
+                                                        </div>
+                                                    </li>
+
+                                                </div>
+                                                
                                             </ul>
                                         </div>
                                         )}
@@ -247,7 +290,7 @@ const BatchFiles = () => {
                 )}
 
                 {activeButton === 'TRACKING' && (
-                <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
+                <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
                     <thead className="rounded bg-[#D95F08] text-white">
                     <tr className="divide-x divide-gray-200">
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
@@ -333,13 +376,24 @@ const BatchFiles = () => {
                                     onClick={() => handleEllipsisClick(index)}
                                     />
                                     {dropdownVisible === index && (
-                                    <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
-                                        <ul>
-                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
-                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
-                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 3</li>
-                                        </ul>
-                                    </div>
+                                        <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
+                                            <ul className="flex flex-row gap-1">
+                                                <div>
+                                                    <li className="px-4 py-2">MSISDN:</li>
+                                                    <li className="px-4 py-2">IP:</li>
+                                                    <li className="px-4 py-2">ACTION: </li>
+                                                </div>
+                                                <div>
+                                                    <li className="px-4 py-2 font-medium">0125638761</li>
+                                                    <li className="px-4 py-2 font-medium">101.02.100</li>
+                                                    <li className="px-4 py-2 flex flex-row gap-2">
+                                                        <FaCircleInfo className="w-5 h-5 text-[#19405A] cursor-not-allowed" />
+                                                        <FaCircleCheck className="w-5 h-5 text-[#0EAF00] cursor-not-allowed" />
+                                                        <FaCircleXmark className="w-5 h-5 text-[#BA0000] cursor-not-allowed" />
+                                                    </li>
+                                                </div>
+                                            </ul>
+                                        </div>
                                     )}
                                 </div>
                             </td>
