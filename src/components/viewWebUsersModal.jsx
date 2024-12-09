@@ -4,7 +4,8 @@ import { FaUser, FaUserPen } from 'react-icons/fa6'
 import { X } from "lucide-react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ConfirmationModal from '../../components/confirmationModal';
+import ConfirmationModal from './confirmationModal';
+import StatusModal from './statusModal';
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
 
@@ -13,6 +14,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   const [deactivated, setDeactivated] = useState(false);
   const [openModal, setOpenModal] = useState('');
   const [modalMessage, setModalMessage] = useState('');
+  const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   
   const [formData, setFormData] = useState({
     userId: '',
@@ -30,6 +32,37 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     dateCreated: '',
     dateModified: '',
   });
+
+  const handleUseStateToggle = () => {
+    if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
+      setLocked(!locked);
+      
+    } if (modalMessage === "DEACTIVATE" || modalMessage === "ACTIVATE") {
+      setDeactivated(!deactivated);
+    }
+    handleConfirm();
+  };
+
+  const handleConfirm = (e) => {
+    setTimeout(() => {
+      let formattedMessage = '';
+      if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
+        formattedMessage = `${modalMessage}ED`;
+      } else if (modalMessage === "ACTIVATE" || modalMessage === "DEACTIVATE") {
+        formattedMessage = `${modalMessage}D`;
+      } else if (modalMessage === "RESET PASSWORD") {
+        formattedMessage = "RESET";
+      }
+
+      setModalState({
+        isOpen: true,
+         status: 'success',
+         message: modalMessage === "RESET PASSWORD"
+         ? `The user's password has been successfully reset!`
+         : `The user has been successfully ${formattedMessage.toLowerCase()}!`
+      });
+    }, 100);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -334,14 +367,21 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
           {openModal === 'confirmationModal' && (
             <ConfirmationModal
               openModal={Boolean(openModal)}
-              handleCloseModal={handleCloseModal}
               modalMessage={modalMessage}
               locked={locked} 
               setLocked={setLocked} 
               deactivated={deactivated} 
-              setDeactivated={setDeactivated} 
+              setDeactivated={setDeactivated}
+              handleCloseModal={handleCloseModal}
+              onProceed={handleUseStateToggle}
             />
           )}
+            <StatusModal
+              isOpen={modalState.isOpen}
+              onClose={() => setModalState((prev) => ({ ...prev, isOpen: false }))}
+              status={modalState.status}
+              message={modalState.message}
+            />
         </div>
   )
 }

@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import { CheckCircle2, XCircle } from 'lucide-react';
 
 const StatusModal = ({ isOpen, onClose, status, message }) => {
+  if (!isOpen) return null;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="modal-animation glass-effect sm:max-w-[425px]">
