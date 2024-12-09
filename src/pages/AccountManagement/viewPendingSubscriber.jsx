@@ -101,7 +101,7 @@ const ViewPendingSubscriber = () => {
         </div>
 
         {/* Table Content */}
-        <table className="min-w-full divide-y table-auto border-collapse rounded-lg shadow overflow-hidden shadow-md">
+        <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md">
           <thead className="rounded bg-[#D95F08] text-white">
             <tr className="divide-x divide-gray-200">
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>

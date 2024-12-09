@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/" element={<Login />} />
 
         {/* Protected routes wrapped with Layout */}
-        <Route path="/dashboard" element={<Layout username="John Doe"><Dashboard /></Layout>} />
+        <Route path="/dashboard" element={<Layout username="John Doe"><SearchSubscriber /></Layout>} />
         <Route path="/account/register" element={<Layout username="John Doe"><RegisterSubscriber /></Layout>} />
         <Route path="/account/search" element={<Layout username="John Doe"><SearchSubscriber /></Layout>} />
         <Route path="/account/view-pending" element={<Layout username="John Doe"><ViewPendingSubscriber /></Layout>} />

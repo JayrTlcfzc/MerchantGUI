@@ -51,7 +51,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         id: "audit",
         title: "Audit Trail",
         icon: History,
-        subItems: [],
+        subItems: [ {title: "Audit Trail", path: "/audit-trail"}],
       },
     ];
   
