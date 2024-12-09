@@ -39,7 +39,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         id: "funds",
         title: "Funds",
         icon: DollarSign,
-        subItems: [],
+        subItems: [ 
+          { title: "Allocate Cash", path: "/funds/allocate-cash" },
+          { title: "Wallet To Bank", path: "/funds/wallet-to-bank" }
+        ],
       },
       {
         id: "reports",

@@ -9,6 +9,9 @@ import ViewPendingSubscriber from "./pages/AccountManagement/viewPendingSubscrib
 import ViewWebUsers from "./pages/WebUsers/viewWebUsers";
 import RegisterNewUsers from "./pages/WebUsers/registerNewUser";
 import AuditTrail from "./pages/AuditTrail/auditTrail";
+import AllocateCash from "./pages/Funds/allocateCash";
+import WalletToBank from "./pages/Funds/walletToBank";
+
 import Layout from "./components/Layout";
 import "./index.css";
 
@@ -27,9 +30,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
         <Route path="/web-users/view-web-users" element={<Layout username="John Doe"><ViewWebUsers /></Layout>} />
         <Route path="/web-users/register-new-user" element={<Layout username="John Doe"><RegisterNewUsers /></Layout>} />
-
-
         <Route path="/audit-trail" element={<Layout username="John Doe"><AuditTrail /></Layout>} />
+        <Route path="/funds/allocate-cash" element={<Layout username="John Doe"><AllocateCash /></Layout>} />
+        <Route path="/funds/wallet-to-bank" element={<Layout username="John Doe"><WalletToBank /></Layout>} />
+
       </Routes>
     </Router>
   </React.StrictMode>
