@@ -41,14 +41,16 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         icon: DollarSign,
         subItems: [ 
           { title: "Allocate Cash", path: "/funds/allocate-cash" },
-          { title: "Wallet To Bank", path: "/funds/wallet-to-bank" }
+          { title: "Wallet To Bank", path: "/funds/wallet-to-bank" },
+          { title: "Batch Uploaded Files", path: "/funds/batch-uploaded-files" },
+          { title: "Batch Files", path: "/funds/batch-files" }
         ],
       },
       {
         id: "reports",
-        title: "Reports",
+        title: "Reports",  path: "/reports/request-reports",
         icon: FileText,
-        subItems: [],
+        subItems: [{title: "Request Reports",  path: "/reports/request-reports"}],
       },
       {
         id: "audit",
