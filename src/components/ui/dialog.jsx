@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-export const Dialog = ({ open, onOpenChange, children }) => {
+export const Dialog = ({ open, onOpenChange, status, children }) => {
   if (!open) return null;
 
   return (
@@ -10,7 +10,7 @@ export const Dialog = ({ open, onOpenChange, children }) => {
       onClick={onOpenChange}
     >
       <div
-        className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative flex flex-col items-center justify-center"
+        className="bg-white rounded-lg shadow-lg max-w-lg w-max p-6 relative flex flex-col items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -21,7 +21,7 @@ export const Dialog = ({ open, onOpenChange, children }) => {
           className="mt-4 px-6 py-2 bg-[#23587C] text-white rounded-lg focus:outline-none"
         >
           OK
-        </button>
+        </button> 
       </div>
     </div>
   );
