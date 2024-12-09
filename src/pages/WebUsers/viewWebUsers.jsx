@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
-import ViewWebUsersModal from './viewWebUsersModal.jsx';
+import ViewWebUsersModal from '../../components/viewWebUsersModal.jsx';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");
@@ -10,6 +10,7 @@ const ViewWebUsers = () => {
     const [itemsPerPage] = useState(5);
     const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
     const [openModal, setOpenModal] = useState('');
+    const [isViewModalOpen, setViewModalOpen] = useState(false);
 
     const data = [
         { userid: 1, username: "User1", msisdn: 345876, firstname: "Abdul",lastname: "Jafar", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
@@ -20,6 +21,13 @@ const ViewWebUsers = () => {
         { userid: 6, username: "User2", msisdn: 127413, firstname: "Juan",lastname: "Cruz", userlevel: "IT_ADMIN_MERCHANT", status: "DEACTIVE" },
         { userid: 7, username: "User3", msisdn: 5327452, firstname: "Sara",lastname: "Brook", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
     ];
+
+    const handleViewModal = () => setViewModalOpen(true);
+
+    const handleProceedStatus = () => {
+        setViewModalOpen(false)
+        setModalState({ isOpen: true, status: 'success', message: 'Action Successful!' });
+    }
 
     const handleInputChange = (e) => {
         setSelectUserBy(e.target.value);
@@ -203,7 +211,8 @@ const ViewWebUsers = () => {
                                     <td className="px-4 py-2">{item.status}</td>
                                     <td className='px-4 py-2 flex justify-center h-full cursor-pointer'>
                                       <Eye
-                                        onClick={() => setOpenModal('viewWebUsersModal')}
+                                        // onClick={() => setOpenModal('viewWebUsersModal')}
+                                        onClick={handleViewModal}
                                         className='hover:text-[#D95F08]' />
                                     </td>
                                 </tr>
@@ -251,9 +260,15 @@ const ViewWebUsers = () => {
                     </button>
                 </div>
             </div>
-            {openModal === 'viewWebUsersModal' && (
-              <ViewWebUsersModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
+
+            {isViewModalOpen && (
+                <ViewWebUsersModal
+                    isOpen={isViewModalOpen}
+                    handleClose={() => setViewModalOpen(false)}
+                    onProceed={handleProceedStatus}
+                />
             )}
+
         </div>
     )
 }
