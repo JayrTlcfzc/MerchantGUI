@@ -76,9 +76,9 @@ const BatchUploadedFiles = () => {
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
         {/* Page Title */}
-        <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
           <FaFolder className="text-[#D95F08] mr-2" />
-          Batch Uploaded Files
+          BATCH UPLOADED FILES
         </h2>
 
         {/* Search Area */}

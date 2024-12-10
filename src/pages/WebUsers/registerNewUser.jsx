@@ -42,7 +42,7 @@ const RegisterNewUser = () => {
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center">
             <FaUserPlus className="text-[#D95F08] mr-2" />
-            Register New User
+            REGISTER NEW USER
           </h2>
 
           <p className="text-gray-600">
@@ -191,10 +191,10 @@ const RegisterNewUser = () => {
         <div className="flex justify-center pt-6">
           <button
             type="submit"
-            className="px-8 py-3 bg-[#23587C] text-white rounded-lg font-medium hover:bg-[#1e4f6a] transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
+            className="px-8 py-3 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white rounded-lg font-medium hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
             onClick={handleSubmit}
           >
-            Submit
+            SUBMIT
           </button>
         </div>
       </div>

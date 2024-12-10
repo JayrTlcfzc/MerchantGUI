@@ -70,16 +70,16 @@ const RequestReports = () => {
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
         {/* Page Title */}
-        <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-10">
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-10">
           <FaClipboardList className="text-[#D95F08] mr-2" /> 
-          Request Reports
+          REQUEST REPORTS
         </h2>
 
         {/* Request Button */}
         <div className="flex flex-col gap-4 mb-4">
             <div className='flex gap-4 items-end mb-4'>
-                <button className="w-1/6 px-2 py-2 bg-[#23587C] text-sm text-white rounded-md shadow-lg hover:bg-[#2C75A6]">
-                    Request
+                <button className="w-1/6 px-2 py-2 bg-[#23587C] text-sm text-white tracking-wide shadow-md rounded font-bold hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2">
+                    REQUEST
                 </button>
             </div>
         </div>

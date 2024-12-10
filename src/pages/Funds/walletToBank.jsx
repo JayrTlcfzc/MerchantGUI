@@ -24,7 +24,7 @@ const WalletToBank = () => {
     <div className="flex flex-col items-center justify-center p-4">
       <h2 className="text-3xl font-bold mb-8 flex items-center text-center">
         <FaBuildingColumns className="text-[#D95F08] mr-2" />
-        Wallet To Bank
+        WALLET TO BANK
       </h2>
       <div className="bg-white p-6 rounded-lg shadow-md w-11/12 max-w-3xl border-2 border-[#23587C]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -75,13 +75,13 @@ const WalletToBank = () => {
       </div>
       <div className="flex justify-center gap-4 mt-4">
         <button
-          className="px-6 py-2 bg-[#23587C] text-white rounded hover:bg-blue-600 focus:ring focus:ring-blue-300"
+          className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
           onClick={handleAllocate}
         >
-          Submit
+          SUBMIT
         </button>
-        <button className="px-6 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:ring focus:ring-gray-300">
-          Reset
+        <button className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2">
+          RESET
         </button>
       </div>
 

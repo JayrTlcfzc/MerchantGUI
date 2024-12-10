@@ -73,9 +73,9 @@ const ViewPendingSubscriber = () => {
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
         {/* Page Title */}
-        <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-6">
         <FaEye className="text-[#D95F08] mr-2" />
-          View Pending Subscriber
+          VIEW PENDING SUBSCRIBER
         </h2>
 
         {/* Search Area */}
