@@ -39,6 +39,12 @@ const EditUserLevel = () => {
     }
   };
 
+  // const handleKeyDown = (e) => {
+  //   if (["e", "E", "+", "-"].includes(e.key)) {
+  //     e.preventDefault();
+  //   }
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -66,7 +72,7 @@ const EditUserLevel = () => {
         passwordHistory: '',
         maxAllocation: '',
       });
-      
+
     } else {
       setModalState({
         isOpen: true,
@@ -110,6 +116,7 @@ const EditUserLevel = () => {
                 id="sessionTimeout"
                 value={formData.sessionTimeout}
                 onChange={handleChangeDigitsOnly}
+                // onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Session Timeout"
               />
@@ -124,6 +131,7 @@ const EditUserLevel = () => {
                 id="passwordExpiry"
                 value={formData.passwordExpiry}
                 onChange={handleChangeDigitsOnly}
+                onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
@@ -138,6 +146,7 @@ const EditUserLevel = () => {
                 id="minimumPassword"
                 value={formData.minimumPassword}
                 onChange={handleChangeDigitsOnly}
+                onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
@@ -166,6 +175,7 @@ const EditUserLevel = () => {
                 id="maxAllocation"
                 value={formData.maxAllocation}
                 onChange={handleChangeDigitsOnly}
+                onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Max Allocation"
               />
