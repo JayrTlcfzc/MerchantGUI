@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { FaUserLock } from 'react-icons/fa';
+import React, { useState } from "react";
+import { FaUserLock } from "react-icons/fa";
 
-export default function PinModal({ onProceed = () => {}, handleClose = () => {} }) {
-  const [pin, setPin] = useState(['', '', '', '']);
+export default function PinModal({
+  onProceed = () => {},
+  handleClose = () => {},
+}) {
+  const [pin, setPin] = useState(["", "", "", ""]);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -17,17 +20,18 @@ export default function PinModal({ onProceed = () => {}, handleClose = () => {} 
 
     // Move to the next input if the current field is filled
     if (value !== "" && index < pin.length - 1) {
-        document.getElementById(`pin-input-${index + 1}`).focus();
+      document.getElementById(`pin-input-${index + 1}`).focus();
     }
-};
-
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
         <div className="flex flex-row justify-center items-center">
           <FaUserLock className="text-2xl" />
-          <h2 className="text-2xl font-semibold text-gray-800 ml-2">AUTHENTICATION</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 ml-2">
+            AUTHENTICATION
+          </h2>
         </div>
 
         <p className="text-gray-600 mb-6">
@@ -39,15 +43,15 @@ export default function PinModal({ onProceed = () => {}, handleClose = () => {} 
             <input
               key={index}
               id={`pin-input-${index}`}
-              type="text"
+              type="password"
               value={digit}
               onChange={(e) => {
                 const value = e.target.value;
-                if (isNaN(value) && value !== '') return;
+                if (isNaN(value) && value !== "") return;
                 const newPin = [...pin];
                 newPin[index] = value;
                 setPin(newPin);
-                if (value !== '' && index < pin.length - 1) {
+                if (value !== "" && index < pin.length - 1) {
                   document.getElementById(`pin-input-${index + 1}`).focus();
                 }
               }}

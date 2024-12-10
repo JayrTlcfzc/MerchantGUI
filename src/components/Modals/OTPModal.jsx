@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { FaUserLock } from 'react-icons/fa';
+import React, { useState } from "react";
+import { FaUserLock } from "react-icons/fa";
 
-export default function OTPModal({ onProceed = () => {}, handleClose = () => {} }) {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+export default function OTPModal({
+  onProceed = () => {},
+  handleClose = () => {},
+}) {
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -17,16 +20,18 @@ export default function OTPModal({ onProceed = () => {}, handleClose = () => {} 
 
     // Move to the next input if the current field is filled
     if (value !== "" && index < otp.length - 1) {
-        document.getElementById(`otp-input-${index + 1}`).focus();
+      document.getElementById(`otp-input-${index + 1}`).focus();
     }
-};
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
         <div className="flex flex-row justify-center items-center">
           <FaUserLock className="text-2xl" />
-          <h2 className="text-2xl font-semibold text-gray-800 ml-2">AUTHENTICATION</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 ml-2">
+            AUTHENTICATION
+          </h2>
         </div>
 
         <p className="text-gray-600 mb-6">
@@ -38,20 +43,20 @@ export default function OTPModal({ onProceed = () => {}, handleClose = () => {} 
             <input
               key={index}
               id={`otp-input-${index}`}
-              type="text"
+              type="password"
               value={digit}
               onChange={(e) => {
                 const value = e.target.value;
-                if (isNaN(value) && value !== '') return;
+                if (isNaN(value) && value !== "") return;
                 const newOtp = [...otp];
                 newOtp[index] = value;
                 setOtp(newOtp);
-                if (value !== '' && index < otp.length - 1) {
+                if (value !== "" && index < otp.length - 1) {
                   document.getElementById(`otp-input-${index + 1}`).focus();
                 }
               }}
               onKeyDown={(e) => {
-                if (e.key === 'Backspace' && otp[index] === '' && index > 0) {
+                if (e.key === "Backspace" && otp[index] === "" && index > 0) {
                   document.getElementById(`otp-input-${index - 1}`).focus();
                 }
               }}
@@ -65,7 +70,7 @@ export default function OTPModal({ onProceed = () => {}, handleClose = () => {} 
           <button
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
             onClick={() => {
-              onProceed(); 
+              onProceed();
               handleClose();
             }}
           >
