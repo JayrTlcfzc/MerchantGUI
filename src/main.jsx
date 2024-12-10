@@ -9,6 +9,7 @@ import SearchSubscriber from "./pages/AccountManagement/searchSubscriber";
 import ViewPendingSubscriber from "./pages/AccountManagement/viewPendingSubscriber";
 import ViewWebUsers from "./pages/WebUsers/viewWebUsers";
 import RegisterNewUsers from "./pages/WebUsers/registerNewUser";
+import ManageUserLevel from "./pages/WebUsers/manageUserLevel";
 import AuditTrail from "./pages/AuditTrail/auditTrail";
 import AllocateCash from "./pages/Funds/allocateCash";
 import WalletToBank from "./pages/Funds/walletToBank";
@@ -82,6 +83,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           }
         />
 
+        <Route
+          path="/web-users/manage-user-level"
+          element={
+            <Layout username="John Doe">
+              <ManageUserLevel />
+            </Layout>
+          }
+        />
         {/* Funds */}
         <Route
           path="/funds/allocate-cash"

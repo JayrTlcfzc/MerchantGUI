@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
-import StatusModal from '../../components/statusModal';  
-import { toast } from 'sonner';
-import { FaUserPlus } from 'react-icons/fa6';
+import React, { useState } from "react";
+import StatusModal from "../../components/statusModal";
+import { toast } from "sonner";
+import { FaUserPlus } from "react-icons/fa6";
 
-const RegisterNewUser = () => {  
+const RegisterNewUser = () => {
   const [modalState, setModalState] = useState({
     isOpen: false,
-    status: 'success',
-    message: ''
+    status: "success",
+    message: "",
   });
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-    
     if (!e.target.reportValidity()) {
-      return; 
+      return;
     }
 
     // Simulate API call
@@ -23,13 +22,15 @@ const RegisterNewUser = () => {
       const isSuccess = Math.random() > 0.5;
       setModalState({
         isOpen: true,
-        status: isSuccess ? 'success' : 'error',
-        message: isSuccess ? 'User registered successfully!' : 'Registration failed. Please try again.'
+        status: isSuccess ? "success" : "error",
+        message: isSuccess
+          ? "User registered successfully!"
+          : "Registration failed. Please try again.",
       });
       if (isSuccess) {
-        toast.success('User registered successfully!');
+        toast.success("User registered successfully!");
       } else {
-        toast.error('Registration failed');
+        toast.error("Registration failed");
       }
     }, 100);
   };
@@ -44,18 +45,23 @@ const RegisterNewUser = () => {
             Register New User
           </h2>
 
-          <p className="text-gray-600">Please fill in the account details below</p>
+          <p className="text-gray-600">
+            Please fill in the account details below
+          </p>
         </div>
 
         {/* Form container with border and new border color */}
         <div className="border-2 border-[#23587C] rounded-2xl p-8 bg-white shadow-lg">
-        <span className='font-bold text-2xl text-[#23587C] mb-10'>Account Details</span>
-
+          <span className="font-bold text-2xl text-[#23587C] mb-10">
+            Account Details
+          </span>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Username</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Username
+                </label>
                 <input
                   type="text"
                   placeholder="Enter username"
@@ -65,7 +71,9 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">MSISDN</label>
+                <label className="text-sm font-medium text-gray-700">
+                  MSISDN
+                </label>
                 <input
                   type="text"
                   placeholder="Enter MSISDN"
@@ -75,7 +83,9 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">OTP MSISDN</label>
+                <label className="text-sm font-medium text-gray-700">
+                  OTP MSISDN
+                </label>
                 <input
                   type="text"
                   placeholder="Enter OTP MSISDN"
@@ -86,7 +96,9 @@ const RegisterNewUser = () => {
 
               {/* Additional fields */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">First Name</label>
+                <label className="text-sm font-medium text-gray-700">
+                  First Name
+                </label>
                 <input
                   type="text"
                   placeholder="Enter first name"
@@ -96,7 +108,9 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Last Name</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Last Name
+                </label>
                 <input
                   type="text"
                   placeholder="Enter last name"
@@ -106,7 +120,9 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Email</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   placeholder="Enter email"
@@ -116,7 +132,9 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Company</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Company
+                </label>
                 <input
                   type="text"
                   placeholder="Enter company"
@@ -126,7 +144,9 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Department</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Department
+                </label>
                 <input
                   type="text"
                   placeholder="Enter department"
@@ -136,8 +156,13 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">User Level</label>
-                <select className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation" required>
+                <label className="text-sm font-medium text-gray-700">
+                  User Level
+                </label>
+                <select
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  required
+                >
                   <option value="">Select user level</option>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
@@ -146,8 +171,13 @@ const RegisterNewUser = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Status</label>
-                <select className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation" required>
+                <label className="text-sm font-medium text-gray-700">
+                  Status
+                </label>
+                <select
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  required
+                >
                   <option value="">Select status</option>
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
@@ -172,12 +202,12 @@ const RegisterNewUser = () => {
       {/* Status Modal component */}
       <StatusModal
         isOpen={modalState.isOpen}
-        onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))} 
-        status={modalState.status} 
+        onClose={() => setModalState((prev) => ({ ...prev, isOpen: false }))}
+        status={modalState.status}
         message={modalState.message}
       />
     </div>
   );
 };
 
-export default RegisterNewUser;  // Correct default export
+export default RegisterNewUser; // Correct default export
