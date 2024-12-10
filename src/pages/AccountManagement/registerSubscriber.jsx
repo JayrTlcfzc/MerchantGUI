@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import StatusModal from "../../components/Modals/statusModal";
 
 const RegisterSubscriber = () => {
   const [formData, setFormData] = useState({
@@ -28,6 +28,12 @@ const RegisterSubscriber = () => {
     cityVillage: "",
     region: "",
   });
+
+    const [modalState, setModalState] = useState({
+      isOpen: false,
+      status: "",
+      message: "",
+    });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,13 +68,46 @@ const RegisterSubscriber = () => {
       formData.firstName &&
       formData.lastName;
 
-    if (isFormValid) {
-      toast.success("Registration successful!");
-      console.log("Form Submitted", formData);
-    } else {
-      toast.error("Please fill in all required fields.");
-    }
-  };
+      if (isFormValid) {
+        setModalState({
+          isOpen: true,
+          status: "success",
+          message: "Added User Level Successfully!",
+        });
+  
+        setFormData({
+          nickname: "",
+          mobileNumber: "",
+          accountType: "",
+          accountStatus: "",
+          firstName: "",
+          secondName: "",
+          lastName: "",
+          nationality: "",
+          dateOfBirth: "",
+          placeOfBirth: "",
+          gender: "",
+          idNumber: "",
+          idDescription: "",
+          idExpiry: "",
+          company: "",
+          profession: "",
+          email: "",
+          alternateNumber: "",
+          buildingNumber: "",
+          streetName: "",
+          cityVillage: "",
+          region: "",
+        });
+        
+      } else {
+        setModalState({
+          isOpen: true,
+          status: "error",
+          message: "Failed to Add User Level. Please try again.",
+        });
+      }
+    };
 
   return (
     <div className="min-h-screen bg-gray-200 p-8">
@@ -506,8 +545,14 @@ const RegisterSubscriber = () => {
         </div>
       </div>
 
-      {/* Toast Container */}
-      <ToastContainer />
+      {/* Status Modal */}
+      <StatusModal
+        isOpen={modalState.isOpen}
+        onClose={() => setModalState({ ...modalState, isOpen: false })}
+        status={modalState.status}
+        message={modalState.message}
+      />
+
     </div>
   );
 };

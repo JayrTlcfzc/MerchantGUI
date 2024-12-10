@@ -1,38 +1,92 @@
 import React, { useState } from "react";
 import StatusModal from "../../components/Modals/statusModal";
-import { toast } from "sonner";
 import { FaUserPlus } from "react-icons/fa6";
 
 const RegisterNewUser = () => {
+
+  const [formData, setFormData] = useState({
+    username: '',
+    msisdn: '',
+    otpMsisdn: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    department: '',
+    userLevel: '',
+    status: '',
+  })
+
   const [modalState, setModalState] = useState({
     isOpen: false,
     status: "success",
     message: "",
   });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target; 
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleChangeTextOnly = (e) => {
+    const { name, value } = e.target;
+
+    if (/^[A-Za-z]*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleChangeDigitsOnly = (e) => {
+    const { name, value } = e.target;
+
+    if (/^\d*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!e.target.reportValidity()) {
-      return;
-    }
+    // Simulate form submission success or failure
+    const isFormValid =
+      formData.username &&
+      formData.msisdn &&
+      formData.otpMsisdn &&
+      formData.firstName &&
+      formData.lastName &&
+      formData.email &&
+      formData.company &&
+      formData.department &&
+      formData.userLevel &&
+      formData.status;
 
-    // Simulate API call
-    setTimeout(() => {
-      const isSuccess = Math.random() > 0.5;
+    if (isFormValid) {
       setModalState({
         isOpen: true,
-        status: isSuccess ? "success" : "error",
-        message: isSuccess
-          ? "User registered successfully!"
-          : "Registration failed. Please try again.",
+        status: "success",
+        message: "Added User Level Successfully!",
       });
-      if (isSuccess) {
-        toast.success("User registered successfully!");
-      } else {
-        toast.error("Registration failed");
-      }
-    }, 100);
+
+      setFormData({
+        username: '',
+        msisdn: '',
+        otpMsisdn: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        company: '',
+        department: '',
+        userLevel: '',
+        status: '',
+      })
+
+    } else {
+      setModalState({
+        isOpen: true,
+        status: "error",
+        message: "Failed to Add User Level. Please try again.",
+      });
+    }
   };
 
   return (
@@ -56,135 +110,170 @@ const RegisterNewUser = () => {
             Account Details
           </span>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter username"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  MSISDN
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter MSISDN"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  OTP MSISDN
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter OTP MSISDN"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              {/* Additional fields */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter first name"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter last name"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="Enter email"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Company
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter company"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Department
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter department"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  User Level
-                </label>
-                <select
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                >
-                  <option value="">Select user level</option>
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                  <option value="guest">Guest</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Status
-                </label>
-                <select
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                  required
-                >
-                  <option value="">Select status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Enter username"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"  
+              />
             </div>
-          </form>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                MSISDN
+              </label>
+              <input
+                type="text"
+                name="msisdn"
+                id="msisdn"
+                value={formData.msisdn}
+                onChange={handleChangeDigitsOnly}
+                placeholder="Enter MSISDN"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                maxLength={15}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                OTP MSISDN
+              </label>
+              <input
+                type="text"
+                name="otpMsisdn"
+                id="otpMsisdn"
+                value={formData.otpMsisdn}
+                onChange={handleChangeDigitsOnly}
+                placeholder="Enter OTP MSISDN"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                maxLength={15}
+              />
+            </div>
+
+            {/* Additional fields */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                First Name
+              </label>
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                value={formData.firstName}
+                onChange={handleChangeTextOnly}
+                placeholder="Enter first name"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                id="lastName"
+                value={formData.lastName}
+                onChange={handleChangeTextOnly}
+                placeholder="Enter last name"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter email"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Company
+              </label>
+              <input
+                type="text"
+                name="company"
+                id="company"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="Enter company"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Department
+              </label>
+              <input
+                type="text"
+                name="department"
+                id="department"
+                value={formData.department}
+                onChange={handleChange}
+                placeholder="Enter department"
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                User Level
+              </label>
+              <select
+                name="userLevel"
+                id="userLevel"
+                value={formData.userLevel}
+                onChange={handleChange}
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                required
+              >
+                <option value="">Select user level</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+                <option value="guest">Guest</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Status
+              </label>
+              <select
+                name="status"
+                id="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+                required
+              >
+                <option value="">Select status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Submit button outside the border */}
