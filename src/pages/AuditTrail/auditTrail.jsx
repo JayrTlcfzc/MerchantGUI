@@ -161,69 +161,71 @@ const AuditTrail = () => {
                 </div>
 
                 {/* Table Content */}
-                <table className='min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md' >
-                    <thead className="rounded bg-[#D95F08] text-white">
-                        <tr className="divide-x divide-gray-200">
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("timestamp")}>
-                                <span className="flex items-center justify-between">
-                                    TIMESTAMP
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
-                                <span className="flex items-center justify-between">
-                                    USERID
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
-                                <span className="flex items-center justify-between">
-                                    USERNAME
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("log")}>
-                                <span className="flex items-center justify-between">
-                                    LOG
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("interface")}>
-                                <span className="flex items-center justify-between">
-                                    INTERFACE
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("ip")}>
-                                <span className="flex items-center justify-between">
-                                    IP
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                        </tr>
-                    </thead>
-                                        
-                    <tbody className="text-center divide-y divide-gray-200">
-                        {currentItems.length > 0 ? (
-                            currentItems.map((item, index) => (
-                                <tr key={index} className="">
-                                    <td className="px-4 py-2">{item.timestamp}</td>
-                                    <td className="px-4 py-2">{item.userid}</td>
-                                    <td className="px-4 py-2">{item.username}</td>
-                                    <td className="px-4 py-2">{item.log}</td>
-                                    <td className="px-4 py-2">{item.interface}</td>
-                                    <td className="px-4 py-2">{item.ip}</td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="8" className="px-4 py-2 border text-center">
-                                    No results found
-                                </td>
+                <div className="overflow-x-auto">
+                    <table className='min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md' >
+                        <thead className="rounded bg-[#D95F08] text-white">
+                            <tr className="divide-x divide-gray-200">
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("timestamp")}>
+                                    <span className="flex items-center justify-between">
+                                        TIMESTAMP
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
+                                    <span className="flex items-center justify-between">
+                                        USERID
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
+                                    <span className="flex items-center justify-between">
+                                        USERNAME
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("log")}>
+                                    <span className="flex items-center justify-between">
+                                        LOG
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("interface")}>
+                                    <span className="flex items-center justify-between">
+                                        INTERFACE
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("ip")}>
+                                    <span className="flex items-center justify-between">
+                                        IP
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                                            
+                        <tbody className="text-center divide-y divide-gray-200">
+                            {currentItems.length > 0 ? (
+                                currentItems.map((item, index) => (
+                                    <tr key={index} className="">
+                                        <td className="px-4 py-2">{item.timestamp}</td>
+                                        <td className="px-4 py-2">{item.userid}</td>
+                                        <td className="px-4 py-2">{item.username}</td>
+                                        <td className="px-4 py-2">{item.log}</td>
+                                        <td className="px-4 py-2">{item.interface}</td>
+                                        <td className="px-4 py-2">{item.ip}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" className="px-4 py-2 border text-center">
+                                        No results found
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* PAGINATION */}
                 <div className="flex justify-center mt-4 space-x-1">

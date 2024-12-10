@@ -118,87 +118,89 @@ const RequestReports = () => {
                 </div>
 
                 {/* Table Content */}
-                <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
-                <thead className="rounded bg-[#D95F08] text-white">
-                    <tr className="divide-x divide-gray-200">
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("daterequested")}>
-                        <span className="flex items-center justify-between">
-                        DATE REQUESTED
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reportname")}>
-                        <span className="flex items-center justify-between">
-                        REPORT NAME
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reporttype")}>
-                        <span className="flex items-center justify-between">
-                        REPORT TYPE
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datefrom")}>
-                        <span className="flex items-center justify-between">
-                        DATE FROM
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateto")}>
-                        <span className="flex items-center justify-between">
-                        DATE TO
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("transactiontype")}>
-                        <span className="flex items-center justify-between">
-                        TRANSACTION TYPE
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]">
-                        <span className="flex items-center justify-between">
-                        REPORT STATUS
-                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                    </th>
-                    <th className="px-4 py-2 cursor-deafult group">
-                        ACTION
-                    </th>
-                    </tr>
-                </thead>
-                <tbody className="text-center divide-y divide-gray-200">
-                    {currentItems.length > 0 ? (
-                    currentItems.map((item, index) => (
-                        <tr key={index} className="cursor-pointer">
-                            <td className="px-4 py-2 whitespace-nowrap">{item.daterequested}</td>
-                            <td className="px-4 py-2">{item.reportname}</td>
-                            <td className="px-4 py-2">{item.reporttype}</td>
-                            <td className="px-4 py-2">{item.datefrom}</td>
-                            <td className="px-4 py-2">{item.dateto}</td>
-                            <td className="px-4 py-2">{item.transactiontype}</td>
-                            <td className="px-4 py-2">
-                                <div className="py-1 bg-[#0FBA00] text-sm text-white rounded-lg">
-                                Request has been generated
-                                </div>
-                            </td>
-                            <td className="px-4 py-2">
-                                <button className="px-4 py-2 bg-[#23587C] text-sm text-white rounded-md shadow-lg hover:bg-[#2C75A6]">
-                                    DOWNLOAD
-                                </button>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
+                    <thead className="rounded bg-[#D95F08] text-white">
+                        <tr className="divide-x divide-gray-200">
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("daterequested")}>
+                            <span className="flex items-center justify-between">
+                            DATE REQUESTED
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reportname")}>
+                            <span className="flex items-center justify-between">
+                            REPORT NAME
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reporttype")}>
+                            <span className="flex items-center justify-between">
+                            REPORT TYPE
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datefrom")}>
+                            <span className="flex items-center justify-between">
+                            DATE FROM
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateto")}>
+                            <span className="flex items-center justify-between">
+                            DATE TO
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("transactiontype")}>
+                            <span className="flex items-center justify-between">
+                            TRANSACTION TYPE
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]">
+                            <span className="flex items-center justify-between">
+                            REPORT STATUS
+                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-deafult group">
+                            ACTION
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-center divide-y divide-gray-200">
+                        {currentItems.length > 0 ? (
+                        currentItems.map((item, index) => (
+                            <tr key={index} className="cursor-pointer">
+                                <td className="px-4 py-2 whitespace-nowrap">{item.daterequested}</td>
+                                <td className="px-4 py-2">{item.reportname}</td>
+                                <td className="px-4 py-2">{item.reporttype}</td>
+                                <td className="px-4 py-2">{item.datefrom}</td>
+                                <td className="px-4 py-2">{item.dateto}</td>
+                                <td className="px-4 py-2">{item.transactiontype}</td>
+                                <td className="px-4 py-2">
+                                    <div className="py-1 bg-[#0FBA00] text-sm text-white rounded-lg">
+                                    Request has been generated
+                                    </div>
+                                </td>
+                                <td className="px-4 py-2">
+                                    <button className="px-4 py-2 bg-[#23587C] text-sm text-white rounded-md shadow-lg hover:bg-[#2C75A6]">
+                                        DOWNLOAD
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                        ) : (
+                        <tr>
+                            <td colSpan="4" className="px-4 py-2 border text-center">
+                            No results found
                             </td>
                         </tr>
-                    ))
-                    ) : (
-                    <tr>
-                        <td colSpan="4" className="px-4 py-2 border text-center">
-                        No results found
-                        </td>
-                    </tr>
-                    )}
-                </tbody>
-                </table>
+                        )}
+                    </tbody>
+                    </table>
+                </div>
 
                 {/* PAGINATION */}
                 <div className="flex justify-center mt-4 space-x-1">
