@@ -39,7 +39,7 @@ function BatchPaymentUpload() {
       </div>
 
       {/* File Upload Container */}
-      <div className="relative w-full max-w-5xl h-80 border-dashed border-2 border-[#23587C] rounded-2xl p-8 mb-6">
+      <div className="relative w-full max-w-5xl h-80 border-dashed border-2 border-[#23587C] rounded-2xl p-8 mb-6 bg-[#FFFFFF]">
         {/* Download Link */}
         <a 
           href="/path-to-template-file" 

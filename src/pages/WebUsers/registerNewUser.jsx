@@ -65,7 +65,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter username"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -77,7 +77,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter MSISDN"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -89,7 +89,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter OTP MSISDN"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -102,7 +102,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter first name"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -114,7 +114,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter last name"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -126,7 +126,7 @@ const RegisterNewUser = () => {
                 <input
                   type="email"
                   placeholder="Enter email"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -138,7 +138,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter company"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -150,7 +150,7 @@ const RegisterNewUser = () => {
                 <input
                   type="text"
                   placeholder="Enter department"
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 />
               </div>
@@ -160,7 +160,7 @@ const RegisterNewUser = () => {
                   User Level
                 </label>
                 <select
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 >
                   <option value="">Select user level</option>
@@ -175,7 +175,7 @@ const RegisterNewUser = () => {
                   Status
                 </label>
                 <select
-                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:border-[#23587C] input-focus-animation form-input-animation"
+                  className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                   required
                 >
                   <option value="">Select status</option>

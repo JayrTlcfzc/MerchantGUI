@@ -35,10 +35,12 @@ const AddUserLevel = () => {
         <div className="border-2 border-[#23587C] bg-white p-4 rounded-2xl">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-gray-700 mb-1">User Level</label>
+              <label className="block text-gray-700 mb-1">
+                User Level
+                </label>
               <input
                 type="text"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="User Level"
               />
             </div>
@@ -48,7 +50,7 @@ const AddUserLevel = () => {
               </label>
               <input
                 type="number"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Session Timeout"
               />
             </div>
@@ -58,7 +60,7 @@ const AddUserLevel = () => {
               </label>
               <input
                 type="number"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
             </div>
@@ -68,7 +70,7 @@ const AddUserLevel = () => {
               </label>
               <input
                 type="text"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
             </div>
@@ -78,15 +80,17 @@ const AddUserLevel = () => {
               </label>
               <input
                 type="email"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Email"
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-1">Max Allocation</label>
+              <label className="block text-gray-700 mb-1">
+                Max Allocation
+                </label>
               <input
                 type="text"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Company"
               />
             </div>
