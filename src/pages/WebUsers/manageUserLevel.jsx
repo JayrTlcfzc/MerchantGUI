@@ -8,7 +8,7 @@ const ManageUserLevel = () => {
   return (
     <div className="p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center py-4 border-b border-gray-200">
+        <h1 className="text-2xl font-bold text-center py-4 border-b border-gray-200">
           <span className="text-orange-500 mr-2">⚙️</span> MANAGE USER LEVELS
         </h1>
         <div className="flex justify-center space-x-4 mt-4">

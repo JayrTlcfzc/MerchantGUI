@@ -22,7 +22,7 @@ const WalletToBank = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <h2 className="text-3xl font-bold mb-8 flex items-center text-center">
+      <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
         <FaBuildingColumns className="text-[#D95F08] mr-2" />
         WALLET TO BANK
       </h2>

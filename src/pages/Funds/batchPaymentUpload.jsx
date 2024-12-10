@@ -32,7 +32,7 @@ function BatchPaymentUpload() {
       {/* Header */}
       <div className="flex flex-row text-center mb-6">
         
-        <h2 className="text-3xl font-bold mb-8 text-gray-800 flex items-center text-center">
+        <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">
           <FaUpload className="text-[#D95F08] mr-2" />
           BATCH PAYMENT UPLOAD
         </h2>
