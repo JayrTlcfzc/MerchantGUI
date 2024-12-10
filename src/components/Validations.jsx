@@ -23,7 +23,7 @@ if (/^\d*$/.test(value) && value.length <= 15) { // Max of 15 numbers as of now
 // Dynamic reset function
 export const resetFormData = (setFormData, initialData) => () => {
 const resetData = Object.keys(initialData).reduce((acc, key) => {
-    acc[key] = ''; // Setting each key to an empty string
+    acc[key] = ''; // Set each key to empty string
     return acc;
 }, {});
 setFormData(resetData);
