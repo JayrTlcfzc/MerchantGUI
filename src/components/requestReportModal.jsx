@@ -61,7 +61,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg max-w-xl w-full pb-6 border border-2 border-[#D95F08]">
+            <div className="bg-white rounded-lg shadow-lg max-w-xl w-full pb-6 border-2 border-[#D95F08]">
                 <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>
                     <div className='flex flex-row'>
                         <h2 className="text-xl font-semibold text-white">
@@ -82,7 +82,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             id="reportType"
                             value={formData.reportType}
                             onChange={handleChange}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option>Select Type of Report</option>
                             <option value="Transaction Money">Transaction Money</option>
@@ -98,7 +98,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             value={formData.msisdn}
                             onChange={handleChange}
                             placeholder="MSISDN"
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -109,7 +109,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             id="dateFrom"
                             value={formData.dateFrom}
                             onChange={handleChange}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -120,7 +120,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             id="dateTo"
                             value={formData.dateTo}
                             onChange={handleChange}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div className='flex justify-center gap-2'>
