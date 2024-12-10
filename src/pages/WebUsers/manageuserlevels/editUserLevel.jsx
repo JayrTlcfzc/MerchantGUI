@@ -131,7 +131,7 @@ const EditUserLevel = () => {
                 id="passwordExpiry"
                 value={formData.passwordExpiry}
                 onChange={handleChangeDigitsOnly}
-                onKeyDown={handleKeyDown}
+                // onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
@@ -146,7 +146,7 @@ const EditUserLevel = () => {
                 id="minimumPassword"
                 value={formData.minimumPassword}
                 onChange={handleChangeDigitsOnly}
-                onKeyDown={handleKeyDown}
+                // onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
@@ -175,7 +175,7 @@ const EditUserLevel = () => {
                 id="maxAllocation"
                 value={formData.maxAllocation}
                 onChange={handleChangeDigitsOnly}
-                onKeyDown={handleKeyDown}
+                // onKeyDown={handleKeyDown}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Max Allocation"
               />
