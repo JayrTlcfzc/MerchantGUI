@@ -4,7 +4,7 @@ import OTPModal from '../../components/Modals/OTPModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
-import { handleChangeDigitsOnly } from '../../components/Validations';
+import { handleChange, handleChangeDigitsOnly, resetFormData } from '../../components/Validations'; // Import validation and reset functions
 
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
@@ -12,10 +12,13 @@ const AllocateCash = () => {
   const [isOTPModalOpen, setOTPModalOpen] = useState(false); // For OTP modal, if needed
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     recipientmobilenum: '',
     amount: '',
-  });
+    remarks: '',
+  };
+  
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleAllocate = () => setPasswordModalOpen(true); // Open password modal on click
   const handleProceedPassword = () => {
@@ -29,9 +32,11 @@ const AllocateCash = () => {
   const handleProceedOTP = () => {
     setOTPModalOpen(false); // Close OTP modal
     setModalState({ isOpen: true, status: 'success', message: 'Cash Allocated Successfully!' }); // Show status modal
+    resetFormData(setFormData, initialFormData)(); // Reset inputfields on success
   };
 
-  const isRecipientMobileValid = formData.recipientmobilenum.length === 11;
+  // Check if all fields have values
+  const isFormValid = formData.recipientmobilenum && formData.amount && formData.remarks;
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -48,6 +53,7 @@ const AllocateCash = () => {
               name="recipientmobilenum"
               value={formData.recipientmobilenum}
               onChange={handleChangeDigitsOnly(setFormData)}
+              maxLength="15"
               placeholder="Recipient Mobile Number"
               className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
@@ -68,6 +74,8 @@ const AllocateCash = () => {
             <input
               type="text"
               name="remarks"
+              value={formData.remarks}
+              onChange={handleChange(setFormData)} // Using general handleChange for remarks
               placeholder="Remarks"
               className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
@@ -76,15 +84,15 @@ const AllocateCash = () => {
       </div>
       <div className="flex justify-center gap-4 mt-4">
         <button
-          className={`px-6 py-2 tracking-wide shadow-md rounded font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${isRecipientMobileValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'}`}
+          className={`px-6 py-2 tracking-wide shadow-md rounded font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${isFormValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'}`}
           onClick={handleAllocate}
-          disabled={!isRecipientMobileValid}
+          disabled={!isFormValid}
         >
           ALLOCATE
         </button>
         <button 
           className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] hover:bg-[#9D9D9D] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
-          onClick={() => setFormData({ recipientmobilenum: '', amount: '', remarks: '' })}
+          onClick={resetFormData(setFormData, initialFormData)} // Reset inputfields
         >
           RESET
         </button>
@@ -118,7 +126,12 @@ const AllocateCash = () => {
       {modalState.isOpen && (
         <StatusModal
           isOpen={modalState.isOpen}
-          onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))}
+          onClose={() => {
+            setModalState(prev => ({ ...prev, isOpen: false }));
+            if (modalState.status === 'success') {
+              resetFormData(setFormData, initialFormData)(); // Reset inputfields when success modal closes
+            }
+          }}
           status={modalState.status}
           message={modalState.message}
         />
