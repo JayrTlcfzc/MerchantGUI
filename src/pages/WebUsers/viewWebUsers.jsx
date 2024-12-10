@@ -149,85 +149,87 @@ const ViewWebUsers = () => {
                 </div>
 
                 {/* Table Content */}
-                <table className='min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md' >
-                    <thead className="rounded bg-[#D95F08] text-white">
-                        <tr className="divide-x divide-gray-200">
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
-                                <span className="flex items-center justify-between">
-                                    USER ID
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
-                                <span className="flex items-center justify-between">
-                                    USERNAME
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
-                                <span className="flex items-center justify-between">
-                                    MSISDN
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
-                                <span className="flex items-center justify-between">
-                                    FIRST NAME
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
-                                <span className="flex items-center justify-between">
-                                    LAST NAME
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
-                                <span className="flex items-center justify-between">
-                                    USER LEVEL
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
-                                <span className="flex items-center justify-between">
-                                    STATUS
-                                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                </span>
-                            </th>
-                            <th className="px-4 py-2">
-                                ACTION
-                            </th>
-                        </tr>
-                    </thead>
-                                        
-                    <tbody className="text-center divide-y divide-gray-200">
-                        {currentItems.length > 0 ? (
-                            currentItems.map((item, index) => (
-                                <tr key={index} className="">
-                                    <td className="px-4 py-2 whitespace-nowrap">{item.userid}</td>
-                                    <td className="px-4 py-2">{item.username}</td>
-                                    <td className="px-4 py-2">{item.msisdn}</td>
-                                    <td className="px-4 py-2">{item.firstname}</td>
-                                    <td className="px-4 py-2">{item.lastname}</td>
-                                    <td className="px-4 py-2">{item.userlevel}</td>
-                                    <td className="px-4 py-2">{item.status}</td>
-                                    <td className='px-4 py-2 flex justify-center h-full cursor-pointer'>
-                                      <Eye
-                                        // onClick={() => setOpenModal('viewWebUsersModal')}
-                                        onClick={handleViewModal}
-                                        className='hover:text-[#D95F08]' />
+                <div className="overflow-x-auto">
+                    <table className='min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md' >
+                        <thead className="rounded bg-[#D95F08] text-white">
+                            <tr className="divide-x divide-gray-200">
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
+                                    <span className="flex items-center justify-between">
+                                        USER ID
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
+                                    <span className="flex items-center justify-between">
+                                        USERNAME
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
+                                    <span className="flex items-center justify-between">
+                                        MSISDN
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
+                                    <span className="flex items-center justify-between">
+                                        FIRST NAME
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
+                                    <span className="flex items-center justify-between">
+                                        LAST NAME
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
+                                    <span className="flex items-center justify-between">
+                                        USER LEVEL
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                                    <span className="flex items-center justify-between">
+                                        STATUS
+                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                    </span>
+                                </th>
+                                <th className="px-4 py-2">
+                                    ACTION
+                                </th>
+                            </tr>
+                        </thead>
+                                            
+                        <tbody className="text-center divide-y divide-gray-200">
+                            {currentItems.length > 0 ? (
+                                currentItems.map((item, index) => (
+                                    <tr key={index} className="">
+                                        <td className="px-4 py-2 whitespace-nowrap">{item.userid}</td>
+                                        <td className="px-4 py-2">{item.username}</td>
+                                        <td className="px-4 py-2">{item.msisdn}</td>
+                                        <td className="px-4 py-2">{item.firstname}</td>
+                                        <td className="px-4 py-2">{item.lastname}</td>
+                                        <td className="px-4 py-2">{item.userlevel}</td>
+                                        <td className="px-4 py-2">{item.status}</td>
+                                        <td className='px-4 py-2 flex justify-center h-full cursor-pointer'>
+                                        <Eye
+                                            // onClick={() => setOpenModal('viewWebUsersModal')}
+                                            onClick={handleViewModal}
+                                            className='hover:text-[#D95F08]' />
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" className="px-4 py-2 border text-center">
+                                        No results found
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="8" className="px-4 py-2 border text-center">
-                                    No results found
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* PAGINATION */}
                 <div className="flex justify-center mt-4 space-x-1">

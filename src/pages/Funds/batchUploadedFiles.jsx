@@ -106,101 +106,103 @@ const BatchUploadedFiles = () => {
         </div>
 
         {/* Table Content */}
-        <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
-          <thead className="rounded bg-[#D95F08] text-white">
-            <tr className="divide-x divide-gray-200">
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
-                <span className="flex items-center justify-between">
-                  FILE ID
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
-                <span className="flex items-center justify-between">
-                  DATE CREATED
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
-                <span className="flex items-center justify-between">
-                  DATE UPLOADED
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
-                <span className="flex items-center justify-between">
-                  FILE NAME
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
-                <span className="flex items-center justify-between">
-                  STATUS
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
-                <span className="flex items-center justify-between">
-                  CONFIRMED BY
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
-                <span className="flex items-center justify-between">
-                  DATE CONFIRMED
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
-                <span className="flex items-center justify-between">
-                  APPROVED BY
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
-                <span className="flex items-center justify-between">
-                  DATE APPROVED
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
-                <span className="flex items-center justify-between">
-                  UPLOADED BY
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-center divide-y divide-gray-200">
-            {currentItems.length > 0 ? (
-              currentItems.map((item, index) => (
-                <tr key={index} className="cursor-pointer">
-                    <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
-                    <td className="px-4 py-2">{item.datecreated}</td>
-                    <td className="px-4 py-2">{item.dateuploaded}</td>
-                    <td className="px-4 py-2">{item.filename}</td>
-                    <td className="px-4 py-2">{item.status}</td>
-                    <td className="px-4 py-2">{item.confirmedby}</td>
-                    <td className="px-4 py-2">{item.dateconfirmed}</td>
-                    <td className="px-4 py-2">{item.approvedby}</td>
-                    <td className="px-4 py-2">{item.dateapproved}</td>
-                    <td className="px-4 py-2 flex justify-between items-center">
-                        <div className="text-right w-full"> 
-                            {item.uploadedby} 
-                        </div> 
-                        <EllipsisVertical className="ml-2" /> 
-                    </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="px-4 py-2 border text-center">
-                  No results found
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
+            <thead className="rounded bg-[#D95F08] text-white">
+              <tr className="divide-x divide-gray-200">
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
+                  <span className="flex items-center justify-between">
+                    FILE ID
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
+                  <span className="flex items-center justify-between">
+                    DATE CREATED
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
+                  <span className="flex items-center justify-between">
+                    DATE UPLOADED
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
+                  <span className="flex items-center justify-between">
+                    FILE NAME
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                  <span className="flex items-center justify-between">
+                    STATUS
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
+                  <span className="flex items-center justify-between">
+                    CONFIRMED BY
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
+                  <span className="flex items-center justify-between">
+                    DATE CONFIRMED
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
+                  <span className="flex items-center justify-between">
+                    APPROVED BY
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
+                  <span className="flex items-center justify-between">
+                    DATE APPROVED
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
+                  <span className="flex items-center justify-between">
+                    UPLOADED BY
+                    <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                  </span>
+                </th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-center divide-y divide-gray-200">
+              {currentItems.length > 0 ? (
+                currentItems.map((item, index) => (
+                  <tr key={index} className="cursor-pointer">
+                      <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
+                      <td className="px-4 py-2">{item.datecreated}</td>
+                      <td className="px-4 py-2">{item.dateuploaded}</td>
+                      <td className="px-4 py-2">{item.filename}</td>
+                      <td className="px-4 py-2">{item.status}</td>
+                      <td className="px-4 py-2">{item.confirmedby}</td>
+                      <td className="px-4 py-2">{item.dateconfirmed}</td>
+                      <td className="px-4 py-2">{item.approvedby}</td>
+                      <td className="px-4 py-2">{item.dateapproved}</td>
+                      <td className="px-4 py-2 flex justify-between items-center">
+                          <div className="text-right w-full"> 
+                              {item.uploadedby} 
+                          </div> 
+                          <EllipsisVertical className="ml-2" /> 
+                      </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="px-4 py-2 border text-center">
+                    No results found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
         {/* PAGINATION */}
         <div className="flex justify-center mt-4 space-x-1">
