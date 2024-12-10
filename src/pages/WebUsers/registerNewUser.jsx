@@ -40,7 +40,7 @@ const RegisterNewUser = () => {
       <div className="w-full max-w-4xl">
         {/* Register New User Title outside of the border */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center">
             <FaUserPlus className="text-[#D95F08] mr-2" />
             REGISTER NEW USER
           </h2>
@@ -191,7 +191,7 @@ const RegisterNewUser = () => {
         <div className="flex justify-center pt-6">
           <button
             type="submit"
-            className="px-8 py-3 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white rounded-lg font-medium hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
+            className="px-8 py-3 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
             onClick={handleSubmit}
           >
             SUBMIT
