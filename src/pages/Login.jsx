@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LoginImage from '../assets/LoginImage.png';
+import LoginImage from "../assets/LoginImage.png";
 import OTPModal from "../components/Modals/OTPModal";
 
 // import PasswordModal from "../components/Modals/PasswordModal";
@@ -8,7 +8,7 @@ import OTPModal from "../components/Modals/OTPModal";
 const Login = () => {
   const [msisdn, setMsisdn] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [openModal, setOpenModal] = useState('');
+  const [openModal, setOpenModal] = useState("");
 
   const handleMsisdnChange = (e) => {
     const input = e.target.value;
@@ -18,13 +18,16 @@ const Login = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
-  }
+  };
 
   return (
     <div className="flex flex-row min-h-screen bg-white">
-
       <div className="w-full h-screen hidden md:block">
-        <img src={LoginImage} className="max-content h-full object-cover" alt="Login Illustration"   />
+        <img
+          src={LoginImage}
+          className="max-content h-full object-cover"
+          alt="Login Illustration"
+        />
       </div>
 
       {/* Login Form Section */}
@@ -34,22 +37,6 @@ const Login = () => {
             LOGIN
           </h2>
           <form>
-            <div className="flex flex-wrap gap-4 mb-4">
-              <label
-                htmlFor="username"
-                className="block mb-2 text-sm font-bold text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-
             <div className="mb-4">
               <label
                 htmlFor="msisdn"
@@ -64,6 +51,22 @@ const Login = () => {
                 onChange={handleMsisdnChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your MSISDN"
+                required
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-4 mb-4">
+              <label
+                htmlFor="username"
+                className="block mb-2 text-sm font-bold text-gray-700"
+              >
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
+                placeholder="Enter your username"
                 required
               />
             </div>
@@ -85,16 +88,18 @@ const Login = () => {
             </div>
 
             <div className="flex items-center mb-4">
-              <input type="checkbox"
+              <input
+                type="checkbox"
                 checked={showPassword}
                 onChange={togglePasswordVisibility}
-                className="mr-2 w-4 h-4 cursor-pointer rounded" />
+                className="mr-2 w-4 h-4 cursor-pointer rounded"
+              />
               <label>Show Password</label>
             </div>
 
             <button
               type="button"
-              onClick={() => setOpenModal('OTPModal')}
+              onClick={() => setOpenModal("OTPModal")}
               className="w-1/2 mx-auto block items-center px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Login
@@ -102,8 +107,11 @@ const Login = () => {
           </form>
         </div>
       </div>
-      {openModal === 'OTPModal' && (
-        <OTPModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} />
+      {openModal === "OTPModal" && (
+        <OTPModal
+          openModal={Boolean(openModal)}
+          handleClose={() => setOpenModal("")}
+        />
       )}
       {/* <PasswordModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
       {/* <PinModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
