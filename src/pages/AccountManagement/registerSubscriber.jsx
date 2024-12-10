@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const RegisterSubscriber = () => {
   const [formData, setFormData] = useState({
-    nickname: '',
-    mobileNumber: '',
-    accountType: '',
-    accountStatus: '',
-    firstName: '',
-    secondName: '',
-    lastName: '',
-    nationality: '',
-    dateOfBirth: '',
-    placeOfBirth: '',
-    gender: '',
-    idNumber: '',
-    idDescription: '',
-    idExpiry: '',
-    company: '',
-    profession: '',
-    email: '',
-    alternateNumber: '',
-    buildingNumber: '',
-    streetName: '',
-    cityVillage: '',
-    region: '',
+    nickname: "",
+    mobileNumber: "",
+    accountType: "",
+    accountStatus: "",
+    firstName: "",
+    secondName: "",
+    lastName: "",
+    nationality: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
+    gender: "",
+    idNumber: "",
+    idDescription: "",
+    idExpiry: "",
+    company: "",
+    profession: "",
+    email: "",
+    alternateNumber: "",
+    buildingNumber: "",
+    streetName: "",
+    cityVillage: "",
+    region: "",
   });
 
   const handleChange = (e) => {
@@ -34,15 +34,37 @@ const RegisterSubscriber = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleChangeTextOnly = (e) => {
+    const { name, value } = e.target;
+
+    if (/^[A-Za-z]*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleChangeDigitsOnly = (e) => {
+    const { name, value } = e.target;
+
+    if (/^\d*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Simulate form submission success or failure
-    const isFormValid = formData.nickname && formData.mobileNumber && formData.accountType && formData.accountStatus && formData.firstName && formData.lastName;
-    
+    const isFormValid =
+      formData.nickname &&
+      formData.mobileNumber &&
+      formData.accountType &&
+      formData.accountStatus &&
+      formData.firstName &&
+      formData.lastName;
+
     if (isFormValid) {
       toast.success("Registration successful!");
-      console.log('Form Submitted', formData);
+      console.log("Form Submitted", formData);
     } else {
       toast.error("Please fill in all required fields.");
     }
@@ -58,10 +80,17 @@ const RegisterSubscriber = () => {
 
         {/* Account Information */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4 text-[#23587C]">Account Information</h3>
+          <h3 className="text-xl font-semibold mb-4 text-[#23587C]">
+            Account Information
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="nickname">Nickname</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="nickname"
+              >
+                Nickname
+              </label>
               <input
                 type="text"
                 name="nickname"
@@ -73,19 +102,29 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="mobileNumber">Authorized Mobile Number</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="mobileNumber"
+              >
+                Authorized Mobile Number
+              </label>
               <input
                 type="text"
                 name="mobileNumber"
                 id="mobileNumber"
                 value={formData.mobileNumber}
-                onChange={handleChange}
+                onChange={handleChangeDigitsOnly}
                 placeholder="Mobile Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="accountType">Account Type</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="accountType"
+              >
+                Account Type
+              </label>
               <select
                 name="accountType"
                 id="accountType"
@@ -93,13 +132,20 @@ const RegisterSubscriber = () => {
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
-                <option className='hover:bg-[#23587C]' value="">Select Account Type</option>
+                <option className="hover:bg-[#23587C]" value="">
+                  Select Account Type
+                </option>
                 <option value="MCOM">MCOM</option>
                 <option value="DISTRIBUTOR">DISTRIBUTOR</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="accountStatus">Account Status</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="accountStatus"
+              >
+                Account Status
+              </label>
               <select
                 name="accountStatus"
                 id="accountStatus"
@@ -107,9 +153,15 @@ const RegisterSubscriber = () => {
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
-                <option className="hover:bg-black" value="">Select Account Status</option>
-                <option className="hover:bg-black" value="active">Active</option>
-                <option className="hover:bg-black" value="inactive">Inactive</option>
+                <option className="hover:bg-black" value="">
+                  Select Account Status
+                </option>
+                <option className="hover:bg-black" value="active">
+                  Active
+                </option>
+                <option className="hover:bg-black" value="inactive">
+                  Inactive
+                </option>
               </select>
             </div>
           </div>
@@ -117,58 +169,85 @@ const RegisterSubscriber = () => {
 
         {/* Personal Information */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4 text-[#23587C]">Personal Information</h3>
+          <h3 className="text-xl font-semibold mb-4 text-[#23587C]">
+            Personal Information
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="firstName">First Name</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="firstName"
+              >
+                First Name
+              </label>
               <input
                 type="text"
                 name="firstName"
                 id="firstName"
                 value={formData.firstName}
-                onChange={handleChange}
+                onChange={handleChangeTextOnly}
                 placeholder="First Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="secondName">Second Name</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="secondName"
+              >
+                Second Name
+              </label>
               <input
                 type="text"
                 name="secondName"
                 id="secondName"
                 value={formData.secondName}
-                onChange={handleChange}
+                onChange={handleChangeTextOnly}
                 placeholder="Second Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="lastName">Last Name</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="lastName"
+              >
+                Last Name
+              </label>
               <input
                 type="text"
                 name="lastName"
                 id="lastName"
                 value={formData.lastName}
-                onChange={handleChange}
+                onChange={handleChangeTextOnly}
                 placeholder="Last Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="nationality">Nationality</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="nationality"
+              >
+                Nationality
+              </label>
               <input
                 type="text"
                 name="nationality"
                 id="nationality"
                 value={formData.nationality}
-                onChange={handleChange}
+                onChange={handleChangeTextOnly}
                 placeholder="Nationality"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="dateOfBirth">Date of Birth</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="dateOfBirth"
+              >
+                Date of Birth
+              </label>
               <input
                 type="date"
                 name="dateOfBirth"
@@ -179,7 +258,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="placeOfBirth">Place of Birth</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="placeOfBirth"
+              >
+                Place of Birth
+              </label>
               <input
                 type="text"
                 name="placeOfBirth"
@@ -191,7 +275,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="gender">Gender</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="gender"
+              >
+                Gender
+              </label>
               <select
                 name="gender"
                 id="gender"
@@ -206,7 +295,12 @@ const RegisterSubscriber = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="idNumber">ID Number</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="idNumber"
+              >
+                ID Number
+              </label>
               <input
                 type="text"
                 name="idNumber"
@@ -218,7 +312,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="idDescription">ID Description</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="idDescription"
+              >
+                ID Description
+              </label>
               <input
                 type="text"
                 name="idDescription"
@@ -230,7 +329,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="idExpiry">ID Expiry</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="idExpiry"
+              >
+                ID Expiry
+              </label>
               <input
                 type="date"
                 name="idExpiry"
@@ -245,10 +349,17 @@ const RegisterSubscriber = () => {
 
         {/* Contact Information */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4 text-[#23587C]">Contact Information</h3>
+          <h3 className="text-xl font-semibold mb-4 text-[#23587C]">
+            Contact Information
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="company">Company</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="company"
+              >
+                Company
+              </label>
               <input
                 type="text"
                 name="company"
@@ -260,7 +371,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="profession">Profession</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="profession"
+              >
+                Profession
+              </label>
               <input
                 type="text"
                 name="profession"
@@ -272,7 +388,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="email"
+              >
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
@@ -284,19 +405,29 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="alternateNumber">Alternate Number</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="alternateNumber"
+              >
+                Alternate Number
+              </label>
               <input
                 type="text"
                 name="alternateNumber"
                 id="alternateNumber"
                 value={formData.alternateNumber}
-                onChange={handleChange}
+                onChange={handleChangeDigitsOnly}
                 placeholder="Alternate Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="buildingNumber">Building Number</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="buildingNumber"
+              >
+                Building Number
+              </label>
               <input
                 type="text"
                 name="buildingNumber"
@@ -308,7 +439,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="streetName">Street Name</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="streetName"
+              >
+                Street Name
+              </label>
               <input
                 type="text"
                 name="streetName"
@@ -320,7 +456,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="cityVillage">City/Village</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="cityVillage"
+              >
+                City/Village
+              </label>
               <input
                 type="text"
                 name="cityVillage"
@@ -332,7 +473,12 @@ const RegisterSubscriber = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700" htmlFor="region">Region</label>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="region"
+              >
+                Region
+              </label>
               <input
                 type="text"
                 name="region"
