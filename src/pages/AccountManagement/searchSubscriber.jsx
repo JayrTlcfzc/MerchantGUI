@@ -56,9 +56,9 @@ const SearchSubscriber = () => {
         </h2>
 
       {/* First row - MSISDN dropdown and input */}
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
         <select
-          className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+          className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
           defaultValue="MSISDN"
         >
           <option value="MSISDN">MSISDN</option>
@@ -67,17 +67,17 @@ const SearchSubscriber = () => {
         <input
           type="text"
           placeholder="MSISDN"
-          className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+          className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
         />
 
-        <button className="w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
+        <button className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
           SEARCH
         </button>
       </div>
 
       {/* Second row - Date Inputs */}
-      <div className="flex gap-4 mb-4">
-        <div className="w-1/3 relative">
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <div className="md:w-1/3 relative">
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
@@ -88,7 +88,7 @@ const SearchSubscriber = () => {
           />
         </div>
 
-        <div className="w-1/3 relative">
+        <div className="md:w-1/3 relative">
           <DatePicker
             selected={endDate}
             onChange={(date) => setEndDate(date)}
@@ -99,13 +99,11 @@ const SearchSubscriber = () => {
           />
         </div>
 
-        <button className="w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
+        <button className="md:w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
           DOWNLOAD LIST
         </button>
       </div>
     </div>
-
-
 
       {/* Subscriber Details */}
       <div className="mt-8 bg-white shadow-md rounded-lg p-6">
@@ -117,7 +115,7 @@ const SearchSubscriber = () => {
         <h3 className="text-lg font-semibold mb-4 text-gray-700">
           Account Details
         </h3>
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
           {accountDetails.map((item, index) => (
             <div
               key={index}
@@ -133,7 +131,7 @@ const SearchSubscriber = () => {
         <h3 className="text-lg font-semibold mb-4 text-gray-700">
           Personal Details
         </h3>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {personalDetails.map((item, index) => (
             <div
               key={index}
