@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import LoginImage from '../assets/LoginImage.png';
-import OTPModal from "../components/OTPModal";
+import OTPModal from "../components/Modals/OTPModal";
 
-// import PasswordModal from "../components/OTPModal";
-// import PinModal from "../components/OTPModal";
+// import PasswordModal from "../components/Modals/PasswordModal";
+// import PinModal from "../components/Modals/PinModal";
 
 const Login = () => {
   const [msisdn, setMsisdn] = useState("");

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StatusModal from "../../../components/statusModal";
+import StatusModal from "../../../components/Modals/statusModal";
 
 const AddUserLevel = () => {
   const [modalState, setModalState] = useState({

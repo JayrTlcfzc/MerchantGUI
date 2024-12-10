@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
-import ViewWebUsersModal from '../../components/viewWebUsersModal.jsx';
+import ViewWebUsersModal from '../../components/Modals/viewWebUsersModal';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");

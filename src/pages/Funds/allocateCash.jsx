@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import StatusModal from '../../components/statusModal';
-import OTPModal from '../../components/OTPModal';
-import PasswordModal from '../../components/PasswordModal';
-import PinModal from '../../components/PinModal';
+import StatusModal from '../../components/Modals/statusModal';
+import OTPModal from '../../components/Modals/OTPModal';
+import PasswordModal from '../../components/Modals/PasswordModal';
+import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
 
 const AllocateCash = () => {

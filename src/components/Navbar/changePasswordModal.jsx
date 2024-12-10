@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X } from "lucide-react";
-import confirmationModal from '../confirmationModal';
-import StatusModal from '../statusModal';
+import confirmationModal from '../Modals/confirmationModal';
+import StatusModal from '../Modals/statusModal';
 
 export default function ChangePasswordModal({ handleClose = () => {} }) {
     // State to manage form data

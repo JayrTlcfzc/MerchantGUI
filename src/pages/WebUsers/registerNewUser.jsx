@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StatusModal from "../../components/statusModal";
+import StatusModal from "../../components/Modals/statusModal";
 import { toast } from "sonner";
 import { FaUserPlus } from "react-icons/fa6";
 

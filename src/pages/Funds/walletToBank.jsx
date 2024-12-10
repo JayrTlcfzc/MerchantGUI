@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import StatusModal from '../../components/statusModal';
-import PasswordModal from '../../components/PasswordModal';
-import OTPModal from '../../components/OTPModal';
+import StatusModal from '../../components/Modals/statusModal';
+import PasswordModal from '../../components/Modals/PasswordModal';
+import OTPModal from '../../components/Modals/OTPModal';
 import { FaBuildingColumns } from 'react-icons/fa6';
 
 const WalletToBank = () => {

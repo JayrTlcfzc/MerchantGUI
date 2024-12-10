@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ClipboardPlus, Search, ArrowDownUp, X} from "lucide-react";
-import RequestReportModal from "../../components/requestReportModal";
+import RequestReportModal from "../../components/Modals/requestReportModal";
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");

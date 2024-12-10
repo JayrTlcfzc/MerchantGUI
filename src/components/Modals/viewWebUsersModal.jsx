@@ -96,7 +96,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
 
-          <div className="bg-white rounded-lg shadow-lg max-w-full pb-6 border border-2 border-[#D95F08]">
+          <div className="bg-white rounded-lg shadow-lg max-w-full pb-6 border-2 border-[#D95F08]">
 
             <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>
               <div className='flex flex-row'>
