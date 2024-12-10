@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent } from "./ui/dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 import { FaCircleCheck, FaTriangleExclamation } from 'react-icons/fa6';
 
 const StatusModal = ({ isOpen, onClose, status, message }) => {
