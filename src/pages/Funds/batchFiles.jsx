@@ -112,13 +112,13 @@ const BatchFiles = () => {
                 <div className="flex flex-col gap-4 mb-4">
                     <div className='flex items-center justify-center'>
                         <button
-                            className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'REQUESTS' ? 'bg-[#D95F08] text-white' : 'text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
+                            className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'REQUESTS' ? 'bg-[#D95F08] text-white' : 'bg-[#ededed] text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
                             onClick={() => handleButtonClick('REQUESTS')}
                         >
                             REQUESTS
                         </button>
                         <button
-                            className={`w-1/6 px-2 py-2 tracking-wide  text-sm ${activeButton === 'TRACKING' ? 'bg-[#D95F08] text-white' : 'text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
+                            className={`w-1/6 px-2 py-2 tracking-wide  text-sm ${activeButton === 'TRACKING' ? 'bg-[#D95F08] text-white' : 'bg-[#ededed] text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
                             onClick={() => handleButtonClick('TRACKING')}
                         >
                             TRACKING
