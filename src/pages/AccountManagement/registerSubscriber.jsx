@@ -59,7 +59,7 @@ const RegisterSubscriber = () => {
         {/* Account Information */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 text-[#23587C]">Account Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700" htmlFor="nickname">Nickname</label>
               <input
@@ -118,7 +118,7 @@ const RegisterSubscriber = () => {
         {/* Personal Information */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 text-[#23587C]">Personal Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700" htmlFor="firstName">First Name</label>
               <input
@@ -246,7 +246,7 @@ const RegisterSubscriber = () => {
         {/* Contact Information */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 text-[#23587C]">Contact Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700" htmlFor="company">Company</label>
               <input
