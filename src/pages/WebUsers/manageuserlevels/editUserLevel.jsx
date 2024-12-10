@@ -2,28 +2,76 @@ import React, { useState } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
 
 const EditUserLevel = () => {
-  const [userLevel, setUserLevel] = useState(""); // State for the dropdown
+
+  const [formData, setFormData] = useState({
+    userLevel: '',
+    sessionTimeout: '',
+    passwordExpiry: '',
+    minimumPassword: '',
+    passwordHistory: '',
+    maxAllocation: '',
+  })
+
   const [modalState, setModalState] = useState({
     isOpen: false,
     status: "",
     message: "",
-  }); // State for the modal
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target; 
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleChangeTextOnly = (e) => {
+    const { name, value } = e.target;
+
+    if (/^[A-Za-z]*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleChangeDigitsOnly = (e) => {
+    const { name, value } = e.target;
+
+    if (/^\d*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Example logic for success or failure
-    if (userLevel) {
+    // Simulate form submission success or failure
+    const isFormValid =
+      formData.userLevel &&
+      formData.sessionTimeout &&
+      formData.passwordExpiry &&
+      formData.minimumPassword &&
+      formData.passwordHistory &&
+      formData.maxAllocation;
+
+    if (isFormValid) {
       setModalState({
         isOpen: true,
         status: "success",
-        message: "User Level updated successfully!",
+        message: "Added User Level Successfully!",
       });
+
+      setFormData({
+        userLevel: '',
+        sessionTimeout: '',
+        passwordExpiry: '',
+        minimumPassword: '',
+        passwordHistory: '',
+        maxAllocation: '',
+      });
+      
     } else {
       setModalState({
         isOpen: true,
         status: "error",
-        message: "Failed to update User Level. Please try again.",
+        message: "Failed to Add User Level. Please try again.",
       });
     }
   };
@@ -40,8 +88,10 @@ const EditUserLevel = () => {
             <div>
               <label className="block text-gray-700 mb-1">User Level</label>
               <select
-                value={userLevel}
-                onChange={(e) => setUserLevel(e.target.value)}
+                name="userLevel"
+                id="userLevel"
+                value={formData.userLevel}
+                onChange={handleChange}
                 className="w-full border rounded-md p-2"
               >
                 <option value="">Select User Level</option>
@@ -56,6 +106,10 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="number"
+                name="sessionTimeout"
+                id="sessionTimeout"
+                value={formData.sessionTimeout}
+                onChange={handleChangeDigitsOnly}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Session Timeout"
               />
@@ -66,6 +120,10 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="number"
+                name="passwordExpiry"
+                id="passwordExpiry"
+                value={formData.passwordExpiry}
+                onChange={handleChangeDigitsOnly}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
@@ -76,6 +134,10 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="text"
+                name="minimumPassword"
+                id="minimumPassword"
+                value={formData.minimumPassword}
+                onChange={handleChangeDigitsOnly}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
@@ -85,17 +147,27 @@ const EditUserLevel = () => {
                 Password History
               </label>
               <input
-                type="email"
+                type="text"
+                name="passwordHistory"
+                id="passwordHistory"
+                value={formData.passwordHistory}
+                onChange={handleChange}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                placeholder="Email"
+                placeholder="Password History"
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-1">Max Allocation</label>
+              <label className="block text-gray-700 mb-1">
+                Max Allocation
+              </label>
               <input
                 type="text"
+                name="maxAllocation"
+                id="maxAllocation"
+                value={formData.maxAllocation}
+                onChange={handleChangeDigitsOnly}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-                placeholder="Company"
+                placeholder="Max Allocation"
               />
             </div>
           </div>
