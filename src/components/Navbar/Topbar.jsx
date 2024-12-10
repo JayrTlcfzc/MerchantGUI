@@ -59,7 +59,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     return (
         <div className="ml-auto flex items-center space-x-2 text-lg">
             <div
-                className="cursor-pointer relative"
+                className="cursor-default relative"
                 onMouseEnter={() => {
                     if (!isChangePasswordModalOpen && !disableHover) {
                         handleMouseEnter('user');
@@ -85,8 +85,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                 />
                 {isDropdownOpen && (
                     <div
-                        className="absolute right-0 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-b-lg"
-                        style={{ marginBottom: '10px' }}
+                        className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl"
                     >
                         <div className="p-4">
                             <p className="font-bold text-white">{username}</p>
@@ -117,9 +116,8 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                 />
                 {isLanguageDropdownOpen && (
                     <div
-                        className="absolute right-0 mt-2 w-40 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-lg"
+                        className="absolute right-0 mt-2 w-40 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl"
                         onClick={handleClickInsideLanguageDropdown}
-                        style={{ marginTop: '10px' }}
                     >
                         <div className="p-4">
                             <button className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]">
