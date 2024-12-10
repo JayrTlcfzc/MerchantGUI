@@ -1,38 +1,42 @@
 import React, { useState } from "react";
 import AddUserLevel from "./manageuserlevels/addUserLevel";
 import EditUserLevel from "./manageuserlevels/editUserLevel";
+import { FaUserGear } from "react-icons/fa6";
 
 const ManageUserLevel = () => {
   const [activeTab, setActiveTab] = useState("add");
 
   return (
-    <div className="p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-center py-4 border-b border-gray-200">
-          <span className="text-orange-500 mr-2">⚙️</span> MANAGE USER LEVELS
+    <div className="p-4">
+      <div className="max-w-4xl mx-auto mb-8">
+        <h1 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
+          <FaUserGear className="text-[#D95F08] mr-2" />
+          MANAGE USER LEVELS
         </h1>
-        <div className="flex justify-center space-x-4 mt-4">
+        
+        <div className="flex items-center justify-center">
           <button
             onClick={() => setActiveTab("add")}
-            className={`py-2 px-4 rounded-md ${
+            className={`w-1/4 px-2 py-2 text-sm ${
               activeTab === "add"
-                ? "bg-orange-500 text-white"
-                : "bg-gray-200 text-gray-700"
+                ? "bg-[#D95F08] text-white"
+                : "bg-[#d4d4d4] text-gray-700 hover:bg-[#FC8937] hover:text-white"
             }`}
           >
-            Add User Level
+            ADD USER LEVEL
           </button>
           <button
             onClick={() => setActiveTab("edit")}
-            className={`py-2 px-4 rounded-md ${
+            className={`w-1/4 px-2 py-2 text-sm ${
               activeTab === "edit"
-                ? "bg-gray-500 text-white"
-                : "bg-gray-200 text-gray-700"
+                ? "bg-[#D95F08] text-white"
+                : "bg-[#d4d4d4] text-gray-700 hover:bg-[#FC8937] hover:text-white"
             }`}
           >
-            Edit User Level
+            EDIT USER LEVEL
           </button>
         </div>
+        
         <div className="p-4">
           {activeTab === "add" && <AddUserLevel />}
           {activeTab === "edit" && <EditUserLevel />}

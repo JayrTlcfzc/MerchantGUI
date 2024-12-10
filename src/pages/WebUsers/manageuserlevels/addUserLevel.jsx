@@ -97,9 +97,9 @@ const AddUserLevel = () => {
         <div className="mt-6 text-center">
           <button
             type="submit"
-            className="bg-[#23587C] text-white py-2 px-6 rounded-md hover:bg-[#1e4d6b]"
+            className="bg-[#23587C] tracking-wide shadow-md rounded font-bold text-white py-2 px-6 hover:bg-[#1e4d6b] focus:outline-none focus:ring-2 focus:ring-[#1e4d6b]/50 focus:ring-offset-2"
           >
-            Add
+            ADD
           </button>
         </div>
       </form>
