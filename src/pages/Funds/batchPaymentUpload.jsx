@@ -51,7 +51,7 @@ function BatchPaymentUpload() {
 
         <label
           htmlFor="file-upload"
-          className="block w-1/6 bg-[#23587C] text-white py-2 px-4 rounded-md mt-16 mb-8 text-center cursor-pointer hover:bg-blue-800 mx-auto"
+          className="block w-1/6 bg-[#23587C] tracking-wide shadow-md font-bold text-white py-2 px-4 rounded mt-16 mb-8 text-center cursor-pointer mx-auto hover:bg-[#2C75A6]"
         >
           UPLOAD FILE
         </label>
@@ -67,7 +67,7 @@ function BatchPaymentUpload() {
 
       {/* Submit Button */}
       <button
-        className="bg-gray-400 text-white py-2 px-4 rounded-md hover:bg-gray-500"
+        className="bg-[#BFC3D2] tracking-wide shadow-md rounded font-bold text-gray-800 py-2 px-4 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
         onClick={handleSubmit}
       >
         SUBMIT

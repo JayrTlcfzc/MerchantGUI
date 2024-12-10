@@ -84,8 +84,9 @@ const AuditTrail = () => {
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-4">
-                <FaEye className="text-[#D95F08] mr-2" /> AUDIT TRAIL
+                <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
+                <FaEye className="text-[#D95F08] mr-2" />
+                AUDIT TRAIL
                 </h2>
 
                 {/* Filteration */}
@@ -129,7 +130,7 @@ const AuditTrail = () => {
                             />
                         </div>
                         
-                        <button className="w-1/5 px-4 py-2 bg-[#D95F08] text-white rounded-md shadow-lg hover:bg-[#FC8937]">
+                        <button className="w-1/5 px-4 py-2 bg-[#D95F08] text-white tracking-wide shadow-md rounded font-bold hover:bg-[#FC8937]">
                             VIEW
                         </button>
                     </div>

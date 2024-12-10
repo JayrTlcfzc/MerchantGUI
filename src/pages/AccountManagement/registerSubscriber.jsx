@@ -51,9 +51,9 @@ const RegisterSubscriber = () => {
   return (
     <div className="min-h-screen bg-gray-200 p-8">
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-center">
           <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
-          Registration Form
+          REGISTRATION FORM
         </h2>
 
         {/* Account Information */}
@@ -351,9 +351,9 @@ const RegisterSubscriber = () => {
           <button
             type="submit"
             onClick={handleSubmit}
-            className="px-6 py-2 text-white bg-[#23587C] rounded-md  focus:outline-none focus:ring-2"
+            className="px-6 py-2 tracking-wide shadow-md rounded font-bold text-white bg-[#D95F08] hover:bg-[#FC8937] focus:outline-none focus:ring-2 focus:ring-[#FC8937]/50 focus:ring-offset-2"
           >
-            Register
+            REGISTER
           </button>
         </div>
       </div>

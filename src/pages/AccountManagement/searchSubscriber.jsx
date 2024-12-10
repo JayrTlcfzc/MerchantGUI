@@ -50,7 +50,7 @@ const SearchSubscriber = () => {
     <div className="min-h-screen bg-gray-200 p-8">
       {/* Search Bar */}
       <div className="p-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-xl font-semibold text-gray-800 flex items-center justify-center mb-4">
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
           <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
           SEARCH SUBSCRIBER
         </h2>
@@ -70,7 +70,7 @@ const SearchSubscriber = () => {
           className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
         />
 
-        <button className="w-1/3 px-6 py-2 bg-[#D95F08] text-white rounded-md shadow-md hover:bg-[#FC8937]">
+        <button className="w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
           SEARCH
         </button>
       </div>
@@ -99,7 +99,7 @@ const SearchSubscriber = () => {
           />
         </div>
 
-        <button className="w-1/3 px-6 py-2 bg-[#D95F08] text-white rounded-md shadow-md hover:bg-[#FC8937]">
+        <button className="w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
           DOWNLOAD LIST
         </button>
       </div>
@@ -110,7 +110,7 @@ const SearchSubscriber = () => {
       {/* Subscriber Details */}
       <div className="mt-8 bg-white shadow-md rounded-lg p-6">
         {/* Account Details */}
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center justify-center">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-center">
           <FaAddressCard className="text-[#D95F08] mr-2"/>
           VIEW SUBSCRIBER DETAILS
         </h2>

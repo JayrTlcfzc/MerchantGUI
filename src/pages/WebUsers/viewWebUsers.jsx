@@ -91,7 +91,7 @@ const ViewWebUsers = () => {
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-4">
+                <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
                 <FaEye className="text-[#D95F08] mr-2" />
                 VIEW WEB USERS
                 </h2>
@@ -118,7 +118,7 @@ const ViewWebUsers = () => {
                             className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                         />
 
-                        <button className="w-1/3 px-6 py-2 bg-[#D95F08] text-white rounded-md shadow-md hover:bg-[#FC8937]">
+                        <button className="w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
                         SEARCH
                         </button>
                     </div>

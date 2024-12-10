@@ -103,22 +103,22 @@ const BatchFiles = () => {
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center mb-8">
+                <h2 className="text-3xl font-bold text-gray-800 flex items-center justify-center mb-8">
                     <FaFolder className="text-[#D95F08] mr-2" />
-                    Batch Files
+                    BATCH FILES
                 </h2>
 
                 {/* Action Selection Button */}
                 <div className="flex flex-col gap-4 mb-4">
                     <div className='flex items-center justify-center'>
                         <button
-                            className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'REQUESTS' ? 'bg-[#D95F08] text-white' : 'text-gray-700'}`}
+                            className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'REQUESTS' ? 'bg-[#D95F08] text-white' : 'text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
                             onClick={() => handleButtonClick('REQUESTS')}
                         >
                             REQUESTS
                         </button>
                         <button
-                            className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'TRACKING' ? 'bg-[#D95F08] text-white' : 'text-gray-700'}`}
+                            className={`w-1/6 px-2 py-2 tracking-wide  text-sm ${activeButton === 'TRACKING' ? 'bg-[#D95F08] text-white' : 'text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
                             onClick={() => handleButtonClick('TRACKING')}
                         >
                             TRACKING
