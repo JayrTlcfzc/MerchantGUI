@@ -116,6 +116,7 @@ const RegisterSubscriber = () => {
                 onChange={handleChangeDigitsOnly}
                 placeholder="Mobile Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                maxLength={15}
               />
             </div>
             <div>
@@ -419,6 +420,7 @@ const RegisterSubscriber = () => {
                 onChange={handleChangeDigitsOnly}
                 placeholder="Alternate Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                maxLength={15}
               />
             </div>
             <div>
