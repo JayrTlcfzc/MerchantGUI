@@ -4,12 +4,18 @@ import OTPModal from '../../components/Modals/OTPModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
+import { handleChangeDigitsOnly } from '../../components/Validations';
 
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [isPinModalOpen, setPinModalOpen] = useState(false);
   const [isOTPModalOpen, setOTPModalOpen] = useState(false); // For OTP modal, if needed
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
+
+  const [formData, setFormData] = useState({
+    recipientmobilenum: '',
+    amount: '',
+  });
 
   const handleAllocate = () => setPasswordModalOpen(true); // Open password modal on click
   const handleProceedPassword = () => {
@@ -25,6 +31,8 @@ const AllocateCash = () => {
     setModalState({ isOpen: true, status: 'success', message: 'Cash Allocated Successfully!' }); // Show status modal
   };
 
+  const isRecipientMobileValid = formData.recipientmobilenum.length === 11;
+
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">
@@ -37,6 +45,9 @@ const AllocateCash = () => {
             <label className="block text-sm font-medium mb-1">Recipient Mobile Number</label>
             <input
               type="text"
+              name="recipientmobilenum"
+              value={formData.recipientmobilenum}
+              onChange={handleChangeDigitsOnly(setFormData)}
               placeholder="Recipient Mobile Number"
               className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
@@ -45,6 +56,9 @@ const AllocateCash = () => {
             <label className="block text-sm font-medium mb-1">Amount</label>
             <input
               type="text"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChangeDigitsOnly(setFormData)}
               placeholder="Amount"
               className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
@@ -53,6 +67,7 @@ const AllocateCash = () => {
             <label className="block text-sm font-medium mb-1">Remarks</label>
             <input
               type="text"
+              name="remarks"
               placeholder="Remarks"
               className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
@@ -61,18 +76,21 @@ const AllocateCash = () => {
       </div>
       <div className="flex justify-center gap-4 mt-4">
         <button
-          className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#23587C] hover:bg-[#2C75A6] text-white focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
+          className={`px-6 py-2 tracking-wide shadow-md rounded font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${isRecipientMobileValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'}`}
           onClick={handleAllocate}
+          disabled={!isRecipientMobileValid}
         >
           ALLOCATE
         </button>
-        <button className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] hover:bg-[#9D9D9D] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2">
+        <button 
+          className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] hover:bg-[#9D9D9D] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
+          onClick={() => setFormData({ recipientmobilenum: '', amount: '', remarks: '' })}
+        >
           RESET
         </button>
       </div>
 
       {/* Conditionally render modals based on isOpen state */}
-
       {isPasswordModalOpen && (
         <PasswordModal
           isOpen={isPasswordModalOpen}
