@@ -29,7 +29,7 @@ const EditUserLevel = () => {
   };
 
   return (
-    <div className="flex items-center w-full border-solid justify-center">
+    <div className="flex items-center justify-center">
       <form
         className=" p-6 rounded-2xl w-full max-w-4xl"
         onSubmit={handleSubmit}
