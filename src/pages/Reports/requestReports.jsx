@@ -154,11 +154,8 @@ const RequestReports = () => {
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]">
-                <span className="flex items-center justify-between">
+              <th className="px-4 py-2 group cursor-default">
                   ACTION
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                </span>
               </th>
             </tr>
           </thead>
@@ -173,9 +170,9 @@ const RequestReports = () => {
                     <td className="px-4 py-2">{item.dateto}</td>
                     <td className="px-4 py-2">{item.transactiontype}</td>
                     <td className="px-4 py-2">
-                        <div className="py-1 bg-[#0FBA00] text-sm text-white rounded-lg">
+                      <div className="py-1 bg-[#0FBA00] text-sm text-white rounded-lg">
                         Request has been generated
-                        </div>
+                      </div>
                     </td>
                     <td className="px-4 py-2">
                         <button className="px-4 py-2 bg-[#23587C] text-sm text-white rounded-md shadow-lg hover:bg-[#2C75A6]">

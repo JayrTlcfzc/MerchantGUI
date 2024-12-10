@@ -69,7 +69,7 @@ const RegisterSubscriber = () => {
                 value={formData.nickname}
                 onChange={handleChange}
                 placeholder="Nickname"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -81,7 +81,7 @@ const RegisterSubscriber = () => {
                 value={formData.mobileNumber}
                 onChange={handleChange}
                 placeholder="Mobile Number"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -91,9 +91,9 @@ const RegisterSubscriber = () => {
                 id="accountType"
                 value={formData.accountType}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
-                <option value="">Select Account Type</option>
+                <option className='hover:bg-[#23587C]' value="">Select Account Type</option>
                 <option value="MCOM">MCOM</option>
                 <option value="DISTRIBUTOR">DISTRIBUTOR</option>
               </select>
@@ -105,11 +105,11 @@ const RegisterSubscriber = () => {
                 id="accountStatus"
                 value={formData.accountStatus}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
-                <option value="">Select Account Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option className="hover:bg-black" value="">Select Account Status</option>
+                <option className="hover:bg-black" value="active">Active</option>
+                <option className="hover:bg-black" value="inactive">Inactive</option>
               </select>
             </div>
           </div>
@@ -128,7 +128,7 @@ const RegisterSubscriber = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="First Name"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -140,7 +140,7 @@ const RegisterSubscriber = () => {
                 value={formData.secondName}
                 onChange={handleChange}
                 placeholder="Second Name"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -152,7 +152,7 @@ const RegisterSubscriber = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Last Name"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -164,7 +164,7 @@ const RegisterSubscriber = () => {
                 value={formData.nationality}
                 onChange={handleChange}
                 placeholder="Nationality"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -175,7 +175,7 @@ const RegisterSubscriber = () => {
                 id="dateOfBirth"
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -187,7 +187,7 @@ const RegisterSubscriber = () => {
                 value={formData.placeOfBirth}
                 onChange={handleChange}
                 placeholder="Place of Birth"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -197,7 +197,7 @@ const RegisterSubscriber = () => {
                 id="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
@@ -214,7 +214,7 @@ const RegisterSubscriber = () => {
                 value={formData.idNumber}
                 onChange={handleChange}
                 placeholder="ID Number"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -226,7 +226,7 @@ const RegisterSubscriber = () => {
                 value={formData.idDescription}
                 onChange={handleChange}
                 placeholder="ID Description"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -237,7 +237,7 @@ const RegisterSubscriber = () => {
                 id="idExpiry"
                 value={formData.idExpiry}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
           </div>
@@ -256,7 +256,7 @@ const RegisterSubscriber = () => {
                 value={formData.company}
                 onChange={handleChange}
                 placeholder="Company"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -268,7 +268,7 @@ const RegisterSubscriber = () => {
                 value={formData.profession}
                 onChange={handleChange}
                 placeholder="Profession"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -280,7 +280,7 @@ const RegisterSubscriber = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -292,7 +292,7 @@ const RegisterSubscriber = () => {
                 value={formData.alternateNumber}
                 onChange={handleChange}
                 placeholder="Alternate Number"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -304,7 +304,7 @@ const RegisterSubscriber = () => {
                 value={formData.buildingNumber}
                 onChange={handleChange}
                 placeholder="Building Number"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -316,7 +316,7 @@ const RegisterSubscriber = () => {
                 value={formData.streetName}
                 onChange={handleChange}
                 placeholder="Street Name"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -328,7 +328,7 @@ const RegisterSubscriber = () => {
                 value={formData.cityVillage}
                 onChange={handleChange}
                 placeholder="City/Village"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
             <div>
@@ -340,7 +340,7 @@ const RegisterSubscriber = () => {
                 value={formData.region}
                 onChange={handleChange}
                 placeholder="Region"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
           </div>

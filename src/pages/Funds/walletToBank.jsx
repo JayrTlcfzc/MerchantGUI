@@ -31,7 +31,7 @@ const WalletToBank = () => {
           <div>
             <label className="block text-sm font-medium mb-1">Bank</label>
             <select
-              className="p-3 border rounded-md shadow-sm w-full focus:ring focus:ring-blue-300 focus:outline-none"
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             >
               <option>Select Bank</option>
               <option>Bank A</option>
@@ -44,7 +44,7 @@ const WalletToBank = () => {
             <input
               type="text"
               placeholder="Full Name"
-              className="p-3 border rounded-md shadow-sm w-full focus:ring focus:ring-blue-300 focus:outline-none"
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
           </div>
           <div>
@@ -52,7 +52,7 @@ const WalletToBank = () => {
             <input
               type="text"
               placeholder="Account Number"
-              className="p-3 border rounded-md shadow-sm w-full focus:ring focus:ring-blue-300 focus:outline-none"
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
           </div>
           <div>
@@ -60,7 +60,7 @@ const WalletToBank = () => {
             <input
               type="text"
               placeholder="Amount"
-              className="p-3 border rounded-md shadow-sm w-full focus:ring focus:ring-blue-300 focus:outline-none"
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
           </div>
           <div>
@@ -68,7 +68,7 @@ const WalletToBank = () => {
             <input
               type="text"
               placeholder="Remarks"
-              className="p-3 border rounded-md shadow-sm w-full focus:ring focus:ring-blue-300 focus:outline-none"
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
           </div>
         </div>

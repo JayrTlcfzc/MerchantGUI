@@ -56,7 +56,7 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="number"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Session Timeout"
               />
             </div>
@@ -66,7 +66,7 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="number"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
             </div>
@@ -76,7 +76,7 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="text"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
             </div>
@@ -86,7 +86,7 @@ const EditUserLevel = () => {
               </label>
               <input
                 type="email"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Email"
               />
             </div>
@@ -94,7 +94,7 @@ const EditUserLevel = () => {
               <label className="block text-gray-700 mb-1">Max Allocation</label>
               <input
                 type="text"
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Company"
               />
             </div>
