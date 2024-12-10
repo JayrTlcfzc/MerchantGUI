@@ -82,7 +82,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             id="reportType"
                             value={formData.reportType}
                             onChange={handleChange}
-                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         >
                             <option>Select Type of Report</option>
                             <option value="Transaction Money">Transaction Money</option>
@@ -98,7 +98,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             value={formData.msisdn}
                             onChange={handleChange}
                             placeholder="MSISDN"
-                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
                     <div>
@@ -109,7 +109,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             id="dateFrom"
                             value={formData.dateFrom}
                             onChange={handleChange}
-                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
                     <div>
@@ -120,22 +120,22 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             id="dateTo"
                             value={formData.dateTo}
                             onChange={handleChange}
-                            className="mt-1 p-2 w-full border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
                     <div className='flex justify-center gap-2'>
                         <button
                             type="submit"
-                            className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold"
+                            className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
                         >
-                            Submit
+                            SUBMIT
                         </button>
                         <button
                             type="button"
-                            className="px-4 py-2 text-white bg-[#C60000] rounded hover:bg-[#F71010] font-bold"
+                            className="px-4 py-2 text-white bg-[#C60000] rounded hover:bg-[#F71010] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#F71010]/50 focus:ring-offset-2"
                             onClick={handleClose}
                         >
-                            Cancel
+                            CANCEL
                         </button>
                     </div>
                 </form>
