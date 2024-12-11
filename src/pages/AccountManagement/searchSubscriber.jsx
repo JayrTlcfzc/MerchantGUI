@@ -50,60 +50,60 @@ const SearchSubscriber = () => {
     <div className="min-h-screen bg-gray-200 p-8">
       {/* Search Bar */}
       <div className="p-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
           <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
           SEARCH SUBSCRIBER
         </h2>
 
-      {/* First row - MSISDN dropdown and input */}
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
-        <select
-          className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-          defaultValue="MSISDN"
-        >
-          <option value="MSISDN">MSISDN</option>
-        </select>
+        {/* First row - MSISDN dropdown and input */}
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
+          <select
+            className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+            defaultValue="MSISDN"
+          >
+            <option value="MSISDN">MSISDN</option>
+          </select>
 
-        <input
-          type="text"
-          placeholder="MSISDN"
-          className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-        />
-
-        <button className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
-          SEARCH
-        </button>
-      </div>
-
-      {/* Second row - Date Inputs */}
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
-        <div className="md:w-1/3 relative">
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            placeholderText="Date From"
-            className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-            wrapperClassName="w-full"
-            popperClassName="react-datepicker-left"
+          <input
+            type="text"
+            placeholder="MSISDN"
+            className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
           />
+
+          <button className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
+            SEARCH
+          </button>
         </div>
 
-        <div className="md:w-1/3 relative">
-          <DatePicker
-            selected={endDate}
-            onChange={(date) => setEndDate(date)}
-            placeholderText="Date To"
-            className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-            wrapperClassName="w-full"
-            popperClassName="react-datepicker-right"
-          />
-        </div>
+        {/* Second row - Date Inputs */}
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
+          <div className="md:w-1/3 relative">
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              placeholderText="Date From"
+              className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+              wrapperClassName="w-full"
+              popperClassName="react-datepicker-left"
+            />
+          </div>
 
-        <button className="md:w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
-          DOWNLOAD LIST
-        </button>
+          <div className="md:w-1/3 relative">
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              placeholderText="Date To"
+              className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+              wrapperClassName="w-full"
+              popperClassName="react-datepicker-right"
+            />
+          </div>
+
+          <button className="md:w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
+            DOWNLOAD LIST
+          </button>
+        </div>
       </div>
-    </div>
 
       {/* Subscriber Details */}
       <div className="mt-8 bg-white shadow-md rounded-lg p-6">
