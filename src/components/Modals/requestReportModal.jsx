@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
+import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../Validations';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
-    // State to manage form data
-    const [formData, setFormData] = useState({
+
+    const initialFormData = {
         reportType: '',
         msisdn: '',
         dateFrom: '',
         dateTo: ''
-    });
+    };
+    
+    const [formData, setFormData] = useState(initialFormData);
 
     // State to manage modals and messages
     const [openModal, setOpenModal] = useState('');
@@ -20,12 +23,6 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
         status: '',
         message: ''
     });
-
-    // Handle form input changes
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
 
     // Open confirmation modal with a specific message
     const handleOpenModal = (modalMessage) => {
@@ -43,13 +40,15 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const isFormValid = formData.reportType && formData.msisdn && formData.dateFrom && formData.dateTo;
+
         if (isFormValid) {
-            console.log('Form Submitted', formData);
             setModalState({
                 isOpen: true,
                 status: 'success',
                 message: 'Report request submitted successfully!'
             });
+            resetFormData(setFormData, initialFormData)();
+
         } else {
             setModalState({
                 isOpen: true,
@@ -74,14 +73,14 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 </div>
 
                 {/* Input fields */}
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6 mb-8 mt-6 mx-6">
+                <form className="flex flex-col gap-6 mb-8 mt-6 mx-6">
                     <div>
                         <label className="w-auto text-sm font-medium text-gray-700" htmlFor="reportType">Types of Report</label>
                         <select
                             name="reportType"
                             id="reportType"
                             value={formData.reportType}
-                            onChange={handleChange}
+                            onChange={handleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         >
                             <option>Select Type of Report</option>
@@ -96,7 +95,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="msisdn"
                             id="msisdn"
                             value={formData.msisdn}
-                            onChange={handleChange}
+                            onChange={handleChangeDigitsOnly(setFormData)}
                             placeholder="MSISDN"
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
@@ -108,7 +107,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="dateFrom"
                             id="dateFrom"
                             value={formData.dateFrom}
-                            onChange={handleChange}
+                            onChange={handleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
@@ -119,13 +118,14 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="dateTo"
                             id="dateTo"
                             value={formData.dateTo}
-                            onChange={handleChange}
+                            onChange={handleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
                     <div className='flex justify-center gap-2'>
                         <button
                             type="submit"
+                            onClick={handleSubmit}
                             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
                         >
                             SUBMIT
