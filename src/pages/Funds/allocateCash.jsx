@@ -4,7 +4,7 @@ import OTPModal from '../../components/Modals/OTPModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
-import { handleChange, handleChangeDigitsOnly, resetFormData } from '../../components/Validations'; // Import validation and reset functions
+import { handleChange, handleChangeDigitsOnly, resetFormData } from '../../components/Validations';
 
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
@@ -12,12 +12,14 @@ const AllocateCash = () => {
   const [isOTPModalOpen, setOTPModalOpen] = useState(false); // For OTP modal, if needed
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
 
+  // Setting initial input
   const initialFormData = {
     recipientmobilenum: '',
     amount: '',
     remarks: '',
   };
   
+  // Passing input
   const [formData, setFormData] = useState(initialFormData);
 
   const handleAllocate = () => setPasswordModalOpen(true); // Open password modal on click
@@ -25,10 +27,12 @@ const AllocateCash = () => {
     setPasswordModalOpen(false); // Close password modal
     setPinModalOpen(true); // Open pin modal
   };
+
   const handleProceedPin = () => {
     setPinModalOpen(false); // Close pin modal
     setOTPModalOpen(true); // Open OTP modal if needed
   };
+  
   const handleProceedOTP = () => {
     setOTPModalOpen(false); // Close OTP modal
     setModalState({ isOpen: true, status: 'success', message: 'Cash Allocated Successfully!' }); // Show status modal
