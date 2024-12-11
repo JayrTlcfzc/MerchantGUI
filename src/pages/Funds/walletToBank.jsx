@@ -127,6 +127,7 @@ const WalletToBank = () => {
           isOpen={isPasswordModalOpen}
           onClose={() => setPasswordModalOpen(false)}
           onProceed={handleProceedPassword}
+          handleClose={() => setPasswordModalOpen(false)}
         />
       )}
 
@@ -136,6 +137,7 @@ const WalletToBank = () => {
           isOpen={isOTPModalOpen}
           onClose={() => setOTPModalOpen(false)}
           onProceed={handleProceedOTP}
+          handleClose={() => setOTPModalOpen(false)}
         />
       )}
 
