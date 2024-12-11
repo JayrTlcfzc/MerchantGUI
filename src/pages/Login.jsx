@@ -1,24 +1,39 @@
 import React, { useState } from "react";
 import LoginImage from "../assets/LoginImage.png";
 import OTPModal from "../components/Modals/OTPModal";
+import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from "../components/Validations";
+import { toast, ToastContainer } from "react-toastify";
 
 // import PasswordModal from "../components/Modals/PasswordModal";
 // import PinModal from "../components/Modals/PinModal";
 
 const Login = () => {
-  const [msisdn, setMsisdn] = useState("");
+
+  const initialFormData = {
+    msisdn: '',
+    username: '',
+    password: ''
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [openModal, setOpenModal] = useState("");
-
-  const handleMsisdnChange = (e) => {
-    const input = e.target.value;
-    const sanitizedInput = input.replace(/\D/g, "");
-    setMsisdn(sanitizedInput);
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isFormValid = formData.msisdn && formData.username && formData.password;
+
+    if (isFormValid) {
+      setOpenModal("OTPModal")
+
+    } else {
+        toast.error("Login Error")
+      }
+    };
 
   return (
     <div className="flex flex-row min-h-screen bg-white">
@@ -47,8 +62,9 @@ const Login = () => {
               <input
                 type="text"
                 id="msisdn"
-                value={msisdn}
-                onChange={handleMsisdnChange}
+                name="msisdn"
+                value={formData.msisdn}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your MSISDN"
                 required
@@ -65,6 +81,9 @@ const Login = () => {
               <input
                 type="text"
                 id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your username"
                 required
@@ -81,6 +100,9 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder="Enter your password"
                 required
@@ -99,7 +121,7 @@ const Login = () => {
 
             <button
               type="button"
-              onClick={() => setOpenModal("OTPModal")}
+              onClick={handleSubmit}
               className="w-1/2 mx-auto block items-center px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Login
@@ -107,6 +129,9 @@ const Login = () => {
           </form>
         </div>
       </div>
+
+      <ToastContainer />
+
       {openModal === "OTPModal" && (
         <OTPModal
           openModal={Boolean(openModal)}
