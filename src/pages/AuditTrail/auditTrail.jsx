@@ -1,7 +1,8 @@
-import React from 'react'
-import { useState } from 'react'
+import React from 'react';
+import { useState } from 'react';
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
+import { handleChangeDigitsOnly } from '../../components/Validations';
 
 const AuditTrail = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");
@@ -11,20 +12,26 @@ const AuditTrail = () => {
     const [itemsPerPage] = useState(5);
     const [sortConfig, setSortConfig] = useState({ key: "username", direction: "ascending" });
 
+    const initialFormData = {
+        userinput: '',
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
+
+    const [modalState, setModalState] = useState({
+        isOpen: false,
+        status: "",
+        message: "",
+    });
+
     const data = [
-        { timestamp: "2024-04-23 12:12:39", userid: 123345, username: "TEST_MERCH", log: "Get Roles - Success", interface: "MERCHANT", ip: "11.123.345" },
-        { timestamp: "2023-11-14 12:12:39", userid: 123345, username: "HR", log: "Transaction Report Type Collection - System Busy", interface: "MERCHANT", ip: "11.101.345" },
-        { timestamp: "2012-12-24 12:12:39", userid: 10233, username: "MERCHANT2", log: "View Pending Subscriber - Success", interface: "MERCHANT", ip: "11.212.345" },
-        { timestamp: "2014-06-23 12:12:39", userid: 198745, username: "MERCHANT1", log: "Transaction Report Type Collection - System Busy", interface: "ADMIN", ip: "11.333.345" },
-        { timestamp: "2024-08-22 12:12:39", userid: 97343, username: "DEVELOPER", log: "Allocate Cash - Success", interface: "MERCHANT", ip: "10.123.345" },
-        { timestamp: "2014-06-23 12:12:39", userid: 198745, username: "DEV_MERCH", log: "Login - Success", interface: "MERCHANT", ip: "11.333.345" },
-        { timestamp: "2024-08-22 12:12:39", userid: 97343, username: "TEST_MERCH", log: "Login - Failed", interface: "MERCHANT", ip: "10.123.345" },
+        // Your data here
     ];
 
     const handleInputChange = (event) => {
         const { value } = event.target;
         setSelectUserBy(value);
-        setLabelText(value); 
+        setLabelText(value);
     };
 
     const handleSearch = (e) => {
@@ -32,19 +39,20 @@ const AuditTrail = () => {
     };
 
     const sortedData = [...data].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
     });
 
     const filteredData = sortedData.filter((item) =>
         Object.values(item).some((val) =>
-          String(val).toLowerCase().includes(searchInput.toLowerCase())
-    ));
+            String(val).toLowerCase().includes(searchInput.toLowerCase())
+        )
+    );
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -55,7 +63,7 @@ const AuditTrail = () => {
     const requestSort = (key) => {
         let direction = "ascending";
         if (sortConfig.key === key && sortConfig.direction === "ascending") {
-        direction = "descending";
+            direction = "descending";
         }
         setSortConfig({ key, direction });
     };
@@ -68,11 +76,11 @@ const AuditTrail = () => {
         for (let i = 1; i <= totalPages; i++) {
             pageNumbers.push(
                 <button
-                key={i}
-                onClick={() => paginate(i)}
-                className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-transparent text-gray-700'}`}
+                    key={i}
+                    onClick={() => paginate(i)}
+                    className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-transparent text-gray-700'}`}
                 >
-                {i}
+                    {i}
                 </button>
             );
         }
@@ -85,8 +93,8 @@ const AuditTrail = () => {
 
                 {/* Page Title */}
                 <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
-                <FaEye className="text-[#D95F08] mr-2" />
-                AUDIT TRAIL
+                    <FaEye className="text-[#D95F08] mr-2" />
+                    AUDIT TRAIL
                 </h2>
 
                 {/* Filteration */}
@@ -109,6 +117,9 @@ const AuditTrail = () => {
                             <label className="block mb-1 text-gray-700">{labelText}</label>
                             <input
                                 type="text"
+                                name="userinput"
+                                value={formData.userinput}
+                                onChange={handleChangeDigitsOnly(setFormData)}
                                 placeholder={selectUserBy}
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                             />
@@ -136,7 +147,7 @@ const AuditTrail = () => {
                     </div>
                 </div>
 
-                {/* Table - Search Area*/}
+                {/* Table - Search Area */}
                 <div className='relative flex justify-end mb-4'>
                     <input
                         type='text'
@@ -145,7 +156,6 @@ const AuditTrail = () => {
                         placeholder='Search...'
                         className='w-1/5 h-10 border border-gray-400 rounded p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]' 
                     />
-
                     {!searchInput ? (
                         <Search 
                             color='#BFBFBF'
@@ -155,7 +165,7 @@ const AuditTrail = () => {
                         <X 
                             color='#BFBFBF'
                             onClick={() => setSearchInput('')}
-                            className='absolute right-2 top-1/2 -translate-y-1/2' 
+                            className='absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer' 
                         />) 
                     }
                 </div>
@@ -200,14 +210,14 @@ const AuditTrail = () => {
                                         IP
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
-                                </th>
+                                    </th>
                             </tr>
                         </thead>
                                             
                         <tbody className="text-center divide-y divide-gray-200">
                             {currentItems.length > 0 ? (
                                 currentItems.map((item, index) => (
-                                    <tr key={index} className="">
+                                    <tr key={index}>
                                         <td className="px-4 py-2">{item.timestamp}</td>
                                         <td className="px-4 py-2">{item.userid}</td>
                                         <td className="px-4 py-2">{item.username}</td>
@@ -264,4 +274,4 @@ const AuditTrail = () => {
     )
 }
 
-export default AuditTrail
+export default AuditTrail;
