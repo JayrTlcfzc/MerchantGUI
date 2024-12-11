@@ -9,7 +9,7 @@ import { handleChange, handleChangeDigitsOnly, resetFormData } from '../../compo
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [isPinModalOpen, setPinModalOpen] = useState(false);
-  const [isOTPModalOpen, setOTPModalOpen] = useState(false); // For OTP modal, if needed
+  const [isOTPModalOpen, setOTPModalOpen] = useState(false);
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
 
   // Setting initial input
@@ -108,6 +108,7 @@ const AllocateCash = () => {
           isOpen={isPasswordModalOpen}
           onClose={() => setPasswordModalOpen(false)}
           onProceed={handleProceedPassword}
+          handleClose={() => setPasswordModalOpen(false)}
         />
       )}
 
@@ -116,6 +117,7 @@ const AllocateCash = () => {
           isOpen={isPinModalOpen}
           onClose={() => setPinModalOpen(false)}
           onProceed={handleProceedPin}
+          handleClose={() => setPinModalOpen(false)}
         />
       )}
 
@@ -124,6 +126,7 @@ const AllocateCash = () => {
           isOpen={isOTPModalOpen}
           onClose={() => setOTPModalOpen(false)}
           onProceed={handleProceedOTP}
+          handleClose={() => setOTPModalOpen(false)}
         />
       )}
 
