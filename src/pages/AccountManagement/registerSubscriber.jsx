@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import StatusModal from "../../components/Modals/statusModal";
+import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; 
 
 const RegisterSubscriber = () => {
-  const [formData, setFormData] = useState({
+
+  const initialFormData = {
     nickname: "",
     mobileNumber: "",
     accountType: "",
@@ -27,34 +29,15 @@ const RegisterSubscriber = () => {
     streetName: "",
     cityVillage: "",
     region: "",
+  };
+  
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    status: "",
+    message: "",
   });
-
-    const [modalState, setModalState] = useState({
-      isOpen: false,
-      status: "",
-      message: "",
-    });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleChangeTextOnly = (e) => {
-    const { name, value } = e.target;
-
-    if (/^[A-Za-z]*$/.test(value)) {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleChangeDigitsOnly = (e) => {
-    const { name, value } = e.target;
-
-    if (/^\d*$/.test(value)) {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,31 +57,8 @@ const RegisterSubscriber = () => {
           status: "success",
           message: "Added User Level Successfully!",
         });
-  
-        setFormData({
-          nickname: "",
-          mobileNumber: "",
-          accountType: "",
-          accountStatus: "",
-          firstName: "",
-          secondName: "",
-          lastName: "",
-          nationality: "",
-          dateOfBirth: "",
-          placeOfBirth: "",
-          gender: "",
-          idNumber: "",
-          idDescription: "",
-          idExpiry: "",
-          company: "",
-          profession: "",
-          email: "",
-          alternateNumber: "",
-          buildingNumber: "",
-          streetName: "",
-          cityVillage: "",
-          region: "",
-        });
+        
+        resetFormData(setFormData, initialFormData)();
         
       } else {
         setModalState({
@@ -135,7 +95,7 @@ const RegisterSubscriber = () => {
                 name="nickname"
                 id="nickname"
                 value={formData.nickname}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Nickname"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -152,7 +112,7 @@ const RegisterSubscriber = () => {
                 name="mobileNumber"
                 id="mobileNumber"
                 value={formData.mobileNumber}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 placeholder="Mobile Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                 maxLength={15}
@@ -169,7 +129,7 @@ const RegisterSubscriber = () => {
                 name="accountType"
                 id="accountType"
                 value={formData.accountType}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option className="hover:bg-[#23587C]" value="">
@@ -190,7 +150,7 @@ const RegisterSubscriber = () => {
                 name="accountStatus"
                 id="accountStatus"
                 value={formData.accountStatus}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option className="hover:bg-black" value="">
@@ -225,7 +185,7 @@ const RegisterSubscriber = () => {
                 name="firstName"
                 id="firstName"
                 value={formData.firstName}
-                onChange={handleChangeTextOnly}
+                onChange={handleChangeTextOnly(setFormData)}
                 placeholder="First Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -242,7 +202,7 @@ const RegisterSubscriber = () => {
                 name="secondName"
                 id="secondName"
                 value={formData.secondName}
-                onChange={handleChangeTextOnly}
+                onChange={handleChangeTextOnly(setFormData)}
                 placeholder="Second Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -259,7 +219,7 @@ const RegisterSubscriber = () => {
                 name="lastName"
                 id="lastName"
                 value={formData.lastName}
-                onChange={handleChangeTextOnly}
+                onChange={handleChangeTextOnly(setFormData)}
                 placeholder="Last Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -276,7 +236,7 @@ const RegisterSubscriber = () => {
                 name="nationality"
                 id="nationality"
                 value={formData.nationality}
-                onChange={handleChangeTextOnly}
+                onChange={handleChangeTextOnly(setFormData)}
                 placeholder="Nationality"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -293,7 +253,7 @@ const RegisterSubscriber = () => {
                 name="dateOfBirth"
                 id="dateOfBirth"
                 value={formData.dateOfBirth}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -309,7 +269,7 @@ const RegisterSubscriber = () => {
                 name="placeOfBirth"
                 id="placeOfBirth"
                 value={formData.placeOfBirth}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Place of Birth"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -325,7 +285,7 @@ const RegisterSubscriber = () => {
                 name="gender"
                 id="gender"
                 value={formData.gender}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option value="">Select Gender</option>
@@ -346,7 +306,7 @@ const RegisterSubscriber = () => {
                 name="idNumber"
                 id="idNumber"
                 value={formData.idNumber}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="ID Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -363,7 +323,7 @@ const RegisterSubscriber = () => {
                 name="idDescription"
                 id="idDescription"
                 value={formData.idDescription}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="ID Description"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -380,7 +340,7 @@ const RegisterSubscriber = () => {
                 name="idExpiry"
                 id="idExpiry"
                 value={formData.idExpiry}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -405,7 +365,7 @@ const RegisterSubscriber = () => {
                 name="company"
                 id="company"
                 value={formData.company}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Company"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -422,7 +382,7 @@ const RegisterSubscriber = () => {
                 name="profession"
                 id="profession"
                 value={formData.profession}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Profession"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -439,7 +399,7 @@ const RegisterSubscriber = () => {
                 name="email"
                 id="email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Email"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -456,7 +416,7 @@ const RegisterSubscriber = () => {
                 name="alternateNumber"
                 id="alternateNumber"
                 value={formData.alternateNumber}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 placeholder="Alternate Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                 maxLength={15}
@@ -474,7 +434,7 @@ const RegisterSubscriber = () => {
                 name="buildingNumber"
                 id="buildingNumber"
                 value={formData.buildingNumber}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Building Number"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -491,7 +451,7 @@ const RegisterSubscriber = () => {
                 name="streetName"
                 id="streetName"
                 value={formData.streetName}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Street Name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -508,7 +468,7 @@ const RegisterSubscriber = () => {
                 name="cityVillage"
                 id="cityVillage"
                 value={formData.cityVillage}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="City/Village"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -525,7 +485,7 @@ const RegisterSubscriber = () => {
                 name="region"
                 id="region"
                 value={formData.region}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Region"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
