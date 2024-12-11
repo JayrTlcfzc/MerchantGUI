@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
+import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../Validations';
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
 
@@ -16,7 +17,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   const [modalMessage, setModalMessage] = useState('');
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     userId: '',
     username: '',
     msisdn: '',
@@ -31,7 +32,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     locked: '',
     dateCreated: '',
     dateModified: '',
-  });
+  };
+  
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleUseStateToggle = () => {
     if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
@@ -44,29 +47,22 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   };
 
   const handleConfirm = (e) => {
-    setTimeout(() => {
-      let formattedMessage = '';
-      if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
-        formattedMessage = `${modalMessage}ED`;
-      } else if (modalMessage === "ACTIVATE" || modalMessage === "DEACTIVATE") {
-        formattedMessage = `${modalMessage}D`;
-      } else if (modalMessage === "RESET PASSWORD") {
-        formattedMessage = "RESET";
-      }
+    let formattedMessage = '';
+    if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
+      formattedMessage = `${modalMessage}ED`;
+    } else if (modalMessage === "ACTIVATE" || modalMessage === "DEACTIVATE") {
+      formattedMessage = `${modalMessage}D`;
+    } else if (modalMessage === "RESET PASSWORD") {
+      formattedMessage = "RESET";
+    }
 
-      setModalState({
-        isOpen: true,
-         status: 'success',
-         message: modalMessage === "RESET PASSWORD"
-         ? `The user's password has been successfully reset!`
-         : `The user has been successfully ${formattedMessage.toLowerCase()}!`
-      });
-    }, 100);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setModalState({
+      isOpen: true,
+        status: 'success',
+        message: modalMessage === "RESET PASSWORD"
+        ? `The user's password has been successfully reset!`
+        : `The user has been successfully ${formattedMessage.toLowerCase()}!`
+    });
   };
 
   const handleOpenModal = (modalMessage) => {
@@ -83,13 +79,25 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     e.preventDefault();
 
     // Simulate form submission success or failure
-    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otpMsisdn && formData.company && formData.email && formData.firstName && formData.lastName && formData.department && formData.userLevel && formData.status && formData.locked && formData.dateCreated && formData.dateModified;
+    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otpMsisdn && formData.company && formData.email && formData.firstName && formData.lastName && formData.department && formData.userLevel && formData.status && formData.locked;
+    // && formData.dateCreated && formData.dateModified;
     
     if (isFormValid) {
-      toast.success("Registration successful!");
-      console.log('Form Submitted', formData);
+      setModalState({
+        isOpen: true,
+        status: "success",
+        message: "Edited User Successfully!",
+      });
+
+      resetFormData(setFormData, initialFormData)();
+      setOnEdit(false)
+      
     } else {
-      toast.error("Please fill in all required fields.");
+      setModalState({
+        isOpen: true,
+        status: "error",
+        message: "Failed to Edit User. Please try again.",
+      });
     }
   };
 
@@ -123,9 +131,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="userId"
                   id="userId"
                   value={formData.userId}
-                  onChange={handleChange}
+                  onChange={handleChangeDigitsOnly(setFormData)}
                   placeholder="User ID"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -136,9 +144,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="username"
                   id="username"
                   value={formData.username}
-                  onChange={handleChange}
+                  onChange={handleChange(setFormData)}
                   placeholder="Username"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -148,9 +156,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="msisdn"
                   id="msisdn"
                   value={formData.msisdn}
-                  onChange={handleChange}
+                  onChange={handleChangeDigitsOnly(setFormData)}
                   placeholder="MSISDN"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -160,9 +168,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="otpMsisdn"
                   id="otpMsisdn"
                   value={formData.otpMsisdn}
-                  onChange={handleChange}
+                  onChange={handleChangeDigitsOnly(setFormData)}
                   placeholder="OTP MSISDN"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -172,9 +180,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="company"
                   id="company"
                   value={formData.company}
-                  onChange={handleChange}
+                  onChange={handleChange(setFormData)}
                   placeholder="Company"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -184,9 +192,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="email"
                   id="email"
                   value={formData.email}
-                  onChange={handleChange}
+                  onChange={handleChange(setFormData)}
                   placeholder="Email"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -196,9 +204,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="firstName"
                   id="firstName"
                   value={formData.firstName}
-                  onChange={handleChange}
+                  onChange={handleChangeTextOnly(setFormData)}
                   placeholder="First Name"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -208,9 +216,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="lastName"
                   id="lastName"
                   value={formData.lastName}
-                  onChange={handleChange}
+                  onChange={handleChangeTextOnly(setFormData)}
                   placeholder="Last Name"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -220,9 +228,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="department"
                   id="department"
                   value={formData.department}
-                  onChange={handleChange}
+                  onChange={handleChange(setFormData)}
                   placeholder="Department"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -232,8 +240,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="userLevel"
                   id="userLevel"
                   value={formData.userLevel}
-                  onChange={handleChange}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange(setFormData)}
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="">Select User Level</option>
                   <option value="IT_ADMIN_MERCHANT">IT_ADMIN_MERCHANT</option>
@@ -246,8 +254,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="status"
                   id="status"
                   value={formData.status}
-                  onChange={handleChange}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange(setFormData)}
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="">Select Status</option>
                   <option value="active">Active</option>
@@ -261,8 +269,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="locked"
                   id="locked"
                   value={formData.locked}
-                  onChange={handleChange}
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange(setFormData)}
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="yes">Yes</option>
                   <option value="no">No</option>
@@ -275,9 +283,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="dateCreated"
                   id="dateCreated"
                   value={formData.dateCreated}
-                  onChange={handleChange}
+                  onChange={handleChange(setFormData)}
                   placeholder="2023-11-19 14:35:00"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
@@ -287,9 +295,9 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="dateModified"
                   id="dateModified"
                   value={formData.dateModified}
-                  onChange={handleChange}
+                  onChange={handleChange(setFormData)}
                   placeholder="2024-04-19 21:45:00"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
             </div>
@@ -346,7 +354,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                       EDIT
                   </button>) : (
                     <button
-                      onClick={() => {setOnEdit(false)}}
+                      onClick={handleSubmit}
                       className="px-4 py-2 text-white bg-[#D95F08] rounded hover:bg-[#D95F08] font-bold"
                     >
                       SAVE

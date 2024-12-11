@@ -1,43 +1,25 @@
 import React, { useState } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
+import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../../components/Validations'; 
 
 const AddUserLevel = () => {
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     userLevel: '',
     sessionTimeout: '',
     passwordExpiry: '',
     minimumPassword: '',
     passwordHistory: '',
     maxAllocation: '',
-  })
+  };
+  
+  const [formData, setFormData] = useState(initialFormData);
 
   const [modalState, setModalState] = useState({
     isOpen: false,
     status: "",
     message: "",
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target; 
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleChangeTextOnly = (e) => {
-    const { name, value } = e.target;
-
-    if (/^[A-Za-z]*$/.test(value)) {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleChangeDigitsOnly = (e) => {
-    const { name, value } = e.target;
-
-    if (/^\d*$/.test(value)) {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,14 +40,7 @@ const AddUserLevel = () => {
         message: "Added User Level Successfully!",
       });
 
-      setFormData({
-        userLevel: '',
-        sessionTimeout: '',
-        passwordExpiry: '',
-        minimumPassword: '',
-        passwordHistory: '',
-        maxAllocation: '',
-      });
+      resetFormData(setFormData, initialFormData)();
       
     } else {
       setModalState({
@@ -91,7 +66,7 @@ const AddUserLevel = () => {
                 name="userLevel"
                 id="userLevel"
                 value={formData.userLevel}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="User Level"
               />
@@ -105,7 +80,7 @@ const AddUserLevel = () => {
                 name="sessionTimeout"
                 id="sessionTimeout"
                 value={formData.sessionTimeout}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Session Timeout"
               />
@@ -119,7 +94,7 @@ const AddUserLevel = () => {
                 name="passwordExpiry"
                 id="passwordExpiry"
                 value={formData.passwordExpiry}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
@@ -133,7 +108,7 @@ const AddUserLevel = () => {
                 name="minimumPassword"
                 id="minimumPassword"
                 value={formData.minimumPassword}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
@@ -147,7 +122,7 @@ const AddUserLevel = () => {
                 name="passwordHistory"
                 id="passwordHistory"
                 value={formData.passwordHistory}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password History"
               />
@@ -161,7 +136,7 @@ const AddUserLevel = () => {
                 name="maxAllocation"
                 id="maxAllocation"
                 value={formData.maxAllocation}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Max Allocation"
               />

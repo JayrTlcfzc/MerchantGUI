@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import StatusModal from "../../components/Modals/statusModal";
 import { FaUserPlus } from "react-icons/fa6";
+import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; 
 
 const RegisterNewUser = () => {
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     username: '',
     msisdn: '',
     otpMsisdn: '',
@@ -15,34 +16,15 @@ const RegisterNewUser = () => {
     department: '',
     userLevel: '',
     status: '',
-  })
+  };
+  
+  const [formData, setFormData] = useState(initialFormData);
 
   const [modalState, setModalState] = useState({
     isOpen: false,
-    status: "success",
+    status: "",
     message: "",
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target; 
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleChangeTextOnly = (e) => {
-    const { name, value } = e.target;
-
-    if (/^[A-Za-z]*$/.test(value)) {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleChangeDigitsOnly = (e) => {
-    const { name, value } = e.target;
-
-    if (/^\d*$/.test(value)) {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,18 +49,7 @@ const RegisterNewUser = () => {
         message: "Added User Level Successfully!",
       });
 
-      setFormData({
-        username: '',
-        msisdn: '',
-        otpMsisdn: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        company: '',
-        department: '',
-        userLevel: '',
-        status: '',
-      })
+      resetFormData(setFormData, initialFormData)();
 
     } else {
       setModalState({
@@ -120,7 +91,7 @@ const RegisterNewUser = () => {
                 name="username"
                 id="username"
                 value={formData.username}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Enter username"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"  
               />
@@ -135,7 +106,7 @@ const RegisterNewUser = () => {
                 name="msisdn"
                 id="msisdn"
                 value={formData.msisdn}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 placeholder="Enter MSISDN"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 maxLength={15}
@@ -151,7 +122,7 @@ const RegisterNewUser = () => {
                 name="otpMsisdn"
                 id="otpMsisdn"
                 value={formData.otpMsisdn}
-                onChange={handleChangeDigitsOnly}
+                onChange={handleChangeDigitsOnly(setFormData)}
                 placeholder="Enter OTP MSISDN"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 maxLength={15}
@@ -168,7 +139,7 @@ const RegisterNewUser = () => {
                 name="firstName"
                 id="firstName"
                 value={formData.firstName}
-                onChange={handleChangeTextOnly}
+                onChange={handleChangeTextOnly(setFormData)}
                 placeholder="Enter first name"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
               />
@@ -183,7 +154,7 @@ const RegisterNewUser = () => {
                 name="lastName"
                 id="lastName"
                 value={formData.lastName}
-                onChange={handleChangeTextOnly}
+                onChange={handleChangeTextOnly(setFormData)}
                 placeholder="Enter last name"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
               />
@@ -198,7 +169,7 @@ const RegisterNewUser = () => {
                 name="email"
                 id="email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Enter email"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
@@ -214,7 +185,7 @@ const RegisterNewUser = () => {
                 name="company"
                 id="company"
                 value={formData.company}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Enter company"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
@@ -230,7 +201,7 @@ const RegisterNewUser = () => {
                 name="department"
                 id="department"
                 value={formData.department}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 placeholder="Enter department"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
@@ -245,7 +216,7 @@ const RegisterNewUser = () => {
                 name="userLevel"
                 id="userLevel"
                 value={formData.userLevel}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
               >
@@ -264,7 +235,7 @@ const RegisterNewUser = () => {
                 name="status"
                 id="status"
                 value={formData.status}
-                onChange={handleChange}
+                onChange={handleChange(setFormData)}
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
               >
