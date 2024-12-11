@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { FaFolder } from "react-icons/fa6";
+import StatusModal from '../../components/Modals/statusModal'
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -11,6 +12,12 @@ const BatchFiles = () => {
     const [activeButton, setActiveButton] = useState('REQUESTS');
     const [dropdownVisible, setDropdownVisible] = useState(null);
     const dropdownRef = useRef(null);
+    const [modalMessage, setModalMessage] = useState('');
+    const [modalState, setModalState] = useState({
+        isOpen: false,
+        status: "",
+        message: "",
+    });
     
     const data = [
         { fileid: 1040, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ABDUL", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ABDUL", dateapproved: "2024-05-17 11:01:12", uploadedby: "ABDUL" },
@@ -21,6 +28,16 @@ const BatchFiles = () => {
         { fileid: 7869, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "JAFAR", dateconfirmed: "2016-05-07 01:10:54", approvedby: "JAFAR", dateapproved: "2016-05-17 11:01:12", uploadedby: "JAFAR"},
         { fileid: 98765, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
     ];
+
+    const handleOpenModal = (modalMessage) => {
+        setModalMessage(modalMessage);
+
+        setModalState({
+            isOpen: true,
+              status: 'success',
+              message: `The file has been successfully ${modalMessage}!`
+          });
+      };
 
     // For Ellipsis Dropdown
     const handleEllipsisClick = (index) => {
@@ -152,7 +169,7 @@ const BatchFiles = () => {
 
                 {/* Table Content */}
                 {activeButton === 'REQUESTS' && (
-                    <div className="overflow-x-auto">
+                    <div className="overflow-visible">
                         <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
                             <thead className="rounded bg-[#D95F08] text-white">
                                 <tr className="divide-x divide-gray-200">
@@ -253,19 +270,24 @@ const BatchFiles = () => {
                                                         <li className="px-4 py-2 font-medium">101.02.100</li>
                                                         <li className="px-4 py-2 flex flex-row gap-2">
                                                             <div className="relative group">
-                                                                <FaCircleInfo className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]" />
+                                                                <FaCircleInfo 
+                                                                className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 Details
                                                                 </span>
                                                             </div>
                                                             <div className="relative group">
-                                                                <FaCircleCheck className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
+                                                                <FaCircleCheck
+                                                                    onClick={() => handleOpenModal('accepted')}
+                                                                    className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 Accept
                                                                 </span>
                                                             </div>
                                                             <div className="relative group">
-                                                                <FaCircleXmark className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
+                                                                <FaCircleXmark 
+                                                                onClick={() => handleOpenModal('rejected')}
+                                                                className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 Reject
                                                                 </span>
@@ -294,124 +316,126 @@ const BatchFiles = () => {
                 )}
 
                 {activeButton === 'TRACKING' && (
-                <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
-                    <thead className="rounded bg-[#D95F08] text-white">
-                    <tr className="divide-x divide-gray-200">
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
-                        <span className="flex items-center justify-between">
-                            FILE ID
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
-                        <span className="flex items-center justify-between">
-                            DATE CREATED
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
-                        <span className="flex items-center justify-between">
-                            DATE UPLOADED
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
-                        <span className="flex items-center justify-between">
-                            FILE NAME
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
-                        <span className="flex items-center justify-between">
-                            STATUS
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
-                        <span className="flex items-center justify-between">
-                            CONFIRMED BY
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
-                        <span className="flex items-center justify-between">
-                            DATE CONFIRMED
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
-                        <span className="flex items-center justify-between">
-                            APPROVED BY
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
-                        <span className="flex items-center justify-between">
-                            DATE APPROVED
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
-                        <span className="flex items-center justify-between">
-                            UPLOADED BY
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                        </span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody className="text-center divide-y divide-gray-200">
-                    {currentItems.length > 0 ? (
-                        currentItems.map((item, index) => (
-                        <tr key={index} className="cursor-pointer">
-                            <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
-                            <td className="px-4 py-2">{item.datecreated}</td>
-                            <td className="px-4 py-2">{item.dateuploaded}</td>
-                            <td className="px-4 py-2">{item.filename}</td>
-                            <td className="px-4 py-2">{item.status}</td>
-                            <td className="px-4 py-2">{item.confirmedby}</td>
-                            <td className="px-4 py-2">{item.dateconfirmed}</td>
-                            <td className="px-4 py-2">{item.approvedby}</td>
-                            <td className="px-4 py-2">{item.dateapproved}</td>
-                            <td className="px-4 py-2 flex justify-between items-center">
-                                <div className="text-right w-full">{item.uploadedby}</div>
-                                <div className="relative">
-                                    <EllipsisVertical
-                                    className="ml-2 cursor-pointer hover:text-[#D95F08]"
-                                    onClick={() => handleEllipsisClick(index)}
-                                    />
-                                    {dropdownVisible === index && (
-                                        <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
-                                            <ul className="flex flex-row gap-1">
-                                                <div>
-                                                    <li className="px-4 py-2">MSISDN:</li>
-                                                    <li className="px-4 py-2">IP:</li>
-                                                    <li className="px-4 py-2">ACTION: </li>
-                                                </div>
-                                                <div>
-                                                    <li className="px-4 py-2 font-medium">0125638761</li>
-                                                    <li className="px-4 py-2 font-medium">101.02.100</li>
-                                                    <li className="px-4 py-2 flex flex-row gap-2">
-                                                        <FaCircleInfo className="w-5 h-5 text-[#19405A] cursor-not-allowed" />
-                                                        <FaCircleCheck className="w-5 h-5 text-[#0EAF00] cursor-not-allowed" />
-                                                        <FaCircleXmark className="w-5 h-5 text-[#BA0000] cursor-not-allowed" />
-                                                    </li>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
+                    <div className="overflow-visible">
+                    <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
+                        <thead className="rounded bg-[#D95F08] text-white">
+                        <tr className="divide-x divide-gray-200">
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
+                            <span className="flex items-center justify-between">
+                                FILE ID
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
+                            <span className="flex items-center justify-between">
+                                DATE CREATED
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
+                            <span className="flex items-center justify-between">
+                                DATE UPLOADED
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
+                            <span className="flex items-center justify-between">
+                                FILE NAME
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                            <span className="flex items-center justify-between">
+                                STATUS
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
+                            <span className="flex items-center justify-between">
+                                CONFIRMED BY
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
+                            <span className="flex items-center justify-between">
+                                DATE CONFIRMED
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
+                            <span className="flex items-center justify-between">
+                                APPROVED BY
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
+                            <span className="flex items-center justify-between">
+                                DATE APPROVED
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
+                            <span className="flex items-center justify-between">
+                                UPLOADED BY
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody className="text-center divide-y divide-gray-200">
+                        {currentItems.length > 0 ? (
+                            currentItems.map((item, index) => (
+                            <tr key={index} className="cursor-pointer">
+                                <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
+                                <td className="px-4 py-2">{item.datecreated}</td>
+                                <td className="px-4 py-2">{item.dateuploaded}</td>
+                                <td className="px-4 py-2">{item.filename}</td>
+                                <td className="px-4 py-2">{item.status}</td>
+                                <td className="px-4 py-2">{item.confirmedby}</td>
+                                <td className="px-4 py-2">{item.dateconfirmed}</td>
+                                <td className="px-4 py-2">{item.approvedby}</td>
+                                <td className="px-4 py-2">{item.dateapproved}</td>
+                                <td className="px-4 py-2 flex justify-between items-center">
+                                    <div className="text-right w-full">{item.uploadedby}</div>
+                                    <div className="relative">
+                                        <EllipsisVertical
+                                        className="ml-2 cursor-pointer hover:text-[#D95F08]"
+                                        onClick={() => handleEllipsisClick(index)}
+                                        />
+                                        {dropdownVisible === index && (
+                                            <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
+                                                <ul className="flex flex-row gap-1">
+                                                    <div>
+                                                        <li className="px-4 py-2">MSISDN:</li>
+                                                        <li className="px-4 py-2">IP:</li>
+                                                        <li className="px-4 py-2">ACTION: </li>
+                                                    </div>
+                                                    <div>
+                                                        <li className="px-4 py-2 font-medium">0125638761</li>
+                                                        <li className="px-4 py-2 font-medium">101.02.100</li>
+                                                        <li className="px-4 py-2 flex flex-row gap-2">
+                                                            <FaCircleInfo className="w-5 h-5 text-[#19405A] cursor-not-allowed" />
+                                                            <FaCircleCheck className="w-5 h-5 text-[#0EAF00] cursor-not-allowed" />
+                                                            <FaCircleXmark className="w-5 h-5 text-[#BA0000] cursor-not-allowed" />
+                                                        </li>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                            ))
+                        ) : (
+                            <tr>
+                            <td colSpan="11" className="px-4 py-2 border text-center">
+                                No results found
                             </td>
-                        </tr>
-                        ))
-                    ) : (
-                        <tr>
-                        <td colSpan="11" className="px-4 py-2 border text-center">
-                            No results found
-                        </td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
                 )}
 
                 {/* PAGINATION */}
@@ -447,6 +471,15 @@ const BatchFiles = () => {
                     </button>
                 </div>
             </div>
+
+            {/* Status Modal */}
+            <StatusModal
+                isOpen={modalState.isOpen}
+                onClose={() => setModalState({ ...modalState, isOpen: false })}
+                status={modalState.status}
+                message={modalState.message}
+            />
+
         </div>
     );
 };
