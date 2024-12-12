@@ -48,7 +48,7 @@ const Login = () => {
       {/* Login Form Section */}
       <div className="flex flex-col min-h-screen items-center justify-center w-full">
         <div className="w-full max-w-sm p-6 sm:max-w-md lg:max-w-lg shadow-lg md:shadow-none">
-          <h2 className="mb-6 text-5xl font-bold text-center text-gray-800 tracking-wider text-shadow-lg">
+          <h2 className="mb-6 text-5xl font-bold text-center text-gray-800 tracking-wider">
             LOGIN
           </h2>
           <form>
