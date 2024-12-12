@@ -133,7 +133,7 @@ const ViewWebUsers = () => {
                         type='text'
                         value={searchInput}
                         onChange={handleSearch}
-                        placeholder='Search...'
+                        placeholder={t('search')}
                         className='w-1/5 h-10 border border-gray-400 rounded p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]' 
                     />
 
