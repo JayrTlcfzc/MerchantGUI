@@ -231,7 +231,7 @@ const AuditTrail = () => {
                             ) : (
                                 <tr>
                                     <td colSpan="8" className="px-4 py-2 border text-center">
-                                        No results found
+                                    {t('td_no_results_found')}
                                     </td>
                                 </tr>
                             )}
