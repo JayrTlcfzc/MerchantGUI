@@ -59,6 +59,7 @@
     "action": "ACTION",
 
     "register_new_user": "REGISTER NEW USER",
+    "register_new_user_instruction": "Please fill in account details below.",
     "otp_msisdn": "OTP MSISDN",
     "department": "DEPARTMENT",
     "submit": "SUBMIT",

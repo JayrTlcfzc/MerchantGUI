@@ -59,6 +59,7 @@
     "action": "ACTION",
 
     "register_new_user": "ENREGISTRER UN NOUVEL UTILISATEUR",
+    "register_new_user_instruction": "Veuillez remplir les détails du compte ci-dessous.",
     "otp_msisdn": "OTP MSISDN",
     "department": "DÉPARTEMENT",
     "submit": "SOUMETTRE",
@@ -185,5 +186,6 @@
 
     "modal_the_file_has_been_successfully": "Le fichier a été réussi",
     "modal_accepted": "accepté",
-    "modal_rejected": "rejeté"
+    "modal_rejected": "rejeté",
+    "download": "TÉLÉCHARGER"
 }

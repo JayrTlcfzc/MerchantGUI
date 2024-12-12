@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ClipboardPlus, Search, ArrowDownUp, X} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
+import { useTranslation } from "react-i18next";
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -9,6 +10,8 @@ const RequestReports = () => {
     const [sortConfig, setSortConfig] = useState({ key: "reportname", direction: "ascending" });
     const [openModal, setOpenModal] = useState('');
     const [isViewModalOpen, setViewModalOpen] = useState(false);
+
+    const { t, i18n } = useTranslation(); //  Translation
 
     const data = [
         { daterequested: "2023-11-29", reportname: "TRANSACTION SUMMARY", reporttype: "BYACCOUNT ALLMSISDN BYTYPE", datefrom: "2023-11-01", dateto: "2023-11-29", transactiontype: "---" },
@@ -81,14 +84,14 @@ const RequestReports = () => {
                 {/* Page Title */}
                 <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-10">
                     <ClipboardPlus color="#D95F08" className="mr-2" />
-                    REQUEST REPORTS
+                    {t('request_reports')}
                 </h2>
 
                 {/* Request Button */}
                 <div className="flex flex-col gap-4 mb-4">
                     <div className='flex gap-4 items-end mb-4'>
                         <button className="w-1/6 px-2 py-2 bg-[#23587C] text-sm text-white tracking-wide shadow-md rounded font-bold hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2" onClick={handleViewModal}>
-                            REQUEST
+                            {t('request')}
                         </button>
                     </div>
                 </div>
@@ -99,7 +102,7 @@ const RequestReports = () => {
                     type='text'
                     value={searchInput}
                     onChange={handleSearch}
-                    placeholder='Search...'
+                    placeholder= {t('search')}
                     className='w-1/5 h-10 border border-gray-400 rounded p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]' 
                 />
 
@@ -124,48 +127,48 @@ const RequestReports = () => {
                         <tr className="divide-x divide-gray-200">
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("daterequested")}>
                             <span className="flex items-center justify-between">
-                            DATE REQUESTED
+                            {t('date_requested')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reportname")}>
                             <span className="flex items-center justify-between">
-                            REPORT NAME
+                            {t('report_name')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reporttype")}>
                             <span className="flex items-center justify-between">
-                            REPORT TYPE
+                            {t('report_type')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datefrom")}>
                             <span className="flex items-center justify-between">
-                            DATE FROM
+                            {t('date_from')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateto")}>
                             <span className="flex items-center justify-between">
-                            DATE TO
+                            {t('date_to')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("transactiontype")}>
                             <span className="flex items-center justify-between">
-                            TRANSACTION TYPE
+                            {t('transaction_type')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]">
                             <span className="flex items-center justify-between">
-                            REPORT STATUS
+                            {t('audit_trail')}
                             <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-deafult group">
-                            ACTION
+                            {t('action')}
                         </th>
                         </tr>
                     </thead>
@@ -186,7 +189,7 @@ const RequestReports = () => {
                                 </td>
                                 <td className="px-4 py-2">
                                     <button className="px-4 py-2 bg-[#23587C] text-sm text-white rounded-md shadow-lg hover:bg-[#2C75A6]">
-                                        DOWNLOAD
+                                        {t('download')}
                                     </button>
                                 </td>
                             </tr>
@@ -194,7 +197,7 @@ const RequestReports = () => {
                         ) : (
                         <tr>
                             <td colSpan="4" className="px-4 py-2 border text-center">
-                            No results found
+                            {t('td_no_results_found')}
                             </td>
                         </tr>
                         )}
