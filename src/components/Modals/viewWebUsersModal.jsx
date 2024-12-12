@@ -7,9 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../Validations';
+import { useTranslation } from 'react-i18next';
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
 
+  const { t, i18n } = useTranslation();
   const [onEdit, setOnEdit] = useState(false);
   const [locked, setLocked] = useState(false);
   const [deactivated, setDeactivated] = useState(false);
@@ -316,14 +318,14 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   onClick={() => handleOpenModal('LOCK')}
                   className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"
                   >
-                      LOCK
+                    {t('modal_lock')}
                   </button>
                 ) : (
                   <button
                     onClick={() => handleOpenModal('UNLOCK')}
                     className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold"
                     >
-                        UNLOCK
+                      {t('modal_unlock')}
                     </button>
                 )}
 
@@ -332,7 +334,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   onClick={() => handleOpenModal('DEACTIVATE')}
                   className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold"
                   >
-                      DEACTIVATE
+                    {t('modal_deactivate')}
                   </button>
                 ) : (
                   <button

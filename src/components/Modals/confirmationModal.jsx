@@ -17,13 +17,13 @@ export default function ConfirmationModal ({ handleCloseModal, modalMessage, loc
           <div className="flex flex-row justify-center items-center">
             <FaExclamationCircle className="text-5xl" />
             <h2 className="text-3xl font-semibold text-gray-800 ml-2">
-            CONFIRMATION
+            {t('modal_confirmation')}
             </h2>
           </div>
 
           <p className="text-gray-600 mt-4 mb-6">
             {`${t('modal_are_you_sure_you_want_to')} `} 
-            <span className="font-bold">{modalMessage}</span> this user?
+            <span className="font-bold">{modalMessage}</span> {t('modal_this_user')}
           </p>
 
           <div className="flex justify-center gap-4">
@@ -34,13 +34,13 @@ export default function ConfirmationModal ({ handleCloseModal, modalMessage, loc
                 handleCloseModal();
               }}
             >
-              YES
+              {t('modal_yes')}
             </button>
             <button
               className="px-4 py-2 text-white bg-[#C60000] rounded hover:bg-[#F71010]"
               onClick={handleCloseModal}
             >
-              NO
+              {t('modal_no')}
             </button>
           </div>
         </div>
