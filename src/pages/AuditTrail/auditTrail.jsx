@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import { handleChangeDigitsOnly } from '../../components/Validations';
+import { useTranslation } from 'react-i18next';
 
 const AuditTrail = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");
@@ -16,6 +17,7 @@ const AuditTrail = () => {
         userinput: '',
     };
 
+    const { t, i18n } = useTranslation();
     const [formData, setFormData] = useState(initialFormData);
 
     const [modalState, setModalState] = useState({
@@ -92,16 +94,16 @@ const AuditTrail = () => {
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
-                <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
+                <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-10">
                     <FaEye className="text-[#D95F08] mr-2" />
-                    AUDIT TRAIL
+                    {t('audit_trail')}
                 </h2>
 
                 {/* Filteration */}
                 <div className="flex flex-col gap-4 mb-4">
                     <div className='flex gap-4 items-end mb-4'>
-                        <div className="w-1/5">
-                            <label className="block mb-1 text-gray-700">SELECT USER</label>
+                        <div className="w-1/4">
+                            <label className="block mb-1 text-gray-700">{t('select_user_by')}</label>
                             <select
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                                 defaultValue={selectUserBy}
@@ -126,7 +128,7 @@ const AuditTrail = () => {
                         </div>
 
                         <div className="w-1/5">
-                            <label className="block mb-1 text-gray-700">DATE FROM</label>
+                            <label className="block mb-1 text-gray-700">{t('date_from')}</label>
                             <input
                                 type="date"
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
@@ -134,7 +136,7 @@ const AuditTrail = () => {
                         </div>
 
                         <div className="w-1/5">
-                            <label className="block mb-1 text-gray-700">DATE TO</label>
+                            <label className="block mb-1 text-gray-700">{t('date_to')}</label>
                             <input
                                 type="date"
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
@@ -142,7 +144,7 @@ const AuditTrail = () => {
                         </div>
                         
                         <button className="w-1/5 px-4 py-2 bg-[#D95F08] text-white tracking-wide shadow-md rounded font-bold hover:bg-[#FC8937]">
-                            VIEW
+                        {t('view')}
                         </button>
                     </div>
                 </div>
@@ -153,7 +155,7 @@ const AuditTrail = () => {
                         type='text'
                         value={searchInput}
                         onChange={handleSearch}
-                        placeholder='Search...'
+                        placeholder= {t('search')}
                         className='w-1/5 h-10 border border-gray-400 rounded p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]' 
                     />
                     {!searchInput ? (
@@ -177,37 +179,37 @@ const AuditTrail = () => {
                             <tr className="divide-x divide-gray-200">
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("timestamp")}>
                                     <span className="flex items-center justify-between">
-                                        TIMESTAMP
+                                        {t('timestamp')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
                                     <span className="flex items-center justify-between">
-                                        USERID
+                                        {t('user_id')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
                                     <span className="flex items-center justify-between">
-                                        USERNAME
+                                        {t('username')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("log")}>
                                     <span className="flex items-center justify-between">
-                                        LOG
+                                        {t('log')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("interface")}>
                                     <span className="flex items-center justify-between">
-                                        INTERFACE
+                                        {t('interface')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("ip")}>
                                     <span className="flex items-center justify-between">
-                                        IP
+                                    {t('ip')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
