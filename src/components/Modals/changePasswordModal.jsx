@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { X } from "lucide-react";
-import confirmationModal from '../Modals/confirmationModal';
-import StatusModal from '../Modals/statusModal';
+import ConfirmationModal from './confirmationModal';
+import StatusModal from './statusModal';
+import { useTranslation } from 'react-i18next';
 
 export default function ChangePasswordModal({ handleClose = () => {} }) {
+
+    const { t, i18n } = useTranslation();
+    
     // State to manage form data
     const [formData, setFormData] = useState({
         oldPassword: '',
@@ -47,13 +51,13 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
             setModalState({
                 isOpen: true,
                 status: 'success',
-                message: 'Password changed successfully!'
+                message: `${t('modal_password_changed_successfully')}`
             });
         } else {
             setModalState({
                 isOpen: true,
                 status: 'error',
-                message: 'Sorry, changing password failed. Try again later!'
+                message: `${t('modal_changing_password_failed')}`
             });
         }
     };
@@ -64,7 +68,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                 <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>
                     <div className='flex flex-row'>
                         <h2 className="text-xl font-semibold text-white">
-                            CHANGE PASSWORD
+                        {t('modal_change_password')}
                         </h2>
                     </div>
                     <div>
@@ -73,9 +77,9 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                 </div>
 
                 {/* Input fields */}
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6 mb-8 mt-6 mx-6">
+                <form className="flex flex-col gap-6 mb-8 mt-6 mx-6">
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="oldPassword">Old Password</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="oldPassword">{t('modal_old_password')}</label>
                         <input
                             type='password'
                             name="oldPassword"
@@ -87,7 +91,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                         />
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="newPassword">New Password</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="newPassword">{t('modal_new_password')}</label>
                         <input
                             type='password'
                             name="newPassword"
@@ -99,7 +103,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                         />
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="confirmPassword">Confirm Password</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="confirmPassword">{t('modal_confirm_password')}</label>
                         <input
                             type='password'
                             name="confirmPassword"
@@ -113,16 +117,17 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                     <div className='flex justify-center gap-2'>
                         <button
                             type="submit"
+                            onClick={handleSubmit}
                             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
                         >
-                            SUBMIT
+                            {t('submit')}
                         </button>
                         <button
                             type="button"
                             className="px-4 py-2 text-white bg-[#C60000] rounded hover:bg-[#F71010] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#F71010]/50 focus:ring-offset-2"
                             onClick={handleClose}
                         >
-                            CANCEL
+                            {t('modal_cancel')}
                         </button>
                     </div>
                 </form>
@@ -132,7 +137,9 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                     openModal={Boolean(openModal)}
                     modalMessage={modalMessage}
                     handleCloseModal={handleCloseModal}
-                    onProceed={handleUseStateToggle}
+                    onClose={() => {
+                        handleSubmit()
+                    }}
                 />
             )}
             <StatusModal

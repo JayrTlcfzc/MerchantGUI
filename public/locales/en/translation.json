@@ -119,8 +119,10 @@
     "timestamp": "TIMESTAMP",
     "log": "LOG",
     "interface": "INTERFACE",
+    "td_no_results_found": "No Results Found",
 
     "account_management": "ACCOUNT MANAGEMENT",
+    "register_subscriber": "REGISTER SUBSCRIBER",
     "web_users": "WEB USERS",
     "funds": "FUNDS",
     "reports": "REPORTS",
@@ -152,7 +154,10 @@
     "modal_change_password": "CHANGE PASSWORD",
     "modal_old_password": "OLD PASSWORD",
     "modal_new_password": "NEW PASSWORD",
-    "modal_confirm_password": "CONFIRM PASSWORD,",
+    "modal_confirm_password": "CONFIRM PASSWORD",
+
+    "modal_password_changed_successfully": "Password changed successfully!",
+    "modal_changing_password_failed": "Sorry, changing password failed. Try again later!",
 
     "modal_authentication": "AUTHENTICATION",
     "modal_please_enter_your": "Please enter your",
