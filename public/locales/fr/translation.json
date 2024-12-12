@@ -47,5 +47,75 @@
     "control_reference": "RÉFÉRENCE DE CONTRÔLE",
     "personal_details": "DÉTAILS PERSONNELS",
     "country": "PAYS",
-    "alt_number": "NUMÉRO ALTERNATIF"
+    "alt_number": "NUMÉRO ALTERNATIF",
+    
+    "view_pending_subscriber": "VOIR L'ABONNÉ EN ATTENTE",
+    "status": "STATUT",
+
+    "view_web_users": "VOIR LES UTILISATEURS WEB",
+    "select_user_by": "SÉLECTIONNER L'UTILISATEUR PAR",
+    "username": "NOM D'UTILISATEUR",
+    "user_level": "NIVEAU UTILISATEUR",
+    "action": "ACTION",
+
+    "register_new_user": "ENREGISTRER UN NOUVEL UTILISATEUR",
+    "otp_msisdn": "OTP MSISDN",
+    "department": "DÉPARTEMENT",
+    "submit": "SOUMETTRE",
+
+    "manage_user_levels": "GÉRER LES NIVEAUX D'UTILISATEUR",
+    "add_user_level": "AJOUTER UN NIVEAU D'UTILISATEUR",
+    "edit_user_level": "MODIFIER LE NIVEAU UTILISATEUR",
+    "session_timeout": "DÉLAI D'EXPIRATION DE LA SESSION",
+    "password_expiry": "EXPIRATION DU MOT DE PASSE",
+    "minimum_password": "MOT DE PASSE MINIMAL",
+    "password_history": "HISTORIQUE DU MOT DE PASSE",
+    "max_allocation": "ALLOCATION MAXIMALE",
+    "add": "AJOUTER",
+
+    "allocate_cash": "ALLOUER DE L'ARGENT",
+    "recipient_mobile_number": "NUMÉRO DE MOBILE DU DESTINATAIRE",
+    "amount": "MONTANT",
+    "remarks": "REMARQUES",
+    "allocate": "ALLOUER",
+    "reset": "RÉINITIALISER", 
+
+    "wallet_to_bank": "PORTEFEUILLE À LA BANQUE",
+    "bank": "BANQUE",
+    "bank_account_full_name": "NOM COMPLET DU COMPTE BANCAIRE",
+    "bank_account_number": "NUMÉRO DE COMPTE BANCAIRE",
+
+    "batch_files": "FICHIERS PAR LOTS", 
+    "requests": "DEMANDES",
+    "tracking": "SUIVI",
+    "file_id": "ID DE FICHIER",
+    "date_created": "DATE DE CRÉATION",
+    "date_uploaded": "DATE DE TÉLÉCHARGEMENT",
+    "file_name": "NOM DE FICHIER",
+    "confirmed_by": "CONFIRMÉ PAR",
+    "date_confirmed": "DATE CONFIRMÉE",
+    "approved_by": "APPROUVÉ PAR",
+    "date_approved": "DATE APPROUVÉE",
+    "uploaded_by": "TÉLÉCHARGÉ PAR",
+    "ip": "IP",
+
+    "batch_payment_upload": "TÉLÉCHARGEMENT DE PAIEMENT PAR LOTS",
+    "upload_file": "TÉLÉCHARGER LE FICHIER",
+
+    "batch_uploaded_files": "FICHIERS TÉLÉCHARGÉS PAR LOTS",
+
+    "request_reports": "DEMANDER DES RAPPORTS",
+    "request": "DEMANDE",
+    "date_requested": "DATE DEMANDÉE",
+    "report_name": "NOM DU RAPPORT",
+    "report_type": "NOM DU RAPPORT",
+    "transaction_type": "TYPE DE TRANSACTION",
+    "report_status": "ÉTAT DU RAPPORT",
+
+    "audit_trail": "PISTE D'AUDIT",
+    "select_user": "SÉLECTIONNER UN UTILISATEUR", 
+    "view": "VOIR",
+    "timestamp": "HORODATAGE",
+    "log": "ENREGISTRER",
+    "interface": "INTERFACE"
 }
