@@ -118,5 +118,64 @@
     "view": "VOIR",
     "timestamp": "HORODATAGE",
     "log": "ENREGISTRER",
-    "interface": "INTERFACE"
+    "interface": "INTERFACE",
+
+    "account_management": "GESTION DE COMPTE",
+    "web_users": "UTILISATEURS INTERNET",
+    "funds": "FONDS",
+    "reports": "RAPPORTS",
+
+    "change_password": "Changer Le Mot De Passe",
+    "logout": "Déconnexion",
+
+    "modal_edit_user": "MODIFIER L'UTILISATEUR",
+    "modal_reset_password": "RÉINITIALISER LE MOT DE PASSE",
+    "modal_reset": "RÉINITIALISER",
+    "modal_lock": "VERROUILLAGE",
+    "modal_unlock": "VERROUILLAGE",
+    "modal_deactivated": "DÉSACTIVÉ",
+    "modal_activated": "ACTIVÉ",
+    "modal_edit": "MODIFIER",
+    "modal_cancel": "ANNULER",
+    "modal_save": "SAUVEGARDER",
+
+    "modal_confirmation": "CONFIRMATION",
+    "modal_are_you_sure_you_want_to": "Etes-vous sûr de le vouloir",
+    "modal_this_user": "Etes-vous sûr de le vouloir?",
+    "modal_yes": "OUI",
+    "modal_no": "NON",
+
+    "modal_change_password": "CHANGER LE MOT DE PASSE",
+    "modal_old_password": "ANCIEN MOT DE PASSE",
+    "modal_new_password": "NOUVEAU MOT DE PASSE",
+    "modal_confirm_password": "CONFIRMEZ LE MOT DE PASSE",
+
+    "modal_password_changed_successfully": "Mot de passe modifié avec succès!",
+    "modal_changing_password_failed": "Désolé, la modification du mot de passe a échoué. Réessayez plus tard!",
+
+    "modal_authentication": "AUTHENTIFICATION",
+    "modal_please_enter_your": "Veuillez entrer votre",
+    "modal_password": "Mot de passe",
+    "modal_pin": "Épingle",
+    "modal_one_time_password": "Mot de passe à usage unique",
+    "modal_proceed": "PROCÉDER",
+
+    "modal_types_of_report": "TYPES DE RAPPORTS",
+
+    "modal_cash_allocated_successfully": "Trésorerie allouée avec succès!",
+    "modal_transaction_successfully": "Transaction réussie!",
+    "modal_added_user_successfully": "Utilisateur ajouté avec succès!",
+    "modal_failed_to_add_user" : "Échec de l'ajout d'un utilisateur!",
+    "modal_added_user_level_successfully": "Niveau utilisateur ajouté avec succès!",
+    "modal_failed_to_add_user_level": "Échec de l'ajout du niveau utilisateur.",
+    "modal_edited_user_level_successfully": "Niveau utilisateur modifié avec succès!",
+    "modal_failed_to_edit_user_level": "Échec de la modification du niveau utilisateur.",
+
+    "modal_success": "Succès!",
+    "modal_error": "Erreur!",
+    "modal_ok": "D'ACCORD",
+
+    "modal_the_file_has_been_successfully": "Le fichier a été réussi",
+    "modal_accepted": "accepté",
+    "modal_rejected": "rejeté"
 }
