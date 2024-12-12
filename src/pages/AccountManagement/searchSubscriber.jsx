@@ -115,7 +115,7 @@ const SearchSubscriber = () => {
           <FaAddressCard className="text-[#D95F08] mr-2"/>
           {t('view_subscriber_details')}
         </h2>
-        <h3 className="text-lg font-semibold mb-4 text-gray-700">
+        <h3 className="text-lg font-semibold mb-4 text-[#23587C]">
         {t('account_details')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
@@ -131,7 +131,7 @@ const SearchSubscriber = () => {
         </div>
 
         {/* Personal Details */}
-        <h3 className="text-lg font-semibold mb-4 text-gray-700">
+        <h3 className="text-lg font-semibold mb-4 text-[#23587C]">
          {t('personal_details')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

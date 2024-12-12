@@ -74,7 +74,7 @@ const RegisterNewUser = () => {
           </h2>
 
           <p className="text-gray-600">
-            Please fill in the account details below
+            {t('register_new_user_instruction')}
           </p>
         </div>
 
@@ -84,7 +84,7 @@ const RegisterNewUser = () => {
           {t('account_details')}
           </span>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
               {t('username')}
