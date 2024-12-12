@@ -41,87 +41,114 @@ const WalletToBank = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
-        <FaBuildingColumns className="text-[#D95F08] mr-2" />
-        {t('wallet_to_bank')}
-      </h2>
-      <div className="bg-white p-6 rounded-lg shadow-md w-11/12 max-w-3xl border-2 border-[#23587C]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('bank')}</label>
-            <select
-              name="bank"
-              value={formData.bank}
-              onChange={handleChange(setFormData)}
-              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-            >
-              <option value="">Select Bank</option>
-              <option value="Bank A">Bank A</option>
-              <option value="Bank B">Bank B</option>
-              <option value="Bank C">Bank C</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('bank_account_full_name')}</label>
-            <input
-              type="text"
-              name="bankaccountfullname"
-              value={formData.bankaccountfullname}
-              onChange={handleChangeTextOnly(setFormData)}
-              placeholder="Full Name"
-              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('bank_account_number')}</label>
-            <input
-              type="text"
-              name="bankaccountnumber"
-              value={formData.bankaccountnumber}
-              onChange={handleChangeDigitsOnly(setFormData)}
-              placeholder="Account Number"
-              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('amount')}</label>
-            <input
-              type="text"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChangeDigitsOnly(setFormData)}
-              placeholder="Amount"
-              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('remarks')}</label>
-            <input
-              type="text"
-              name="remarks"
-              value={formData.remarks}
-              onChange={handleChange(setFormData)} // Using general handleChange for remarks
-              placeholder="Remarks"
-              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-center gap-4 mt-4">
-        <button
-          className={`px-6 py-2 tracking-wide shadow-md rounded font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${isFormValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'}`}
-          onClick={handleAllocate}
-          disabled={!isFormValid}
+     <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
+    <FaBuildingColumns className="text-[#D95F08] mr-2" />
+    {t('wallet_to_bank')}
+  </h2>
+  <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-4xl border-2 border-[#23587C]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      <div className="flex flex-col">
+        <label 
+          className="block text-sm font-medium mb-2 truncate" 
+          title={t('bank')} // Tooltip for full label
         >
-          {t('submit')}
-        </button>
-        <button 
-          className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
-          onClick={resetFormData(setFormData, initialFormData)} // Resetting form
+          {t('bank')}
+        </label>
+        <select
+          name="bank"
+          value={formData.bank}
+          onChange={handleChange(setFormData)}
+          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         >
-          {t('reset')}
-        </button>
+          <option value="">Select Bank</option>
+          <option value="Bank A">Bank A</option>
+          <option value="Bank B">Bank B</option>
+          <option value="Bank C">Bank C</option>
+        </select>
       </div>
+      <div className="flex flex-col">
+        <label 
+          className="block text-sm font-medium mb-2 truncate" 
+          title={t('bank_account_full_name')} // Tooltip for full label
+        >
+          {t('bank_account_full_name')}
+        </label>
+        <input
+          type="text"
+          name="bankaccountfullname"
+          value={formData.bankaccountfullname}
+          onChange={handleChangeTextOnly(setFormData)}
+          placeholder={t('bank_account_full_name')}
+          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label 
+          className="block text-sm font-medium mb-2 truncate" 
+          title={t('bank_account_number')} // Tooltip for full label
+        >
+          {t('bank_account_number')}
+        </label>
+        <input
+          type="text"
+          name="bankaccountnumber"
+          value={formData.bankaccountnumber}
+          onChange={handleChangeDigitsOnly(setFormData)}
+          placeholder={t('bank_account_number')}
+          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label 
+          className="block text-sm font-medium mb-2 truncate" 
+          title={t('amount')} // Tooltip for full label
+        >
+          {t('amount')}
+        </label>
+        <input
+          type="text"
+          name="amount"
+          value={formData.amount}
+          onChange={handleChangeDigitsOnly(setFormData)}
+          placeholder={t('amount')}
+          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label 
+          className="block text-sm font-medium mb-2 truncate" 
+          title={t('remarks')} // Tooltip for full label
+        >
+          {t('remarks')}
+        </label>
+        <input
+          type="text"
+          name="remarks"
+          value={formData.remarks}
+          onChange={handleChange(setFormData)} // Using general handleChange for remarks
+          placeholder={t('remarks')}
+          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+        />
+      </div>
+    </div>
+  </div>
+  <div className="flex justify-center gap-6 mt-6">
+    <button
+      className={`px-8 py-3 tracking-wide shadow-md rounded-lg font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+        isFormValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'
+      }`}
+      onClick={handleAllocate}
+      disabled={!isFormValid}
+    >
+      {t('submit')}
+    </button>
+    <button 
+      className="px-8 py-3 tracking-wide shadow-md rounded-lg font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
+      onClick={resetFormData(setFormData, initialFormData)} // Resetting form
+    >
+      {t('reset')}
+    </button>
+  </div>
 
       {/* Password Modal */}
       {isPasswordModalOpen && (
