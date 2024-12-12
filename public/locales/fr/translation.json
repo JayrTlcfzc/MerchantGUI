@@ -48,7 +48,7 @@
     "personal_details": "DÉTAILS PERSONNELS",
     "country": "PAYS",
     "alt_number": "NUMÉRO ALTERNATIF",
-    
+
     "view_pending_subscriber": "VOIR L'ABONNÉ EN ATTENTE",
     "status": "STATUT",
 
@@ -72,6 +72,7 @@
     "password_history": "HISTORIQUE DU MOT DE PASSE",
     "max_allocation": "ALLOCATION MAXIMALE",
     "add": "AJOUTER",
+    "save_changes": "ENREGISTRER LES MODIFICATIONS",
 
     "allocate_cash": "ALLOUER DE L'ARGENT",
     "recipient_mobile_number": "NUMÉRO DE MOBILE DU DESTINATAIRE",
