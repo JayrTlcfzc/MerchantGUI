@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Search, ArrowDownUp, X } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
+import { useTranslation } from 'react-i18next';
 
 const ViewPendingSubscriber = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -14,6 +15,8 @@ const ViewPendingSubscriber = () => {
     { firstname: "John", lastname: "Doe", msisdn: 9786432, status: "ACTIVE" },
     { firstname: "Ali", lastname: "Mohammad", msisdn: 12323453, status: "DEACTIVE" },
   ];
+
+  const { t, i18n } = useTranslation();
 
   const handleSearch = (event) => {
     setSearchInput(event.target.value);
@@ -75,7 +78,7 @@ const ViewPendingSubscriber = () => {
         {/* Page Title */}
         <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-6">
         <FaEye className="text-[#D95F08] mr-2" />
-          VIEW PENDING SUBSCRIBER
+          {t('view_pending_subscriber')}
         </h2>
 
         {/* Search Area */}
@@ -109,25 +112,25 @@ const ViewPendingSubscriber = () => {
               <tr className="divide-x divide-gray-200">
                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
                   <span className="flex items-center justify-between"> 
-                    FIRST NAME
+                  {t('first_name')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
                   <span className="flex items-center justify-between">
-                    LAST NAME
+                  {t('last_name')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
                   <span className="flex items-center justify-between">
-                    MSISDN
+                  {t('msisdn')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
                   <span className="flex items-center justify-between">
-                    STATUS
+                  {t('status')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
