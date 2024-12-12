@@ -34,7 +34,7 @@
     "download_list": "DOWNLOAD LIST",
     "view_subscriber_details": "VIEW SUBSCRIBER DETAILS",
     "account_details": "Account Details",
-    "account_id": "AcCCOUNT ID",
+    "account_id": "ACCOUNT ID",
     "msisdn": "MSISDN",
     "main_account": "MAIN ACCOUNT",
     "commission_amount": "COMMISSION AMOUNT",
@@ -44,6 +44,9 @@
     "reference_account": "REFERENCE ACCOUNT",
     "user_id": "USER ID",
     "locked": "LOCKED",
-    "control_reference": "CONTROL REFERENCE"
-
+    "control_reference": "CONTROL REFERENCE",
+    "personal_details": "Personal Details",
+    
+    "view_pending_subscriber": "VIEW PENDING SUBSCRIBER"
+    
 }
