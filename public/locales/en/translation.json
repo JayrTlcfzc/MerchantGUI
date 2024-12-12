@@ -47,6 +47,12 @@
     "control_reference": "CONTROL REFERENCE",
     "personal_details": "Personal Details",
     
-    "view_pending_subscriber": "VIEW PENDING SUBSCRIBER"
-    
+    "view_pending_subscriber": "VIEW PENDING SUBSCRIBER",
+    "status": "STATUS",
+
+    "view_web_users": "VIEW WEB USERS",
+    "select_user_by": "SELECT USER BY:",
+    "username": "USERNAME",
+    "user_level": "USER LEVEL",
+    "action": "ACTION"
 }
