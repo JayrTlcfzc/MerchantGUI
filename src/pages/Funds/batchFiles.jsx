@@ -3,6 +3,7 @@ import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { FaFolder } from "react-icons/fa6";
 import StatusModal from '../../components/Modals/statusModal'
+import { useTranslation } from 'react-i18next';
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -18,6 +19,8 @@ const BatchFiles = () => {
         status: "",
         message: "",
     });
+
+    const { t, i18n } = useTranslation();
     
     const data = [
         { fileid: 1040, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ABDUL", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ABDUL", dateapproved: "2024-05-17 11:01:12", uploadedby: "ABDUL" },
@@ -122,7 +125,7 @@ const BatchFiles = () => {
                 {/* Page Title */}
                 <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
                     <FaFolder className="text-[#D95F08] mr-2" />
-                    BATCH FILES
+                    {t('batch_files')}
                 </h2>
 
                 {/* Action Selection Button */}
@@ -132,13 +135,13 @@ const BatchFiles = () => {
                             className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'REQUESTS' ? 'bg-[#D95F08] text-white' : 'bg-[#ededed] text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
                             onClick={() => handleButtonClick('REQUESTS')}
                         >
-                            REQUESTS
+                            {t('request')}
                         </button>
                         <button
                             className={`w-1/6 px-2 py-2 tracking-wide  text-sm ${activeButton === 'TRACKING' ? 'bg-[#D95F08] text-white' : 'bg-[#ededed] text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
                             onClick={() => handleButtonClick('TRACKING')}
                         >
-                            TRACKING
+                            {t('tracking')}
                         </button>
                     </div>
                 </div>
@@ -175,61 +178,61 @@ const BatchFiles = () => {
                                 <tr className="divide-x divide-gray-200">
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
                                     <span className="flex items-center justify-between">
-                                        FILE ID
+                                    {t('file_id')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
                                     <span className="flex items-center justify-between">
-                                        DATE CREATED
+                                    {t('date_created')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
                                     <span className="flex items-center justify-between">
-                                        DATE UPLOADED
+                                    {t('date_uploaded')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
                                     <span className="flex items-center justify-between">
-                                        FILE NAME
+                                    {t('file_name')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
                                     <span className="flex items-center justify-between">
-                                        STATUS
+                                    {t('status')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
                                     <span className="flex items-center justify-between">
-                                        CONFIRMED BY
+                                    {t('confirmed_by')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
                                     <span className="flex items-center justify-between">
-                                        DATE CONFIRMED
+                                    {t('date_confirmed')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
                                     <span className="flex items-center justify-between">
-                                        APPROVED BY
+                                    {t('approved_by')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
                                     <span className="flex items-center justify-between">
-                                        DATE APPROVED
+                                    {t('date_approved')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
                                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
                                     <span className="flex items-center justify-between">
-                                        UPLOADED BY
+                                    {t('uploaded_by')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
@@ -322,61 +325,61 @@ const BatchFiles = () => {
                         <tr className="divide-x divide-gray-200">
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
                             <span className="flex items-center justify-between">
-                                FILE ID
+                            {t('file_id')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
                             <span className="flex items-center justify-between">
-                                DATE CREATED
+                            {t('date_created')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
                             <span className="flex items-center justify-between">
-                                DATE UPLOADED
+                            {t('date_uploaded')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
                             <span className="flex items-center justify-between">
-                                FILE NAME
+                            {t('file_name')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
                             <span className="flex items-center justify-between">
-                                STATUS
+                            {t('status')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
                             <span className="flex items-center justify-between">
-                                CONFIRMED BY
+                            {t('confirmed_by')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
                             <span className="flex items-center justify-between">
-                                DATE CONFIRMED
+                            {t('date_confirmed')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
                             <span className="flex items-center justify-between">
-                                APPROVED BY
+                            {t('approved_by')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
                             <span className="flex items-center justify-between">
-                                DATE APPROVED
+                            {t('date_approved')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>
                             <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
                             <span className="flex items-center justify-between">
-                                UPLOADED BY
+                            {t('uploaded_by')}
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                             </th>

@@ -4,12 +4,14 @@ import PasswordModal from '../../components/Modals/PasswordModal';
 import OTPModal from '../../components/Modals/OTPModal';
 import { FaBuildingColumns } from 'react-icons/fa6';
 import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; // Import validation and reset functions
+import { useTranslation } from 'react-i18next';
 
 const WalletToBank = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [isOTPModalOpen, setOTPModalOpen] = useState(false); // OTP modal state
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
 
+  const { t, i18n } = useTranslation();
   // Setting initial input
   const initialFormData = {
     bank: '',
@@ -41,12 +43,12 @@ const WalletToBank = () => {
     <div className="flex flex-col items-center justify-center p-4">
       <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
         <FaBuildingColumns className="text-[#D95F08] mr-2" />
-        WALLET TO BANK
+        {t('wallet_to_bank')}
       </h2>
       <div className="bg-white p-6 rounded-lg shadow-md w-11/12 max-w-3xl border-2 border-[#23587C]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Bank</label>
+            <label className="block text-sm font-medium mb-1">{t('bank')}</label>
             <select
               name="bank"
               value={formData.bank}
@@ -60,7 +62,7 @@ const WalletToBank = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Bank Account Full Name</label>
+            <label className="block text-sm font-medium mb-1">{t('bank_account_full_name')}</label>
             <input
               type="text"
               name="bankaccountfullname"
@@ -71,7 +73,7 @@ const WalletToBank = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Bank Account Number</label>
+            <label className="block text-sm font-medium mb-1">{t('bank_account_number')}</label>
             <input
               type="text"
               name="bankaccountnumber"
@@ -82,7 +84,7 @@ const WalletToBank = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Amount</label>
+            <label className="block text-sm font-medium mb-1">{t('amount')}</label>
             <input
               type="text"
               name="amount"
@@ -93,7 +95,7 @@ const WalletToBank = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Remarks</label>
+            <label className="block text-sm font-medium mb-1">{t('remarks')}</label>
             <input
               type="text"
               name="remarks"
@@ -111,13 +113,13 @@ const WalletToBank = () => {
           onClick={handleAllocate}
           disabled={!isFormValid}
         >
-          SUBMIT
+          {t('submit')}
         </button>
         <button 
           className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
           onClick={resetFormData(setFormData, initialFormData)} // Resetting form
         >
-          RESET
+          {t('reset')}
         </button>
       </div>
 
