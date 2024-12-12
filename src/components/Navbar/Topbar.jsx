@@ -13,7 +13,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     const languageDropdownRef = useRef(null);
     const navigate = useNavigate();
     const { i18n } = useTranslation(); // Access i18n instance
-
+    
     // Toggle profile dropdown
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -61,7 +61,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     // Handle change password modal close
     const handleCloseChangePasswordModal = () => {
         setIsChangePasswordModalOpen(false);
-        setDisableHover(true);
+        setDisableHover(null);
     };
 
     return (
@@ -92,14 +92,14 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                     }
                 />
                 {isDropdownOpen && (
-                    <div
-                        className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl"
-                    >
+                    <div className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl">
                         <div className="p-4">
                             <p className="font-bold text-white">{username}</p>
                             <p className="text-sm text-white">Last Login: {lastLogin}</p>
                             <button
-                                onClick={() => setIsChangePasswordModalOpen(true)}
+                                onClick={() => {setIsChangePasswordModalOpen(true);
+                                    handleMouseLeave();
+                                }}
                                 className="block mt-6 text-white hover:text-[#FCAD74]"
                             >
                                 Change Password
@@ -129,13 +129,18 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                     >
                         <div className="p-4">
                             <button
-                                onClick={() => changeLanguage('en')}
+                                onClick={() => {changeLanguage('en');
+                                    handleMouseLeave();
+                                }}
                                 className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
+                                
                             >
                                 English
                             </button>
                             <button
-                                onClick={() => changeLanguage('fr')}
+                                onClick={() => {changeLanguage('fr')
+                                    handleMouseLeave();
+                                }}
                                 className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
                             >
                                 French
