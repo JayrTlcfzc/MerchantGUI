@@ -335,7 +335,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="idExpiry"
               >
-                {t('id_expiry')}
+                {t('id_expiry_date')}
               </label>
               <input
                 type="date"

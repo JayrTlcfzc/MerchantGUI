@@ -5,12 +5,16 @@ import PasswordModal from '../../components/Modals/PasswordModal';
 import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
 import { handleChange, handleChangeDigitsOnly, resetFormData } from '../../components/Validations';
+import { useTranslation } from 'react-i18next';
+
 
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [isPinModalOpen, setPinModalOpen] = useState(false);
   const [isOTPModalOpen, setOTPModalOpen] = useState(false);
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
+
+  const { t, i18n } = useTranslation();
 
   // Setting initial input
   const initialFormData = {
@@ -46,12 +50,12 @@ const AllocateCash = () => {
     <div className="flex flex-col items-center justify-center p-4">
       <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">
         <FaMoneyBills className="text-[#D95F08] mr-2" />
-        ALLOCATE CASH
+        {t('allocate_cash')}
       </h2>
       <div className="bg-white p-6 rounded-2xl shadow-md w-11/12 max-w-3xl border-2 border-[#23587C]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Recipient Mobile Number</label>
+            <label className="block text-sm font-medium mb-1">{t('recipient_mobile_number')}</label>
             <input
               type="text"
               name="recipientmobilenum"
@@ -63,7 +67,7 @@ const AllocateCash = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Amount</label>
+            <label className="block text-sm font-medium mb-1">{t('amount')}</label>
             <input
               type="text"
               name="amount"
@@ -74,7 +78,7 @@ const AllocateCash = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Remarks</label>
+            <label className="block text-sm font-medium mb-1">{t('remarks')}</label>
             <input
               type="text"
               name="remarks"
@@ -92,13 +96,13 @@ const AllocateCash = () => {
           onClick={handleAllocate}
           disabled={!isFormValid}
         >
-          ALLOCATE
+          {t('allocate')}
         </button>
         <button 
           className="px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#BFC3D2] hover:bg-[#9D9D9D] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
           onClick={resetFormData(setFormData, initialFormData)} // Reset inputfields
         >
-          RESET
+          {t('reset')}
         </button>
       </div>
 
