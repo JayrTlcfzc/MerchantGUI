@@ -118,5 +118,38 @@
     "view": "VIEW",
     "timestamp": "TIMESTAMP",
     "log": "LOG",
-    "interface": "INTERFACE"
+    "interface": "INTERFACE",
+
+    "account_management": "ACCOUNT MANAGEMENT",
+    "web_users": "WEB USERS",
+    "funds": "FUNDS",
+    "reports": "REPORTS",
+
+    "change_password": "Change Password",
+    "logout": "Logout",
+
+    "modal_edit_user": "EDIT USER",
+    "modal_reset_password": "RESET PASSWORD",
+    "modal_lock": "LOCK",
+    "modal_unlock": "UNLOCK",
+    "modal_deactivated": "DEACTIVATED",
+    "modal_activated": "ACTIVATED",
+    "modal_edit": "EDIT",
+    "modal_cancel": "CANCEL",
+    "modal_save": "SAVE",
+
+    "modal_confirmation": "CONFIRMATION",
+    "modal_are_you_sure_you_want_to": "Are you sure you want to",
+    "modal_this_user": "this user?",
+    "modal_yes": "YES",
+    "modal_no": "NO",
+
+    "modal_change_password": "CHANGE PASSWORD",
+    "modal_old_password": "OLD PASSWORD",
+    "modal_new_password": "NEW PASSWORD",
+    "modal_confirm_password": "CONFIRM PASSWORD,",
+
+    "modal_success": "Success!",
+    "modal_failed": "Failed!",
+    "modal_ok": "OK"
 }
