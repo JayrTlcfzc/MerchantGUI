@@ -3,6 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import StatusModal from "../../components/Modals/statusModal";
 import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; 
+import { useTranslation } from 'react-i18next';
 
 const RegisterSubscriber = () => {
 
@@ -31,6 +32,7 @@ const RegisterSubscriber = () => {
     region: "",
   };
   
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState(initialFormData);
 
   const [modalState, setModalState] = useState({
@@ -74,13 +76,13 @@ const RegisterSubscriber = () => {
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-center">
           <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
-          REGISTRATION FORM
+          {t('registration_form')}
         </h2>
 
         {/* Account Information */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 text-[#23587C]">
-            Account Information
+          {t('account_information')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
@@ -88,7 +90,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="nickname"
               >
-                Nickname
+                {t('nickname')}
               </label>
               <input
                 type="text"
@@ -96,7 +98,7 @@ const RegisterSubscriber = () => {
                 id="nickname"
                 value={formData.nickname}
                 onChange={handleChange(setFormData)}
-                placeholder="Nickname"
+                placeholder={t('nickname')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -105,7 +107,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="mobileNumber"
               >
-                Authorized Mobile Number
+                {t('authorized_mobile_number')}
               </label>
               <input
                 type="text"
@@ -113,7 +115,7 @@ const RegisterSubscriber = () => {
                 id="mobileNumber"
                 value={formData.mobileNumber}
                 onChange={handleChangeDigitsOnly(setFormData)}
-                placeholder="Mobile Number"
+                placeholder={t('authorized_mobile_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                 maxLength={15}
               />
@@ -123,7 +125,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="accountType"
               >
-                Account Type
+                {t('account_type')}
               </label>
               <select
                 name="accountType"
@@ -144,7 +146,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="accountStatus"
               >
-                Account Status
+                {t('account_status')}
               </label>
               <select
                 name="accountStatus"
@@ -170,7 +172,7 @@ const RegisterSubscriber = () => {
         {/* Personal Information */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 text-[#23587C]">
-            Personal Information
+          {t('personal_information')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
@@ -178,7 +180,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="firstName"
               >
-                First Name
+                {t('first_name')}
               </label>
               <input
                 type="text"
@@ -186,7 +188,7 @@ const RegisterSubscriber = () => {
                 id="firstName"
                 value={formData.firstName}
                 onChange={handleChangeTextOnly(setFormData)}
-                placeholder="First Name"
+                placeholder={t('first_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -195,7 +197,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="secondName"
               >
-                Second Name
+                {t('second_name')}
               </label>
               <input
                 type="text"
@@ -203,7 +205,7 @@ const RegisterSubscriber = () => {
                 id="secondName"
                 value={formData.secondName}
                 onChange={handleChangeTextOnly(setFormData)}
-                placeholder="Second Name"
+                placeholder={t('second_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -212,7 +214,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="lastName"
               >
-                Last Name
+                {t('last_name')}
               </label>
               <input
                 type="text"
@@ -220,7 +222,7 @@ const RegisterSubscriber = () => {
                 id="lastName"
                 value={formData.lastName}
                 onChange={handleChangeTextOnly(setFormData)}
-                placeholder="Last Name"
+                placeholder={t('last_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -229,7 +231,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="nationality"
               >
-                Nationality
+                {t('nationality')}
               </label>
               <input
                 type="text"
@@ -237,7 +239,7 @@ const RegisterSubscriber = () => {
                 id="nationality"
                 value={formData.nationality}
                 onChange={handleChangeTextOnly(setFormData)}
-                placeholder="Nationality"
+                placeholder={t('nationality')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -246,7 +248,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="dateOfBirth"
               >
-                Date of Birth
+                {t('date_of_birth')}
               </label>
               <input
                 type="date"
@@ -262,7 +264,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="placeOfBirth"
               >
-                Place of Birth
+                {t('place_of_birth')}
               </label>
               <input
                 type="text"
@@ -270,7 +272,7 @@ const RegisterSubscriber = () => {
                 id="placeOfBirth"
                 value={formData.placeOfBirth}
                 onChange={handleChange(setFormData)}
-                placeholder="Place of Birth"
+                placeholder={t('place_of_birth')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -279,7 +281,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="gender"
               >
-                Gender
+                {t('gender')}
               </label>
               <select
                 name="gender"
@@ -299,7 +301,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="idNumber"
               >
-                ID Number
+                {t('id_number')}
               </label>
               <input
                 type="text"
@@ -307,7 +309,7 @@ const RegisterSubscriber = () => {
                 id="idNumber"
                 value={formData.idNumber}
                 onChange={handleChange(setFormData)}
-                placeholder="ID Number"
+                placeholder={t('id_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -316,7 +318,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="idDescription"
               >
-                ID Description
+                {t('id_description')}
               </label>
               <input
                 type="text"
@@ -324,7 +326,7 @@ const RegisterSubscriber = () => {
                 id="idDescription"
                 value={formData.idDescription}
                 onChange={handleChange(setFormData)}
-                placeholder="ID Description"
+                placeholder={t('id_description')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -333,7 +335,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="idExpiry"
               >
-                ID Expiry
+                {t('id_expiry')}
               </label>
               <input
                 type="date"
@@ -350,7 +352,7 @@ const RegisterSubscriber = () => {
         {/* Contact Information */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 text-[#23587C]">
-            Contact Information
+          {t('contact_information')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div>
@@ -358,7 +360,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="company"
               >
-                Company
+                {t('company')}
               </label>
               <input
                 type="text"
@@ -366,7 +368,7 @@ const RegisterSubscriber = () => {
                 id="company"
                 value={formData.company}
                 onChange={handleChange(setFormData)}
-                placeholder="Company"
+                placeholder={t('company')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -375,7 +377,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="profession"
               >
-                Profession
+                {t('profession')}
               </label>
               <input
                 type="text"
@@ -383,7 +385,7 @@ const RegisterSubscriber = () => {
                 id="profession"
                 value={formData.profession}
                 onChange={handleChange(setFormData)}
-                placeholder="Profession"
+                placeholder={t('profession')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -392,7 +394,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="email"
               >
-                Email
+                {t('email')}
               </label>
               <input
                 type="email"
@@ -400,7 +402,7 @@ const RegisterSubscriber = () => {
                 id="email"
                 value={formData.email}
                 onChange={handleChange(setFormData)}
-                placeholder="Email"
+                placeholder={t('email')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -409,7 +411,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="alternateNumber"
               >
-                Alternate Number
+                {t('alternate_number')}
               </label>
               <input
                 type="text"
@@ -417,7 +419,7 @@ const RegisterSubscriber = () => {
                 id="alternateNumber"
                 value={formData.alternateNumber}
                 onChange={handleChangeDigitsOnly(setFormData)}
-                placeholder="Alternate Number"
+                placeholder={t('alternate_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                 maxLength={15}
               />
@@ -427,7 +429,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="buildingNumber"
               >
-                Building Number
+                {t('building_number')}
               </label>
               <input
                 type="text"
@@ -435,7 +437,7 @@ const RegisterSubscriber = () => {
                 id="buildingNumber"
                 value={formData.buildingNumber}
                 onChange={handleChange(setFormData)}
-                placeholder="Building Number"
+                placeholder={t('building_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -444,7 +446,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="streetName"
               >
-                Street Name
+                {t('street_name')}
               </label>
               <input
                 type="text"
@@ -452,7 +454,7 @@ const RegisterSubscriber = () => {
                 id="streetName"
                 value={formData.streetName}
                 onChange={handleChange(setFormData)}
-                placeholder="Street Name"
+                placeholder={t('street_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -461,7 +463,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="cityVillage"
               >
-                City/Village
+                {t('city_village')}
               </label>
               <input
                 type="text"
@@ -469,7 +471,7 @@ const RegisterSubscriber = () => {
                 id="cityVillage"
                 value={formData.cityVillage}
                 onChange={handleChange(setFormData)}
-                placeholder="City/Village"
+                placeholder={t('city_village')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -478,7 +480,7 @@ const RegisterSubscriber = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="region"
               >
-                Region
+                {t('region')}
               </label>
               <input
                 type="text"
@@ -486,7 +488,7 @@ const RegisterSubscriber = () => {
                 id="region"
                 value={formData.region}
                 onChange={handleChange(setFormData)}
-                placeholder="Region"
+                placeholder={t('region')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -500,7 +502,7 @@ const RegisterSubscriber = () => {
             onClick={handleSubmit}
             className="px-6 py-2 tracking-wide shadow-md rounded font-bold text-white bg-[#D95F08] hover:bg-[#FC8937] focus:outline-none focus:ring-2 focus:ring-[#FC8937]/50 focus:ring-offset-2"
           >
-            REGISTER
+            {t('register')}
           </button>
         </div>
       </div>
