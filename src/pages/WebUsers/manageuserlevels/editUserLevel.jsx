@@ -40,7 +40,7 @@ const EditUserLevel = () => {
       setModalState({
         isOpen: true,
         status: "success",
-        message: "Added User Level Successfully!",
+        message: "Edited User Level Successfully!",
       });
 
       resetFormData(setFormData, initialFormData)();
@@ -49,7 +49,7 @@ const EditUserLevel = () => {
       setModalState({
         isOpen: true,
         status: "error",
-        message: "Failed to Add User Level. Please try again.",
+        message: "Failed to Edit User Level. Please try again.",
       });
     }
   };

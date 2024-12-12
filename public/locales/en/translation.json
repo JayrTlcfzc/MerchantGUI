@@ -149,7 +149,25 @@
     "modal_new_password": "NEW PASSWORD",
     "modal_confirm_password": "CONFIRM PASSWORD,",
 
+    "modal_authentication": "AUTHENTICATION",
+    "modal_please_enter_your": "Please enter your",
+    "modal_password": "Password",
+    "modal_pin": "Pin",
+    "modal_one_time_password": "One-Time Password",
+    "modal_proceed": "PROCEED",
+
+    "modal_cash_allocated_successfully": "Cash Allocated Successfully!",
+    "modal_transaction_successfully": "Transaction Successful!",
+    "modal_added_user_successfully": "Added User Successfully!",
+    "modal_failed_to_add_user" : "Failed to Add User. Please try again.",
+    "modal_added_user_level_successfully": "Added User Level Successfully!",
+    "modal_failed_to_add_user_level": "Failed to Add User Level. Please try again.",
+    "modal_edited_user_level_successfully": "Edited User Level Successfully!",
+    "modal_failed_to_edit_user_level": "Failed to Edit User Level. Please try again.",
+
     "modal_success": "Success!",
-    "modal_failed": "Failed!",
-    "modal_ok": "OK"
+    "modal_error": "Error!",
+    "modal_ok": "OK",
+
+    "modal_the_file_has_been_successfully": "The file has been successfully",
 }
