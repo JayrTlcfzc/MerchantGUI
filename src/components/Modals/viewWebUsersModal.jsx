@@ -54,8 +54,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
       formattedMessage = `${modalMessage}ED`;
     } else if (modalMessage === "ACTIVATE" || modalMessage === "DEACTIVATE") {
       formattedMessage = `${modalMessage}D`;
-    } else if (modalMessage === "RESET PASSWORD") {
-      formattedMessage = "RESET";
+    } else if (modalMessage === `${t('modal_reset_password')}`) {
+      formattedMessage = `${t('modal_reset')}`;
     }
 
     setModalState({
@@ -112,7 +112,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
               <div className='flex flex-row'>
                 <FaUserPen className='text-2xl text-white ml-2 mr-2' />
                 <h2 className="text-xl font-semibold text-white">
-                  EDIT USER
+                {t('modal_edit_user')}
                 </h2>
               </div>
                 
@@ -126,7 +126,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-6 mx-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="userId">USER ID</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="userId">{t('user_id')}</label>
                 <input
                   disabled={!onEdit}
                   type="text"
@@ -134,12 +134,12 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   id="userId"
                   value={formData.userId}
                   onChange={handleChangeDigitsOnly(setFormData)}
-                  placeholder="User ID"
+                  placeholder={t('user_id')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="username">USERNAME</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="username">{t('username')}</label>
                 <input
                   disabled={!onEdit}
                   type="text"
@@ -147,96 +147,96 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   id="username"
                   value={formData.username}
                   onChange={handleChange(setFormData)}
-                  placeholder="Username"
+                  placeholder={t('username')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="msisdn">MSISDN</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="msisdn">{t('msisdn')}</label>
                 <input
                   disabled={!onEdit}
                   name="msisdn"
                   id="msisdn"
                   value={formData.msisdn}
                   onChange={handleChangeDigitsOnly(setFormData)}
-                  placeholder="MSISDN"
+                  placeholder={t('msisdn')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="otpMsisdn">OTP MSISDN</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="otpMsisdn">{t('otp_msisdn')}</label>
                 <input
                   disabled={!onEdit}
                   name="otpMsisdn"
                   id="otpMsisdn"
                   value={formData.otpMsisdn}
                   onChange={handleChangeDigitsOnly(setFormData)}
-                  placeholder="OTP MSISDN"
+                  placeholder={t('otp_msisdn')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="company">COMPANY</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="company">{t('company')}</label>
                 <input
                   disabled={!onEdit}
                   name="company"
                   id="company"
                   value={formData.company}
                   onChange={handleChange(setFormData)}
-                  placeholder="Company"
+                  placeholder={t('company')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="email">EMAIL</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="email">{t('email')}</label>
                 <input
                   disabled={!onEdit}
                   name="email"
                   id="email"
                   value={formData.email}
                   onChange={handleChange(setFormData)}
-                  placeholder="Email"
+                  placeholder={t('email')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="firstName">FIRST NAME</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="firstName">{t('first_name')}</label>
                 <input
                   disabled={!onEdit}
                   name="firstName"
                   id="firstName"
                   value={formData.firstName}
                   onChange={handleChangeTextOnly(setFormData)}
-                  placeholder="First Name"
+                  placeholder={t('first_name')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="lastName">LAST NAME</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="lastName">{t('last_name')}</label>
                 <input
                   disabled={!onEdit}
                   name="lastName"
                   id="lastName"
                   value={formData.lastName}
                   onChange={handleChangeTextOnly(setFormData)}
-                  placeholder="Last Name"
+                  placeholder={t('last_name')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="department">DEPARTMENT</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="department">{t('department')}</label>
                 <input
                   disabled={!onEdit}
                   name="department"
                   id="department"
                   value={formData.department}
                   onChange={handleChange(setFormData)}
-                  placeholder="Department"
+                  placeholder={t('department')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="userLevel">USER LEVEL</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="userLevel">{t('user_level')}</label>
                 <select
                   disabled={!onEdit}
                   name="userLevel"
@@ -250,7 +250,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="status">STATUS</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="status">{t('status')}</label>
                 <select
                   disabled={!onEdit}
                   name="status"
@@ -265,7 +265,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="locked">LOCKED</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="locked">{t('locked')}</label>
                 <select
                   disabled={!onEdit}
                   name="locked"
@@ -279,7 +279,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="dateCreated">DATE CREATED</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="dateCreated">{t('date_created')}</label>
                 <input
                   disabled
                   name="dateCreated"
@@ -291,7 +291,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="dateModified">DATE MODIFIED</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="dateModified">{t('date_modified')}</label>
                 <input
                   disabled
                   name="dateModified"
@@ -307,22 +307,22 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
             <div className="flex justify-between gap-10 mx-6">
               <div className='flex gap-2'>
                 <button
-                    onClick={() => handleOpenModal('RESET PASSWORD')}
+                    onClick={() => handleOpenModal(`${t('modal_reset')}`)}
                     className="px-4 py-2 text-white bg-[#E88B00] rounded hover:bg-[#FFA51E] font-bold"
                 >
-                    RESET PASSWORD
+                    {t('modal_reset_password')}
                 </button>
 
                 {!locked ? (
                   <button
-                  onClick={() => handleOpenModal('LOCK')}
+                  onClick={() => handleOpenModal(`${t('modal_locked')}`)}
                   className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"
                   >
                     {t('modal_lock')}
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleOpenModal('UNLOCK')}
+                    onClick={() => handleOpenModal(`${t('modal_unlocked')}`)}
                     className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold"
                     >
                       {t('modal_unlock')}
@@ -331,17 +331,17 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
 
                 {!deactivated ? (
                   <button
-                  onClick={() => handleOpenModal('DEACTIVATE')}
+                  onClick={() => handleOpenModal(`${t('modal_deactivated')}`)}
                   className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold"
                   >
                     {t('modal_deactivate')}
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleOpenModal('ACTIVATE')}
+                    onClick={() => handleOpenModal(`${t('modal_activated')}`)}
                     className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold"
                     >
-                        ACTIVATE
+                      {t('modal_activate')}
                     </button>
                 )}
 
@@ -353,13 +353,13 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                     onClick={() => {setOnEdit(true)}}
                     className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold"
                     >
-                      EDIT
+                      {t('modal_edit')}
                   </button>) : (
                     <button
                       onClick={handleSubmit}
                       className="px-4 py-2 text-white bg-[#D95F08] rounded hover:bg-[#D95F08] font-bold"
                     >
-                      SAVE
+                      {t('modal_save')}
                   </button>
                   )
                 }
@@ -368,7 +368,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                     className="px-4 py-2 text-black bg-[#DCDCDC] rounded hover:bg-[#9D9D9D] font-bold"
                     onClick={handleClose}
                 >
-                    CANCEL
+                    {t('modal_cancel')}
                 </button>
               </div>
 
