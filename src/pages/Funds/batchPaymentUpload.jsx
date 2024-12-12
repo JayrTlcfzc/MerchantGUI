@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import StatusModal from '../../components/Modals/statusModal';
 import { FaUpload } from 'react-icons/fa6';
+import { useTranslation } from 'react-i18next';
 
 function BatchPaymentUpload() {
   const [fileName, setFileName] = useState('No file chosen');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
+  const { t, i18n } = useTranslation();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -34,7 +36,7 @@ function BatchPaymentUpload() {
         
         <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">
           <FaUpload className="text-[#D95F08] mr-2" />
-          BATCH PAYMENT UPLOAD
+          {t('batch_payment_upload')}
         </h2>
       </div>
 
@@ -53,7 +55,7 @@ function BatchPaymentUpload() {
           htmlFor="file-upload"
           className="block w-1/6 bg-[#23587C] tracking-wide shadow-md font-bold text-white py-2 px-4 rounded mt-16 mb-8 text-center cursor-pointer mx-auto hover:bg-[#2C75A6]"
         >
-          UPLOAD FILE
+          {t('upload_file')}
         </label>
         <input
           id="file-upload"
@@ -70,7 +72,7 @@ function BatchPaymentUpload() {
         className="bg-[#BFC3D2] tracking-wide shadow-md rounded font-bold text-gray-800 py-2 px-4 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
         onClick={handleSubmit}
       >
-        SUBMIT
+        {t('submit')}
       </button>
 
       {/* Status Modal */}
