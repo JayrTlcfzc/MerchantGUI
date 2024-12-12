@@ -11,42 +11,42 @@ const SearchSubscriber = () => {
   const [endDate, setEndDate] = useState(null);
 
   const accountDetails = [
-    { label: "ACCOUNT ID", value: "231789031" },
-    { label: "NICKNAME", value: "ABDUL" },
-    { label: "MSISDN", value: "23456789" },
-    { label: "MAIN ACCOUNT", value: "150 500" },
-    { label: "COMMISSION AMOUNT", value: "100 550" },
-    { label: "ACCOUNT TYPE", value: "MCOM" },
-    { label: "DATE REGISTERED", value: "04/19/2024" },
-    { label: "DATE MODIFIED", value: "04/19/2024" },
-    { label: "KYC", value: "APPROVED" },
-    { label: "REFERENCE ACCOUNT", value: "0,76534" },
-    { label: "ACCOUNT STATUS", value: "ACTIVE" },
-    { label: "USER ID", value: "234567812" },
-    { label: "LOCKED", value: "NO" },
-    { label: "CONTROL REFERENCE", value: "0" },
+    { label: t('account_id') , value: "231789031" },
+    { label: t('nickname') , value: "ABDUL" },
+    { label: t('msisdn'), value: "23456789" },
+    { label: t('main_account'), value: "150 500" },
+    { label: t('commission_amount'), value: "100 550" },
+    { label: t('account_type'), value: "MCOM" },
+    { label: t('date_registered'), value: "04/19/2024" },
+    { label: t('date_modified'), value: "04/19/2024" },
+    { label: t('kyc'), value: "APPROVED" },
+    { label: t('reference_account'), value: "0,76534" },
+    { label: t('account_status'), value: "ACTIVE" },
+    { label: t('user_id'), value: "234567812" },
+    { label: t('locked'), value: "NO" },
+    { label: t('control_reference'), value: "0" },
   ];
 
   const personalDetails = [
-    { label: "FIRST NAME", value: "ABDUL" },
-    { label: "SECOND NAME", value: "MOHAMMAD" },
-    { label: "LAST NAME", value: "JAFAR" },
-    { label: "ID NUMBER", value: "234567812" },
-    { label: "ID DESCRIPTION", value: "CARTE DESOUR" },
-    { label: "ID EXPIRY DATE", value: "12/24/2030" },
-    { label: "NATIONALITY", value: "AFRICAN" },
-    { label: "GENDER", value: "MALE" },
-    { label: "DATE OF BIRTH", value: "06/14/1992" },
-    { label: "PLACE OF BIRTH", value: "AFRICA" },
-    { label: "COMPANY", value: "QNATEL" },
-    { label: "PROFESSION", value: "DEVELOPER" },
-    { label: "CITY / VILLAGE", value: "BURKINA" },
-    { label: "STREET NAME", value: "BURKINA" },
-    { label: "BUILDING NUMBER", value: "1209" },
-    { label: "REGION", value: "DRO" },
-    { label: "COUNTRY", value: "AFRICA" },
-    { label: "EMAIL", value: "qwerty@gmail.com" },
-    { label: "ALT NUMBER", value: "123456377" },
+    { label: t('first_name'), value: "ABDUL" },
+    { label: t('second_name'), value: "MOHAMMAD" },
+    { label: t('last_name'), value: "JAFAR" },
+    { label: t('id_number'), value: "234567812" },
+    { label: t('id_description'), value: "CARTE DESOUR" },
+    { label: t('id_expiry_date'), value: "12/24/2030" },
+    { label: t('nationality'), value: "AFRICAN" },
+    { label: t('gender'), value: "MALE" },
+    { label: t('date_of_birth'), value: "06/14/1992" },
+    { label: t('place_of_birth'), value: "AFRICA" },
+    { label: t('company'), value: "QNATEL" },
+    { label: t('profession'), value: "DEVELOPER" },
+    { label: t('city_village'), value: "BURKINA" },
+    { label: t('street_name'), value: "BURKINA" },
+    { label: t('building_number'), value: "1209" },
+    { label: t('region'), value: "DRO" },
+    { label: t('country'), value: "AFRICA" },
+    { label: t('email'), value: "qwerty@gmail.com" },
+    { label: t('alt_number'), value: "123456377" },
   ];
 
   return (
@@ -64,7 +64,7 @@ const SearchSubscriber = () => {
             className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
             defaultValue="MSISDN"
           >
-            <option value="MSISDN">MSISDN</option>
+            <option value="MSISDN"> {t('msisdn')}</option>
           </select>
 
           <input
@@ -84,7 +84,7 @@ const SearchSubscriber = () => {
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
-              placeholderText="Date From"
+              placeholderText={t('date_from')}
               className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
               wrapperClassName="w-full"
               popperClassName="react-datepicker-left"
@@ -95,7 +95,7 @@ const SearchSubscriber = () => {
             <DatePicker
               selected={endDate}
               onChange={(date) => setEndDate(date)}
-              placeholderText="Date To"
+              placeholderText={t('date_to')}
               className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
               wrapperClassName="w-full"
               popperClassName="react-datepicker-right"
@@ -116,7 +116,7 @@ const SearchSubscriber = () => {
           {t('view_subscriber_details')}
         </h2>
         <h3 className="text-lg font-semibold mb-4 text-gray-700">
-          Account Details
+        {t('account_details')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
           {accountDetails.map((item, index) => (
@@ -132,7 +132,7 @@ const SearchSubscriber = () => {
 
         {/* Personal Details */}
         <h3 className="text-lg font-semibold mb-4 text-gray-700">
-          Personal Details
+         {t('personal_details')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {personalDetails.map((item, index) => (
