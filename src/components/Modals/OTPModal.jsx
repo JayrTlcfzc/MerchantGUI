@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { FaUserLock } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 
 export default function OTPModal({
+  
   onProceed = () => {},
   handleClose = () => {},
 }) {
+  const { t, i18n } = useTranslation();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
   const handleChange = (e, index) => {
@@ -30,12 +33,12 @@ export default function OTPModal({
         <div className="flex flex-row justify-center items-center">
           <FaUserLock className="text-2xl" />
           <h2 className="text-2xl font-semibold text-gray-800 ml-2">
-            AUTHENTICATION
+          {t('modal_authentication')}
           </h2>
         </div>
 
         <p className="text-gray-600 mb-6">
-          Please enter your <span className="font-bold">One-Time Password</span>
+        {t('modal_please_enter_your')} <span className="font-bold">{t('modal_one_time_password')}</span>
         </p>
 
         <div className="flex justify-center space-x-2 mb-4">
@@ -74,13 +77,13 @@ export default function OTPModal({
               handleClose();
             }}
           >
-            Proceed
+            {t('modal_proceed')}
           </button>
           <button
             className="px-4 py-2 text-white bg-[#C60000] rounded hover:bg-[#F71010]"
             onClick={handleClose}
           >
-            Cancel
+            {t('modal_cancel')}
           </button>
         </div>
       </div>
