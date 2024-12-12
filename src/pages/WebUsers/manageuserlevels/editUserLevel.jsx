@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
 import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../../components/Validations'; 
+import { useTranslation } from 'react-i18next';
 
 const EditUserLevel = () => {
+
+  const { t, i18n } = useTranslation();
 
   const initialFormData = {
     userLevel: '',
@@ -60,7 +63,7 @@ const EditUserLevel = () => {
         <div className="border-2 border-[#23587C] bg-white p-4 rounded-2xl">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-gray-700 mb-1">User Level</label>
+              <label className="block text-gray-700 mb-1">{t('user_level')}</label>
               <select
                 name="userLevel"
                 id="userLevel"
@@ -76,7 +79,7 @@ const EditUserLevel = () => {
             </div>
             <div>
               <label className="block text-gray-700 mb-1">
-                Session Timeout
+              {t('session_timeout')}
               </label>
               <input
                 type="number"
@@ -90,7 +93,7 @@ const EditUserLevel = () => {
             </div>
             <div>
               <label className="block text-gray-700 mb-1">
-                Password Expiry
+              {t('password_expiry')}
               </label>
               <input
                 type="number"
@@ -104,7 +107,7 @@ const EditUserLevel = () => {
             </div>
             <div>
               <label className="block text-gray-700 mb-1">
-                Minimum Password
+              {t('minimum_password')}
               </label>
               <input
                 type="text"
@@ -118,7 +121,7 @@ const EditUserLevel = () => {
             </div>
             <div>
               <label className="block text-gray-700 mb-1">
-                Password History
+              {t('password_history')}
               </label>
               <input
                 type="text"
@@ -132,7 +135,7 @@ const EditUserLevel = () => {
             </div>
             <div>
               <label className="block text-gray-700 mb-1">
-                Max Allocation
+              {t('max_allocation')}
               </label>
               <input
                 type="text"
@@ -154,7 +157,7 @@ const EditUserLevel = () => {
             onClick={handleSubmit}
             className="bg-[#23587C] tracking-wide shadow-md rounded font-bold text-white py-2 px-6 hover:bg-[#1e4d6b] focus:outline-none focus:ring-2 focus:ring-[#1e4d6b]/50 focus:ring-offset-2"
           >
-            SAVE CHANGES
+            {t('save_changes')}
           </button>
         </div>
       </form>
