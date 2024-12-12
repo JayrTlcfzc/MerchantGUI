@@ -156,6 +156,8 @@
     "modal_one_time_password": "One-Time Password",
     "modal_proceed": "PROCEED",
 
+    "modal_types_of_report": "TYPES OF REPORT",
+
     "modal_cash_allocated_successfully": "Cash Allocated Successfully!",
     "modal_transaction_successfully": "Transaction Successful!",
     "modal_added_user_successfully": "Added User Successfully!",
@@ -170,4 +172,6 @@
     "modal_ok": "OK",
 
     "modal_the_file_has_been_successfully": "The file has been successfully",
+    "modal_accepted": "accepted",
+    "modal_rejected": "rejected"
 }
