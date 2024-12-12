@@ -119,8 +119,10 @@
     "timestamp": "HORODATAGE",
     "log": "ENREGISTRER",
     "interface": "INTERFACE",
+    // "td_no_results_found": "",
 
     "account_management": "GESTION DE COMPTE",
+    // "register_subscriber": "REGISTER SUBSCRIBER",
     "web_users": "UTILISATEURS INTERNET",
     "funds": "FONDS",
     "reports": "RAPPORTS",
@@ -133,6 +135,10 @@
     "modal_reset": "RÉINITIALISER",
     "modal_lock": "VERROUILLAGE",
     "modal_unlock": "VERROUILLAGE",
+    "modal_locked": "LOCKED",
+    "modal_unlocked": "UNLOCKED",
+    // "modal_deactivate": "DEACTIVATE",
+    // "modal_activate": "ACTIVATE",
     "modal_deactivated": "DÉSACTIVÉ",
     "modal_activated": "ACTIVÉ",
     "modal_edit": "MODIFIER",
@@ -170,7 +176,9 @@
     "modal_failed_to_add_user_level": "Échec de l'ajout du niveau utilisateur.",
     "modal_edited_user_level_successfully": "Niveau utilisateur modifié avec succès!",
     "modal_failed_to_edit_user_level": "Échec de la modification du niveau utilisateur.",
-
+    "modal_successfully_reset": "The user's password has been successfully reset!",
+    "modal_the_user_has_been_successfully": "The user has been successfully",
+    
     "modal_success": "Succès!",
     "modal_error": "Erreur!",
     "modal_ok": "D'ACCORD",
