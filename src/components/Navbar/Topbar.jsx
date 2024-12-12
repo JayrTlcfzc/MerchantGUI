@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircleUser, Globe } from "lucide-react";
-import ChangePasswordModal from './changePasswordModal';
+import ChangePasswordModal from '../Modals/changePasswordModal';
 import { useTranslation } from 'react-i18next';
 
 const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, lastLogin }) => {
@@ -12,7 +12,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     const dropdownRef = useRef(null);
     const languageDropdownRef = useRef(null);
     const navigate = useNavigate();
-    const { i18n } = useTranslation(); // Access i18n instance
+    const { t, i18n } = useTranslation(); // Access i18n instance
     
     // Toggle profile dropdown
     const toggleDropdown = () => {
@@ -102,10 +102,10 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                                 }}
                                 className="block mt-6 text-white hover:text-[#FCAD74]"
                             >
-                                Change Password
+                                {t('change_password')}
                             </button>
                             <button onClick={handleLogout} className="block text-white hover:text-[#FCAD74]">
-                                Logout
+                            {t('logout')}
                             </button>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import {
   ChevronDown,
   ChevronUp,
@@ -15,6 +16,7 @@ import { cn } from "../../lib/utils";
 import logo from "../../assets/nufinlogo.png";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
+  const { t, i18n } = useTranslation();
   const [expandedItem, setExpandedItem] = useState(null);
 
   const toggleSidebar = () => {
@@ -28,50 +30,50 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   const menuItems = [
     {
       id: "account",
-      title: "Account Management",
+      title: `${t('account_management')}`,
       icon: Users,
       subItems: [
-        { title: "Register Subscriber", path: "/account/register" },
-        { title: "Search Subscriber", path: "/account/search" },
-        { title: "View Pending Subscriber", path: "/account/view-pending" },
+        { title: `${t('register_subscriber')}`, path: "/account/register" },
+        { title: `${t('search_subscriber')}`, path: "/account/search" },
+        { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
       ],
     },
     {
       id: "webUsers",
-      title: "Web Users",
+      title: `${t('web_users')}`,
       icon: Search,
       subItems: [
-        { title: "View Web Users", path: "/web-users/view-web-users" },
-        { title: "Register New Users", path: "/web-users/register-new-user" },
-        { title: "Manage User Level", path: "/web-users/manage-user-level" },
+        { title: `${t('view_web_users')}`, path: "/web-users/view-web-users" },
+        { title: `${t('register_new_user')}`, path: "/web-users/register-new-user" },
+        { title: `${t('manage_user_levels')}`, path: "/web-users/manage-user-level" },
       ],
     },
     {
       id: "funds",
-      title: "Funds",
+      title: `${t('funds')}`,
       icon: DollarSign,
       subItems: [
-        { title: "Allocate Cash", path: "/funds/allocate-cash" },
-        { title: "Wallet To Bank", path: "/funds/wallet-to-bank" },
-        { title: "Batch Files", path: "/funds/batch-files" },
-        { title: "Batch Payment Upload", path: "/funds/batch-payment-upload" },
-        { title: "Batch Uploaded Files", path: "/funds/batch-uploaded-files" },
+        { title: `${t('allocate_cash')}`, path: "/funds/allocate-cash" },
+        { title: `${t('wallet_to_bank')}`, path: "/funds/wallet-to-bank" },
+        { title: `${t('batch_files')}`, path: "/funds/batch-files" },
+        { title: `${t('batch_payment_upload')}`, path: "/funds/batch-payment-upload" },
+        { title: `${t('batch_uploaded_files')}`, path: "/funds/batch-uploaded-files" },
       ],
     },
     {
       id: "reports",
-      title: "Reports",
+      title: `${t('reports')}`,
       path: "/reports/request-reports",
       icon: FileText,
       subItems: [
-        { title: "Request Reports", path: "/reports/request-reports" },
+        { title: `${t('request_reports')}`, path: "/reports/request-reports" },
       ],
     },
     {
       id: "audit",
-      title: "Audit Trail",
+      title: `${t('audit_trail')}`,
       icon: History,
-      subItems: [{ title: "Audit Trail", path: "/audit-trail" }],
+      subItems: [{ title: `${t('audit_trail')}`, path: "/audit-trail" }],
     },
   ];
 
