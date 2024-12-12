@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
 
-export default function confirmationModal ({ handleCloseModal, modalMessage, locked, setLocked, deactivated, setDeactivated, onProceed = () => {} }) {
+export default function ConfirmationModal ({ handleCloseModal, modalMessage, locked, setLocked, deactivated, setDeactivated, onProceed = () => {} }) {
 
   const { t, i18n } = useTranslation();
 
@@ -22,7 +22,7 @@ export default function confirmationModal ({ handleCloseModal, modalMessage, loc
           </div>
 
           <p className="text-gray-600 mt-4 mb-6">
-            {`${t('modal_are_you_sure_you_want_to')}`} {' '}
+            {`${t('modal_are_you_sure_you_want_to')} `} 
             <span className="font-bold">{modalMessage}</span> this user?
           </p>
 
