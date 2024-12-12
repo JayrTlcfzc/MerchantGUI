@@ -3,9 +3,12 @@ import { useState } from 'react';
 import { FaExclamationCircle } from 'react-icons/fa'
 import StatusModal from './statusModal';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 
 export default function confirmationModal ({ handleCloseModal, modalMessage, locked, setLocked, deactivated, setDeactivated, onProceed = () => {} }) {
+
+  const { t, i18n } = useTranslation();
 
   return (
     <>
@@ -14,12 +17,12 @@ export default function confirmationModal ({ handleCloseModal, modalMessage, loc
           <div className="flex flex-row justify-center items-center">
             <FaExclamationCircle className="text-5xl" />
             <h2 className="text-3xl font-semibold text-gray-800 ml-2">
-              CONFIRMATION
+            CONFIRMATION
             </h2>
           </div>
 
           <p className="text-gray-600 mt-4 mb-6">
-            Are you sure you want to{' '}
+            {`${t('modal_are_you_sure_you_want_to')}`} {' '}
             <span className="font-bold">{modalMessage}</span> this user?
           </p>
 
