@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaMagnifyingGlass, FaAddressCard } from 'react-icons/fa6'
+import { useTranslation } from 'react-i18next';
 
 const SearchSubscriber = () => {
+
+  const { t, i18n } = useTranslation();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -52,7 +55,7 @@ const SearchSubscriber = () => {
       <div className="p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
           <FaMagnifyingGlass className="text-[#D95F08] mr-2" />
-          SEARCH SUBSCRIBER
+          {t('search_subscriber')}
         </h2>
 
         {/* First row - MSISDN dropdown and input */}
@@ -71,7 +74,7 @@ const SearchSubscriber = () => {
           />
 
           <button className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
-            SEARCH
+           {t('search')}
           </button>
         </div>
 
@@ -100,7 +103,7 @@ const SearchSubscriber = () => {
           </div>
 
           <button className="md:w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
-            DOWNLOAD LIST
+            {t('download_list')}
           </button>
         </div>
       </div>
@@ -110,7 +113,7 @@ const SearchSubscriber = () => {
         {/* Account Details */}
         <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-center">
           <FaAddressCard className="text-[#D95F08] mr-2"/>
-          VIEW SUBSCRIBER DETAILS
+          {t('view_subscriber_details')}
         </h2>
         <h3 className="text-lg font-semibold mb-4 text-gray-700">
           Account Details

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Navbar/Sidebar";
 import Logo from '../assets/nufinlogo.png';
 import Topbar from "./Navbar/Topbar";
+import { useTranslation } from 'react-i18next';
 
 // Function to format date and time to 12-hour format
 const formatDateTime = (date) => {
@@ -20,6 +21,9 @@ const Layout = ({ children }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [currentUser, setCurrentUser] = useState("IT_ADMIN_MERCHANT"); // Dynamic current user handler
   const [lastLogin, setLastLogin] = useState("");
+
+  const { t, i18n } = useTranslation();
+
 
   // Mouse enter event on icons
   const handleMouseEnter = (icon) => {
@@ -48,6 +52,7 @@ const Layout = ({ children }) => {
       <div className="flex flex-col w-full">
         {/* Header overlapping the sidebar */}
         <header className="bg-[#23587C] text-white p-4 flex justify-between items-center -ml-16">
+         
           <img src={Logo} className="fixed left-20 rounded z-0" alt="Logo" />
           <Topbar
             handleMouseEnter={handleMouseEnter}
@@ -57,7 +62,6 @@ const Layout = ({ children }) => {
             lastLogin={lastLogin}
           />
         </header>
-
         <div className="flex-1 bg-gray-200 p-4 overflow-auto">{children}</div>
       </div>
     </div>
