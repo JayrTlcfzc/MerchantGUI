@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import StatusModal from "../../components/Modals/statusModal";
 import { FaUserPlus } from "react-icons/fa6";
 import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; 
+import { useTranslation } from 'react-i18next';
 
 const RegisterNewUser = () => {
+
+  const { t, i18n } = useTranslation();
 
   const initialFormData = {
     username: '',
@@ -67,7 +70,7 @@ const RegisterNewUser = () => {
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center">
             <FaUserPlus className="text-[#D95F08] mr-2" />
-            REGISTER NEW USER
+            {t('register_new_user')}
           </h2>
 
           <p className="text-gray-600">
@@ -78,13 +81,13 @@ const RegisterNewUser = () => {
         {/* Form container with border and new border color */}
         <div className="border-2 border-[#23587C] rounded-2xl p-8 bg-white shadow-lg">
           <span className="font-bold text-2xl text-[#23587C] mb-10">
-            Account Details
+          {t('account_details')}
           </span>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Username
+              {t('username')}
               </label>
               <input
                 type="text"
@@ -99,7 +102,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                MSISDN
+              {t('msisdn')}
               </label>
               <input
                 type="text"
@@ -115,7 +118,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                OTP MSISDN
+              {t('otp_msisdn')}
               </label>
               <input
                 type="text"
@@ -132,7 +135,7 @@ const RegisterNewUser = () => {
             {/* Additional fields */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                First Name
+              {t('first_name')}
               </label>
               <input
                 type="text"
@@ -147,7 +150,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Last Name
+              {t('last_name')}
               </label>
               <input
                 type="text"
@@ -162,7 +165,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Email
+              {t('email')}
               </label>
               <input
                 type="email"
@@ -178,7 +181,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Company
+              {t('company')}
               </label>
               <input
                 type="text"
@@ -194,7 +197,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Department
+              {t('department')}
               </label>
               <input
                 type="text"
@@ -210,7 +213,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                User Level
+              {t('user_level')}
               </label>
               <select
                 name="userLevel"
@@ -229,7 +232,7 @@ const RegisterNewUser = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Status
+              {t('status')}
               </label>
               <select
                 name="status"
@@ -254,7 +257,7 @@ const RegisterNewUser = () => {
             className="px-8 py-3 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
             onClick={handleSubmit}
           >
-            SUBMIT
+            {t('submit')}
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import ViewWebUsersModal from '../../components/Modals/viewWebUsersModal';
+import { useTranslation } from 'react-i18next';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USER ID");
@@ -12,6 +13,8 @@ const ViewWebUsers = () => {
     const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
     const [openModal, setOpenModal] = useState('');
     const [isViewModalOpen, setViewModalOpen] = useState(false);
+
+    const { t, i18n } = useTranslation();
 
     const data = [
         { userid: 1, username: "User1", msisdn: 345876, firstname: "Abdul",lastname: "Jafar", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
@@ -93,13 +96,13 @@ const ViewWebUsers = () => {
                 {/* Page Title */}
                 <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-4">
                 <FaEye className="text-[#D95F08] mr-2" />
-                VIEW WEB USERS
+                {t('view_web_users')}
                 </h2>
 
                 {/* Search User*/}
                 <div className="flex flex-col gap-4 mb-4">
                     <div>
-                        <label className='text-sm font-semibold'>SELECT USER BY:</label>
+                        <label className='text-sm font-semibold'>{t('select_user_by')}</label>
                     </div>
 
                     <div className='flex gap-4 mb-4'>
@@ -119,7 +122,7 @@ const ViewWebUsers = () => {
                         />
 
                         <button className="w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
-                        SEARCH
+                        {t('search')}
                         </button>
                     </div>
                 </div>
@@ -155,48 +158,48 @@ const ViewWebUsers = () => {
                             <tr className="divide-x divide-gray-200">
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userid")}>
                                     <span className="flex items-center justify-between">
-                                        USER ID
+                                     {t('user_id')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
                                     <span className="flex items-center justify-between">
-                                        USERNAME
+                                     {t('username')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
                                     <span className="flex items-center justify-between">
-                                        MSISDN
+                                     {t('msisdn')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
                                     <span className="flex items-center justify-between">
-                                        FIRST NAME
+                                     {t('first_name')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
                                     <span className="flex items-center justify-between">
-                                        LAST NAME
+                                     {t('last_name')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("username")}>
                                     <span className="flex items-center justify-between">
-                                        USER LEVEL
+                                     {t('user_level')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
                                     <span className="flex items-center justify-between">
-                                        STATUS
+                                    {t('status')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                 </th>
                                 <th className="px-4 py-2">
-                                    ACTION
+                                    {t('action')}
                                 </th>
                             </tr>
                         </thead>
