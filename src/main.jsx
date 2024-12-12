@@ -17,6 +17,7 @@ import BatchUploadedFiles from "./pages/Funds/batchUploadedFiles";
 import BatchPaymentUpload from "./pages/Funds/batchPaymentUpload";
 import BatchFiles from "./pages/Funds/batchFiles";
 import RequestReports from "./pages/Reports/requestReports";
+import './i18n';
 
 import Layout from "./components/Layout";
 import "./index.css";

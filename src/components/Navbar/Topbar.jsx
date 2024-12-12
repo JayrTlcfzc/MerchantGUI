@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircleUser, Globe } from "lucide-react";
 import ChangePasswordModal from './changePasswordModal';
+import { useTranslation } from 'react-i18next';
 
 const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, lastLogin }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,6 +12,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     const dropdownRef = useRef(null);
     const languageDropdownRef = useRef(null);
     const navigate = useNavigate();
+    const { i18n } = useTranslation(); // Access i18n instance
 
     // Toggle profile dropdown
     const toggleDropdown = () => {
@@ -20,6 +22,12 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     // Toggle language dropdown
     const toggleLanguageDropdown = () => {
         setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+    };
+
+    // Handle language change
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language); // Update language globally
+        setIsLanguageDropdownOpen(false); // Close dropdown after selection
     };
 
     // Handle clicks inside language dropdown
@@ -120,10 +128,16 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                         onClick={handleClickInsideLanguageDropdown}
                     >
                         <div className="p-4">
-                            <button className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]">
+                            <button
+                                onClick={() => changeLanguage('en')}
+                                className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
+                            >
                                 English
                             </button>
-                            <button className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]">
+                            <button
+                                onClick={() => changeLanguage('fr')}
+                                className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
+                            >
                                 French
                             </button>
                         </div>
