@@ -59,7 +59,6 @@
     "action": "ACTION",
 
     "register_new_user": "REGISTER NEW USER",
-    "please_fill_in_the_account_details_below": "PLEASE FILL IN THE ACCOUNT DETAILS BELOW",
     "otp_msisdn": "OTP MSISDN",
     "department": "DEPARTMENT",
     "submit": "SUBMIT",
@@ -98,5 +97,25 @@
     "approved_by": "APPROVED BY",
     "date_approved": "DATE APPROVED",
     "uploaded_by": "UPLOADED BY",
-    "ip": "IP"
+    "ip": "IP",
+
+    "batch_payment_upload": "BATCH PAYMENT UPLOAD",
+    "upload_file": "UPLOAD FILE",
+
+    "batch_uploaded_files": "BATCH UPLOADED FILES",
+
+    "request_reports": "REQUEST REPORTS",
+    "request": "REQUEST",
+    "date_requested": "DATE REQUESTED",
+    "report_name": "REPORT NAME",
+    "report_type": "REPORT TYPE",
+    "transaction_type": "TRANSACTION TYPE",
+    "report_status": "REPORT STATUS",
+
+    "audit_trail": "AUDIT TRAIL",
+    "select_user": "SELECT USER", 
+    "view": "VIEW",
+    "timestamp": "TIMESTAMP",
+    "log": "LOG",
+    "interface": "INTERFACE"
 }
