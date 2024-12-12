@@ -171,6 +171,8 @@
     "modal_failed_to_add_user_level": "Failed to Add User Level. Please try again.",
     "modal_edited_user_level_successfully": "Edited User Level Successfully!",
     "modal_failed_to_edit_user_level": "Failed to Edit User Level. Please try again.",
+    "modal_successfully_reset": "The user's password has been successfully reset!",
+    "modal_the_user_has_been_successfully": "The user has been successfully",
 
     "modal_success": "Success!",
     "modal_error": "Error!",
