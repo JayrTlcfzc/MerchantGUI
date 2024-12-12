@@ -39,10 +39,10 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   const [formData, setFormData] = useState(initialFormData);
 
   const handleUseStateToggle = () => {
-    if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
+    if (modalMessage === `${t('modal_locked')}` || modalMessage === `${t('modal_unlocked')}`) {
       setLocked(!locked);
       
-    } if (modalMessage === "DEACTIVATE" || modalMessage === "ACTIVATE") {
+    } if (modalMessage === `${t('modal_deactivated')}` || modalMessage === `${t('modal_activated')}`) {
       setDeactivated(!deactivated);
     }
     handleConfirm();
@@ -50,20 +50,18 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
 
   const handleConfirm = (e) => {
     let formattedMessage = '';
-    if (modalMessage === "LOCK" || modalMessage === "UNLOCK") {
-      formattedMessage = `${modalMessage}ED`;
-    } else if (modalMessage === "ACTIVATE" || modalMessage === "DEACTIVATE") {
-      formattedMessage = `${modalMessage}D`;
-    } else if (modalMessage === `${t('modal_reset_password')}`) {
+    if (modalMessage === `${t('modal_reset_password')}`) {
       formattedMessage = `${t('modal_reset')}`;
+    } else {
+      formattedMessage = `${modalMessage}`;
     }
 
     setModalState({
       isOpen: true,
         status: 'success',
-        message: modalMessage === "RESET PASSWORD"
-        ? `The user's password has been successfully reset!`
-        : `The user has been successfully ${formattedMessage.toLowerCase()}!`
+        message: modalMessage === `${t('modal_reset_password')}`
+        ? `${t('modal_successfully_reset')}`
+        : `${t('modal_the_user_has_been_successfully')} ${formattedMessage.toLowerCase()}!`
     });
   };
 
@@ -88,7 +86,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
       setModalState({
         isOpen: true,
         status: "success",
-        message: "Edited User Successfully!",
+        message: `${t('modal_edited_user_level_successfully')}`,
       });
 
       resetFormData(setFormData, initialFormData)();
@@ -98,7 +96,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
       setModalState({
         isOpen: true,
         status: "error",
-        message: "Failed to Edit User. Please try again.",
+        message: `${t('modal_failed_to_edit_user_level')}`,
       });
     }
   };
