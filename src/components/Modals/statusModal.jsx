@@ -1,8 +1,10 @@
 import React from 'react';
 import { Dialog, DialogContent } from "../ui/dialog";
 import { FaCircleCheck, FaTriangleExclamation } from 'react-icons/fa6';
+import { useTranslation } from 'react-i18next';
 
 const StatusModal = ({ isOpen, onClose, status, message }) => {
+  const { t, i18n } = useTranslation();
   if (!isOpen) return null;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -14,7 +16,7 @@ const StatusModal = ({ isOpen, onClose, status, message }) => {
             <FaTriangleExclamation className="w-20 h-20 text-[#C60000] mb-4" />
           )}
           <h2 className="text-2xl font-semibold mb-2">
-            {status === 'success' ? 'Success!' : 'Error'}
+            {status === 'success' ? `${t('modal_success')}` : `${t('modal_error')}`}
           </h2>
           <p className="text-center text-gray-600">{message}</p>
         </div>

@@ -3,8 +3,11 @@ import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../Validations';
+import { useTranslation } from 'react-i18next';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
+
+    const { t, i18n } = useTranslation();
 
     const initialFormData = {
         reportType: '',
@@ -64,7 +67,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>
                     <div className='flex flex-row'>
                         <h2 className="text-xl font-semibold text-white">
-                            REQUEST REPORTS
+                        {t('request_reports')}
                         </h2>
                     </div>
                     <div>
@@ -75,7 +78,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 {/* Input fields */}
                 <form className="flex flex-col gap-6 mb-8 mt-6 mx-6">
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="reportType">Types of Report</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="reportType">{t('modal_types_of_report')}</label>
                         <select
                             name="reportType"
                             id="reportType"
@@ -90,7 +93,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                         </select>
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="msisdn">MSISDN</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="msisdn">{t('msisdn')}</label>
                         <input
                             name="msisdn"
                             id="msisdn"
@@ -101,7 +104,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                         />
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateFrom">Date From</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateFrom">{t('date_from')}</label>
                         <input
                             type="date"
                             name="dateFrom"
@@ -112,7 +115,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                         />
                     </div>
                     <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateTo">Date To</label>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateTo">{t('date_to')}</label>
                         <input
                             type="date"
                             name="dateTo"
@@ -128,14 +131,14 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             onClick={handleSubmit}
                             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
                         >
-                            SUBMIT
+                            {t('submit')}
                         </button>
                         <button
                             type="button"
                             className="px-4 py-2 text-white bg-[#C60000] rounded hover:bg-[#F71010] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#F71010]/50 focus:ring-offset-2"
                             onClick={handleClose}
                         >
-                            CANCEL
+                            {t('modal_cancel')}
                         </button>
                     </div>
                 </form>
