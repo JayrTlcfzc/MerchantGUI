@@ -15,7 +15,7 @@
     "gender": "GENRE",
     "id_number": "NUMÉRO D'IDENTIFICATION",
     "id_description": "ID DESCRIPTION",
-    "id_expiry": "EXPIRATION DE L'ID",
+    "id_expiry_date": "EXPIRATION DE L'ID",
     "contact_information": "COORDONNÉES",
     "company": "ENTREPRISE",
     "profession": "PROFESSION",
