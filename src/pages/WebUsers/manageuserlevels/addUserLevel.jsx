@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../../components/Validations'; 
-import { useTranslation } from 'react-i18next';
+import {
+  handleChange,
+  handleChangeDigitsOnly,
+  handleChangeTextOnly,
+  resetFormData,
+} from "../../../components/Validations";
+import { useTranslation } from "react-i18next";
 
 const AddUserLevel = () => {
-
   const { t, i18n } = useTranslation();
 
   const initialFormData = {
-    userLevel: '',
-    sessionTimeout: '',
-    passwordExpiry: '',
-    minimumPassword: '',
-    passwordHistory: '',
-    maxAllocation: '',
+    userLevel: "",
+    sessionTimeout: "",
+    passwordExpiry: "",
+    minimumPassword: "",
+    passwordHistory: "",
+    maxAllocation: "",
   };
-  
+
   const [formData, setFormData] = useState(initialFormData);
 
   const [modalState, setModalState] = useState({
@@ -44,7 +48,6 @@ const AddUserLevel = () => {
       });
 
       resetFormData(setFormData, initialFormData)();
-      
     } else {
       setModalState({
         isOpen: true,
@@ -55,15 +58,15 @@ const AddUserLevel = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="w-full flex items-center justify-center">
       <form className=" p-6 w-full max-w-4xl">
         {/* Fields Container */}
         <div className="border-2 border-[#23587C] bg-white p-4 rounded-2xl">
           <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-gray-700 mb-1">
-              {t('user_level')}
-                </label>
+            <div className="flex flex-col">
+              <label className="block text-gray-700 mb-1 truncate w-full">
+                {t("user_level")}
+              </label>
               <input
                 type="text"
                 name="userLevel"
@@ -74,9 +77,9 @@ const AddUserLevel = () => {
                 placeholder="User Level"
               />
             </div>
-            <div>
-              <label className="block text-gray-700 mb-1">
-              {t('session_timeout')}
+            <div className="flex flex-col">
+              <label className="block text-gray-700 mb-1 truncate w-full">
+                {t("session_timeout")}
               </label>
               <input
                 type="number"
@@ -88,9 +91,9 @@ const AddUserLevel = () => {
                 placeholder="Session Timeout"
               />
             </div>
-            <div>
-              <label className="block text-gray-700 mb-1">
-              {t('password_expiry')}
+            <div className="flex flex-col">
+              <label className="block text-gray-700 mb-1 truncate w-full">
+                {t("password_expiry")}
               </label>
               <input
                 type="number"
@@ -102,9 +105,9 @@ const AddUserLevel = () => {
                 placeholder="Password Expiry"
               />
             </div>
-            <div>
-              <label className="block text-gray-700 mb-1">
-              {t('minimum_password')}
+            <div className="flex flex-col">
+              <label className="block text-gray-700 mb-1 truncate w-full">
+                {t("minimum_password")}
               </label>
               <input
                 type="text"
@@ -116,9 +119,9 @@ const AddUserLevel = () => {
                 placeholder="Minimum Password"
               />
             </div>
-            <div>
-              <label className="block text-gray-700 mb-1">
-              {t('password_history')}
+            <div className="flex flex-col">
+              <label className="block text-gray-700 mb-1 truncate w-full">
+                {t("password_history")}
               </label>
               <input
                 type="text"
@@ -130,10 +133,10 @@ const AddUserLevel = () => {
                 placeholder="Password History"
               />
             </div>
-            <div>
-              <label className="block text-gray-700 mb-1">
-              {t('max_allocation')}
-                </label>
+            <div className="flex flex-col">
+              <label className="block text-gray-700 mb-1 truncate w-full">
+                {t("max_allocation")}
+              </label>
               <input
                 type="text"
                 name="maxAllocation"
@@ -154,7 +157,7 @@ const AddUserLevel = () => {
             onClick={handleSubmit}
             className="bg-[#23587C] tracking-wide shadow-md rounded font-bold text-white py-2 px-6 hover:bg-[#1e4d6b] focus:outline-none focus:ring-2 focus:ring-[#1e4d6b]/50 focus:ring-offset-2"
           >
-            {t('add')}
+            {t("add")}
           </button>
         </div>
       </form>

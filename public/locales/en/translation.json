@@ -187,5 +187,9 @@
     "modal_the_file_has_been_successfully": "The file has been successfully",
     "modal_accepted": "accepted",
     "modal_rejected": "rejected",
-    "download": "DOWNLOAD"
+
+    "download": "DOWNLOAD",
+    "details": "Details",
+    "accept": "Accept",
+    "reject": "Reject"
 }
