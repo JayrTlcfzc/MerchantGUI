@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import { FaUserLock } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function PasswordModal({ onProceed = () => {}, handleClose = () => {} }) {
 
   const { t, i18n } = useTranslation();
   const [password, setPassword] = useState('');
+  const inputRef = useRef(null); // Reference for the password input field
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const handleChange = (e) => {
     setPassword(e.target.value); // Update the password state
@@ -26,6 +34,7 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
         {/* Controlled input for password */}
         <input
           type="password"
+          ref={inputRef} // Attach the ref to the input
           className="mb-6 rounded shadow-outline border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
           placeholder="Password"
           value={password} 
@@ -40,7 +49,7 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
                 onProceed(); 
                 handleClose(); 
               } else {
-                alert('Please enter your password'); 
+                toast.error('Please enter your password');
               }
             }}
           >
@@ -54,6 +63,9 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
           </button>
         </div>
       </div>
+
+      <ToastContainer />
+
     </div>
   );
 }

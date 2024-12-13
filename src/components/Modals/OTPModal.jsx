@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaUserLock } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function OTPModal({
   onProceed = () => {},
@@ -8,9 +9,29 @@ export default function OTPModal({
 }) {
   const { t, i18n } = useTranslation();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const firstInputRef = useRef(null); // Reference for the first input field
+  const [error, setError] = useState(false);
+
+  // Autofocus the first input field when the modal opens
+  useEffect(() => {
+    if (firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, []);
+
+   // Focus on the first input when there's an error
+    useEffect(() => {
+      if (error && firstInputRef.current) {
+        firstInputRef.current.focus();
+      }
+    }, [error]);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
+
+    if (error) {
+      setError(false);
+    }
 
     // If the value is not a number, do not update
     if (isNaN(value) && value !== "") return;
@@ -46,18 +67,10 @@ export default function OTPModal({
             <input
               key={index}
               id={`otp-input-${index}`}
+              ref={index === 0 ? firstInputRef : null} // Attach ref to the first input
               type="password"
               value={digit}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (isNaN(value) && value !== "") return;
-                const newOtp = [...otp];
-                newOtp[index] = value;
-                setOtp(newOtp);
-                if (value !== "" && index < otp.length - 1) {
-                  document.getElementById(`otp-input-${index + 1}`).focus();
-                }
-              }}
+              onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => {
                 if (e.key === "Backspace" && otp[index] === "" && index > 0) {
                   document.getElementById(`otp-input-${index - 1}`).focus();
@@ -73,8 +86,14 @@ export default function OTPModal({
           <button
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
             onClick={() => {
-              onProceed();
-              handleClose();
+              if (otp.length === 6 && otp.every((digit) => digit !== "")) {
+                onProceed(); 
+                handleClose(); 
+              } else {
+                toast.error('Please enter your OTP');
+                setError(true);
+                setOtp(["", "", "", "", "", ""]);
+              }
             }}
           >
             {t("modal_proceed")}
@@ -87,6 +106,9 @@ export default function OTPModal({
           </button>
         </div>
       </div>
+
+      <ToastContainer />
+
     </div>
   );
 }
