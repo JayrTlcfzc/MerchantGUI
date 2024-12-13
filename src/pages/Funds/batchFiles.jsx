@@ -4,6 +4,7 @@ import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { FaFolder } from "react-icons/fa6";
 import StatusModal from '../../components/Modals/statusModal'
 import PasswordModal from '../../components/Modals/PasswordModal'
+import DetailsModal from "../../components/Modals/detailsModal";
 import { useTranslation } from 'react-i18next';
 
 const BatchFiles = () => {
@@ -16,6 +17,7 @@ const BatchFiles = () => {
     const dropdownRef = useRef(null);
     const [modalMessage, setModalMessage] = useState('');
     const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
+    const [isDetailsModalOpen, setDetailsModalOpen] = useState(false);
     const [modalState, setModalState] = useState({
         isOpen: false,
         status: "",
@@ -45,7 +47,7 @@ const BatchFiles = () => {
               status: 'success',
               message: `The file has been successfully ${modalMessage}!`
           });
-      };
+    };
 
     // For Ellipsis Dropdown
     const handleEllipsisClick = (index) => {
@@ -279,6 +281,7 @@ const BatchFiles = () => {
                                                         <li className="px-4 py-2 flex flex-row gap-2">
                                                             <div className="relative group">
                                                                 <FaCircleInfo 
+                                                                onClick={() => setDetailsModalOpen(true)}
                                                                 className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 {t('details')}
@@ -479,6 +482,14 @@ const BatchFiles = () => {
                     </button>
                 </div>
             </div>
+
+            {isDetailsModalOpen && (
+                <DetailsModal
+                    isOpen={isDetailsModalOpen}
+                    onClose={() => setDetailsModalOpen(false)}
+                    handleClose={() => setDetailsModalOpen(false)} 
+                />
+            )}
 
             {isPasswordModalOpen && (
                 <PasswordModal
