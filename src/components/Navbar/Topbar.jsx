@@ -143,7 +143,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                                 }}
                                 className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
                             >
-                                French
+                                Français
                             </button>
                         </div>
                     </div>
