@@ -41,3 +41,59 @@ const mockUsers = [
     });
   };
   
+
+
+// for actual API call
+//   import axios from "axios";
+
+// const BASE_URL = "https://your-api-endpoint.com"; // Replace with your API's base URL
+
+// // API call for verifying credentials
+// export const verifyCredentials = async (msisdn, username, password) => {
+//   try {
+//     const response = await axios.post(`${BASE_URL}/auth/verify-credentials`, {
+//       msisdn,
+//       username,
+//       password,
+//     });
+
+//     if (response.data.success) {
+//       return {
+//         success: true,
+//         message: response.data.message,
+//         otp: response.data.otp, // Assuming OTP is included in the response
+//       };
+//     } else {
+//       throw new Error(response.data.message || "Invalid credentials");
+//     }
+//   } catch (error) {
+//     return Promise.reject({
+//       success: false,
+//       message: error.response?.data?.message || error.message,
+//     });
+//   }
+// };
+
+// // API call for verifying OTP
+// export const verifyOTP = async (otp, msisdn) => {
+//   try {
+//     const response = await axios.post(`${BASE_URL}/auth/verify-otp`, {
+//       otp,
+//       msisdn,
+//     });
+
+//     if (response.data.success) {
+//       return {
+//         success: true,
+//         message: response.data.message,
+//       };
+//     } else {
+//       throw new Error(response.data.message || "Invalid OTP");
+//     }
+//   } catch (error) {
+//     return Promise.reject({
+//       success: false,
+//       message: error.response?.data?.message || error.message,
+//     });
+//   }
+// };
