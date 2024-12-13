@@ -1,4 +1,8 @@
 {
+    "login": "LOGIN",
+    "login_password": "PASSWORD",
+    "login_show_password": "show password",
+
     "registration_form": "REGISTRATION FORM",
     "account_information": "ACCOUNT INFORMATION",
     "nickname": "NICKNAME",

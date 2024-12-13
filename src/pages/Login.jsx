@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import LoginImage from "../assets/LoginImage.png";
 import OTPModal from "../components/Modals/OTPModal";
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from "../components/Validations";
+import { handleChange, handleChangeDigitsOnly } from "../components/Validations";
 import { toast, ToastContainer } from "react-toastify";
+import { Globe } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 // import PasswordModal from "../components/Modals/PasswordModal";
 // import PinModal from "../components/Modals/PinModal";
@@ -18,6 +20,9 @@ const Login = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [openModal, setOpenModal] = useState("");
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const languageDropdownRef = useRef(null);
+  const { t, i18n } = useTranslation(); // Access i18n instance
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -35,8 +40,39 @@ const Login = () => {
       }
     };
 
+  // Toggle language dropdown
+  const toggleLanguageDropdown = () => {
+    setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+  };
+
+  // Handle language change
+  const changeLanguage = (language) => {
+    i18n.changeLanguage(language); // Update language globally
+    setIsLanguageDropdownOpen(false); // Close dropdown after selection
+  };
+
+  // Handle clicks inside language dropdown
+  const handleClickInsideLanguageDropdown = (event) => {
+    event.stopPropagation();
+  };
+
+  // Dropdown closing state handler
+  const handleClickOutside = (event) => {
+    if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target)) {
+      setIsLanguageDropdownOpen(false);
+    }
+  };
+
+  // Event Listener to detect clicks outside dropdowns
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-row min-h-screen bg-white">
+    <div className="relative flex flex-row min-h-screen bg-white">
       <div className="w-full h-screen hidden md:block">
         <img
           src={LoginImage}
@@ -49,7 +85,7 @@ const Login = () => {
       <div className="flex flex-col min-h-screen items-center justify-center w-full">
         <div className="w-full max-w-sm p-6 sm:max-w-md lg:max-w-lg shadow-lg md:shadow-none">
           <h2 className="mb-6 text-5xl font-bold text-center text-gray-800 tracking-wider">
-            LOGIN
+            {t('login')}
           </h2>
           <form>
             <div className="mb-4">
@@ -57,7 +93,7 @@ const Login = () => {
                 htmlFor="msisdn"
                 className="block mb-2 text-sm font-bold text-gray-700"
               >
-                MSISDN
+                {t('msisdn')}
               </label>
               <input
                 type="text"
@@ -66,7 +102,7 @@ const Login = () => {
                 value={formData.msisdn}
                 onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
-                placeholder="Enter your MSISDN"
+                placeholder={t('Enter your MSISDN')}
                 required
               />
             </div>
@@ -76,7 +112,7 @@ const Login = () => {
                 htmlFor="username"
                 className="block mb-2 text-sm font-bold text-gray-700"
               >
-                Username
+                {t('username')}
               </label>
               <input
                 type="text"
@@ -85,7 +121,7 @@ const Login = () => {
                 value={formData.username}
                 onChange={handleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
-                placeholder="Enter your username"
+                placeholder={t('Enter your username')}
                 required
               />
             </div>
@@ -95,7 +131,7 @@ const Login = () => {
                 htmlFor="password"
                 className="block mb-2 text-sm font-bold text-gray-700"
               >
-                Password
+                {t('login_password')}
               </label>
               <input
                 type={showPassword ? "text" : "password"}
@@ -104,7 +140,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
-                placeholder="Enter your password"
+                placeholder={t('********************')}
                 required
               />
             </div>
@@ -116,18 +152,50 @@ const Login = () => {
                 onChange={togglePasswordVisibility}
                 className="mr-2 w-4 h-4 cursor-pointer rounded"
               />
-              <label>Show Password</label>
+              <label>{t('login_show_password')}</label>
             </div>
 
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="w-1/2 mx-auto block items-center px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-            >
-              Login
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="w-80 px-4 py-2 font-medium text-white bg-[#23587C] rounded hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+              >
+                {t('login')}
+              </button>
+            </div>
           </form>
         </div>
+      </div>
+
+      <div className="absolute bottom-4 right-4 cursor-pointer">
+        <Globe
+          size={34}
+          color={isLanguageDropdownOpen ? "#2C75A6" : "#215376"}
+          onClick={toggleLanguageDropdown}
+        />
+        {isLanguageDropdownOpen && (
+          <div
+            className="absolute bottom-full right-0 mb-2 w-40 bg-[#23587C] rounded-tl-lg rounded-tr-2xl rounded-bl-2xl border border-gray-100"
+            ref={languageDropdownRef}
+            onClick={handleClickInsideLanguageDropdown}
+          >
+            <div className="p-4">
+              <button
+                onClick={() => {changeLanguage('en');}}
+                className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
+              >
+                English
+              </button>
+              <button
+                onClick={() => {changeLanguage('fr');}}
+                className="block mt-2 w-full text-left px-4 text-white hover:text-[#FCAD74]"
+              >
+                Français
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <ToastContainer />
@@ -139,7 +207,7 @@ const Login = () => {
         />
       )}
       {/* <PasswordModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
-      {/* <PinModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
+      {/* <PinModal openModal={Boolean(openModal)} handleClose={() to setOpenModal('')} /> */}
     </div>
   );
 };

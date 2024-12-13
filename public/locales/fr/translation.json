@@ -1,4 +1,8 @@
 {
+    "login": "SE CONNECTER",
+    "login_password": "MOT DE PASSE",
+    "login_show_password": "afficher le mot de passe",
+
     "registration_form": "FORMULAIRE D'INSCRIPTION",
     "account_information": "INFORMATIONS SUR LE COMPTE",
     "nickname": "SURNOM",
