@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FaExclamationCircle } from 'react-icons/fa'
 import StatusModal from './statusModal';
 import { toast } from 'sonner';
@@ -9,10 +8,29 @@ import { useTranslation } from 'react-i18next';
 export default function ConfirmationModal ({ handleCloseModal, modalMessage, locked, setLocked, deactivated, setDeactivated, onProceed = () => {} }) {
 
   const { t, i18n } = useTranslation();
+  const modalRef = useRef(null);
+
+  const handleEnterPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onProceed();
+      handleCloseModal();
+    }
+  };
+
+  // Focus on the modal container when it opens
+  useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, []);
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div tabIndex={-1} // Makes the div focusable
+        ref={modalRef} // Ref for focusing
+        onKeyDown={handleEnterPress}
+        className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
         <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
           <div className="flex flex-row justify-center items-center">
             <FaExclamationCircle className="text-5xl" />

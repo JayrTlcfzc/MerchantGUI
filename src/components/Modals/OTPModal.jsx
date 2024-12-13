@@ -19,6 +19,13 @@ export default function OTPModal({
     }
   }, []);
 
+  // Focus on the first input when there's an error
+    useEffect(() => {
+      if (error && firstInputRef.current) {
+        firstInputRef.current.focus();
+      }
+    }, [error]);
+
   const handleChange = (e, index) => {
     const value = e.target.value;
 
@@ -41,10 +48,14 @@ export default function OTPModal({
     }
   };
 
-  const handleBackspace = (e, index) => {
+  const handleKeyDown = (e, index) => {
     // If backspace is pressed on an empty field, focus the previous one
     if (e.key === "Backspace" && otp[index] === "" && index > 0) {
       document.getElementById(`otp-input-${index - 1}`).focus();
+    }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(event);
     }
   };
 
@@ -82,7 +93,7 @@ export default function OTPModal({
               type="password"
               value={digit}
               onChange={(e) => handleChange(e, index)}
-              onKeyDown={(e) => handleBackspace(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               maxLength="1"
               className={`w-12 h-12 text-center text-xl font-semibold border ${
                 error ? "border-red-500" : "border-gray-300"

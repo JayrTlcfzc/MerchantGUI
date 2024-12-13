@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
 export const Dialog = ({ open, onOpenChange, status, children }) => {
   if (!open) return null;
 
+  const modalRef = useRef(null);
+  
+    const handleEnterPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        onOpenChange();
+      }
+    };
+  
+    // Focus on the modal container when it opens
+    useEffect(() => {
+      if (modalRef.current) {
+        modalRef.current.focus();
+      }
+    }, []);
+
   return (
     <div
+      tabIndex={-1} // Makes the div focusable
+      ref={modalRef} // Ref for focusing
+      onKeyDown={handleEnterPress}
       className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
       onClick={onOpenChange}
     >

@@ -26,6 +26,35 @@ export default function PinModal({
     }
   }, [error]);
 
+  const handleKeyDown = (e, index) => {
+    // If backspace is pressed on an empty field, focus the previous one
+    if (e.key === "Backspace" && pin[index] === "" && index > 0) {
+      document.getElementById(`pin-input-${index - 1}`).focus();
+    }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(event);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (pin.length === 4 && pin.every((digit) => digit !== "")) {
+      onProceed(); 
+      handleClose(); 
+    } else {
+      toast.error('Please enter a valid PIN');
+      setError(true);
+      setPin(["", "", "", ""]);
+    }
+  };
+
+  const handleEnterPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  };  
+
   const handleChange = (e, index) => {
     const value = e.target.value;
 
@@ -70,8 +99,13 @@ export default function PinModal({
               type="password"
               value={digit}
               onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               maxLength="1"
-              className="w-12 h-12 text-center text-xl font-semibold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-12 h-12 text-center text-xl font-semibold border ${
+                error ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring-2 ${
+                error ? "focus:ring-red-500" : "focus:ring-blue-500"
+              }`}
             />
           ))}
         </div>
@@ -79,16 +113,7 @@ export default function PinModal({
         <div className="flex justify-center gap-4">
           <button
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
-            onClick={() => {
-              if (pin.length === 4 && pin.every((digit) => digit !== "")) {
-                onProceed(); 
-                handleClose(); 
-              } else {
-                toast.error('Please enter your pin');
-                setError(true);
-                setPin(["", "", "", ""]);
-              }
-            }}
+            onClick={handleSubmit}
           >
             {t('modal_proceed')}
           </button>

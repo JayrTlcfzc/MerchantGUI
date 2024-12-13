@@ -62,6 +62,13 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
         }
     };
 
+    const handleEnterPress = (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          handleSubmit(event);
+        }
+    };
+
     return (
         <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white rounded-lg shadow-lg max-w-xl w-full pb-6 border-2 border-[#D95F08]">
@@ -86,6 +93,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                             id="oldPassword"
                             value={formData.oldPassword}
                             onChange={handleChange}
+                            onKeyDown={handleEnterPress}
                             placeholder="Enter old password"
                             className="mt-1 p-2 w-full border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
@@ -98,6 +106,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                             id="newPassword"
                             value={formData.newPassword}
                             onChange={handleChange}
+                            onKeyDown={handleEnterPress}
                             placeholder="Enter new password"
                             className="mt-1 p-2 w-full border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
@@ -110,6 +119,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                             id="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleChange}
+                            onKeyDown={handleEnterPress}
                             placeholder="Re-enter new password"
                             className="mt-1 p-2 w-full border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
