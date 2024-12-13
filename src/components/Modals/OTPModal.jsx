@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaUserLock } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 
 export default function OTPModal({
   onProceed = () => {},
   handleClose = () => {},
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const firstInputRef = useRef(null); // Reference for the first input field
+  const firstInputRef = useRef(null);
   const [error, setError] = useState(false);
 
   // Autofocus the first input field when the modal opens
@@ -19,31 +19,42 @@ export default function OTPModal({
     }
   }, []);
 
-   // Focus on the first input when there's an error
-    useEffect(() => {
-      if (error && firstInputRef.current) {
-        firstInputRef.current.focus();
-      }
-    }, [error]);
-
   const handleChange = (e, index) => {
     const value = e.target.value;
 
+    // Reset error state on change
     if (error) {
       setError(false);
     }
 
-    // If the value is not a number, do not update
+    // Only allow numeric input
     if (isNaN(value) && value !== "") return;
 
-    // Update the OTP value at the corresponding index
+    // Update OTP at the current index
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Move to the next input if the current field is filled
+    // Move to the next input if the current one is filled
     if (value !== "" && index < otp.length - 1) {
       document.getElementById(`otp-input-${index + 1}`).focus();
+    }
+  };
+
+  const handleBackspace = (e, index) => {
+    // If backspace is pressed on an empty field, focus the previous one
+    if (e.key === "Backspace" && otp[index] === "" && index > 0) {
+      document.getElementById(`otp-input-${index - 1}`).focus();
+    }
+  };
+
+  const handleSubmit = () => {
+    if (otp.every((digit) => digit !== "")) {
+      onProceed(otp.join("")); // Pass concatenated OTP
+    } else {
+      setError(true);
+      setOtp(["", "", "", "", "", ""]); // Reset OTP fields
+      toast.error(t("Please enter a valid OTP"));
     }
   };
 
@@ -67,17 +78,17 @@ export default function OTPModal({
             <input
               key={index}
               id={`otp-input-${index}`}
-              ref={index === 0 ? firstInputRef : null} // Attach ref to the first input
+              ref={index === 0 ? firstInputRef : null}
               type="password"
               value={digit}
               onChange={(e) => handleChange(e, index)}
-              onKeyDown={(e) => {
-                if (e.key === "Backspace" && otp[index] === "" && index > 0) {
-                  document.getElementById(`otp-input-${index - 1}`).focus();
-                }
-              }}
+              onKeyDown={(e) => handleBackspace(e, index)}
               maxLength="1"
-              className="w-12 h-12 text-center text-xl font-semibold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-12 h-12 text-center text-xl font-semibold border ${
+                error ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring-2 ${
+                error ? "focus:ring-red-500" : "focus:ring-blue-500"
+              }`}
             />
           ))}
         </div>
@@ -85,16 +96,7 @@ export default function OTPModal({
         <div className="flex justify-center gap-4">
           <button
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
-            onClick={() => {
-              if (otp.length === 6 && otp.every((digit) => digit !== "")) {
-                onProceed(); 
-                handleClose(); 
-              } else {
-                toast.error('Please enter your OTP');
-                setError(true);
-                setOtp(["", "", "", "", "", ""]);
-              }
-            }}
+            onClick={handleSubmit}
           >
             {t("modal_proceed")}
           </button>
@@ -108,7 +110,6 @@ export default function OTPModal({
       </div>
 
       <ToastContainer />
-
     </div>
   );
 }

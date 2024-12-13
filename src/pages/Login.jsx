@@ -5,6 +5,9 @@ import { handleChange, handleChangeDigitsOnly } from "../components/Validations"
 import { toast, ToastContainer } from "react-toastify";
 import { Globe } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { verifyCredentials, verifyOTP } from "../api/login";
+import { Navigate, useNavigate } from 'react-router-dom';
+
 
 // import PasswordModal from "../components/Modals/PasswordModal";
 // import PinModal from "../components/Modals/PinModal";
@@ -17,28 +20,44 @@ const Login = () => {
     password: ''
   };
 
+
+  const [otpFromServer, setOtpFromServer] = useState("");
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [openModal, setOpenModal] = useState("");
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const languageDropdownRef = useRef(null);
   const { t, i18n } = useTranslation(); // Access i18n instance
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isFormValid = formData.msisdn && formData.username && formData.password;
-
+  
     if (isFormValid) {
-      setOpenModal("OTPModal")
-
-    } else {
-        toast.error("Login Error")
+      try {
+        const { success, message, otp } = await verifyCredentials(
+          formData.msisdn,
+          formData.username,
+          formData.password
+        );
+  
+        if (success) {
+          setOtpFromServer(otp); // Store OTP sent by mock server
+          setOpenModal("OTPModal"); // Open OTP modal
+        }
+      } catch (error) {
+        toast.error(error.message || "Login Error");
       }
-    };
+    } else {
+      toast.error("Please fill in all fields");
+    }
+  };
+  
 
   // Toggle language dropdown
   const toggleLanguageDropdown = () => {
@@ -201,11 +220,23 @@ const Login = () => {
       <ToastContainer />
 
       {openModal === "OTPModal" && (
-        <OTPModal
-          openModal={Boolean(openModal)}
-          handleClose={() => setOpenModal("")}
-        />
-      )}
+          <OTPModal
+            onProceed={async (enteredOtp) => {
+              try {
+                const { success, message } = await verifyOTP(enteredOtp, formData.msisdn);
+                if (success) {
+                  toast.success(message);
+                  setOpenModal(""); 
+                  navigate('/dashboard');
+                }
+              } catch (error) {
+                toast.error(error.message || "Invalid OTP");
+              }
+            }}
+            handleClose={() => setOpenModal("")}
+          />
+        )}
+
       {/* <PasswordModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
       {/* <PinModal openModal={Boolean(openModal)} handleClose={() to setOpenModal('')} /> */}
     </div>
