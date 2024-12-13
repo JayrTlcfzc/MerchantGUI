@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaUserLock } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function PinModal({
   onProceed = () => {},
@@ -8,9 +9,29 @@ export default function PinModal({
 }) {
   const { t, i18n } = useTranslation();
   const [pin, setPin] = useState(["", "", "", ""]);
+  const firstInputRef = useRef(null); // Ref for the first input
+  const [error, setError] = useState(false);
+
+  // Autofocus on the first input field when the modal opens
+  useEffect(() => {
+    if (firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, []);
+
+  // Focus on the first input when there's an error
+  useEffect(() => {
+    if (error && firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, [error]);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
+
+    if (error) {
+      setError(false);
+    }
 
     // If the value is not a number, do not update
     if (isNaN(value) && value !== "") return;
@@ -45,18 +66,10 @@ export default function PinModal({
             <input
               key={index}
               id={`pin-input-${index}`}
+              ref={index === 0 ? firstInputRef : null} // Attach ref to the first input
               type="password"
               value={digit}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (isNaN(value) && value !== "") return;
-                const newPin = [...pin];
-                newPin[index] = value;
-                setPin(newPin);
-                if (value !== "" && index < pin.length - 1) {
-                  document.getElementById(`pin-input-${index + 1}`).focus();
-                }
-              }}
+              onChange={(e) => handleChange(e, index)}
               maxLength="1"
               className="w-12 h-12 text-center text-xl font-semibold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -67,8 +80,14 @@ export default function PinModal({
           <button
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
             onClick={() => {
-              onProceed();
-              handleClose();
+              if (pin.length === 4 && pin.every((digit) => digit !== "")) {
+                onProceed(); 
+                handleClose(); 
+              } else {
+                toast.error('Please enter your pin');
+                setError(true);
+                setPin(["", "", "", ""]);
+              }
             }}
           >
             {t('modal_proceed')}
@@ -81,6 +100,9 @@ export default function PinModal({
           </button>
         </div>
       </div>
+
+      <ToastContainer />
+
     </div>
   );
 }
