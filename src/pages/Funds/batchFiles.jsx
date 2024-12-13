@@ -3,6 +3,7 @@ import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { FaFolder } from "react-icons/fa6";
 import StatusModal from '../../components/Modals/statusModal'
+import PasswordModal from '../../components/Modals/PasswordModal'
 import { useTranslation } from 'react-i18next';
 
 const BatchFiles = () => {
@@ -14,6 +15,7 @@ const BatchFiles = () => {
     const [dropdownVisible, setDropdownVisible] = useState(null);
     const dropdownRef = useRef(null);
     const [modalMessage, setModalMessage] = useState('');
+    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
     const [modalState, setModalState] = useState({
         isOpen: false,
         status: "",
@@ -32,9 +34,12 @@ const BatchFiles = () => {
         { fileid: 98765, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
     ];
 
-    const handleOpenModal = (modalMessage) => {
+    const handleAction = (modalMessage) => {
         setModalMessage(modalMessage);
+        setPasswordModalOpen(true);
+    }
 
+    const handleOpenModal = () => {
         setModalState({
             isOpen: true,
               status: 'success',
@@ -276,23 +281,23 @@ const BatchFiles = () => {
                                                                 <FaCircleInfo 
                                                                 className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                Details
+                                                                {t('details')}
                                                                 </span>
                                                             </div>
                                                             <div className="relative group">
                                                                 <FaCircleCheck
-                                                                    onClick={() => handleOpenModal('accepted')}
+                                                                    onClick={() => handleAction('accepted')}
                                                                     className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                Accept
+                                                                {t('accept')}
                                                                 </span>
                                                             </div>
                                                             <div className="relative group">
                                                                 <FaCircleXmark 
-                                                                onClick={() => handleOpenModal('rejected')}
+                                                                onClick={() => handleAction('rejected')}
                                                                 className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                Reject
+                                                                {t('reject')}
                                                                 </span>
                                                             </div>
                                                         </li>
@@ -309,7 +314,7 @@ const BatchFiles = () => {
                             ) : (
                                 <tr>
                                 <td colSpan="11" className="px-4 py-2 border text-center">
-                                    No results found
+                                    {t('td_no_results_found')}
                                 </td>
                                 </tr>
                             )}
@@ -432,7 +437,7 @@ const BatchFiles = () => {
                         ) : (
                             <tr>
                             <td colSpan="11" className="px-4 py-2 border text-center">
-                                No results found
+                                {t('td_no_results_found')}
                             </td>
                             </tr>
                         )}
@@ -474,6 +479,15 @@ const BatchFiles = () => {
                     </button>
                 </div>
             </div>
+
+            {isPasswordModalOpen && (
+                <PasswordModal
+                    isOpen={isPasswordModalOpen}
+                    onClose={() => setPasswordModalOpen(false)}
+                    onProceed={handleOpenModal}
+                    handleClose={() => setPasswordModalOpen(false)}
+                />
+            )}
 
             {/* Status Modal */}
             <StatusModal
