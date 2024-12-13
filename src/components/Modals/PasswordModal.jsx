@@ -15,6 +15,22 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
     }
   }, []);
 
+  const handleSubmit = () => {
+    if (password) {
+      onProceed(); 
+      handleClose(); 
+    } else {
+      toast.error('Please enter a valid PASSWORD');
+    }
+  };
+
+  const handleEnterPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  };  
+
   const handleChange = (e) => {
     setPassword(e.target.value); // Update the password state
   };
@@ -39,19 +55,13 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
           placeholder="Password"
           value={password} 
           onChange={handleChange} 
+          onKeyDown={handleEnterPress}
         />
 
         <div className="flex justify-center gap-4">
           <button
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
-            onClick={() => {
-              if (password) {
-                onProceed(); 
-                handleClose(); 
-              } else {
-                toast.error('Please enter your password');
-              }
-            }}
+            onClick={handleSubmit}
           >
             {t('modal_proceed')}
           </button>

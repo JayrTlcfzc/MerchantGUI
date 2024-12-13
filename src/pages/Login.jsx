@@ -57,7 +57,13 @@ const Login = () => {
       toast.error("Please fill in all fields");
     }
   };
-  
+
+  const handleEnterPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  };  
 
   // Toggle language dropdown
   const toggleLanguageDropdown = () => {
@@ -119,6 +125,7 @@ const Login = () => {
                 id="msisdn"
                 name="msisdn"
                 value={formData.msisdn}
+                onKeyDown={handleEnterPress}
                 onChange={handleChangeDigitsOnly(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('Enter your MSISDN')}
@@ -138,6 +145,7 @@ const Login = () => {
                 id="username"
                 name="username"
                 value={formData.username}
+                onKeyDown={handleEnterPress}
                 onChange={handleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('Enter your username')}
@@ -158,6 +166,7 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange(setFormData)}
+                onKeyDown={handleEnterPress}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('********************')}
                 required
