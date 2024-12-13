@@ -195,5 +195,16 @@
     "download": "TÉLÉCHARGER",
     "details": "Détails",
     "accept": "Accepter",
-    "reject": "Rejeter"
+    "reject": "Rejeter",
+
+    "modal_batch_details": "DÉTAILS DU LOT",
+    "modal_total_transactions": "Total Des Transactions: ",
+    "modal_total_amount": "Montant Total: ",
+    "modal_download_button": "Télécharger",
+    "reference_id": "ID DE RÉFÉRENCE",
+    "from_msisdn": "DEPUIS MSISDN",
+    "to_msisdn": "AU MSISDN",
+    "reference_one": "RÉFÉRENCE 1",
+    "reference_two": "RÉFÉRENCE 2",
+    "wallet_id": "ID DE PORTEFEUILLE"
 }

@@ -195,5 +195,16 @@
     "download": "DOWNLOAD",
     "details": "Details",
     "accept": "Accept",
-    "reject": "Reject"
+    "reject": "Reject",
+
+    "modal_batch_details": "BATCH DETAILS",
+    "modal_total_transactions": "Total Transactions: ",
+    "modal_total_amount": "Total Amount: ",
+    "modal_download_button": "Download",
+    "reference_id": "REFERENCE ID",
+    "from_msisdn": "FROM MSISDN",
+    "to_msisdn": "TO MSISDN",
+    "reference_one": "REFERENCE 1",
+    "reference_two": "REFERENCE 2",
+    "wallet_id": "WALLET ID"
 }
