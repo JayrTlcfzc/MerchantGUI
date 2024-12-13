@@ -13,12 +13,12 @@ const detailsModal = ({handleClose = () => {} }) => {
 
   const data = [
     { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
+    { fileid: 1041, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "2431424324", tomsisdn: "4232343434", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
+    { fileid: 1042, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "45465654", tomsisdn: "44565465", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
+    { fileid: 1043, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "45646352", tomsisdn: "254543657", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
+    { fileid: 1044, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "1342253454", tomsisdn: "23525453", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
+    { fileid: 1045, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "36546354", tomsisdn: "25454564", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
+    { fileid: 1046, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "35646353", tomsisdn: "345254353", amount: "2 000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
 ];
 
   const fileExtensions = ["CSV", "XLSX", "PDF"];
