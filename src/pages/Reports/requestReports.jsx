@@ -78,7 +78,7 @@ const RequestReports = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-200 p-8">
+        <div className="max-h-screen bg-gray-200 p-8">
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
