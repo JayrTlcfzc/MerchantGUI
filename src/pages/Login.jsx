@@ -49,6 +49,10 @@ const Login = () => {
         if (success) {
           setOtpFromServer(otp); // Store OTP sent by mock server
           setOpenModal("OTPModal"); // Open OTP modal
+        }else{
+          console.log("Error message: ", message);
+          toast.error(message);
+        
         }
       } catch (error) {
         toast.error(error.message || "Login Error");
@@ -98,6 +102,7 @@ const Login = () => {
 
   return (
     <div className="relative flex flex-row min-h-screen bg-white">
+      <ToastContainer />
       <div className="w-full h-screen hidden md:block">
         <img
           src={LoginImage}
@@ -226,7 +231,8 @@ const Login = () => {
         )}
       </div>
 
-      <ToastContainer />
+      
+     
 
       {openModal === "OTPModal" && (
           <OTPModal
