@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CircleUser, Globe } from "lucide-react";
 import ChangePasswordModal from '../Modals/changePasswordModal';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../Auth/authContext';
 
 const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, lastLogin }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -13,6 +14,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
     const languageDropdownRef = useRef(null);
     const navigate = useNavigate();
     const { t, i18n } = useTranslation(); // Access i18n instance
+    const { logout } = useAuth();
     
     // Toggle profile dropdown
     const toggleDropdown = () => {
@@ -55,6 +57,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
 
     // Logout function
     const handleLogout = () => {
+        logout();
         navigate('/login'); // Navigate to login page
     };
 

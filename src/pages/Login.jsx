@@ -7,7 +7,7 @@ import { Globe } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { verifyCredentials, verifyOTP } from "../api/login";
 import { Navigate, useNavigate } from 'react-router-dom';
-
+import { useAuth } from "../components/Auth/authContext";
 
 // import PasswordModal from "../components/Modals/PasswordModal";
 // import PinModal from "../components/Modals/PinModal";
@@ -29,6 +29,7 @@ const Login = () => {
   const languageDropdownRef = useRef(null);
   const { t, i18n } = useTranslation(); // Access i18n instance
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -47,6 +48,7 @@ const Login = () => {
         );
   
         if (success) {
+          login();
           setOtpFromServer(otp); // Store OTP sent by mock server
           setOpenModal("OTPModal"); // Open OTP modal
         }else{
