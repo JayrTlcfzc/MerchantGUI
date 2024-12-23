@@ -3,12 +3,42 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaMagnifyingGlass, FaAddressCard } from 'react-icons/fa6'
 import { useTranslation } from 'react-i18next';
+import { searchSubs } from "../../api/subscriber";
+import { toast, ToastContainer } from "react-toastify";
 
 const SearchSubscriber = () => {
 
   const { t, i18n } = useTranslation();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      // const isFormValid = formData.msisdn && formData.username && formData.password;
+      console.log('submit')
+      // if (isFormValid) {
+        try {
+          const { success, message} = await searchSubs(
+            msisdn
+          );
+    
+          if (success) {
+            login();
+            setOtpFromServer(otp); // Store OTP sent by mock server
+            setOpenModal("OTPModal"); // Open OTP modal
+          }else{
+            console.log("Error message: ", message);
+            toast.error(message);
+          
+          }
+        } catch (error) {
+          toast.error(error.message || "Login Error");
+        }
+      // } else {
+      //   toast.error("Please fill in all fields");
+      // }
+    };
 
   const accountDetails = [
     { label: t('account_id') , value: "231789031" },
@@ -73,7 +103,10 @@ const SearchSubscriber = () => {
             className="md:w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
           />
 
-          <button className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
+          <button
+           type="button"
+           onClick={handleSubmit}
+           className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
            {t('search')}
           </button>
         </div>

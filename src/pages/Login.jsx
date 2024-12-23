@@ -6,8 +6,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { Globe } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { verifyCredentials, verifyOTP } from "../api/login";
+import changePassword from "../api/changepassword";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from "../components/Auth/authContext";
+import ChangePasswordModal from '../components/Modals/changePasswordModal';
 
 // import PasswordModal from "../components/Modals/PasswordModal";
 // import PinModal from "../components/Modals/PinModal";
@@ -240,11 +242,19 @@ const Login = () => {
           <OTPModal
             onProceed={async (enteredOtp) => {
               try {
-                const { success, message } = await verifyOTP(enteredOtp, formData.msisdn);
+                const { success, message, data } = await verifyOTP(enteredOtp, formData.msisdn, formData.username, formData.password);
                 if (success) {
                   toast.success(message);
-                  setOpenModal(""); 
-                  navigate('/dashboard');
+                  console.log('message ', message)
+
+                  // || data.isfirstlogon === '1'
+                  if (message === "Password expired. Please use forgot password or contact the administrator." || data.isfirstlogon === '1') {
+                        setOpenModal(""); // Close OTP Modal
+                        setOpenModal("ChangePasswordModal"); // Open Change Password Modal
+                        
+                    } else {
+                        navigate('/dashboard'); // Navigate to the dashboard on success
+                    }
                 }
               } catch (error) {
                 toast.error(error.message || "Invalid OTP");
@@ -253,6 +263,28 @@ const Login = () => {
             handleClose={() => setOpenModal("")}
           />
         )}
+
+      {openModal === "ChangePasswordModal" && (
+        <ChangePasswordModal
+          onSubmit={async (newPassword) => {
+            try {
+              // Assume `changePassword` is a function to handle the password update
+              const { success, message } = await changePassword(oldPassword, newPassword);
+              if (success) {
+                toast.success(message || "Password changed successfully");
+                setOpenModal(""); 
+                navigate('/dashboard'); 
+              } else {
+                toast.error(message || "Failed to change password");
+              }
+            } catch (error) {
+              toast.error(error.message || "Error changing password");
+            }
+          }}
+          handleClose={() => setOpenModal("")}
+        />
+      )}
+
 
       {/* <PasswordModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
       {/* <PinModal openModal={Boolean(openModal)} handleClose={() to setOpenModal('')} /> */}
