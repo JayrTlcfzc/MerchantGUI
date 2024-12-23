@@ -3,6 +3,9 @@ import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { useTranslation } from 'react-i18next';
+import changePassword  from '../../api/changepassword';
+
+
 
 export default function ChangePasswordModal({ handleClose = () => {} }) {
 
@@ -43,24 +46,53 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const isFormValid = formData.oldPassword && formData.newPassword && formData.confirmPassword;
-        if (isFormValid) {
-            console.log('Form Submitted', formData);
-            setModalState({
-                isOpen: true,
-                status: 'success',
-                message: `${t('modal_password_changed_successfully')}`
-            });
-        } else {
+        const { oldPassword, newPassword, confirmPassword } = formData;
+    
+        if (!oldPassword || !newPassword || !confirmPassword) {
             setModalState({
                 isOpen: true,
                 status: 'error',
-                message: `${t('modal_changing_password_failed')}`
+                message: `${t('modal_fill_all_fields')}`,
+            });
+            return;
+        }
+    
+        if (newPassword !== confirmPassword) {
+            setModalState({
+                isOpen: true,
+                status: 'error',
+                message: `${t('modal_passwords_do_not_match')}`,
+            });
+            return;
+        }
+    
+        try {
+            const { success, message } = await changePassword(oldPassword, newPassword);
+    
+            if (success) {
+                setModalState({
+                    isOpen: true,
+                    status: 'success',
+                    message: message || `${t('modal_password_changed_successfully')}`,
+                });
+            } else {
+                setModalState({
+                    isOpen: true,
+                    status: 'error',
+                    message: message || `${t('modal_changing_password_failed')}`,
+                });
+            }
+        } catch (error) {
+            setModalState({
+                isOpen: true,
+                status: 'error',
+                message: error.message || `${t('modal_changing_password_failed')}`,
             });
         }
     };
+    
 
     const handleEnterPress = (event) => {
         if (event.key === "Enter") {

@@ -15,7 +15,7 @@ export const verifyCredentials = async (msisdn, username, password) => {
     if (response.data.StatusMessage === "Success") {
       return {
         success: true,
-        message: response.data.message,
+        message: response.data.StatusMessage,
         otp: response.data.otp, // Assuming OTP is included in the response
       };
     } else {
@@ -32,17 +32,25 @@ export const verifyCredentials = async (msisdn, username, password) => {
 };
 
 // API call for verifying OTP
-export const verifyOTP = async (otp, msisdn) => {
+export const verifyOTP = async (otp, msisdn, username,password) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/otpres`, {
       otp,
       msisdn,
+      username,
+      password,
     });
+
     console.log(response.data);
+    const data = JSON.parse(response.data.Data);
+
+    console.log('dataaaaaaaa', data.isfirstlogon);
+
     if (response.data.StatusCode === 0) {
       return {
         success: true,
-        message: response.data.message,
+        message: response.data.StatusMessage,
+        data,
       };
     } else {
       throw new Error(response.data.message || "Invalid OTP");
