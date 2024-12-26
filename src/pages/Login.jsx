@@ -50,7 +50,6 @@ const Login = () => {
         );
   
         if (success) {
-          login();
           setOtpFromServer(otp); // Store OTP sent by mock server
           setOpenModal("OTPModal"); // Open OTP modal
         }else{
@@ -253,6 +252,7 @@ const Login = () => {
                         setOpenModal("ChangePasswordModal"); // Open Change Password Modal
                         
                     } else {
+                        login();
                         setOpenModal("");
                         navigate('/dashboard'); // Navigate to the dashboard on success
                     }
