@@ -74,7 +74,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
             if (success) {
                 setModalState({
                     isOpen: true,
-                    status: 'success',
+                    status: 'successcp',
                     message: message || `${t('modal_password_changed_successfully')}`,
                 });
             } else {

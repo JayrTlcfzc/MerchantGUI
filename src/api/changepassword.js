@@ -15,7 +15,8 @@ const changePassword = async (oldPassword, newPassword) => {
     try {
         
         const response = await axios.post(`${BASE_URL}/changepassword/changePasswordReq`, data);
-        if (response.data.StatusMessage === "Success") {
+        console.log('response' , response.data.StatusCode);
+        if (response.data.StatusCode === 0) {
             return {
                 success: true,
                 message: response.data.message || "Password changed successfully",
