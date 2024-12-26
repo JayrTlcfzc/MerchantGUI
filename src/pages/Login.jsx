@@ -253,6 +253,7 @@ const Login = () => {
                         setOpenModal("ChangePasswordModal"); // Open Change Password Modal
                         
                     } else {
+                        setOpenModal("");
                         navigate('/dashboard'); // Navigate to the dashboard on success
                     }
                 }
@@ -273,7 +274,7 @@ const Login = () => {
               if (success) {
                 toast.success(message || "Password changed successfully");
                 setOpenModal(""); 
-                navigate('/dashboard'); 
+                // navigate('/dashboard'); 
               } else {
                 toast.error(message || "Failed to change password");
               }
