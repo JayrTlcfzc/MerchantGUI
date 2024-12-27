@@ -43,8 +43,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
 
     console.log(response.data);
     const data = JSON.parse(response.data.Data);
-
-    console.log('dataaaaaaaa', data.isfirstlogon);
+    localStorage.setItem('userData', JSON.stringify(data));
 
     if (response.data.StatusCode === 0) {
       return {
