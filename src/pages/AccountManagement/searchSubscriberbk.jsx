@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaMagnifyingGlass, FaAddressCard } from 'react-icons/fa6';
@@ -16,23 +15,18 @@ const SearchSubscriber = () => {
   const [accountDetails, setAccountDetails] = useState([]);
   const [personalDetails, setPersonalDetails] = useState([]);
 
-  // useEffect to retrieve msisdn from localStorage and trigger search
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-    if (storedData && storedData.msisdn) {
-      setMsisdn(storedData.msisdn); // Update state with msisdn from localStorage
-      handleSubmit(storedData.msisdn); // Trigger the search
-    }
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
-  const handleSubmit = async (msisdnParam) => {
-    if (!msisdnParam) {
-      toast.error('msisdn required');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!msisdn) {
+      toast.error(t('msisdn_required'));
       return;
     }
+    
 
     try {
-      const { success, account, message } = await searchSubs(msisdnParam, optINP);
+      const { success, account, message } = await searchSubs(msisdn, optINP);
 
       if (success) {
         setAccountDetails([
@@ -86,7 +80,7 @@ const SearchSubscriber = () => {
   return (
     <div className="min-h-screen bg-gray-200 p-8">
       <ToastContainer />
-      
+
       {/* Search Bar */}
       <div className="p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
@@ -114,40 +108,40 @@ const SearchSubscriber = () => {
 
           <button
             type="button"
-            onClick={() => handleSubmit(msisdn)}
+            onClick={handleSubmit}
             className="md:w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
           >
             {t('search')}
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <div className="md:w-1/3 relative">
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              placeholderText={t('date_from')}
-              className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-              wrapperClassName="w-full"
-              popperClassName="react-datepicker-left"
-            />
-          </div>
-
-          <div className="md:w-1/3 relative">
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              placeholderText={t('date_to')}
-              className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-              wrapperClassName="w-full"
-              popperClassName="react-datepicker-right"
-            />
-          </div>
-
-          <button className="md:w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
-            {t('download_list')}
-          </button>
-        </div>
+         <div className="flex flex-col md:flex-row gap-4 mb-4">
+                  <div className="md:w-1/3 relative">
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      placeholderText={t('date_from')}
+                      className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+                      wrapperClassName="w-full"
+                      popperClassName="react-datepicker-left"
+                    />
+                  </div>
+        
+                  <div className="md:w-1/3 relative">
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      placeholderText={t('date_to')}
+                      className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+                      wrapperClassName="w-full"
+                      popperClassName="react-datepicker-right"
+                    />
+                  </div>
+        
+                  <button className="md:w-1/3 px-6 tracking-wide shadow-md rounded font-bold py-2 bg-[#D95F08] text-white hover:bg-[#FC8937]">
+                    {t('download_list')}
+                  </button>
+                </div>
       </div>
 
       {/* Subscriber Details */}

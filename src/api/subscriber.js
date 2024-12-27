@@ -1,31 +1,29 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000"; // Replace with your API's base URL
+const BASE_URL = "http://localhost:3000"; 
 
-// API call for verifying credentials
-export const searchSubs = async (msisdn, option) => {
+export const searchSubs = async (msisdn, optINP) => {
+  const params = { msisdn, optINP };
+  console.log(params)
+  const storedData = JSON.parse(localStorage.getItem('userData'));
+
+  console.log('stored',storedData.msisdn )
+
+
+
   try {
-    // const response = await axios.post(`${BASE_URL}/auth/verify-credentials`, {
-      const response = await axios.post(`${BASE_URL}/subscriber/searchSubscriber`, {
-      msisdn,
-      option
-    });
-    console.log(response.data);
-    if (response.data.StatusMessage === "Success") {
-      return {
-        success: true,
-        message: response.data.StatusMessage,
-        otp: response.data.otp, // Assuming OTP is included in the response
-      };
+    const response = await axios.post(`${BASE_URL}/subscriber/searchSubscriber`, params);
+    const data = response.data;
+
+    console.log("search subs:", data);
+
+    if (data.StatusMessage === "Success") {
+      return { success: true, account: data.Account };
     } else {
-      return {
-        message: response.data.StatusMessage,
-      };
+      console.log(data.message)
+      return { success: false, message: data.message };
     }
   } catch (error) {
-    return Promise.reject({
-      success: false,
-      message: error.response?.data?.message || error.message,
-    });
+    return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 };
