@@ -24,6 +24,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   };
 
   const toggleItem = (item) => {
+    setIsOpen(!isOpen);
     setExpandedItem(expandedItem === item ? null : item);
   };
 
