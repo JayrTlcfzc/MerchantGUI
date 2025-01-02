@@ -1,11 +1,45 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import StatusModal from "../../components/Modals/statusModal";
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; 
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
+import { accountTypeCol, registerSubscriber } from "../../api/subscriber";
 
 const RegisterSubscriber = () => {
+
+  const [accounts, setAccounts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAccountTypes = async () => {
+      setLoading(true);
+      try {
+        const result = await accountTypeCol();
+        if (result.success) {
+          const parsedAccounts = JSON.parse(result.account);
+          console.log(parsedAccounts)
+          if (Array.isArray(parsedAccounts)) {
+            setAccounts(parsedAccounts); 
+
+          } else {
+            setError('Invalid account data format');
+          }
+        } else {
+          setError(result.message || 'Invalid data format');
+        }
+      } catch (err) {
+        setError(err.message); // Handle fetch errors
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchAccountTypes();
+  }, []);
+  
+  
 
   const initialFormData = {
     nickname: "",
@@ -30,6 +64,7 @@ const RegisterSubscriber = () => {
     streetName: "",
     cityVillage: "",
     region: "",
+    country: "",
   };
   
   const { t, i18n } = useTranslation();
@@ -41,9 +76,9 @@ const RegisterSubscriber = () => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     // Simulate form submission success or failure
     const isFormValid =
       formData.nickname &&
@@ -52,15 +87,24 @@ const RegisterSubscriber = () => {
       formData.accountStatus &&
       formData.firstName &&
       formData.lastName;
-
+      console.log('register account',formData)
       if (isFormValid) {
-        setModalState({
-          isOpen: true,
-          status: "success",
-          message: "Added User Successfully!",
-        });
-        
-        resetFormData(setFormData, initialFormData)();
+        const response = await registerSubscriber(formData);
+        console.log(response);
+        if(success){
+          setModalState({
+            isOpen: true,
+            status: "success",
+            message: "Added User Successfully!",
+          });
+          ResetFormData(setFormData, initialFormData)();
+       }else{
+          setModalState({
+            isOpen: true,
+            status: "error",
+            message: "Failed to Add User. Please try again.",
+          });
+       }
         
       } else {
         setModalState({
@@ -97,7 +141,7 @@ const RegisterSubscriber = () => {
                 name="nickname"
                 id="nickname"
                 value={formData.nickname}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('nickname')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -114,7 +158,7 @@ const RegisterSubscriber = () => {
                 name="mobileNumber"
                 id="mobileNumber"
                 value={formData.mobileNumber}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 placeholder={t('authorized_mobile_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                 maxLength={15}
@@ -131,15 +175,18 @@ const RegisterSubscriber = () => {
                 name="accountType"
                 id="accountType"
                 value={formData.accountType}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
-                <option className="hover:bg-[#23587C]" value="">
-                  Select Account Type
-                </option>
-                <option value="MCOM">MCOM</option>
-                <option value="DISTRIBUTOR">DISTRIBUTOR</option>
+                <option value="">Select Account Type</option>
+                {accounts.map((account) => (
+                  <option key={account.ACCOUNTTYPEID} value={account.ACCOUNTTYPE}>
+                    {account.ACCOUNTTYPE === 'TEMP1' ? 'TEMPORARY_NEW' : account.DESCRIPTION}
+                  </option>
+                ))}
               </select>
+
+
             </div>
             <div>
               <label
@@ -152,17 +199,17 @@ const RegisterSubscriber = () => {
                 name="accountStatus"
                 id="accountStatus"
                 value={formData.accountStatus}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option className="hover:bg-black" value="">
                   Select Account Status
                 </option>
-                <option className="hover:bg-black" value="active">
+                <option className="hover:bg-black" value="ACTIVE">
                   Active
                 </option>
-                <option className="hover:bg-black" value="inactive">
-                  Inactive
+                <option className="hover:bg-black" value="">
+                  Deactive
                 </option>
               </select>
             </div>
@@ -187,7 +234,7 @@ const RegisterSubscriber = () => {
                 name="firstName"
                 id="firstName"
                 value={formData.firstName}
-                onChange={handleChangeTextOnly(setFormData)}
+                onChange={HandleChangeTextOnly(setFormData)}
                 placeholder={t('first_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -204,7 +251,7 @@ const RegisterSubscriber = () => {
                 name="secondName"
                 id="secondName"
                 value={formData.secondName}
-                onChange={handleChangeTextOnly(setFormData)}
+                onChange={HandleChangeTextOnly(setFormData)}
                 placeholder={t('second_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -221,7 +268,7 @@ const RegisterSubscriber = () => {
                 name="lastName"
                 id="lastName"
                 value={formData.lastName}
-                onChange={handleChangeTextOnly(setFormData)}
+                onChange={HandleChangeTextOnly(setFormData)}
                 placeholder={t('last_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -238,7 +285,7 @@ const RegisterSubscriber = () => {
                 name="nationality"
                 id="nationality"
                 value={formData.nationality}
-                onChange={handleChangeTextOnly(setFormData)}
+                onChange={HandleChangeTextOnly(setFormData)}
                 placeholder={t('nationality')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -254,8 +301,12 @@ const RegisterSubscriber = () => {
                 type="date"
                 name="dateOfBirth"
                 id="dateOfBirth"
-                value={formData.dateOfBirth}
-                onChange={handleChange(setFormData)}
+                value={
+                  formData.dateOfBirth
+                    ? formData.dateOfBirth.split('/').reverse().join('-') // Convert DD/MM/YYYY to YYYY-MM-DD
+                    : ''
+                }
+                onChange={HandleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -271,7 +322,7 @@ const RegisterSubscriber = () => {
                 name="placeOfBirth"
                 id="placeOfBirth"
                 value={formData.placeOfBirth}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('place_of_birth')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -287,7 +338,7 @@ const RegisterSubscriber = () => {
                 name="gender"
                 id="gender"
                 value={formData.gender}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option value="">Select Gender</option>
@@ -308,7 +359,7 @@ const RegisterSubscriber = () => {
                 name="idNumber"
                 id="idNumber"
                 value={formData.idNumber}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('id_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -325,7 +376,7 @@ const RegisterSubscriber = () => {
                 name="idDescription"
                 id="idDescription"
                 value={formData.idDescription}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('id_description')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -341,8 +392,29 @@ const RegisterSubscriber = () => {
                 type="date"
                 name="idExpiry"
                 id="idExpiry"
-                value={formData.idExpiry}
-                onChange={handleChange(setFormData)}
+                value={
+                  formData.idExpiry
+                    ? formData.idExpiry.split('/').reverse().join('-') // Convert DD/MM/YYYY to YYYY-MM-DD
+                    : ''
+                }
+                onChange={HandleChange(setFormData)}
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="country"
+              >
+                {t('country')}
+              </label>
+              <input
+                type="text"
+                name="country"
+                id="country"
+                value={formData.country}
+                onChange={HandleChange(setFormData)}
+                placeholder={t('country')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
             </div>
@@ -367,7 +439,7 @@ const RegisterSubscriber = () => {
                 name="company"
                 id="company"
                 value={formData.company}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('company')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -384,7 +456,7 @@ const RegisterSubscriber = () => {
                 name="profession"
                 id="profession"
                 value={formData.profession}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('profession')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -401,7 +473,7 @@ const RegisterSubscriber = () => {
                 name="email"
                 id="email"
                 value={formData.email}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('email')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -418,7 +490,7 @@ const RegisterSubscriber = () => {
                 name="alternateNumber"
                 id="alternateNumber"
                 value={formData.alternateNumber}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 placeholder={t('alternate_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                 maxLength={15}
@@ -436,7 +508,7 @@ const RegisterSubscriber = () => {
                 name="buildingNumber"
                 id="buildingNumber"
                 value={formData.buildingNumber}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('building_number')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -453,7 +525,7 @@ const RegisterSubscriber = () => {
                 name="streetName"
                 id="streetName"
                 value={formData.streetName}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('street_name')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -470,7 +542,7 @@ const RegisterSubscriber = () => {
                 name="cityVillage"
                 id="cityVillage"
                 value={formData.cityVillage}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('city_village')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />
@@ -487,7 +559,7 @@ const RegisterSubscriber = () => {
                 name="region"
                 id="region"
                 value={formData.region}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder={t('region')}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               />

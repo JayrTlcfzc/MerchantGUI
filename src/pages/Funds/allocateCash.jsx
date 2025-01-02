@@ -4,7 +4,7 @@ import OTPModal from '../../components/Modals/OTPModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
-import { handleChange, handleChangeDigitsOnly, resetFormData } from '../../components/Validations';
+import { HandleChange, HandleChangeDigitsOnly, ResetFormData } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
 
 
@@ -65,7 +65,7 @@ const AllocateCash = () => {
           type="text"
           name="recipientmobilenum"
           value={formData.recipientmobilenum}
-          onChange={handleChangeDigitsOnly(setFormData)}
+          onChange={HandleChangeDigitsOnly(setFormData)}
           maxLength="15"
           placeholder={t('recipient_mobile_number')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -82,7 +82,7 @@ const AllocateCash = () => {
           type="text"
           name="amount"
           value={formData.amount}
-          onChange={handleChangeDigitsOnly(setFormData)}
+          onChange={HandleChangeDigitsOnly(setFormData)}
           placeholder={t('amount')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         />
@@ -98,7 +98,7 @@ const AllocateCash = () => {
           type="text"
           name="remarks"
           value={formData.remarks}
-          onChange={handleChange(setFormData)} // Using general handleChange for remarks
+          onChange={HandleChange(setFormData)} // Using general handleChange for remarks
           placeholder={t('remarks')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         />
@@ -117,7 +117,7 @@ const AllocateCash = () => {
     </button>
     <button 
       className="px-8 py-3 tracking-wide shadow-md rounded-lg font-bold bg-[#BFC3D2] hover:bg-[#9D9D9D] text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
-      onClick={resetFormData(setFormData, initialFormData)} // Reset inputfields
+      onClick={ResetFormData(setFormData, initialFormData)} // Reset inputfields
     >
       {t('reset')}
     </button>

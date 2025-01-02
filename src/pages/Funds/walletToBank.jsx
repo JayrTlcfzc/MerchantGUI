@@ -3,7 +3,7 @@ import StatusModal from '../../components/Modals/statusModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import OTPModal from '../../components/Modals/OTPModal';
 import { FaBuildingColumns } from 'react-icons/fa6';
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; // Import validation and reset functions
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; // Import validation and reset functions
 import { useTranslation } from 'react-i18next';
 
 const WalletToBank = () => {
@@ -57,7 +57,7 @@ const WalletToBank = () => {
         <select
           name="bank"
           value={formData.bank}
-          onChange={handleChange(setFormData)}
+          onChange={HandleChange(setFormData)}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         >
           <option value="">Select Bank</option>
@@ -77,7 +77,7 @@ const WalletToBank = () => {
           type="text"
           name="bankaccountfullname"
           value={formData.bankaccountfullname}
-          onChange={handleChangeTextOnly(setFormData)}
+          onChange={HandleChangeTextOnly(setFormData)}
           placeholder={t('bank_account_full_name')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         />
@@ -93,7 +93,7 @@ const WalletToBank = () => {
           type="text"
           name="bankaccountnumber"
           value={formData.bankaccountnumber}
-          onChange={handleChangeDigitsOnly(setFormData)}
+          onChange={HandleChangeDigitsOnly(setFormData)}
           placeholder={t('bank_account_number')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         />
@@ -109,7 +109,7 @@ const WalletToBank = () => {
           type="text"
           name="amount"
           value={formData.amount}
-          onChange={handleChangeDigitsOnly(setFormData)}
+          onChange={HandleChangeDigitsOnly(setFormData)}
           placeholder={t('amount')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         />
@@ -125,7 +125,7 @@ const WalletToBank = () => {
           type="text"
           name="remarks"
           value={formData.remarks}
-          onChange={handleChange(setFormData)} // Using general handleChange for remarks
+          onChange={HandleChange(setFormData)} // Using general handleChange for remarks
           placeholder={t('remarks')}
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         />
@@ -144,7 +144,7 @@ const WalletToBank = () => {
     </button>
     <button 
       className="px-8 py-3 tracking-wide shadow-md rounded-lg font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
-      onClick={resetFormData(setFormData, initialFormData)} // Resetting form
+      onClick={ResetFormData(setFormData, initialFormData)} // Resetting form
     >
       {t('reset')}
     </button>

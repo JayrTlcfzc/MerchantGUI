@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
 import {
-  handleChange,
-  handleChangeDigitsOnly,
-  handleChangeTextOnly,
-  resetFormData,
+  HandleChange,
+  HandleChangeDigitsOnly,
+  HandleChangeTextOnly,
+  ResetFormData,
 } from "../../../components/Validations";
 import { useTranslation } from "react-i18next";
 
@@ -47,7 +47,7 @@ const EditUserLevel = () => {
         message: "Edited User Level Successfully!",
       });
 
-      resetFormData(setFormData, initialFormData)();
+      ResetFormData(setFormData, initialFormData)();
     } else {
       setModalState({
         isOpen: true,
@@ -71,7 +71,7 @@ const EditUserLevel = () => {
                 name="userLevel"
                 id="userLevel"
                 value={formData.userLevel}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="w-full border rounded-md p-2"
               >
                 <option value="">Select User Level</option>
@@ -89,7 +89,7 @@ const EditUserLevel = () => {
                 name="sessionTimeout"
                 id="sessionTimeout"
                 value={formData.sessionTimeout}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Session Timeout"
               />
@@ -103,7 +103,7 @@ const EditUserLevel = () => {
                 name="passwordExpiry"
                 id="passwordExpiry"
                 value={formData.passwordExpiry}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password Expiry"
               />
@@ -117,7 +117,7 @@ const EditUserLevel = () => {
                 name="minimumPassword"
                 id="minimumPassword"
                 value={formData.minimumPassword}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Minimum Password"
               />
@@ -131,7 +131,7 @@ const EditUserLevel = () => {
                 name="passwordHistory"
                 id="passwordHistory"
                 value={formData.passwordHistory}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password History"
               />
@@ -145,7 +145,7 @@ const EditUserLevel = () => {
                 name="maxAllocation"
                 id="maxAllocation"
                 value={formData.maxAllocation}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Max Allocation"
               />

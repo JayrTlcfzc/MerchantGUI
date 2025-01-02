@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import StatusModal from "../../components/Modals/statusModal";
 import { FaUserPlus } from "react-icons/fa6";
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../../components/Validations'; 
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
 
 const RegisterNewUser = () => {
@@ -52,7 +52,7 @@ const RegisterNewUser = () => {
         message: "Added User Level Successfully!",
       });
 
-      resetFormData(setFormData, initialFormData)();
+      ResetFormData(setFormData, initialFormData)();
 
     } else {
       setModalState({
@@ -94,7 +94,7 @@ const RegisterNewUser = () => {
                 name="username"
                 id="username"
                 value={formData.username}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder="Enter username"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"  
               />
@@ -109,7 +109,7 @@ const RegisterNewUser = () => {
                 name="msisdn"
                 id="msisdn"
                 value={formData.msisdn}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 placeholder="Enter MSISDN"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 maxLength={15}
@@ -125,7 +125,7 @@ const RegisterNewUser = () => {
                 name="otpMsisdn"
                 id="otpMsisdn"
                 value={formData.otpMsisdn}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 placeholder="Enter OTP MSISDN"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 maxLength={15}
@@ -142,7 +142,7 @@ const RegisterNewUser = () => {
                 name="firstName"
                 id="firstName"
                 value={formData.firstName}
-                onChange={handleChangeTextOnly(setFormData)}
+                onChange={HandleChangeTextOnly(setFormData)}
                 placeholder="Enter first name"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
               />
@@ -157,7 +157,7 @@ const RegisterNewUser = () => {
                 name="lastName"
                 id="lastName"
                 value={formData.lastName}
-                onChange={handleChangeTextOnly(setFormData)}
+                onChange={HandleChangeTextOnly(setFormData)}
                 placeholder="Enter last name"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
               />
@@ -172,7 +172,7 @@ const RegisterNewUser = () => {
                 name="email"
                 id="email"
                 value={formData.email}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder="Enter email"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
@@ -188,7 +188,7 @@ const RegisterNewUser = () => {
                 name="company"
                 id="company"
                 value={formData.company}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder="Enter company"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
@@ -204,7 +204,7 @@ const RegisterNewUser = () => {
                 name="department"
                 id="department"
                 value={formData.department}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 placeholder="Enter department"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
@@ -219,7 +219,7 @@ const RegisterNewUser = () => {
                 name="userLevel"
                 id="userLevel"
                 value={formData.userLevel}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
               >
@@ -238,7 +238,7 @@ const RegisterNewUser = () => {
                 name="status"
                 id="status"
                 value={formData.status}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
               >
