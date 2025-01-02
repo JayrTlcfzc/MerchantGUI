@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import LoginImage from "../assets/LoginImage.png";
 import OTPModal from "../components/Modals/OTPModal";
-import { handleChange, handleChangeDigitsOnly } from "../components/Validations";
+import { HandleChange, HandleChangeDigitsOnly } from "../components/Validations";
 import { toast, ToastContainer } from "react-toastify";
 import { Globe } from "lucide-react";
 import { useTranslation } from 'react-i18next';
@@ -134,7 +134,7 @@ const Login = () => {
                 name="msisdn"
                 value={formData.msisdn}
                 onKeyDown={handleEnterPress}
-                onChange={handleChangeDigitsOnly(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('Enter your MSISDN')}
                 required
@@ -154,7 +154,7 @@ const Login = () => {
                 name="username"
                 value={formData.username}
                 onKeyDown={handleEnterPress}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('Enter your username')}
                 required
@@ -173,7 +173,7 @@ const Login = () => {
                 id="password"
                 name="password"
                 value={formData.password}
-                onChange={handleChange(setFormData)}
+                onChange={HandleChange(setFormData)}
                 onKeyDown={handleEnterPress}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('********************')}
@@ -242,9 +242,10 @@ const Login = () => {
             onProceed={async (enteredOtp) => {
               try {
                 const { success, message, data } = await verifyOTP(enteredOtp, formData.msisdn, formData.username, formData.password);
+                console.log('message ', message)
                 if (success) {
                   toast.success(message);
-                  console.log('message ', message)
+                 
 
                   // || data.isfirstlogon === '1'
                   if (message === "Password expired. Please use forgot password or contact the administrator." || data.isfirstlogon === '1') {
@@ -256,6 +257,9 @@ const Login = () => {
                         setOpenModal("");
                         navigate('/dashboard'); // Navigate to the dashboard on success
                     }
+                }else{
+                  toast.error(message);
+                 
                 }
               } catch (error) {
                 toast.error(error.message || "Invalid OTP");

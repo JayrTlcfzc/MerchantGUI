@@ -1,11 +1,24 @@
 // General handler function to update form data
-export const handleChange = (setFormData) => (e) => {
+export const HandleChange = (setFormData) => (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-};
+  
+    let formattedValue = value;
+  
+    // Check if the input is a date field and format it to DD/MM/YYYY
+    if (e.target.type === 'date' && value) {
+      const [year, month, day] = value.split('-');
+      formattedValue = `${day}/${month}/${year}`;
+    }
+  
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: formattedValue,
+    }));
+  };
+  
 
 // Text only restriction
-export const handleChangeTextOnly = (setFormData) => (e) => {
+export const HandleChangeTextOnly = (setFormData) => (e) => {
 const { name, value } = e.target;
 if (/^[A-Za-z\s]*$/.test(value)) {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -13,7 +26,7 @@ if (/^[A-Za-z\s]*$/.test(value)) {
 };
 
 // Numbers only restriction
-export const handleChangeDigitsOnly = (setFormData) => (e) => {
+export const HandleChangeDigitsOnly = (setFormData) => (e) => {
 const { name, value } = e.target;
 if (/^\d*$/.test(value) && value.length <= 15) { // Max of 15 numbers as of now
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -21,7 +34,7 @@ if (/^\d*$/.test(value) && value.length <= 15) { // Max of 15 numbers as of now
 };
 
 // Dynamic reset function
-export const resetFormData = (setFormData, initialData) => () => {
+export const ResetFormData = (setFormData, initialData) => () => {
 const resetData = Object.keys(initialData).reduce((acc, key) => {
     acc[key] = ''; // Set each key to empty string
     return acc;

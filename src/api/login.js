@@ -42,17 +42,21 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
     });
 
     console.log(response.data);
-    const data = JSON.parse(response.data.Data);
-    localStorage.setItem('userData', JSON.stringify(data));
+    
 
     if (response.data.StatusCode === 0) {
+      const data = JSON.parse(response.data.Data);
+      localStorage.setItem('userData', JSON.stringify(data));
       return {
         success: true,
         message: response.data.StatusMessage,
         data,
       };
-    } else {
-      throw new Error(response.data.message || "Invalid OTP");
+    } else if(response.data.StatusCode !== 0) {
+      return {
+        success: false,
+        message: response.data.StatusMessage,
+      };
     }
   } catch (error) {
     return Promise.reject({

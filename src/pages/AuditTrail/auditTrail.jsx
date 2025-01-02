@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
-import { handleChangeDigitsOnly } from '../../components/Validations';
+import { HandleChangeDigitsOnly } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
 
 const AuditTrail = () => {
@@ -121,7 +121,7 @@ const AuditTrail = () => {
                                 type="text"
                                 name="userinput"
                                 value={formData.userinput}
-                                onChange={handleChangeDigitsOnly(setFormData)}
+                                onChange={HandleChangeDigitsOnly(setFormData)}
                                 placeholder={selectUserBy}
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                             />
