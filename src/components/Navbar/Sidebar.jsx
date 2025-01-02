@@ -24,8 +24,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   };
 
   const toggleItem = (item) => {
-    setIsOpen(!isOpen);
-    setExpandedItem(expandedItem === item ? null : item);
+    if (!isOpen) {
+      // Open the sidebar if it's closed
+      setIsOpen(true);
+      setExpandedItem(expandedItem === item ? null : item);
+    } else {
+      // Toggle the dropdown
+      setExpandedItem(expandedItem === item ? null : item);
+    }
   };
 
   const menuItems = [
