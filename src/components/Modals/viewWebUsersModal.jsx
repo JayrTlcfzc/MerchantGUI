@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../Validations';
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
@@ -89,7 +89,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
         message: `${t('modal_edited_user_level_successfully')}`,
       });
 
-      resetFormData(setFormData, initialFormData)();
+      ResetFormData(setFormData, initialFormData)();
       setOnEdit(false)
       
     } else {
@@ -131,7 +131,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="userId"
                   id="userId"
                   value={formData.userId}
-                  onChange={handleChangeDigitsOnly(setFormData)}
+                  onChange={HandleChangeDigitsOnly(setFormData)}
                   placeholder={t('user_id')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -144,7 +144,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="username"
                   id="username"
                   value={formData.username}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   placeholder={t('username')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -156,7 +156,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="msisdn"
                   id="msisdn"
                   value={formData.msisdn}
-                  onChange={handleChangeDigitsOnly(setFormData)}
+                  onChange={HandleChangeDigitsOnly(setFormData)}
                   placeholder={t('msisdn')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -168,7 +168,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="otpMsisdn"
                   id="otpMsisdn"
                   value={formData.otpMsisdn}
-                  onChange={handleChangeDigitsOnly(setFormData)}
+                  onChange={HandleChangeDigitsOnly(setFormData)}
                   placeholder={t('otp_msisdn')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -180,7 +180,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="company"
                   id="company"
                   value={formData.company}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   placeholder={t('company')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -192,7 +192,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="email"
                   id="email"
                   value={formData.email}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   placeholder={t('email')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -204,7 +204,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="firstName"
                   id="firstName"
                   value={formData.firstName}
-                  onChange={handleChangeTextOnly(setFormData)}
+                  onChange={HandleChangeTextOnly(setFormData)}
                   placeholder={t('first_name')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -216,7 +216,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="lastName"
                   id="lastName"
                   value={formData.lastName}
-                  onChange={handleChangeTextOnly(setFormData)}
+                  onChange={HandleChangeTextOnly(setFormData)}
                   placeholder={t('last_name')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -228,7 +228,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="department"
                   id="department"
                   value={formData.department}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   placeholder={t('department')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -240,7 +240,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="userLevel"
                   id="userLevel"
                   value={formData.userLevel}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="">Select User Level</option>
@@ -254,7 +254,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="status"
                   id="status"
                   value={formData.status}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="">Select Status</option>
@@ -269,7 +269,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="locked"
                   id="locked"
                   value={formData.locked}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="yes">Yes</option>
@@ -283,7 +283,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="dateCreated"
                   id="dateCreated"
                   value={formData.dateCreated}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   placeholder="2023-11-19 14:35:00"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
@@ -295,7 +295,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   name="dateModified"
                   id="dateModified"
                   value={formData.dateModified}
-                  onChange={handleChange(setFormData)}
+                  onChange={HandleChange(setFormData)}
                   placeholder="2024-04-19 21:45:00"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
