@@ -93,7 +93,7 @@ const RegisterNewUser = () => {
                 type="text"
                 name="username"
                 id="username"
-                value={formData.username}
+                value={formData.username.toUpperCase()}
                 onChange={HandleChange(setFormData)}
                 placeholder="Enter username"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"  
@@ -141,7 +141,7 @@ const RegisterNewUser = () => {
                 type="text"
                 name="firstName"
                 id="firstName"
-                value={formData.firstName}
+                value={formData.firstName.toUpperCase()}
                 onChange={HandleChangeTextOnly(setFormData)}
                 placeholder="Enter first name"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -156,7 +156,7 @@ const RegisterNewUser = () => {
                 type="text"
                 name="lastName"
                 id="lastName"
-                value={formData.lastName}
+                value={formData.lastName.toUpperCase()}
                 onChange={HandleChangeTextOnly(setFormData)}
                 placeholder="Enter last name"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -171,7 +171,7 @@ const RegisterNewUser = () => {
                 type="email"
                 name="email"
                 id="email"
-                value={formData.email}
+                value={formData.email.toUpperCase()}
                 onChange={HandleChange(setFormData)}
                 placeholder="Enter email"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -187,7 +187,7 @@ const RegisterNewUser = () => {
                 type="text"
                 name="company"
                 id="company"
-                value={formData.company}
+                value={formData.company.toUpperCase()}
                 onChange={HandleChange(setFormData)}
                 placeholder="Enter company"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -203,7 +203,7 @@ const RegisterNewUser = () => {
                 type="text"
                 name="department"
                 id="department"
-                value={formData.department}
+                value={formData.department.toUpperCase()}
                 onChange={HandleChange(setFormData)}
                 placeholder="Enter department"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -224,9 +224,9 @@ const RegisterNewUser = () => {
                 required
               >
                 <option value="">Select user level</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-                <option value="guest">Guest</option>
+                <option value="admin">ADMIN</option>
+                <option value="user">USER</option>
+                <option value="guest">GUEST</option>
               </select>
             </div>
 
@@ -243,8 +243,8 @@ const RegisterNewUser = () => {
                 required
               >
                 <option value="">Select status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="active">ACTIVE</option>
+                <option value="deactive">DEACTIVE</option>
               </select>
             </div>
           </div>
