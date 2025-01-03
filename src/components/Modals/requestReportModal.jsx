@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
-import { handleChange, handleChangeDigitsOnly, handleChangeTextOnly, resetFormData } from '../Validations';
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
@@ -50,7 +50,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 status: 'success',
                 message: 'Report request submitted successfully!'
             });
-            resetFormData(setFormData, initialFormData)();
+            ResetFormData(setFormData, initialFormData)();
 
         } else {
             setModalState({
@@ -83,7 +83,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="reportType"
                             id="reportType"
                             value={formData.reportType}
-                            onChange={handleChange(setFormData)}
+                            onChange={HandleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         >
                             <option>Select Type of Report</option>
@@ -98,7 +98,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="msisdn"
                             id="msisdn"
                             value={formData.msisdn}
-                            onChange={handleChangeDigitsOnly(setFormData)}
+                            onChange={HandleChangeDigitsOnly(setFormData)}
                             placeholder="MSISDN"
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
@@ -110,7 +110,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="dateFrom"
                             id="dateFrom"
                             value={formData.dateFrom}
-                            onChange={handleChange(setFormData)}
+                            onChange={HandleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
@@ -121,7 +121,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="dateTo"
                             id="dateTo"
                             value={formData.dateTo}
-                            onChange={handleChange(setFormData)}
+                            onChange={HandleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
