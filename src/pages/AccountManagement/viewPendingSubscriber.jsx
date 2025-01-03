@@ -1,20 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, ArrowDownUp, X } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import { useTranslation } from 'react-i18next';
+import { viewPendingSubs } from "../../api/subscriber";
 
 const ViewPendingSubscriber = () => {
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
   const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
 
-  const data = [
-    { firstname: "Abdul", lastname: "Jafar", msisdn: 2381389, status: "ACTIVE" },
-    { firstname: "Juan", lastname: "Dela Cruz", msisdn: 3458762, status: "DEACTIVE" },
-    { firstname: "John", lastname: "Doe", msisdn: 9786432, status: "ACTIVE" },
-    { firstname: "Ali", lastname: "Mohammad", msisdn: 12323453, status: "DEACTIVE" },
-  ];
+   const [accounts, setAccounts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPendingSubs = async () => {
+      setLoading(true);
+      try {
+        const result = await viewPendingSubs();
+        if (result.success) {
+          const parsedAccounts = JSON.parse(result.account);
+          if (Array.isArray(parsedAccounts)) {
+            setAccounts(
+              parsedAccounts.map((account) => ({
+                FIRSTNAME: account.FIRSTNAME || '',
+                LASTNAME: account.LASTNAME || '',
+                MSISDN: account.MSISDN || '',
+                STATUS: account.STATUS || '',
+              }))
+            );
+          } else {
+            setError("Invalid account data format");
+          }
+        } else {
+          setError(result.message || "Invalid data format");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchPendingSubs();
+  }, []);
+  
+
+  // const data = [
+  //   { firstname: "Abdul", lastname: "Jafar", msisdn: 2381389, status: "ACTIVE" },
+  //   { firstname: "Juan", lastname: "Dela Cruz", msisdn: 3458762, status: "DEACTIVE" },
+  //   { firstname: "John", lastname: "Doe", msisdn: 9786432, status: "ACTIVE" },
+  //   { firstname: "Ali", lastname: "Mohammad", msisdn: 12323453, status: "DEACTIVE" },
+  // ];
 
   const { t, i18n } = useTranslation();
 
@@ -22,11 +60,11 @@ const ViewPendingSubscriber = () => {
     setSearchInput(event.target.value);
   };
 
-  const sortedData = [...data].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
+  const sortedData = [...accounts].sort((a, b) => {
+    if (a[sortConfig.key]?.toLowerCase() < b[sortConfig.key]?.toLowerCase()) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
+    if (a[sortConfig.key]?.toLowerCase() > b[sortConfig.key]?.toLowerCase()) {
       return sortConfig.direction === "ascending" ? 1 : -1;
     }
     return 0;
@@ -41,6 +79,7 @@ const ViewPendingSubscriber = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -140,10 +179,10 @@ const ViewPendingSubscriber = () => {
               {currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
                   <tr key={index} className="cursor-pointer">
-                    <td className="px-4 py-2 whitespace-nowrap">{item.firstname}</td>
-                    <td className="px-4 py-2">{item.lastname}</td>
-                    <td className="px-4 py-2">{item.msisdn}</td>
-                    <td className="px-4 py-2">{item.status}</td>
+                    <td className="px-4 py-2 whitespace-nowrap">{item.FIRSTNAME}</td>
+                    <td className="px-4 py-2">{item.LASTNAME}</td>
+                    <td className="px-4 py-2">{item.MSISDN}</td>
+                    <td className="px-4 py-2">{item.STATUS}</td>
                   </tr>
                 ))
               ) : (
