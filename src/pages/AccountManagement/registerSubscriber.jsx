@@ -337,9 +337,9 @@ const RegisterSubscriber = () => {
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
               >
                 <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="male">MALE</option>
+                <option value="female">FEMALE</option>
+                <option value="other">OTHER</option>
               </select>
             </div>
             <div>
