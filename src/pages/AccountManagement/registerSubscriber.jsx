@@ -91,7 +91,7 @@ const RegisterSubscriber = () => {
       if (isFormValid) {
         const response = await registerSubscriber(formData);
         console.log(response);
-        if(success){
+        if(response.success){
           setModalState({
             isOpen: true,
             status: "success",
