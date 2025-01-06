@@ -12,8 +12,9 @@ const StatusModal = ({ isOpen, onClose, status, message }) => {
 
   const handleSuccess = () => {
     logout();
-    navigate('/login'); // Navigate to login page on success
-  };
+    window.location.href = '/login'; // Redirects and reloads the login page
+};
+
 
   const handleError = () => {
     // Stay on the page, just close the modal
