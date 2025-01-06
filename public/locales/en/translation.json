@@ -80,11 +80,12 @@
     "save_changes": "SAVE CHANGES",
 
     "roles_configuration": "ROLES CONFIGURATION",
-
-
-
-
-
+    "get_roles": "GET ROLES",
+    "id": "ID",
+    "module": "MODULE",
+    "description": "DESCRIPTION",
+    "rights_indicator": "RIGHTS INDICATOR",
+   
     "allocate_cash": "ALLOCATE CASH",
     "recipient_mobile_number": "RECIPIENT MOBILE NUMBER",
     "amount": "AMOUNT",

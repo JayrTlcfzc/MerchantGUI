@@ -95,7 +95,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                     }
                 />
                 {isDropdownOpen && (
-                    <div className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl">
+                    <div className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl z-50">
                         <div className="p-4">
                             <p className="font-bold text-white">{username}</p>
                             <p className="text-sm text-white">Last Login: {lastLogin}</p>
