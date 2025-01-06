@@ -83,14 +83,14 @@ const RegisterNewUser = () => {
           setModalState({
             isOpen: true,
             status: "success",
-            message: "Added User Successfully!",
+            message: response.message,
           });
           ResetFormData(setFormData, initialFormData)();
         } else{
           setModalState({
             isOpen: true,
             status: "error",
-            message: "Failed to Add User. Please try again.",
+            message: response.message,
           });
         }
       } else {
@@ -284,8 +284,8 @@ const RegisterNewUser = () => {
                 required
               >
                 <option value="">Select status</option>
-                <option value="active">ACTIVE</option>
-                <option value="deactive">DEACTIVE</option>
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="DEACTIVE">DEACTIVE</option>
               </select>
             </div>
           </div>

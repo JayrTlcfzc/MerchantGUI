@@ -2,22 +2,30 @@ import React from 'react';
 import { useState } from 'react';
 import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
-import { HandleChangeDigitsOnly } from '../../components/Validations';
+import { HandleChange } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
+import { GetAuditTrail } from "../../api/getAuditTrails";
+import { toast, ToastContainer } from "react-toastify";
 
 const AuditTrail = () => {
-    const [selectUserBy, setSelectUserBy] = useState("USER ID");
+    const [selectUserBy, setSelectUserBy] = useState("ALL");
     const [labelText, setLabelText] = useState("USER ID");
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
+    const [itemsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: "username", direction: "ascending" });
+    const [auditData, setAuditData] = useState([]); // Store fetched audit trails
+    const [isLoading, setIsLoading] = useState(false); // Loading state
 
     const initialFormData = {
-        userinput: '',
+        userinput: 'ALL',
+        datefrom: '',
+        dateto: '',
     };
 
+
     const { t, i18n } = useTranslation();
+
     const [formData, setFormData] = useState(initialFormData);
 
     const [modalState, setModalState] = useState({
@@ -26,21 +34,50 @@ const AuditTrail = () => {
         message: "",
     });
 
-    const data = [
-        // Your data here
-    ];
-
     const handleInputChange = (event) => {
-        const { value } = event.target;
-        setSelectUserBy(value);
-        setLabelText(value);
+        const { name, value } = event.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSearch = (e) => {
         setSearchInput(e.target.value);
     };
 
-    const sortedData = [...data].sort((a, b) => {
+    const handleSubmit = async () => {
+        const { userinput, datefrom, dateto } = formData;
+
+       // Validate inputs
+        if (!userinput || !datefrom || !dateto) {
+            toast.error('Please fill up the form');
+            return
+        }
+
+        setIsLoading(true);
+        try {
+            const response = await GetAuditTrail({ formData });
+
+            if (response?.audit) {
+                setAuditData(response.audit); // Update the table data
+                setModalState({
+                    isOpen: true,
+                    status: "success",
+                    message: t("Data retrieved successfully."),
+                });
+            } else {
+                throw new Error("No data found.");
+            }
+        } catch (error) {
+            setModalState({
+                isOpen: true,
+                status: "error",
+                message: error.message || t("Failed to fetch data."),
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const sortedData = [...auditData].sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
             return sortConfig.direction === "ascending" ? -1 : 1;
         }
@@ -72,10 +109,43 @@ const AuditTrail = () => {
 
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-    // Pagination Number Rendering Function
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
+        const maxPagesToShow = 5; 
+        let startPage, endPage;
+    
+        if (totalPages <= maxPagesToShow) {
+           
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            
+            if (currentPage <= 3) {
+                startPage = 1;
+                endPage = maxPagesToShow;
+            } else if (currentPage + 2 >= totalPages) {
+                startPage = totalPages - maxPagesToShow + 1;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - 2;
+                endPage = currentPage + 2;
+            }
+        }
+    
+        if (startPage > 1) {
+            pageNumbers.push(
+                <button
+                    key="prev-ellipsis"
+                    className="px-3 py-1 mx-1 text-sm text-gray-700 bg-transparent"
+                    disabled
+                >
+                    &#8230;
+                </button>
+            );
+        }
+    
+        
+        for (let i = startPage; i <= endPage; i++) {
             pageNumbers.push(
                 <button
                     key={i}
@@ -86,11 +156,27 @@ const AuditTrail = () => {
                 </button>
             );
         }
+    
+      
+        if (endPage < totalPages) {
+            pageNumbers.push(
+                <button
+                    key="next-ellipsis"
+                    className="px-3 py-1 mx-1 text-sm text-gray-700 bg-transparent"
+                    disabled
+                >
+                    &#8230;
+                </button>
+            );
+        }
+    
         return pageNumbers;
     };
+    
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
+            <ToastContainer />
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
@@ -102,16 +188,22 @@ const AuditTrail = () => {
                 {/* Filteration */}
                 <div className="flex flex-col gap-4 mb-4">
                     <div className='flex gap-4 items-end mb-4'>
-                        <div className="w-1/4">
+                         <div className="w-1/4">
                             <label className="block mb-1 text-gray-700">{t('select_user_by')}</label>
                             <select
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-                                defaultValue={selectUserBy}
-                                onChange={handleInputChange}
+                                value={selectUserBy} // Controlled select value
+                                onChange={(e) => {
+                                    const selectedValue = e.target.value;
+                                    setSelectUserBy(selectedValue); // Update `selectUserBy`
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        userinput: selectedValue === 'ALL' ? 'ALL' : '', // Reset userinput for USERID
+                                    }));
+                                }}
                             >
-                                <option value="USER ID">USER ID</option>
-                                <option value="MSISDN">MSISDN</option>
-                                <option value="AGENT CODE">AGENT CODE</option>
+                                <option value="ALL">ALL</option>
+                                <option value="USERID">USER ID</option>
                             </select>
                         </div>
 
@@ -121,16 +213,26 @@ const AuditTrail = () => {
                                 type="text"
                                 name="userinput"
                                 value={formData.userinput}
-                                onChange={HandleChangeDigitsOnly(setFormData)}
-                                placeholder={selectUserBy}
+                                onChange={(e) => {
+                                    if (selectUserBy === 'USERID') {
+                                        HandleChange(setFormData)(e); // Allow input changes only for USER ID
+                                    }
+                                }}
+                                placeholder={selectUserBy} // Dynamically set placeholder
+                                readOnly={selectUserBy === 'ALL'} // Make input non-editable for 'ALL'
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                             />
                         </div>
 
-                        <div className="w-1/5">
+
+
+                         <div className="w-1/5">
                             <label className="block mb-1 text-gray-700">{t('date_from')}</label>
                             <input
                                 type="date"
+                                name="datefrom"
+                                value={formData.datefrom}
+                                onChange={handleInputChange}
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                             />
                         </div>
@@ -139,12 +241,20 @@ const AuditTrail = () => {
                             <label className="block mb-1 text-gray-700">{t('date_to')}</label>
                             <input
                                 type="date"
+                                name="dateto"
+                                value={formData.dateto}
+                                onChange={handleInputChange}
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                             />
                         </div>
                         
-                        <button className="w-1/5 px-4 py-2 bg-[#D95F08] text-white tracking-wide shadow-md rounded font-bold hover:bg-[#FC8937]">
-                        {t('view')}
+                        <button
+                            className="w-1/5 px-4 py-2 bg-[#D95F08] text-white tracking-wide shadow-md rounded font-bold hover:bg-[#FC8937]"
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? t('loading') : t('view')}
                         </button>
                     </div>
                 </div>
@@ -221,7 +331,7 @@ const AuditTrail = () => {
                                 currentItems.map((item, index) => (
                                     <tr key={index}>
                                         <td className="px-4 py-2">{item.timestamp}</td>
-                                        <td className="px-4 py-2">{item.userid}</td>
+                                        <td className="px-4 py-2">{item.userId}</td>
                                         <td className="px-4 py-2">{item.username}</td>
                                         <td className="px-4 py-2">{item.log}</td>
                                         <td className="px-4 py-2">{item.interface}</td>

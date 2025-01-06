@@ -13,8 +13,8 @@ export const userLevelCol = async () => {
       if (responseData && responseData.StatusMessage === "Success") {
         return { success: true, level: responseData.Data };
       } else {
-        console.log(responseData?.message || "No message");
-        return { success: false, message: responseData?.message || "Unknown error" };
+        console.log(responseData?.StatusMessage || "No message");
+        return { success: false, message: responseData?.StatusMessage || "Unknown error" };
       }
     } catch (error) {
       console.error("Error in React:", error);
