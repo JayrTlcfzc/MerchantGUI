@@ -10,6 +10,7 @@ import ViewPendingSubscriber from "./pages/AccountManagement/viewPendingSubscrib
 import ViewWebUsers from "./pages/WebUsers/viewWebUsers";
 import RegisterNewUsers from "./pages/WebUsers/registerNewUser";
 import ManageUserLevel from "./pages/WebUsers/manageUserLevel";
+import RolesConfiguration from "./pages/WebUsers/rolesConfiguration";
 import AuditTrail from "./pages/AuditTrail/auditTrail";
 import AllocateCash from "./pages/Funds/allocateCash";
 import WalletToBank from "./pages/Funds/walletToBank";
@@ -60,6 +61,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route
             path="/web-users/manage-user-level"
             element={<PrivateRoute element={<Layout username="John Doe"><ManageUserLevel /></Layout>} />}
+          />
+          <Route 
+            path="/web-users/roles-configuration"
+            element={<PrivateRoute element={<Layout username="John Doe"><RolesConfiguration /></Layout>} />}
           />
           {/* Funds */}
           <Route

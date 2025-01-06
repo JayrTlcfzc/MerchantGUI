@@ -79,6 +79,12 @@
     "add": "ADD",
     "save_changes": "SAVE CHANGES",
 
+    "roles_configuration": "ROLES CONFIGURATION",
+
+
+
+
+
     "allocate_cash": "ALLOCATE CASH",
     "recipient_mobile_number": "RECIPIENT MOBILE NUMBER",
     "amount": "AMOUNT",
