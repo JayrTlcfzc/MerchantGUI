@@ -16,14 +16,14 @@ const SearchSubscriber = () => {
   const [accountDetails, setAccountDetails] = useState([]);
   const [personalDetails, setPersonalDetails] = useState([]);
 
-  // useEffect to retrieve msisdn from localStorage and trigger search
+  
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
     if (storedData && storedData.msisdn) {
-      setMsisdn(storedData.msisdn); // Update state with msisdn from localStorage
-      handleSubmit(storedData.msisdn); // Trigger the search
+      setMsisdn(storedData.msisdn); 
+      handleSubmit(storedData.msisdn); 
     }
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+  }, []); 
 
   const handleSubmit = async (msisdnParam) => {
     if (!msisdnParam) {
