@@ -53,6 +53,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         { title: `${t('view_web_users')}`, path: "/web-users/view-web-users" },
         { title: `${t('register_new_user')}`, path: "/web-users/register-new-user" },
         { title: `${t('manage_user_levels')}`, path: "/web-users/manage-user-level" },
+        { title: `${t('roles_configuration')}`, path: "/web-users/roles-configuration" }
       ],
     },
     {
