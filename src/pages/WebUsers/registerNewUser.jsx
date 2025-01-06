@@ -1,12 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StatusModal from "../../components/Modals/statusModal";
 import { FaUserPlus } from "react-icons/fa6";
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
+import { userLevelCol, registerWebUser } from "../../api/webuser";
 
 const RegisterNewUser = () => {
+  const [levels, setLevels] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    const fetchUserLevels = async () => {
+      setLoading(true);
+      try {
+        const result = await userLevelCol();
+        if (result.success) {
+          const parsedLevels = JSON.parse(result.level);
+          console.log(parsedLevels)
+          if (Array.isArray(parsedLevels)) {
+            setLevels(parsedLevels); 
+
+          } else {
+            setError('Invalid user level data format');
+          }
+        } else {
+          setError(result.message || 'Invalid data format');
+        }
+      } catch (err) {
+        setError(err.message); // Handle fetch errors
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchUserLevels();
+  }, []);
 
   const initialFormData = {
     username: '',
@@ -20,7 +49,8 @@ const RegisterNewUser = () => {
     userLevel: '',
     status: '',
   };
-  
+
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState(initialFormData);
 
   const [modalState, setModalState] = useState({
@@ -29,7 +59,7 @@ const RegisterNewUser = () => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Simulate form submission success or failure
@@ -44,23 +74,32 @@ const RegisterNewUser = () => {
       formData.department &&
       formData.userLevel &&
       formData.status;
-
-    if (isFormValid) {
-      setModalState({
-        isOpen: true,
-        status: "success",
-        message: "Added User Level Successfully!",
-      });
-
-      ResetFormData(setFormData, initialFormData)();
-
-    } else {
-      setModalState({
-        isOpen: true,
-        status: "error",
-        message: "Failed to Add User Level. Please try again.",
-      });
-    }
+      console.log('register account',formData)
+      if (isFormValid) {
+        console.log('FormData:', formData);
+        const response = await registerWebUser(formData);
+        console.log(response);
+        if(response.success){
+          setModalState({
+            isOpen: true,
+            status: "success",
+            message: "Added User Successfully!",
+          });
+          ResetFormData(setFormData, initialFormData)();
+        } else{
+          setModalState({
+            isOpen: true,
+            status: "error",
+            message: "Failed to Add User. Please try again.",
+          });
+        }
+      } else {
+        setModalState({
+          isOpen: true,
+          status: "error",
+          message: "Failed to Add User. Please try again.",
+        });
+      }
   };
 
   return (
@@ -223,10 +262,12 @@ const RegisterNewUser = () => {
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 required
               >
-                <option value="">Select user level</option>
-                <option value="admin">ADMIN</option>
-                <option value="user">USER</option>
-                <option value="guest">GUEST</option>
+                <option value="">Select User Level</option>
+                {levels.map((level) => (
+                  <option key={level.USERSLEVEL} value={level.USERSLEVEL.toUpperCase()}>
+                    {level.USERSLEVEL === 'TEMP1' ? 'TEMPORARY_NEW' : level.USERSLEVEL}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -254,8 +295,8 @@ const RegisterNewUser = () => {
         <div className="flex justify-center pt-6">
           <button
             type="submit"
-            className="px-8 py-3 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
             onClick={handleSubmit}
+            className="px-8 py-3 tracking-wide shadow-md rounded font-bold bg-[#23587C] text-white hover:bg-[#2C75A6] focus:outline-none focus:ring-2 focus:ring-[#1e4f6a]/50 focus:ring-offset-2"
           >
             {t('submit')}
           </button>
@@ -273,4 +314,4 @@ const RegisterNewUser = () => {
   );
 };
 
-export default RegisterNewUser; // Correct default export
+export default RegisterNewUser;
