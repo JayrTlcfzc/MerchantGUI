@@ -188,7 +188,7 @@ const ViewPendingSubscriber = () => {
               ) : (
                 <tr>
                   <td colSpan="4" className="px-4 py-2 border text-center">
-                    No results found
+                  {t('td_no_results_found')}
                   </td>
                 </tr>
               )}

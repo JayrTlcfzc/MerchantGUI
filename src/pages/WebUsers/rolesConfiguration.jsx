@@ -102,11 +102,12 @@ const rolesConfiguration = () => {
       <div className="p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
           <FaUsersGear className="text-[#D95F08] mr-2" />
-          {/* {t('search_subscriber')} */}
-          ROLES CONFIGURATION
+          {t('roles_configuration')}
         </h2>
         <div className="flex flex-col md:flex-row gap-4 mb-4 justify-center items-center">
-          <p className='text-md font-medium'>USER LEVEL</p>
+          <p className='text-md font-medium'>
+            {t('user_level')}
+          </p>
 
           <select
             value={userLevel}
@@ -128,7 +129,7 @@ const rolesConfiguration = () => {
             // onClick={() => handleSubmit(msisdn)}
             className="md:w-1/5 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
           >
-            GET ROLES
+            {t('get_roles')}
           </button>
         </div>
   
@@ -166,43 +167,43 @@ const rolesConfiguration = () => {
                   <tr className="divide-x divide-gray-200">
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("id")}>
                       <span className="flex items-center justify-between"> 
-                      ID
+                      {t('id')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("module")}>
                       <span className="flex items-center justify-between">
-                      MODULE
+                      {t('module')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("interface")}>
                       <span className="flex items-center justify-between">
-                      INTERFACE
+                      {t('interface')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("description")}>
                       <span className="flex items-center justify-between">
-                      DESCRIPTION
+                      {t('description')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userlevel")}>
                       <span className="flex items-center justify-between">
-                      USER LEVEL
+                      {t('user_level')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("rightsindicator")}>
                       <span className="flex items-center justify-between">
-                      RIGHTS INDICATOR
+                      {t('rights_indicator')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
                     <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("action")}>
                       <span className="flex items-center justify-between">
-                      ACTION
+                      {t('action')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
@@ -224,15 +225,48 @@ const rolesConfiguration = () => {
                   ) : (
                     <tr>
                       <td colSpan="7" className="px-4 py-2 border text-center">
-                        No results found
+                        {t('td_no_results_found')}
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
-          </div>
 
+            {/* PAGINATION */}
+            <div className="flex justify-center mt-4 space-x-1">
+              <button
+                onClick={() => paginate(1)}
+                className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+                disabled={currentPage === 1}
+              >
+                «
+              </button>
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+                disabled={currentPage === 1}
+              >
+                ‹
+              </button>
+              {renderPageNumbers()} {/* PAGE NUMBERS */}
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+                disabled={currentPage === totalPages}
+              >
+                ›
+              </button>
+              <button
+                onClick={() => paginate(totalPages)}
+                className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+                disabled={currentPage === totalPages}
+              >
+                »
+              </button>
+            </div>
+
+          </div>
         )}
 
       </div>

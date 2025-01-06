@@ -80,11 +80,11 @@
     "save_changes": "ENREGISTRER LES MODIFICATIONS",
 
     "roles_configuration": "CONFIGURATION DES RÔLES",
-
-
-
-
-
+    "get_roles": "OBTENEZ DES RÔLES",
+    "id": "IDENTIFIANT",
+    "module": "MODULE",
+    "description": "DESCRIPTION",
+    "rights_indicator": "INDICATEUR DE DROITS",
 
     "allocate_cash": "ALLOUER DE L'ARGENT",
     "recipient_mobile_number": "NUMÉRO DE MOBILE DU DESTINATAIRE",
