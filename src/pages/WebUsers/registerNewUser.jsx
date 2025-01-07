@@ -265,7 +265,7 @@ const RegisterNewUser = () => {
                 <option value="">Select User Level</option>
                 {levels.map((level) => (
                   <option key={level.USERSLEVEL} value={level.USERSLEVEL.toUpperCase()}>
-                    {level.USERSLEVEL === 'TEMP1' ? 'TEMPORARY_NEW' : level.USERSLEVEL}
+                    {level.USERSLEVEL}
                   </option>
                 ))}
               </select>

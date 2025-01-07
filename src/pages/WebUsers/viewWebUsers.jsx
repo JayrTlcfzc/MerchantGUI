@@ -4,27 +4,23 @@ import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import ViewWebUsersModal from '../../components/Modals/viewWebUsersModal';
 import { useTranslation } from 'react-i18next';
+import { viewWebUser } from "../../api/webUserSearch";
 
 const ViewWebUsers = () => {
-    const [selectUserBy, setSelectUserBy] = useState("USER ID");
+    const [selectUserBy, setSelectUserBy] = useState("USERNAME");
+    const [userInput, setUserInput] = useState("");
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
+    const [itemsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
     const [openModal, setOpenModal] = useState('');
     const [isViewModalOpen, setViewModalOpen] = useState(false);
+    const [data, setData] = useState([]);
+
 
     const { t, i18n } = useTranslation();
 
-    const data = [
-        { userid: 1, username: "User1", msisdn: 345876, firstname: "Abdul",lastname: "Jafar", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
-        { userid: 2, username: "User2", msisdn: 127413, firstname: "Juan",lastname: "Cruz", userlevel: "IT_ADMIN_MERCHANT", status: "DEACTIVE" },
-        { userid: 3, username: "User3", msisdn: 5327452, firstname: "Sara",lastname: "Brook", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
-        { userid: 4, username: "User2", msisdn: 127413, firstname: "Juan",lastname: "Cruz", userlevel: "IT_ADMIN_MERCHANT", status: "DEACTIVE" },
-        { userid: 5, username: "User3", msisdn: 5327452, firstname: "Sara",lastname: "Brook", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
-        { userid: 6, username: "User2", msisdn: 127413, firstname: "Juan",lastname: "Cruz", userlevel: "IT_ADMIN_MERCHANT", status: "DEACTIVE" },
-        { userid: 7, username: "User3", msisdn: 5327452, firstname: "Sara",lastname: "Brook", userlevel: "IT_ADMIN_MERCHANT", status: "ACTIVE" },
-    ];
+   
 
     const handleViewModal = () => setViewModalOpen(true);
 
@@ -34,8 +30,38 @@ const ViewWebUsers = () => {
     }
 
     const handleInputChange = (e) => {
-        setSelectUserBy(e.target.value);
+        const { value } = e.target;
+    
+        if (e.target.tagName === "SELECT") {
+          setSelectUserBy(value); 
+        } else {
+          setUserInput(value); 
+        }
+      };
+
+      const handleSubmit = async () => {
+        const params = {
+            USER: userInput,
+            SEARCHOPTION: selectUserBy,
+        };
+    
+        console.log("handle submit", params);
+    
+        try {
+            const response = await viewWebUser(params);
+            if (response.success) {
+                console.log("Search result:", response.webusers);
+                setData(response.webusers || []); 
+            } else {
+                console.error("Failed to fetch users:", response.message);
+                setData([]);
+            }
+        } catch (error) {
+            console.error("Error fetching user:", error);
+            setData([]); 
+        }
     };
+    
 
     const handleSearch = (e) => {
         setSearchInput(e.target.value);
@@ -102,30 +128,36 @@ const ViewWebUsers = () => {
                 {/* Search User*/}
                 <div className="flex flex-col gap-4 mb-4">
                     <div>
-                        <label className='text-sm font-semibold'>{t('select_user_by')}</label>
+                        <label className="text-sm font-semibold">{t('select_user_by')}</label>
                     </div>
 
-                    <div className='flex gap-4 mb-4'>
+                    <div className="flex gap-4 mb-4">
                         <select
                         className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-                        defaultValue={selectUserBy}
+                        value={selectUserBy}
                         onChange={handleInputChange}
                         >
-                            <option value="USER ID">USER ID</option>
-                            <option value="SAMPLE">SAMPLE</option>
+                        <option value="USERNAME">USERNAME</option>
+                        <option value="MSISDN">MSISDN</option>
+                        <option value="MSISDNOTP">MSISDN OTP</option>
                         </select>
 
                         <input
-                            type="text"
-                            placeholder={selectUserBy}
-                            className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+                        type="text"
+                        placeholder={`Enter ${selectUserBy}`}
+                        className="w-1/3 px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
+                        value={userInput}
+                        onChange={handleInputChange}
                         />
 
-                        <button className="w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]">
+                        <button
+                        className="w-1/3 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
+                        onClick={handleSubmit}
+                        >
                         {t('search')}
                         </button>
                     </div>
-                </div>
+                    </div>
 
                 {/* Table - Search Area*/}
                 <div className='relative flex justify-end mb-4'>
@@ -208,12 +240,12 @@ const ViewWebUsers = () => {
                             {currentItems.length > 0 ? (
                                 currentItems.map((item, index) => (
                                     <tr key={index} className="">
-                                        <td className="px-4 py-2 whitespace-nowrap">{item.userid}</td>
+                                        <td className="px-4 py-2 whitespace-nowrap">{item.userId}</td>
                                         <td className="px-4 py-2">{item.username}</td>
                                         <td className="px-4 py-2">{item.msisdn}</td>
                                         <td className="px-4 py-2">{item.firstname}</td>
                                         <td className="px-4 py-2">{item.lastname}</td>
-                                        <td className="px-4 py-2">{item.userlevel}</td>
+                                        <td className="px-4 py-2">{item.userslevel}</td>
                                         <td className="px-4 py-2">{item.status}</td>
                                         <td className='px-4 py-2 flex justify-center h-full cursor-pointer'>
                                         <Eye
