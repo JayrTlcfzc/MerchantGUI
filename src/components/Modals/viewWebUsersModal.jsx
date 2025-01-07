@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaUser, FaUserPen } from 'react-icons/fa6'
 import { X } from "lucide-react";
 import { toast, ToastContainer } from 'react-toastify';
@@ -8,6 +8,7 @@ import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
+import {userLevelCol} from "../../api/webuser";
 
 export default function viewWebUsersModal({handleClose=()=>{}}) {
 
@@ -18,6 +19,37 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
   const [openModal, setOpenModal] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
+
+   const [levels, setLevels] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const fetchUserLevels = async () => {
+        setLoading(true);
+        try {
+          const result = await userLevelCol();
+          if (result.success) {
+            const parsedLevels = JSON.parse(result.level);
+            console.log(parsedLevels)
+            if (Array.isArray(parsedLevels)) {
+              setLevels(parsedLevels); 
+  
+            } else {
+              setError('Invalid user level data format');
+            }
+          } else {
+            setError(result.message || 'Invalid data format');
+          }
+        } catch (err) {
+          setError(err.message); // Handle fetch errors
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+      fetchUserLevels();
+    }, []);
   
   const initialFormData = {
     userId: '',
@@ -243,8 +275,12 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   onChange={HandleChange(setFormData)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
-                  <option value="">Select User Level</option>
-                  <option value="IT_ADMIN_MERCHANT">IT_ADMIN_MERCHANT</option>
+                 <option value="">Select User Level</option>
+                {levels.map((level) => (
+                  <option key={level.USERSLEVEL} value={level.USERSLEVEL.toUpperCase()}>
+                    {level.USERSLEVEL}
+                  </option>
+                ))}
                 </select>
               </div>
               <div>
@@ -258,8 +294,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
                   <option value="">Select Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="DEACTIVE">DEACTIVE</option>
                 </select>
               </div>
               <div>
@@ -272,8 +308,8 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                   onChange={HandleChange(setFormData)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+                  <option value="YES">YES</option>
+                  <option value="NO">NO</option>
                 </select>
               </div>
               <div>

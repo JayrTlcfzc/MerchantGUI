@@ -25,6 +25,7 @@ export const userLevelCol = async () => {
     }
 };
 
+
 export const registerWebUser = async (formData) => {
     try {
       const response = await axios.post(`${BASE_URL}/webuser/registerWebUser`, formData);
@@ -34,3 +35,5 @@ export const registerWebUser = async (formData) => {
       throw error;
     }
   };
+
+ 
