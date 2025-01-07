@@ -4,18 +4,24 @@ import { Search, ArrowDownUp, X } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations';
 import { userLevelCol } from "../../api/webuser";
+import { getRolesConfigTable } from '../../api/rolesConfiguration';
+import { toast, ToastContainer } from "react-toastify";
 
 const rolesConfiguration = () => {
   const { t, i18n} = useTranslation();
   const [error, setError] = useState(null);
   const [userLevel, setUserLevel] = useState("");
-  const [rolesDetails, setRolesDetails] = useState([]);
+  const [rolesDetails, setRolesDetails] = useState([])
   const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
+  const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
+
+  useEffect(() => {
+    console.log("rolesDetails:", rolesDetails); // Check the data here
+  }, [rolesDetails]);
 
   useEffect(() => {
     const fetchUserLevels = async () => {
@@ -48,7 +54,7 @@ const rolesConfiguration = () => {
     setSearchInput(event.target.value);
   };
 
-  const sortedData = [...userLevel].sort((a, b) => {
+  const sortedData = [...rolesDetails].sort((a, b) => {
     if (a[sortConfig.key]?.toLowerCase() < b[sortConfig.key]?.toLowerCase()) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
@@ -58,15 +64,21 @@ const rolesConfiguration = () => {
     return 0;
   });
 
+  console.log("sortedData:", sortedData);
+
   const filteredData = sortedData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchInput.toLowerCase())
     )
   );
 
+  console.log("filteredData:", filteredData);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log("currentItems:", currentItems);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -83,22 +95,102 @@ const rolesConfiguration = () => {
   // Pagination Number Rendering Function
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <button
-          key={i}
-          onClick={() => paginate(i)}
-          className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-gray-200 text-gray-700'}`}
-        >
-          {i}
-        </button>
-      );
+    const maxPagesToShow = 5; 
+    let startPage, endPage;
+
+    if (totalPages <= maxPagesToShow) {
+       
+        startPage = 1;
+        endPage = totalPages;
+    } else {
+        
+        if (currentPage <= 3) {
+            startPage = 1;
+            endPage = maxPagesToShow;
+        } else if (currentPage + 2 >= totalPages) {
+            startPage = totalPages - maxPagesToShow + 1;
+            endPage = totalPages;
+        } else {
+            startPage = currentPage - 2;
+            endPage = currentPage + 2;
+        }
     }
+
+    if (startPage > 1) {
+        pageNumbers.push(
+            <button
+                key="prev-ellipsis"
+                className="px-3 py-1 mx-1 text-sm text-gray-700 bg-transparent"
+                disabled
+            >
+                &#8230;
+            </button>
+        );
+    }
+
+    
+    for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(
+            <button
+                key={i}
+                onClick={() => paginate(i)}
+                className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-transparent text-gray-700'}`}
+            >
+                {i}
+            </button>
+        );
+    }
+
+  
+    if (endPage < totalPages) {
+        pageNumbers.push(
+            <button
+                key="next-ellipsis"
+                className="px-3 py-1 mx-1 text-sm text-gray-700 bg-transparent"
+                disabled
+            >
+                &#8230;
+            </button>
+        );
+    }
+
     return pageNumbers;
-  };
+};
+
+  const handleSubmit = async (userlevel) => {
+    if (!userLevel) {
+      toast.error('User Level Required');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await getRolesConfigTable(userLevel);
+
+      if (result.success) {
+        const parsedRoles = JSON.parse(result.roles);
+        setRolesDetails(parsedRoles);
+        console.log("RESULT DATA ROLES" + result.roles);
+        toast.success("Roles fetched successfully!");
+      } else {
+        toast.error(result.message || "Failed to fetch roles");
+        setRolesDetails([]);
+      }
+
+    } catch (error) {
+      toast.error("ERROR!");
+      setRolesDetails([]);
+
+    } finally {
+      setLoading(false);
+  }
+
+  }
 
   return (
     <div className="min-h-screen bg-gray-200 p-8">
+      <ToastContainer />
+
       <div className="p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-8">
           <FaUsersGear className="text-[#D95F08] mr-2" />
@@ -126,7 +218,7 @@ const rolesConfiguration = () => {
 
           <button
             type="button"
-            // onClick={() => handleSubmit(msisdn)}
+            onClick={() => handleSubmit(userLevel)}
             className="md:w-1/5 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
           >
             {t('get_roles')}
@@ -212,14 +304,20 @@ const rolesConfiguration = () => {
                 <tbody className="text-center divide-y divide-gray-200">
                   {currentItems.length > 0 ? (
                     currentItems.map((item, index) => (
-                      <tr key={index} className="cursor-pointer">
-                        <td className="px-4 py-2 whitespace-nowrap">{item.ID}</td>
+                      <tr key={index}>
+                        <td className="px-4 py-2">{item.ID}</td>
                         <td className="px-4 py-2">{item.MODULE}</td>
                         <td className="px-4 py-2">{item.INTERFACE}</td>
                         <td className="px-4 py-2">{item.DESCRIPTION}</td>
-                        <td className="px-4 py-2">{item.USERLEVEL}</td>
+                        <td className="px-4 py-2">{item.USERSLEVEL}</td>
                         <td className="px-4 py-2">{item.RIGHTSINDICATOR}</td>
-                        <td className="px-4 py-2">{item.ACTION}</td>
+                        <td className="px-4 py-2">
+                          <select
+                          value={item.ACTIONSTATUS}>
+                            <option>NO</option>
+                            <option>YES</option>
+                          </select>
+                          </td>
                       </tr>
                     ))
                   ) : (
