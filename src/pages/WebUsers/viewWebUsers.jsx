@@ -4,7 +4,8 @@ import { Eye, Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import ViewWebUsersModal from '../../components/Modals/viewWebUsersModal';
 import { useTranslation } from 'react-i18next';
-import { viewWebUser } from "../../api/webUserSearch";
+import { viewWebUser, searchWebUser } from "../../api/webUserSearch";
+import { toast, ToastContainer } from 'react-toastify';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USERNAME");
@@ -16,13 +17,27 @@ const ViewWebUsers = () => {
     const [openModal, setOpenModal] = useState('');
     const [isViewModalOpen, setViewModalOpen] = useState(false);
     const [data, setData] = useState([]);
-
+    const [modalData, setModalData] = useState(null);
 
     const { t, i18n } = useTranslation();
 
    
 
-    const handleViewModal = () => setViewModalOpen(true);
+    const handleViewModal = async (username) => {
+        try {
+          const result = await searchWebUser({ username });
+      
+          if (result.success) {
+            setModalData(result.webusers);
+            setViewModalOpen(true);
+          } else {
+            toast.error("Failed to fetch web user:", result.message);
+          }
+        } catch (error) {
+          console.error("Error in handleViewModal:", error);
+        }
+      };
+      
 
     const handleProceedStatus = () => {
         setViewModalOpen(false)
@@ -45,16 +60,14 @@ const ViewWebUsers = () => {
             SEARCHOPTION: selectUserBy,
         };
     
-        console.log("handle submit", params);
-    
         try {
             const response = await viewWebUser(params);
             if (response.success) {
-                console.log("Search result:", response.webusers);
                 setData(response.webusers || []); 
             } else {
                 console.error("Failed to fetch users:", response.message);
                 setData([]);
+                toast.error(response.message);
             }
         } catch (error) {
             console.error("Error fetching user:", error);
@@ -117,6 +130,7 @@ const ViewWebUsers = () => {
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
+            <ToastContainer />
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}
@@ -239,30 +253,31 @@ const ViewWebUsers = () => {
                         <tbody className="text-center divide-y divide-gray-200">
                             {currentItems.length > 0 ? (
                                 currentItems.map((item, index) => (
-                                    <tr key={index} className="">
-                                        <td className="px-4 py-2 whitespace-nowrap">{item.userId}</td>
-                                        <td className="px-4 py-2">{item.username}</td>
-                                        <td className="px-4 py-2">{item.msisdn}</td>
-                                        <td className="px-4 py-2">{item.firstname}</td>
-                                        <td className="px-4 py-2">{item.lastname}</td>
-                                        <td className="px-4 py-2">{item.userslevel}</td>
-                                        <td className="px-4 py-2">{item.status}</td>
-                                        <td className='px-4 py-2 flex justify-center h-full cursor-pointer'>
-                                        <Eye
-                                            // onClick={() => setOpenModal('viewWebUsersModal')}
-                                            onClick={handleViewModal}
-                                            className='hover:text-[#D95F08]' />
-                                        </td>
-                                    </tr>
+                                <tr key={index} className="">
+                                    <td className="px-4 py-2 whitespace-nowrap">{item.userId}</td>
+                                    <td className="px-4 py-2">{item.username}</td>
+                                    <td className="px-4 py-2">{item.msisdn}</td>
+                                    <td className="px-4 py-2">{item.firstname}</td>
+                                    <td className="px-4 py-2">{item.lastname}</td>
+                                    <td className="px-4 py-2">{item.userslevel}</td>
+                                    <td className="px-4 py-2">{item.status}</td>
+                                    <td className="px-4 py-2 flex justify-center h-full cursor-pointer">
+                                    <Eye
+                                        onClick={() => handleViewModal(item.username)} // Pass the username here
+                                        className="hover:text-[#D95F08]"
+                                    />
+                                    </td>
+                                </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="8" className="px-4 py-2 border text-center">
-                                        {t('td_no_results_found')}
-                                    </td>
+                                <td colSpan="8" className="px-4 py-2 border text-center">
+                                    {t("td_no_results_found")}
+                                </td>
                                 </tr>
                             )}
-                        </tbody>
+                         </tbody>
+
                     </table>
                 </div>
 
@@ -300,11 +315,11 @@ const ViewWebUsers = () => {
                 </div>
             </div>
 
-            {isViewModalOpen && (
+            {isViewModalOpen && modalData && (
                 <ViewWebUsersModal
-                    isOpen={isViewModalOpen}
                     handleClose={() => setViewModalOpen(false)}
                     onProceed={handleProceedStatus}
+                    webUserData={modalData} // Pass the fetched user data
                 />
             )}
 

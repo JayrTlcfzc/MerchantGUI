@@ -10,7 +10,7 @@ import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormDa
 import { useTranslation } from 'react-i18next';
 import {userLevelCol} from "../../api/webuser";
 
-export default function viewWebUsersModal({handleClose=()=>{}}) {
+export default function viewWebUsersModal({ handleClose = () => {}, webUserData = {} }) {
 
   const { t, i18n } = useTranslation();
   const [onEdit, setOnEdit] = useState(false);
@@ -31,7 +31,6 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
           const result = await userLevelCol();
           if (result.success) {
             const parsedLevels = JSON.parse(result.level);
-            console.log(parsedLevels)
             if (Array.isArray(parsedLevels)) {
               setLevels(parsedLevels); 
   
@@ -51,24 +50,34 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
       fetchUserLevels();
     }, []);
   
-  const initialFormData = {
-    userId: '',
-    username: '',
-    msisdn: '',
-    otpMsisdn: '',
-    company: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    department: '',
-    userLevel: '',
-    status: '',
-    locked: '',
-    dateCreated: '',
-    dateModified: '',
-  };
+    const initialFormData = {
+      userId: '',
+      username: '',
+      msisdn: '',
+      otp: '',
+      company: '',
+      email: '',
+      firstname: '',
+      lastname: '',
+      department: '',
+      userLevel: '',
+      status: '',
+      locked: '',
+      dateRegistered: '',
+      dateModified: '',
+      userslevel: '',
+    };
   
-  const [formData, setFormData] = useState(initialFormData);
+    const [formData, setFormData] = useState(initialFormData);
+
+    useEffect(() => {
+      if (webUserData) {
+        setFormData((prevData) => ({
+          ...prevData,
+          ...webUserData,
+        }));
+      }
+    }, [webUserData]);
 
   const handleUseStateToggle = () => {
     if (modalMessage === `${t('modal_locked')}` || modalMessage === `${t('modal_unlocked')}`) {
@@ -111,7 +120,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
     e.preventDefault();
 
     // Simulate form submission success or failure
-    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otpMsisdn && formData.company && formData.email && formData.firstName && formData.lastName && formData.department && formData.userLevel && formData.status && formData.locked;
+    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otp && formData.company && formData.email && formData.firstname && formData.lastname && formData.department && formData.userLevel && formData.status && formData.locked && formData.userslevel;
     // && formData.dateCreated && formData.dateModified;
     
     if (isFormValid) {
@@ -194,12 +203,12 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="otpMsisdn">{t('otp_msisdn')}</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="otp">{t('otp_msisdn')}</label>
                 <input
                   disabled={!onEdit}
-                  name="otpMsisdn"
-                  id="otpMsisdn"
-                  value={formData.otpMsisdn}
+                  name="otp"
+                  id="otp"
+                  value={formData.otp}
                   onChange={HandleChangeDigitsOnly(setFormData)}
                   placeholder={t('otp_msisdn')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -230,24 +239,24 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="firstName">{t('first_name')}</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="firstname">{t('first_name')}</label>
                 <input
                   disabled={!onEdit}
-                  name="firstName"
-                  id="firstName"
-                  value={formData.firstName}
+                  name="firstname"
+                  id="firstname"
+                  value={formData.firstname}
                   onChange={HandleChangeTextOnly(setFormData)}
                   placeholder={t('first_name')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="lastName">{t('last_name')}</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="lastname">{t('last_name')}</label>
                 <input
                   disabled={!onEdit}
-                  name="lastName"
-                  id="lastName"
-                  value={formData.lastName}
+                  name="lastname"
+                  id="lastname"
+                  value={formData.lastname}
                   onChange={HandleChangeTextOnly(setFormData)}
                   placeholder={t('last_name')}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -266,12 +275,12 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="userLevel">{t('user_level')}</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="userslevel">{t('user_level')}</label>
                 <select
                   disabled={!onEdit}
-                  name="userLevel"
-                  id="userLevel"
-                  value={formData.userLevel}
+                  name="userslevel"
+                  id="userslevel"
+                  value={formData.userslevel}
                   onChange={HandleChange(setFormData)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 >
@@ -313,12 +322,12 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700" htmlFor="dateCreated">{t('date_created')}</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="dateRegistered">{t('date_created')}</label>
                 <input
                   disabled
-                  name="dateCreated"
-                  id="dateCreated"
-                  value={formData.dateCreated}
+                  name="dateRegistered"
+                  id="dateRegistered"
+                  value={formData.dateRegistered}
                   onChange={HandleChange(setFormData)}
                   placeholder="2023-11-19 14:35:00"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
@@ -347,7 +356,7 @@ export default function viewWebUsersModal({handleClose=()=>{}}) {
                     {t('modal_reset_password')}
                 </button>
 
-                {!locked ? (
+                {formData.locked === 'NO' ? (
                   <button
                   onClick={() => handleOpenModal(`${t('modal_locked')}`)}
                   className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"

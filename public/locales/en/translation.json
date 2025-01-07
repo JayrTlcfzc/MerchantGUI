@@ -131,7 +131,7 @@
     "timestamp": "TIMESTAMP",
     "log": "LOG",
     "interface": "INTERFACE",
-    "td_no_results_found": "No Results Found",
+    "td_no_results_found": "No Data Found",
 
     "account_management": "ACCOUNT MANAGEMENT",
     "register_subscriber": "REGISTER SUBSCRIBER",
