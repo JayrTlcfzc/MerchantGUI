@@ -4,13 +4,14 @@ import { Search, ArrowDownUp, X } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations';
 import { userLevelCol } from "../../api/webuser";
-import { getRolesConfigTable } from '../../api/rolesConfiguration';
+import { getRolesConfigTable, updateRoles } from '../../api/rolesConfiguration';
 import { toast, ToastContainer } from "react-toastify";
 
 const rolesConfiguration = () => {
   const { t, i18n} = useTranslation();
   const [error, setError] = useState(null);
   const [userLevel, setUserLevel] = useState("");
+  const [newRole, setNewRole] = useState("")
   const [rolesDetails, setRolesDetails] = useState([])
   const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -64,21 +65,15 @@ const rolesConfiguration = () => {
     return 0;
   });
 
-  console.log("sortedData:", sortedData);
-
   const filteredData = sortedData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchInput.toLowerCase())
     )
   );
 
-  console.log("filteredData:", filteredData);
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  console.log("currentItems:", currentItems);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -183,9 +178,30 @@ const rolesConfiguration = () => {
 
     } finally {
       setLoading(false);
+    } 
   }
 
-  }
+  const changeRole = async (userlevel, id, module, actionStatus) => {
+
+    try {
+      const result = await updateRoles(
+        userlevel,
+        id,
+        module,
+        actionStatus
+      );
+  
+      if (result.success) {
+        toast.success("Role updated successfully!");
+      } else {
+        toast.error(result.message || "Failed to update role.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating the role.");
+      console.error("Error updating role:", error);
+    }
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-200 p-8">
@@ -220,8 +236,9 @@ const rolesConfiguration = () => {
             type="button"
             onClick={() => handleSubmit(userLevel)}
             className="md:w-1/5 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
+            disabled={loading}
           >
-            {t('get_roles')}
+            {loading ? t('loading') : t('get_roles')}
           </button>
         </div>
   
@@ -257,43 +274,43 @@ const rolesConfiguration = () => {
               <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md">
                 <thead className="rounded bg-[#D95F08] text-white">
                   <tr className="divide-x divide-gray-200">
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("id")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("ID")}>
                       <span className="flex items-center justify-between"> 
                       {t('id')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("module")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("MODULE")}>
                       <span className="flex items-center justify-between">
                       {t('module')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("interface")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("INTERFACE")}>
                       <span className="flex items-center justify-between">
                       {t('interface')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("description")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("DESCRIPTION")}>
                       <span className="flex items-center justify-between">
                       {t('description')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("userlevel")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("USERSLEVEL")}>
                       <span className="flex items-center justify-between">
                       {t('user_level')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("rightsindicator")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("RIGHTSINDICATOR")}>
                       <span className="flex items-center justify-between">
                       {t('rights_indicator')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                       </span>
                     </th>
-                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("action")}>
+                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("ACTIONSTATUS")}>
                       <span className="flex items-center justify-between">
                       {t('action')}
                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
@@ -313,9 +330,18 @@ const rolesConfiguration = () => {
                         <td className="px-4 py-2">{item.RIGHTSINDICATOR}</td>
                         <td className="px-4 py-2">
                           <select
-                          value={item.ACTIONSTATUS}>
-                            <option>NO</option>
-                            <option>YES</option>
+                            value={newRole || item.ACTIONSTATUS}
+                            onChange={(e) => {
+                              const updatedActionStatus = e.target.value;
+                              setNewRole(prev => ({
+                                ...prev,
+                                [item.ID]: updatedActionStatus, // Set the newRole for the specific ID
+                              }));
+                              changeRole(item.USERSLEVEL, item.ID, item.MODULE, updatedActionStatus);
+                            }}    
+                          >
+                              <option value="NO">NO</option>
+                              <option value="YES">YES</option>
                           </select>
                           </td>
                       </tr>
