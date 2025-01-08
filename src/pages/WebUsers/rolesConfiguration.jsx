@@ -6,12 +6,18 @@ import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormDa
 import { userLevelCol } from "../../api/webuser";
 import { getRolesConfigTable, updateRoles } from '../../api/rolesConfiguration';
 import { toast, ToastContainer } from "react-toastify";
+import ConfirmationModal from '../../components/Modals/confirmationModal';
+import StatusModal from '../../components/Modals/statusModal';
 
 const rolesConfiguration = () => {
   const { t, i18n} = useTranslation();
   const [error, setError] = useState(null);
   const [userLevel, setUserLevel] = useState("");
   const [newRole, setNewRole] = useState("")
+  const [openModal, setOpenModal] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalData, setModalData] = useState('');
+  const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   const [rolesDetails, setRolesDetails] = useState([])
   const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -201,8 +207,33 @@ const rolesConfiguration = () => {
       console.error("Error updating role:", error);
     }
   };
-  
 
+  const handleOpenModal = (modalMessage, data) => {
+    setModalMessage(modalMessage);
+    setModalData(data);
+    setOpenModal('confirmationModal');
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal('');
+    setModalMessage('');
+  };
+
+  const handleUseStateToggle = () => {
+    if (modalData) {
+      const { userLevel, id, module, actionStatus } = modalData;
+  
+      // Call the functions with the modal data
+      setNewRole((prev) => ({
+        ...prev,
+        [id]: actionStatus,
+      }));
+  
+      changeRole(userLevel, id, module, actionStatus);
+  
+    }
+  };
+  
   return (
     <div className="min-h-screen bg-gray-200 p-8">
       <ToastContainer />
@@ -333,12 +364,13 @@ const rolesConfiguration = () => {
                             value={newRole[item.ID] || item.ACTIONSTATUS}
                             onChange={(e) => {
                               const updatedActionStatus = e.target.value;
-                              setNewRole((prev) => ({
-                                ...prev,
-                                [item.ID]: updatedActionStatus, // Set the newRole for the specific ID
-                              }));
-                              changeRole(item.USERSLEVEL, item.ID, item.MODULE, updatedActionStatus);
-                            }}    
+                              handleOpenModal(`CHANGE THE ROLE OF`, {  
+                                userLevel: item.USERSLEVEL,
+                                id: item.ID,
+                                module: item.MODULE,
+                                actionStatus: updatedActionStatus
+                              });
+                            }}  
                           >
                               <option value="NO">NO</option>
                               <option value="YES">YES</option>
@@ -394,6 +426,23 @@ const rolesConfiguration = () => {
         )}
 
       </div>
+
+      {openModal === 'confirmationModal' && (
+        <ConfirmationModal
+          openModal={Boolean(openModal)}
+          modalMessage={modalMessage}
+          setNewRole={newRole}
+          handleCloseModal={handleCloseModal}
+          onProceed={handleUseStateToggle}
+        />
+      )}
+        <StatusModal
+          isOpen={modalState.isOpen}
+          onClose={() => setModalState((prev) => ({ ...prev, isOpen: false }))}
+          status={modalState.status}
+          message={modalState.message}
+        />
+
     </div>
   )
 }
