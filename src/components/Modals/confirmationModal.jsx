@@ -13,6 +13,7 @@ export default function ConfirmationModal({
   setLocked,
   deactivated,
   setDeactivated,
+  setModalData,
   onProceed = () => {},
 }) {
   const { t } = useTranslation();
@@ -38,6 +39,11 @@ export default function ConfirmationModal({
   
   
   const handleSubmit = async () => {
+    if (modalMessage == "CHANGE THE ROLE OF") {
+      onProceed();
+      handleCloseModal();
+    }
+    
     if (modalMessage === "LOCKED") {
       try {
         const result = await lockWebUser(modalUsername);

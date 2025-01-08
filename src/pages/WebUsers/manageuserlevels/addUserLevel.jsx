@@ -7,6 +7,7 @@ import {
   ResetFormData,
 } from "../../../components/Validations";
 import { useTranslation } from "react-i18next";
+import { addUserLevel } from "../../../api/manageUserLevels";
 
 const AddUserLevel = () => {
   const { t, i18n } = useTranslation();
@@ -28,7 +29,7 @@ const AddUserLevel = () => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Simulate form submission success or failure
@@ -41,6 +42,9 @@ const AddUserLevel = () => {
       formData.maxAllocation;
 
     if (isFormValid) {
+
+      const response = await addUserLevel(formData);
+      console.log("response: "+response);
       setModalState({
         isOpen: true,
         status: "success",
