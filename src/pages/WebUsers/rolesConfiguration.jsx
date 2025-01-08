@@ -16,7 +16,7 @@ const rolesConfiguration = () => {
   const [newRole, setNewRole] = useState("")
   const [openModal, setOpenModal] = useState('');
   const [modalMessage, setModalMessage] = useState('');
-  const [modalData, setModalData] = useState('');
+  const [modalData, setModalData] = useState(null);
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   const [rolesDetails, setRolesDetails] = useState([])
   const [levels, setLevels] = useState([]);
@@ -228,9 +228,14 @@ const rolesConfiguration = () => {
         ...prev,
         [id]: actionStatus,
       }));
-  
+
+      setModalState({
+        isOpen: true,
+          status: 'success',
+          message: `The role has been updated successfully!`
+      });
+
       changeRole(userLevel, id, module, actionStatus);
-  
     }
   };
   
@@ -431,17 +436,18 @@ const rolesConfiguration = () => {
         <ConfirmationModal
           openModal={Boolean(openModal)}
           modalMessage={modalMessage}
+          setModalData={modalData}
           setNewRole={newRole}
           handleCloseModal={handleCloseModal}
           onProceed={handleUseStateToggle}
         />
       )}
-        <StatusModal
-          isOpen={modalState.isOpen}
-          onClose={() => setModalState((prev) => ({ ...prev, isOpen: false }))}
-          status={modalState.status}
-          message={modalState.message}
-        />
+      <StatusModal
+        isOpen={modalState.isOpen}
+        onClose={() => setModalState((prev) => ({ ...prev, isOpen: false }))}
+        status={modalState.status}
+        message={modalState.message}
+      />
 
     </div>
   )
