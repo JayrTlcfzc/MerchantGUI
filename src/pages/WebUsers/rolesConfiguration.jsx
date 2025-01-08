@@ -330,10 +330,10 @@ const rolesConfiguration = () => {
                         <td className="px-4 py-2">{item.RIGHTSINDICATOR}</td>
                         <td className="px-4 py-2">
                           <select
-                            value={newRole || item.ACTIONSTATUS}
+                            value={newRole[item.ID] || item.ACTIONSTATUS}
                             onChange={(e) => {
                               const updatedActionStatus = e.target.value;
-                              setNewRole(prev => ({
+                              setNewRole((prev) => ({
                                 ...prev,
                                 [item.ID]: updatedActionStatus, // Set the newRole for the specific ID
                               }));
