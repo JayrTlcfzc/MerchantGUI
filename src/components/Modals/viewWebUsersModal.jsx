@@ -17,12 +17,16 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   const [locked, setLocked] = useState(false);
   const [deactivated, setDeactivated] = useState(false);
   const [openModal, setOpenModal] = useState('');
+  
   const [modalMessage, setModalMessage] = useState('');
+  const [modalUsername, setModalUsername] = useState('');
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
 
    const [levels, setLevels] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+
+   
   
     useEffect(() => {
       const fetchUserLevels = async () => {
@@ -79,7 +83,8 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
       }
     }, [webUserData]);
 
-  const handleUseStateToggle = () => {
+  const handleUseStateToggle = (result) => {
+    console.log('HANDLE USE STATE TOGGLE ',result)
     if (modalMessage === `${t('modal_locked')}` || modalMessage === `${t('modal_unlocked')}`) {
       setLocked(!locked);
       
@@ -99,17 +104,20 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
 
     setModalState({
       isOpen: true,
-        status: 'success',
+        status: 'successul',
         message: modalMessage === `${t('modal_reset_password')}`
         ? `${t('modal_successfully_reset')}`
         : `${t('modal_the_user_has_been_successfully')} ${formattedMessage.toLowerCase()}!`
     });
   };
 
-  const handleOpenModal = (modalMessage) => {
+  const handleOpenModal = (modalMessage, modalUsername) => {
+    console.log(modalUsername);
     setModalMessage(modalMessage);
+    setModalUsername(modalUsername);
     setOpenModal('confirmationModal');
   };
+  
 
   const handleCloseModal = () => {
     setOpenModal('');
@@ -348,79 +356,89 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
             </div>
 
             <div className="flex justify-between gap-10 mx-6">
-              <div className='flex gap-2'>
-                <button
-                    onClick={() => handleOpenModal(`${t('modal_reset')}`)}
-                    className="px-4 py-2 text-white bg-[#E88B00] rounded hover:bg-[#FFA51E] font-bold"
-                >
-                    {t('modal_reset_password')}
-                </button>
+              <div className="flex gap-2">
+              <button
+                onClick={() => handleOpenModal(t('modal_reset'), formData.username)}
+                className="px-4 py-2 text-white bg-[#E88B00] rounded hover:bg-[#FFA51E] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={onEdit} // Disable when editing
+              >
+                {t('modal_reset_password')}
+              </button>
+
 
                 {formData.locked === 'NO' ? (
                   <button
-                  onClick={() => handleOpenModal(`${t('modal_locked')}`)}
-                  className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold"
+                  onClick={() => handleOpenModal(t('modal_locked'), formData.username)}
+                    className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={onEdit} // Disable when editing
                   >
                     {t('modal_lock')}
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleOpenModal(`${t('modal_unlocked')}`)}
-                    className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold"
-                    >
-                      {t('modal_unlock')}
-                    </button>
+                  onClick={() => handleOpenModal(t('modal_unlocked'), formData.username)}
+                    className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={onEdit} // Disable when editing
+                  >
+                    {t('modal_unlock')}
+                  </button>
                 )}
 
-                {!deactivated ? (
+                {formData.status === 'ACTIVE' ? (
                   <button
-                  onClick={() => handleOpenModal(`${t('modal_deactivated')}`)}
-                  className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold"
+                    onClick={() => handleOpenModal(`${t('modal_deactivated')}`)}
+                    className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={onEdit} // Disable when editing
                   >
                     {t('modal_deactivate')}
                   </button>
                 ) : (
                   <button
                     onClick={() => handleOpenModal(`${t('modal_activated')}`)}
-                    className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold"
-                    >
-                      {t('modal_activate')}
-                    </button>
+                    className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={onEdit} // Disable when editing
+                  >
+                    {t('modal_activate')}
+                  </button>
                 )}
-
               </div>
-              
-              <div className='flex gap-2'>
+
+              <div className="flex gap-2">
                 {!onEdit ? (
                   <button
-                    onClick={() => {setOnEdit(true)}}
+                    onClick={() => setOnEdit(true)}
                     className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold"
-                    >
-                      {t('modal_edit')}
-                  </button>) : (
-                    <button
-                      onClick={handleSubmit}
-                      className="px-4 py-2 text-white bg-[#D95F08] rounded hover:bg-[#D95F08] font-bold"
-                    >
-                      {t('modal_save')}
+                  >
+                    {t('modal_edit')}
                   </button>
-                  )
-                }
-                
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    className="px-4 py-2 text-white bg-[#D95F08] rounded hover:bg-[#D95F08] font-bold"
+                  >
+                    {t('modal_save')}
+                  </button>
+                )}
+
                 <button
-                    className="px-4 py-2 text-black bg-[#DCDCDC] rounded hover:bg-[#9D9D9D] font-bold"
-                    onClick={handleClose}
+                  className="px-4 py-2 text-black bg-[#DCDCDC] rounded hover:bg-[#9D9D9D] font-bold"
+                  onClick={() => {
+                    setOnEdit(false); // Exit edit mode when cancel is clicked
+                  }}
                 >
-                    {t('modal_cancel')}
+                  {t('modal_cancel')}
                 </button>
               </div>
-
             </div>
+
+
           </div>
           {openModal === 'confirmationModal' && (
             <ConfirmationModal
+            
               openModal={Boolean(openModal)}
               modalMessage={modalMessage}
+              modalUsername={modalUsername}
               locked={locked} 
               setLocked={setLocked} 
               deactivated={deactivated} 
