@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { toast, ToastContainer } from "react-toastify";
 import { useTranslation } from 'react-i18next';
-import { lockWebUser, unlockWebUser } from "../../api/webUserSearch";
+// import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/webUserSearch";
+import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/apiWebUsers";
 import StatusModal from './statusModal';
 
 export default function ConfirmationModal({
@@ -39,61 +40,70 @@ export default function ConfirmationModal({
   
   
   const handleSubmit = async () => {
-    if (modalMessage == "CHANGE THE ROLE OF") {
+    if (modalMessage === "CHANGE THE ROLE OF") {
       onProceed();
       handleCloseModal();
+      return;
     }
-    
-    if (modalMessage === "LOCKED") {
+  
+    const lockActions = {
+      LOCKED: {
+        action: lockWebUser,
+        lockState: true,
+        successMessage: t('user_locked'),
+        failureMessage: t('lock_failed'),
+      },
+      UNLOCKED: {
+        action: unlockWebUser,
+        lockState: false,
+        successMessage: t('user_unlocked'),
+        failureMessage: t('unlock_failed'),
+      },
+      ACTIVATED: {
+        action: activeWebUser,
+        lockState: false,
+        successMessage: t('user_active'),
+        failureMessage: t('active_failed'),
+      },
+      DEACTIVATED: {
+        action: deactiveWebUser,
+        lockState: false,
+        successMessage: t('user_deactive'),
+        failureMessage: t('deactive_failed'),
+      },
+      RESET: {
+        action: resetWebUser,
+        lockState: false,
+        successMessage: t('user_reset'),
+        failureMessage: t('reset_failed'),
+      },
+    };
+  
+    const currentAction = lockActions[modalMessage];
+  
+    if (currentAction) {
       try {
-        const result = await lockWebUser(modalUsername);
+        const result = await currentAction.action(modalUsername);
         console.log('result', result);
-
+  
         if (result.success) {
-          console.log('yes')
-          // toast.success(result.message);
-          setLocked(true);
-
-          onProceed(result); 
-          setTimeout(() => {
-            closeAllModals();
-          }, 1000)
-        } else {
-          toast.error(result.message || t('lock_failed'));
-        }
-      } catch (error) {
-        toast.error(t('lock_failed'));
-        console.error('Error locking user:', error);
-      }
-    }
-
-    if (modalMessage === "UNLOCKED") {
-      try {
-        const result = await unlockWebUser(modalUsername);
-
-        console.log('result', result);
-
-        if (result.success) {
-          console.log('yes')
-          // toast.success(result.message);
-          setLocked(false);
-
-          onProceed(result); 
+          console.log('yes');
+          setLocked(currentAction.lockState);
+          onProceed(result);
   
           setTimeout(() => {
             closeAllModals();
-          }, 1000)
+          }, 1000);
         } else {
-          toast.error(result.message || t('lock_failed'));
+          toast.error(result.message || currentAction.failureMessage);
         }
       } catch (error) {
-        toast.error(t('lock_failed'));
-        console.error('Error locking user:', error);
+        toast.error(currentAction.failureMessage);
+        console.error(`Error ${modalMessage === "LOCKED" ? "locking" : "unlocking"} user:`, error);
       }
     }
-
-
   };
+  
   
 
   return (

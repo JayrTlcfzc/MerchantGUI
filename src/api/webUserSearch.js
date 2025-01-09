@@ -85,3 +85,72 @@ export const viewWebUser = async (params) => {
     }
   };
 
+  export const activeWebUser = async (username) => {
+    try {
+
+      console.log(username);
+      const response = await axios.post(`${BASE_URL}/webuser/activeWebUser`, { username });
+    
+      const responseData = response.data
+
+      console.log(responseData);
+
+      if (responseData && responseData.success) {
+        return { success: true, message: responseData?.message };
+      } else {
+     
+        return { success: false, message: responseData?.message || "Unknown error" };
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      throw error;
+    }
+  };
+
+  export const deactiveWebUser = async (username) => {
+    try {
+
+      console.log(username);
+      const response = await axios.post(`${BASE_URL}/webuser/deactiveWebUser`, { username });
+    
+      const responseData = response.data
+
+      console.log(responseData);
+
+      if (responseData && responseData.success) {
+        return { success: true, message: responseData?.message };
+      } else {
+     
+        return { success: false, message: responseData?.message || "Unknown error" };
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      throw error;
+    }
+  };
+
+
+  export const resetWebUser = async (username) => {
+    try {
+
+      console.log(username);
+      const response = await axios.post(`${BASE_URL}/webuser/resetWebUser`, { username });
+    
+      const responseData = response.data
+
+      console.log(responseData);
+
+      if (responseData && responseData.success) {
+        return { success: true, message: responseData?.message };
+      } else {
+     
+        return { success: false, message: responseData?.message || "Unknown error" };
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      throw error;
+    }
+  };
+
+
+
