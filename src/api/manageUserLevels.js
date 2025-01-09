@@ -42,11 +42,11 @@ export const userLevelSearch = async (data) => {
     const response = await axios.post(`${BASE_URL}/webuser/userLevelSearch`, { userLevel: data });
 
     const responseData = response.data;
-    console.log("check  ",responseData);
+    console.log("check  ",responseData.userLevelData);
     
     if (responseData && responseData.StatusMessage === "Success") {
       console.log("SUCCESS HERE!");
-      return { success: true, dataUserLevel: responseData.userLevelData };
+      return { success: true, dataUserLevel: responseData.userLevelData, message : '' };
     } else {
       console.log("FAILED HERE!");
       return { success: false, message: responseData?.message || "Unknown error" };

@@ -88,17 +88,28 @@ const EditUserLevel = () => {
       try {
         const { success, dataUserLevel, message } = await userLevelSearch(userlevel);
 
-        console.log("userLevelData: " + dataUserLevel.sessionTimeout);
+        console.log("userLevelData: " + dataUserLevel);
         console.log("success?: " + success);
 
         if (success) {
-          setUserLevelData([
-            { label: t("session_timeout"), value: dataUserLevel.sessionTimeout },
-            { label: t('password_expiry'), value: dataUserLevel.passwordExpiry },
-            { label: t('minimum_password'), value: dataUserLevel.minimumPassword },
-            { label: t('password_history'), value: dataUserLevel.passwordHistory },
-            { label: t('max_allocation'), value: dataUserLevel.maxAllocation },
-          ]);
+          let parsedData;
+            if (Array.isArray(dataUserLevel)) {
+              parsedData = dataUserLevel[0]; 
+            } else {
+              parsedData = dataUserLevel; 
+            }
+            if (parsedData) {
+              setUserLevelData([
+                { label: t("session_timeout"), value: parsedData.sessionTimeout },
+                { label: t("password_expiry"), value: parsedData.passwordExpiry },
+                { label: t("minimum_password"), value: parsedData.minimumPassword },
+                { label: t("password_history"), value: parsedData.passwordHistory },
+                { label: t("max_allocation"), value: parsedData.maxAllocation },
+              ]);
+            } else {
+              console.error("Parsed data is null or undefined");
+              setUserLevelData([]);
+            }
         } else {
           console.log("HERE!");
           setUserLevelData([]);
