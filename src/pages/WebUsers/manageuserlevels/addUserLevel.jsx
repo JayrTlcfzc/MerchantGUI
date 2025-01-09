@@ -8,6 +8,7 @@ import {
 } from "../../../components/Validations";
 import { useTranslation } from "react-i18next";
 import { addUserLevel } from "../../../api/manageUserLevels";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddUserLevel = () => {
   const { t, i18n } = useTranslation();
@@ -44,7 +45,7 @@ const AddUserLevel = () => {
     if (isFormValid) {
 
       const response = await addUserLevel(formData);
-      console.log("response: "+response);
+      console.log("response: " + response);
       setModalState({
         isOpen: true,
         status: "success",
@@ -53,6 +54,7 @@ const AddUserLevel = () => {
 
       ResetFormData(setFormData, initialFormData)();
     } else {
+      toast.error('Please fill up the form');
       setModalState({
         isOpen: true,
         status: "error",
@@ -132,7 +134,7 @@ const AddUserLevel = () => {
                 name="passwordHistory"
                 id="passwordHistory"
                 value={formData.passwordHistory}
-                onChange={HandleChange(setFormData)}
+                onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 placeholder="Password History"
               />
@@ -165,6 +167,8 @@ const AddUserLevel = () => {
           </button>
         </div>
       </form>
+
+      <ToastContainer />
 
       {/* Status Modal */}
       <StatusModal
