@@ -64,7 +64,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
       firstname: '',
       lastname: '',
       department: '',
-      userLevel: '',
       status: '',
       locked: '',
       dateRegistered: '',
@@ -128,9 +127,10 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     e.preventDefault();
 
     // Simulate form submission success or failure
-    const isFormValid = formData.userId && formData.username && formData.msisdn && formData.otp && formData.company && formData.email && formData.firstname && formData.lastname && formData.department && formData.userLevel && formData.status && formData.locked && formData.userslevel;
+    const isFormValid = formData.userId || formData.username || formData.msisdn || formData.otp || formData.company || formData.email || formData.firstname || formData.lastname || formData.department || formData.status || formData.locked || formData.userslevel;
     // && formData.dateCreated && formData.dateModified;
-    
+    console.log("hey",isFormValid);
+    console.log('formdata  ',formData);
     if (isFormValid) {
       setModalState({
         isOpen: true,
@@ -386,7 +386,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
 
                 {formData.status === 'ACTIVE' ? (
                   <button
-                    onClick={() => handleOpenModal(`${t('modal_deactivated')}`)}
+                    onClick={() => handleOpenModal(t('modal_deactivated'), formData.username)}
                     className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={onEdit} // Disable when editing
                   >
@@ -394,7 +394,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleOpenModal(`${t('modal_activated')}`)}
+                    onClick={() => handleOpenModal(t('modal_activated'), formData.username)}
                     className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={onEdit} // Disable when editing
                   >
@@ -424,6 +424,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   className="px-4 py-2 text-black bg-[#DCDCDC] rounded hover:bg-[#9D9D9D] font-bold"
                   onClick={() => {
                     setOnEdit(false); // Exit edit mode when cancel is clicked
+                    handleClose();
                   }}
                 >
                   {t('modal_cancel')}
