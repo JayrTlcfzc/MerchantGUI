@@ -1,30 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Folders, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaFolder } from "react-icons/fa6";
 import { useTranslation } from 'react-i18next';
+import { batchUploadedFiles } from "../../api/batch";
+import { toast, ToastContainer } from "react-toastify";
 
 const BatchUploadedFiles = () => {
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [sortConfig, setSortConfig] = useState({ key: "fileid", direction: "ascending" });
+  const [files, setFiles] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { t, i18n } = useTranslation();
 
-  const data = [
-    { fileid: 1040, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ABDUL", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ABDUL", dateapproved: "2024-05-17 11:01:12", uploadedby: "ABDUL" },
-    { fileid: 2103, datecreated: "2019-11-23 11:01:12", dateuploaded: "2022-12-29 08:24:15", filename: "BATCH-PAYMENT.xlsx", status: "FAILED", confirmedby: "JUAN", dateconfirmed: "2022-12-30 01:10:54", approvedby: "JUAN", dateapproved: "2022-05-17 11:01:12", uploadedby: "JUAN" },
-    { fileid: 3214, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-REGISTER-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ALI", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ALI", dateapproved: "2024-05-17 11:01:12", uploadedby: "ALI" },
-    { fileid: 5687, datecreated: "2023-05-17 11:01:12", dateuploaded: "2023-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "FAILED", confirmedby: "TESTER", dateconfirmed: "2023-05-07 01:10:54", approvedby: "TESTER", dateapproved: "2023-05-17 11:01:12", uploadedby: "TESTER" },
-    { fileid: 9876, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "FAILED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
-    { fileid: 7869, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "JAFAR", dateconfirmed: "2016-05-07 01:10:54", approvedby: "JAFAR", dateapproved: "2016-05-17 11:01:12", uploadedby: "JAFAR"},
-    { fileid: 98765, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
-  ];
+  // const data = [
+  //   { fileid: 1040, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ABDUL", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ABDUL", dateapproved: "2024-05-17 11:01:12", uploadedby: "ABDUL" },
+  //   { fileid: 2103, datecreated: "2019-11-23 11:01:12", dateuploaded: "2022-12-29 08:24:15", filename: "BATCH-PAYMENT.xlsx", status: "FAILED", confirmedby: "JUAN", dateconfirmed: "2022-12-30 01:10:54", approvedby: "JUAN", dateapproved: "2022-05-17 11:01:12", uploadedby: "JUAN" },
+  //   { fileid: 3214, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-REGISTER-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ALI", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ALI", dateapproved: "2024-05-17 11:01:12", uploadedby: "ALI" },
+  //   { fileid: 5687, datecreated: "2023-05-17 11:01:12", dateuploaded: "2023-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "FAILED", confirmedby: "TESTER", dateconfirmed: "2023-05-07 01:10:54", approvedby: "TESTER", dateapproved: "2023-05-17 11:01:12", uploadedby: "TESTER" },
+  //   { fileid: 9876, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "FAILED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
+  //   { fileid: 7869, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "JAFAR", dateconfirmed: "2016-05-07 01:10:54", approvedby: "JAFAR", dateapproved: "2016-05-17 11:01:12", uploadedby: "JAFAR"},
+  //   { fileid: 98765, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
+  // ];
+
+  useEffect(() => {
+    const fetchBatchUploadedFiles = async () => {
+      setLoading(true);
+
+      try {
+        const result = await batchUploadedFiles();
+        if (result.success) {
+          const parsedFiles = JSON.parse(result.batchData);
+          if (Array.isArray(parsedFiles)) {
+            console.log("HERE!");
+            setFiles(
+              parsedFiles.map((batchData) => ({
+                // FILEID: batchData.FILEID || '',
+                // DATECREATED: batchData.DATECREATED || '',
+                // DATEUPLOADED: batchData.DATEUPLOADED || '',
+                // FILENAME: batchData.FILENAME || '',
+                // STATUS: batchData.STATUS || '',
+                // CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                // DATECONFIRMED: batchData.DATECONFIRMED || '',
+                // APPROVEDBY: batchData.APPROVEDBY || '',
+                // DATEAPPROVED: batchData.DATEAPPROVED || '',
+                // UPLOADEDBY: batchData.UPLOADEDBY || '',
+
+                FILEID: batchData.FILEID || '',
+                CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
+                LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
+                FILENAME: batchData.FILENAME || '',
+                STATUS: batchData.STATUS || '',
+                CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                DATECONFIRMED: batchData.DATECONFIRMED || '',
+                APPROVEDBY: batchData.APPROVEDBY || '',
+                DATEAPPROVED: batchData.DATEAPPROVED || '',
+                UPLOADEDBY: batchData.UPLOADEDBY || '',
+              }))
+            );
+          } else {
+            setError("Invalid account data format");
+          }
+        } else {
+          setError(result.message || "Invalid data format");
+          toast.error(result.message || "Invalid data format");
+        }
+      } catch (err) {
+        setError(err.message);
+        toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBatchUploadedFiles();
+  }, []);
 
   const handleSearch = (event) => {
     setSearchInput(event.target.value);
   };
 
-  const sortedData = [...data].sort((a, b) => {
+  const sortedData = [...files].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
@@ -178,20 +235,20 @@ const BatchUploadedFiles = () => {
               {currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
                   <tr key={index} className="cursor-pointer">
-                      <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
-                      <td className="px-4 py-2">{item.datecreated}</td>
-                      <td className="px-4 py-2">{item.dateuploaded}</td>
-                      <td className="px-4 py-2">{item.filename}</td>
-                      <td className="px-4 py-2">{item.status}</td>
-                      <td className="px-4 py-2">{item.confirmedby}</td>
-                      <td className="px-4 py-2">{item.dateconfirmed}</td>
-                      <td className="px-4 py-2">{item.approvedby}</td>
-                      <td className="px-4 py-2">{item.dateapproved}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
+                      <td className="px-4 py-2">{item.CREATEDTIMESTAMP}</td>
+                      <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
+                      <td className="px-4 py-2">{item.FILENAME}</td>
+                      <td className="px-4 py-2">{item.STATUS}</td>
+                      <td className="px-4 py-2">{item.CONFIRMEDBY}</td>
+                      <td className="px-4 py-2">{item.DATECONFIRMED}</td>
+                      <td className="px-4 py-2">{item.APPROVEDBY}</td>
+                      <td className="px-4 py-2">{item.DATEAPPROVED}</td>
                       <td className="px-4 py-2 flex justify-between items-center">
-                          <div className="text-right w-full"> 
-                              {item.uploadedby} 
-                          </div> 
-                          <EllipsisVertical className="ml-2" /> 
+                        <div className="text-right w-full"> 
+                            {item.UPLOADEDBY} 
+                        </div> 
+                        <EllipsisVertical className="ml-2" /> 
                       </td>
                   </tr>
                 ))
@@ -239,6 +296,7 @@ const BatchUploadedFiles = () => {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
