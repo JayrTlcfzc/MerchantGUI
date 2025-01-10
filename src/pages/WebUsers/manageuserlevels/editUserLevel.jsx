@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
 import {
-  HandleChange,
-  HandleChangeDigitsOnly,
-  HandleChangeTextOnly,
+  HandleChangeDigitsOnly2,
   ResetFormData,
 } from "../../../components/Validations";
 import { useTranslation } from "react-i18next";
@@ -17,17 +15,13 @@ const EditUserLevel = () => {
   const [userLevel, setUserLevel] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userLevelData, setUserLevelData] = useState([]);
- // const [formData, setFormData] = useState(initialFormData);
-
-  // const initialFormData = {
-  //   userLevel: "",
-  //   sessionTimeout: "",
-  //   passwordExpiry: "",
-  //   minimumPassword: "",
-  //   passwordHistory: "",
-  //   maxAllocation: "",
-  // };
+  const [userLevelData, setUserLevelData] = useState([
+    { label: t("session_timeout"), value: "", nameID: "sessionTimeout" },
+    { label: t("password_expiry"), value: "", nameID: "passwordExpiry"  },
+    { label: t("minimum_password"), value: "", nameID: "MinimumPassword"  },
+    { label: t("password_history"), value: "", nameID: "passwordHistory"  },
+    { label: t("max_allocation"), value: "", nameID: "maxAllocation"  },
+  ]);
 
   const [modalState, setModalState] = useState({
     isOpen: false,
@@ -62,28 +56,6 @@ const EditUserLevel = () => {
       fetchUserLevels();
     }, []);
 
-    // const getNameAndId = (label) => {
-    //   if (label === t("session_timeout")) return "sessionTimeout";
-    //   if (label === t("password_expiry")) return "passwordExpiry";
-    //   if (label === t("minimum_password")) return "minimumPassword";
-    //   if (label === t("password_history")) return "passwordHistory";
-    //   if (label === t("max_allocation")) return "maxAllocation";
-    //   return ""; // Default fallback (optional)
-    // };
-  
-    // const nameAndId = getNameAndId(label);
-
-    // const getPlaceholder = (label) => {
-    //   if (label === t("session_timeout")) return "Session Timeout";
-    //   if (label === t("password_expiry")) return "Password Expiry";
-    //   if (label === t("minimum_password")) return "Minimum Password";
-    //   if (label === t("password_history")) return "Password History";
-    //   if (label === t("max_allocation")) return "Max Allocation";
-    //   return ""; // Default fallback (optional)
-    // };
-  
-    // const placeholderData = getPlaceholder(label);
-
     const handleShowData = async (userlevel) => {
       try {
         const { success, dataUserLevel, message } = await userLevelSearch(userlevel);
@@ -100,11 +72,11 @@ const EditUserLevel = () => {
             }
             if (parsedData) {
               setUserLevelData([
-                { label: t("session_timeout"), value: parsedData.sessionTimeout },
-                { label: t("password_expiry"), value: parsedData.passwordExpiry },
-                { label: t("minimum_password"), value: parsedData.minimumPassword },
-                { label: t("password_history"), value: parsedData.passwordHistory },
-                { label: t("max_allocation"), value: parsedData.maxAllocation },
+                { label: t("session_timeout"), value: parsedData.sessionTimeout, nameID: "sessionTimeout"  },
+                { label: t("password_expiry"), value: parsedData.passwordExpiry, nameID: "passwordExpiry"  },
+                { label: t("minimum_password"), value: parsedData.minimumPassword, nameID: "minimumPassword"  },
+                { label: t("password_history"), value: parsedData.passwordHistory, nameID: "passwordHistory"  },
+                { label: t("max_allocation"), value: parsedData.maxAllocation, nameID: "maxAllocation"  },
               ]);
             } else {
               console.error("Parsed data is null or undefined");
@@ -125,14 +97,32 @@ const EditUserLevel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if no changes have been made
+    const isUnchanged = userLevelData.every((field, index) => {
+      return field.value === userLevelData[index].value;
+    });
+
+    if (isUnchanged) {
+      setModalState({
+        isOpen: true,
+        status: "error",
+        message: "No changes detected. Please modify the values before saving.",
+      });
+      return;
+    }
+
     // Simulate form submission success or failure
-    const isFormValid =
-      userLevel &&
-      formData.sessionTimeout &&
-      formData.passwordExpiry &&
-      formData.minimumPassword &&
-      formData.passwordHistory &&
-      formData.maxAllocation;
+    const isFormValid = userLevelData.every(
+      (field) => field.value !== "" && field.value !== null
+    );
+
+    // Prepare the data for submission
+    const formData = userLevelData.reduce((acc, field) => {
+      acc[field.nameID] = field.value;
+      return acc;
+    }, {});
+
+    formData.userLevel = userLevel;
 
     if (isFormValid) {
       const response = await editUserLevel(formData);
@@ -143,7 +133,7 @@ const EditUserLevel = () => {
         message: "Edited User Level Successfully!",
       });
 
-      ResetFormData(setFormData, initialFormData)();
+      // ResetFormData(setUserLevelData, initialFormData)();
     } else {
       setModalState({
         isOpen: true,
@@ -188,18 +178,12 @@ const EditUserLevel = () => {
                   {item.label}
                 </label>
                 <input 
-                  type={
-                    item.label === t("max_allocation") ? "number" : "text"
-                  }
-                  // name={nameAndId}
-                  // id={nameAndId}
-                  value={item.value || ''}
-                  // placeholder={placeholderData}
-                  // onChange={
-                  //   item.label === t("max_allocation")
-                  //   ? HandleChangeTextOnly(setFormData)
-                  //   : HandleChangeDigitsOnly(setFormData)
-                  // }
+                  type="number"
+                  name={item.nameID}
+                  id={item.nameID}
+                  value={item.value}
+                  placeholder={item.label}
+                  onChange={HandleChangeDigitsOnly2(setUserLevelData)}
                   className="w-full border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
