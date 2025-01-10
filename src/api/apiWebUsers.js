@@ -14,7 +14,7 @@ const makeApiRequest = async (endpoint, payload) => {
     const responseData = response.data;
 
     if (responseData && (responseData.StatusMessage === "Success" || responseData.success) ) {
-      return { success: true, webusers: responseData.Accounts || null, message: responseData?.message };
+      return { success: true, webusers: responseData.Accounts || null, message: responseData?.message || null };
     } else {
       return { success: false, message: responseData?.message || "Unknown error" };
     }
@@ -32,3 +32,4 @@ export const unlockWebUser = (username) => makeApiRequest("/webuser/unlockWebUse
 export const activeWebUser = (username) => makeApiRequest("/webuser/activeWebUser", { username });
 export const deactiveWebUser = (username) => makeApiRequest("/webuser/deactiveWebUser", { username });
 export const resetWebUser = (username) => makeApiRequest("/webuser/resetWebUser", { username });
+export const updateWebUser = (formData) => makeApiRequest("/webuser/updateWebUser", { formData });

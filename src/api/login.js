@@ -47,6 +47,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
     if (response.data.StatusCode === 0) {
       const data = JSON.parse(response.data.Data);
       localStorage.setItem('userData', JSON.stringify(data));
+      localStorage.setItem('pow', JSON.stringify(password));
       return {
         success: true,
         message: response.data.StatusMessage,
