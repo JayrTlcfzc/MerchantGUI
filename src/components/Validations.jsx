@@ -33,6 +33,18 @@ if (/^\d*$/.test(value) && value.length <= 15) { // Max of 15 numbers as of now
 }
 };
 
+// Numbers only restriction
+export const HandleChangeDigitsOnly2 = (setUserLevelData) => (e) => {
+  const { name, value } = e.target;
+  if (/^\d*$/.test(value) && value.length <= 15) {
+    setUserLevelData((prevData) =>
+      prevData.map((item) =>
+        item.nameID === name ? { ...item, value } : item
+      )
+    );
+  }
+};
+
 // Dynamic reset function
 export const ResetFormData = (setFormData, initialData) => () => {
 const resetData = Object.keys(initialData).reduce((acc, key) => {
@@ -41,4 +53,3 @@ const resetData = Object.keys(initialData).reduce((acc, key) => {
 }, {});
 setFormData(resetData);
 };
-  
