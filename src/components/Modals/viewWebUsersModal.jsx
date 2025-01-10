@@ -9,6 +9,7 @@ import StatusModal from './statusModal';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
 import {userLevelCol} from "../../api/webuser";
+import { updateWebUser } from '../../api/apiWebUsers';
 
 export default function viewWebUsersModal({ handleClose = () => {}, webUserData = {} }) {
 
@@ -123,32 +124,66 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     setModalMessage('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Simulate form submission success or failure
-    const isFormValid = formData.userId || formData.username || formData.msisdn || formData.otp || formData.company || formData.email || formData.firstname || formData.lastname || formData.department || formData.status || formData.locked || formData.userslevel;
-    // && formData.dateCreated && formData.dateModified;
-    console.log("hey",isFormValid);
-    console.log('formdata  ',formData);
+  
+    // Validate required fields
+    const requiredFields = [
+      formData.userId,
+      formData.username,
+      formData.msisdn,
+      formData.otp,
+      formData.company,
+      formData.email,
+      formData.firstname,
+      formData.lastname,
+      formData.department,
+      formData.status,
+      formData.locked,
+      formData.userslevel
+    ];
+  
+    const isFormValid = requiredFields.every(field => field && field.trim() !== "");
+  
     if (isFormValid) {
-      setModalState({
-        isOpen: true,
-        status: "success",
-        message: `${t('modal_edited_user_level_successfully')}`,
-      });
-
-      ResetFormData(setFormData, initialFormData)();
-      setOnEdit(false)
-      
+      try {
+        const result = await updateWebUser(formData);
+        console.log('Update result:', result);
+        
+        if(result.success){
+        setModalState({
+          isOpen: true,
+          status: "successul",
+          message: result.message,
+        });
+      }else{
+        setModalState({
+          isOpen: true,
+          status: "error",
+          message: result.message,
+        });
+      }
+        // Reset form after success
+        // ResetFormData(setFormData, initialFormData)();
+        // setOnEdit(false);
+      } catch (error) {
+        console.error('Error updating user:', error);
+  
+        setModalState({
+          isOpen: true,
+          status: "error",
+          message: t('modal_failed_to_edit_user_level'),
+        });
+      }
     } else {
       setModalState({
         isOpen: true,
         status: "error",
-        message: `${t('modal_failed_to_edit_user_level')}`,
+        message: t('modal_failed_to_edit_user_level'),
       });
     }
   };
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -303,7 +338,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="status">{t('status')}</label>
                 <select
-                  disabled={!onEdit}
+                  disabled={onEdit}
                   name="status"
                   id="status"
                   value={formData.status}
@@ -318,7 +353,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="locked">{t('locked')}</label>
                 <select
-                  disabled={!onEdit}
+                  disabled={onEdit}
                   name="locked"
                   id="locked"
                   value={formData.locked}
