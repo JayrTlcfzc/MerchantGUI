@@ -15,12 +15,13 @@ const EditUserLevel = () => {
   const [userLevel, setUserLevel] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [initialUserLevelData, setInitialUserLevelData] = useState(null); // Store the initial data
   const [userLevelData, setUserLevelData] = useState([
     { label: t("session_timeout"), value: "", nameID: "sessionTimeout" },
-    { label: t("password_expiry"), value: "", nameID: "passwordExpiry"  },
-    { label: t("minimum_password"), value: "", nameID: "MinimumPassword"  },
-    { label: t("password_history"), value: "", nameID: "passwordHistory"  },
-    { label: t("max_allocation"), value: "", nameID: "maxAllocation"  },
+    { label: t("password_expiry"), value: "", nameID: "passwordExpiry" },
+    { label: t("minimum_password"), value: "", nameID: "MinimumPassword" },
+    { label: t("password_history"), value: "", nameID: "passwordHistory" },
+    { label: t("max_allocation"), value: "", nameID: "maxAllocation" },
   ]);
 
   const [modalState, setModalState] = useState({
@@ -71,16 +72,19 @@ const EditUserLevel = () => {
               parsedData = dataUserLevel; 
             }
             if (parsedData) {
-              setUserLevelData([
-                { label: t("session_timeout"), value: parsedData.sessionTimeout, nameID: "sessionTimeout"  },
-                { label: t("password_expiry"), value: parsedData.passwordExpiry, nameID: "passwordExpiry"  },
-                { label: t("minimum_password"), value: parsedData.minimumPassword, nameID: "minimumPassword"  },
-                { label: t("password_history"), value: parsedData.passwordHistory, nameID: "passwordHistory"  },
-                { label: t("max_allocation"), value: parsedData.maxAllocation, nameID: "maxAllocation"  },
-              ]);
+              const newData = [
+                { label: t("session_timeout"), value: parsedData.sessionTimeout, nameID: "sessionTimeout" },
+                { label: t("password_expiry"), value: parsedData.passwordExpiry, nameID: "passwordExpiry" },
+                { label: t("minimum_password"), value: parsedData.minimumPassword, nameID: "minimumPassword" },
+                { label: t("password_history"), value: parsedData.passwordHistory, nameID: "passwordHistory" },
+                { label: t("max_allocation"), value: parsedData.maxAllocation, nameID: "maxAllocation" },
+              ];
+              setUserLevelData(newData);
+              setInitialUserLevelData(newData);
             } else {
               console.error("Parsed data is null or undefined");
               setUserLevelData([]);
+              setInitialUserLevelData([]);
             }
         } else {
           console.log("HERE!");
@@ -98,9 +102,11 @@ const EditUserLevel = () => {
     e.preventDefault();
 
     // Check if no changes have been made
-    const isUnchanged = userLevelData.every((field, index) => {
-      return field.value === userLevelData[index].value;
-    });
+    const isUnchanged =
+      initialUserLevelData &&
+      userLevelData.every(
+        (field, index) => field.value === initialUserLevelData[index].value
+      );
 
     if (isUnchanged) {
       setModalState({
