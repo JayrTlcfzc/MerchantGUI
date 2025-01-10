@@ -179,6 +179,7 @@
     "modal_proceed": "PROCEED",
 
     "modal_types_of_report": "TYPES OF REPORT",
+    "modal_transaction_type": "TRANSACTION TYPE",
 
     "modal_cash_allocated_successfully": "Cash Allocated Successfully!",
     "modal_transaction_successfully": "Transaction Successful!",

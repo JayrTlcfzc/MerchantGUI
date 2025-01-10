@@ -1,22 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
+import { transactionTypeCol, requestReport } from '../../api/reports';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
 
+    const [transTypes, setTransTypes] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+    const fetchTransactionTypes = async () => {
+        setLoading(true);
+        try {
+        const result = await transactionTypeCol();
+        console.log("result: " + result.data);
+        if (result.success) {
+            const parsedTransTypes = JSON.parse(result.transactType);
+            console.log(parsedTransTypes)
+            if (Array.isArray(parsedTransTypes)) {
+            setTransTypes(parsedTransTypes); 
+
+            } else {
+            setError('Invalid transaction type data format');
+            }
+        } else {
+            setError(result.message || 'Invalid data format');
+        }
+        } catch (err) {
+        setError(err.message); // Handle fetch errors
+        } finally {
+        setLoading(false);
+        }
+    };
+    
+    fetchTransactionTypes();
+    }, []);
+
     const { t, i18n } = useTranslation();
+
 
     const initialFormData = {
         reportType: '',
         msisdn: '',
         dateFrom: '',
-        dateTo: ''
+        dateTo: '',
+        transType: ''
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
     
-    const [formData, setFormData] = useState(initialFormData);
 
     // State to manage modals and messages
     const [openModal, setOpenModal] = useState('');
@@ -40,23 +81,37 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const isFormValid = formData.reportType && formData.msisdn && formData.dateFrom && formData.dateTo;
-
+        const isFormValid = 
+        formData.reportType && 
+        formData.msisdn && 
+        formData.dateFrom && 
+        formData.dateTo && 
+        formData.transType;
+        console.log('request report',formData)
         if (isFormValid) {
-            setModalState({
+            const response = await requestReport(formData);
+            console.log(response);
+            if(response.success){
+                setModalState({
                 isOpen: true,
-                status: 'success',
-                message: 'Report request submitted successfully!'
-            });
-            ResetFormData(setFormData, initialFormData)();
-
+                status: "success",
+                message: "Requested Report Successfully!",
+                });
+                ResetFormData(setFormData, initialFormData)();
+            }else{
+                setModalState({
+                isOpen: true,
+                status: "error",
+                message: "Failed to Request Report. Please try again.",
+                });
+            }
         } else {
             setModalState({
                 isOpen: true,
-                status: 'error',
-                message: 'Please fill in all required fields.'
+                status: "error",
+                message: "Failed to Request Report. Please try again.",
             });
         }
     };
@@ -82,14 +137,16 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                         <select
                             name="reportType"
                             id="reportType"
-                            value={formData.reportType}
+                            value={formData.reportType.toUpperCase()}
                             onChange={HandleChange(setFormData)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         >
-                            <option>Select Type of Report</option>
-                            <option value="Transaction Money">Transaction Money</option>
-                            <option value="User Registration">User Registration</option>
-                            <option value="Wallet To Bank">Wallet To Bank</option>
+                            <option value="">Please Select Type of Report</option>
+                            <option value="SUBSCRIBER TRANSACTION SUMMARY">Transaction Summary</option>
+                            <option value="SUBSCRIBER TRANSACTION REPORTS">Transaction Reports</option>
+                            <option value="SUBSCRIBER ACCOUNT SUMMARY">Account Summary</option>
+                            <option value="SUBSCRIBER TRANSACTION STATEMENT">Statement Reports</option>
+                            <option value="SUBSCRIBER BONUS COMMISSION">Bonus Commission</option>
                         </select>
                     </div>
                     <div>
@@ -110,8 +167,8 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="dateFrom"
                             id="dateFrom"
                             value={formData.dateFrom}
-                            onChange={HandleChange(setFormData)}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                            onChange={handleInputChange}
+                            className="mt-1 p-2 w-full border border-gray-300 cus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
                     </div>
                     <div>
@@ -121,9 +178,26 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             name="dateTo"
                             id="dateTo"
                             value={formData.dateTo}
-                            onChange={HandleChange(setFormData)}
+                            onChange={handleInputChange}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         />
+                    </div>
+                    <div>
+                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="transType">{t('modal_transaction_type')}</label>
+                        <select
+                            name="transType"
+                            id="transType"
+                            value={formData.transType.toUpperCase()}
+                            onChange={HandleChange(setFormData)}
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                        >
+                            <option value="">Please Select Transaction Type</option>
+                            {transTypes.map((transactType) => (
+                                <option key={transactType.ID} value={transactType.KEY.toUpperCase()}>
+                                    {transactType.DESCRIPTION}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className='flex justify-center gap-2'>
                         <button
