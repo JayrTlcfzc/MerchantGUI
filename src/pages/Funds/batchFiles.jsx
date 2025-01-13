@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
+import { toast, ToastContainer } from "react-toastify";
 import { FaFolder } from "react-icons/fa6";
 import StatusModal from '../../components/Modals/statusModal'
 import PasswordModal from '../../components/Modals/PasswordModal'
 import DetailsModal from "../../components/Modals/detailsModal";
 import { useTranslation } from 'react-i18next';
+import { batchFilesRequest, batchFilesTracking } from "../../api/batch";
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -15,6 +17,10 @@ const BatchFiles = () => {
     const [activeButton, setActiveButton] = useState('REQUESTS');
     const [dropdownVisible, setDropdownVisible] = useState(null);
     const dropdownRef = useRef(null);
+    const [files, setFiles] = useState([]);
+    const [batch, setBatch] = useState('request');
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [modalMessage, setModalMessage] = useState('');
     const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
     const [isDetailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -25,16 +31,98 @@ const BatchFiles = () => {
     });
 
     const { t, i18n } = useTranslation();
-    
-    const data = [
-        { fileid: 1040, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ABDUL", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ABDUL", dateapproved: "2024-05-17 11:01:12", uploadedby: "ABDUL" },
-        { fileid: 2103, datecreated: "2019-11-23 11:01:12", dateuploaded: "2022-12-29 08:24:15", filename: "BATCH-PAYMENT.xlsx", status: "FAILED", confirmedby: "JUAN", dateconfirmed: "2022-12-30 01:10:54", approvedby: "JUAN", dateapproved: "2022-05-17 11:01:12", uploadedby: "JUAN" },
-        { fileid: 3214, datecreated: "2024-05-17 11:01:12", dateuploaded: "2019-12-29 08:24:15", filename: "BATCH-REGISTER-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "ALI", dateconfirmed: "2024-05-07 01:10:54", approvedby: "ALI", dateapproved: "2024-05-17 11:01:12", uploadedby: "ALI" },
-        { fileid: 5687, datecreated: "2023-05-17 11:01:12", dateuploaded: "2023-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "FAILED", confirmedby: "TESTER", dateconfirmed: "2023-05-07 01:10:54", approvedby: "TESTER", dateapproved: "2023-05-17 11:01:12", uploadedby: "TESTER" },
-        { fileid: 9876, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "FAILED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
-        { fileid: 7869, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "JAFAR", dateconfirmed: "2016-05-07 01:10:54", approvedby: "JAFAR", dateapproved: "2016-05-17 11:01:12", uploadedby: "JAFAR"},
-        { fileid: 98765, datecreated: "2014-10-12 11:01:12", dateuploaded: "2016-12-29 08:24:15", filename: "BATCH-PAYMENT-TEMPLATE.xlsx", status: "PROCESSED", confirmedby: "MIGUEL", dateconfirmed: "2016-05-07 01:10:54", approvedby: "MIGUEL", dateapproved: "2016-05-17 11:01:12", uploadedby: "MIGUEL" },
-    ];
+
+    useEffect(() => {
+
+        if (batch == 'request') {
+          const fetchBatchFilesRequest = async () => {
+              setLoading(true);
+        
+            try {
+              const result = await batchFilesRequest();
+              if (result.success) {
+                const parsedFiles = JSON.parse(result.batchData);
+                if (Array.isArray(parsedFiles)) {
+                  console.log("REQUEST!!!!");
+                  setFiles(
+                    parsedFiles.map((batchData) => ({
+                      FILEID: batchData.FILEID || '',
+                      CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
+                      LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
+                      FILENAME: batchData.FILENAME || '',
+                      STATUS: batchData.STATUS || '',
+                      CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                      DATECONFIRMED: batchData.DATECONFIRMED || '',
+                      APPROVEDBY: batchData.APPROVEDBY || '',
+                      DATEAPPROVED: batchData.DATEAPPROVED || '',
+                      UPLOADEDBY: batchData.UPLOADEDBY || '',
+                      MSISDN: batchData.MSISDN || '',
+                      IP: batchData.IP || '',
+                    }))
+                  );
+                } else {
+                  setError("Invalid account data format");
+                }
+              } else {
+                setError(result.message || "Invalid data format");
+                // toast.error(result.message || "Invalid data format");
+                setFiles([]);
+              }
+            } catch (err) {
+              setError(err.message);
+              toast.error(err.message);
+              setFiles([]);
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchBatchFilesRequest();
+        } else if (batch == 'tracking') {
+            const fetchBatchFilesTracking = async () => {
+              setLoading(true);
+        
+            try {
+              const result = await batchFilesTracking();
+              if (result.success) {
+                const parsedFiles = JSON.parse(result.batchData);
+                if (Array.isArray(parsedFiles)) {
+                  console.log("TRACKING!!!!");
+                  setFiles(
+                    parsedFiles.map((batchData) => ({
+                      FILEID: batchData.FILEID || '',
+                      CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
+                      LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
+                      FILENAME: batchData.FILENAME || '',
+                      STATUS: batchData.STATUS || '',
+                      CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                      DATECONFIRMED: batchData.DATECONFIRMED || '',
+                      APPROVEDBY: batchData.APPROVEDBY || '',
+                      DATEAPPROVED: batchData.DATEAPPROVED || '',
+                      UPLOADEDBY: batchData.UPLOADEDBY || '',
+                      MSISDN: batchData.MSISDN || '',
+                      IP: batchData.IP || '',
+                    }))
+                  );
+                } else {
+                  setError("Invalid account data format");
+                  setFiles([]);
+                }
+              } else {
+                setError(result.message || "Invalid data format");
+                // toast.error(result.message || "Invalid data format");
+                setFiles([]);
+              }
+            } catch (err) {
+              setError(err.message);
+              toast.error(err.message);
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchBatchFilesTracking();
+          }
+          console.log("BATCH: "+batch)
+      }, [batch]);
 
     const handleAction = (modalMessage) => {
         setModalMessage(modalMessage);
@@ -76,7 +164,7 @@ const BatchFiles = () => {
         };
     }, []);
 
-    const sortedData = [...data].sort((a, b) => {
+    const sortedData = [...files].sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
         return sortConfig.direction === "ascending" ? -1 : 1;
         }
@@ -140,13 +228,19 @@ const BatchFiles = () => {
                     <div className='flex items-center justify-center'>
                         <button
                             className={`w-1/6 px-2 py-2 text-sm ${activeButton === 'REQUESTS' ? 'bg-[#D95F08] text-white' : 'bg-[#ededed] text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
-                            onClick={() => handleButtonClick('REQUESTS')}
+                            onClick={() => {
+                              handleButtonClick('REQUESTS');
+                              setBatch("request");
+                            }}
                         >
                             {t('request')}
                         </button>
                         <button
                             className={`w-1/6 px-2 py-2 tracking-wide  text-sm ${activeButton === 'TRACKING' ? 'bg-[#D95F08] text-white' : 'bg-[#ededed] text-gray-700 hover:bg-[#FC8937] hover:text-white'}`}
-                            onClick={() => handleButtonClick('TRACKING')}
+                            onClick={() => {
+                              handleButtonClick('TRACKING');
+                              setBatch("tracking");
+                            }}
                         >
                             {t('tracking')}
                         </button>
@@ -178,68 +272,62 @@ const BatchFiles = () => {
                 </div>
 
                 {/* Table Content */}
-                {activeButton === 'REQUESTS' && (
+                {/* {activeButton === 'REQUESTS' && ( */}
                     <div className="overflow-visible">
                         <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
                             <thead className="rounded bg-[#D95F08] text-white">
                                 <tr className="divide-x divide-gray-200">
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("FILEID")}>
                                     <span className="flex items-center justify-between">
                                     {t('file_id')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("CREATEDTIMESTAMP")}>
                                     <span className="flex items-center justify-between">
                                     {t('date_created')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("LOADEDTIMESTAMP")}>
                                     <span className="flex items-center justify-between">
                                     {t('date_uploaded')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("FILENAME")}>
                                     <span className="flex items-center justify-between">
                                     {t('file_name')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("STATUS")}>
                                     <span className="flex items-center justify-between">
                                     {t('status')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("CONFIRMEDBY")}>
                                     <span className="flex items-center justify-between">
                                     {t('confirmed_by')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("DATECONFIRMED")}>
                                     <span className="flex items-center justify-between">
                                     {t('date_confirmed')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("APPROVEDBY")}>
                                     <span className="flex items-center justify-between">
                                     {t('approved_by')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
+                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("DATEAPPROVED")}>
                                     <span className="flex items-center justify-between">
                                     {t('date_approved')}
-                                        <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                                    </span>
-                                    </th>
-                                    <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
-                                    <span className="flex items-center justify-between">
-                                    {t('uploaded_by')}
                                         <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                                     </span>
                                     </th>
@@ -249,18 +337,17 @@ const BatchFiles = () => {
                             {currentItems.length > 0 ? (
                                 currentItems.map((item, index) => (
                                 <tr key={index} className="cursor-pointer">
-                                    <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
-                                    <td className="px-4 py-2">{item.datecreated}</td>
-                                    <td className="px-4 py-2">{item.dateuploaded}</td>
-                                    <td className="px-4 py-2">{item.filename}</td>
-                                    <td className="px-4 py-2">{item.status}</td>
-                                    <td className="px-4 py-2">{item.confirmedby}</td>
-                                    <td className="px-4 py-2">{item.dateconfirmed}</td>
-                                    <td className="px-4 py-2">{item.approvedby}</td>
-                                    <td className="px-4 py-2">{item.dateapproved}</td>
+                                    <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
+                                    <td className="px-4 py-2">{item.CREATEDTIMESTAMP}</td>
+                                    <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
+                                    <td className="px-4 py-2">{item.FILENAME}</td>
+                                    <td className="px-4 py-2">{item.STATUS}</td>
+                                    <td className="px-4 py-2">{item.CONFIRMEDBY}</td>
+                                    <td className="px-4 py-2">{item.DATECONFIRMED}</td>
+                                    <td className="px-4 py-2">{item.APPROVEDBY}</td>
                                     <td className="px-4 py-2 flex justify-between items-center">
                                         <div className="text-right w-full"> 
-                                            {item.uploadedby} 
+                                            {item.DATEAPPROVED} 
                                         </div>
                                         <div className="relative">
                                             <EllipsisVertical 
@@ -271,13 +358,15 @@ const BatchFiles = () => {
                                             <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
                                                 <ul className="flex flex-row gap-1">
                                                     <div>
-                                                        <li className="px-4 py-2">MSISDN:</li>
-                                                        <li className="px-4 py-2">IP:</li>
-                                                        <li className="px-4 py-2">ACTION: </li>
+                                                      <li className="px-4 py-2">{t('uploaded_by')}:</li>
+                                                        <li className="px-4 py-2">{t('msisdn')}:</li>
+                                                        <li className="px-4 py-2">{t('ip')}:</li>
+                                                        <li className="px-4 py-2">{t('action')}: </li>
                                                     </div>
                                                     <div>
-                                                        <li className="px-4 py-2 font-medium">0125638761</li>
-                                                        <li className="px-4 py-2 font-medium">101.02.100</li>
+                                                        <li className="px-4 py-2 font-medium">{item.UPLOADEDBY}</li>
+                                                        <li className="px-4 py-2 font-medium">{item.MSISDN}</li>
+                                                        <li className="px-4 py-2 font-medium">{item.IP}</li>
                                                         <li className="px-4 py-2 flex flex-row gap-2">
                                                             <div className="relative group">
                                                                 <FaCircleInfo 
@@ -287,22 +376,26 @@ const BatchFiles = () => {
                                                                 {t('details')}
                                                                 </span>
                                                             </div>
-                                                            <div className="relative group">
-                                                                <FaCircleCheck
-                                                                    onClick={() => handleAction('accepted')}
-                                                                    className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
-                                                                <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                {t('accept')}
-                                                                </span>
-                                                            </div>
-                                                            <div className="relative group">
-                                                                <FaCircleXmark 
-                                                                onClick={() => handleAction('rejected')}
-                                                                className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
-                                                                <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                {t('reject')}
-                                                                </span>
-                                                            </div>
+                                                            {activeButton == 'REQUEST' && (
+                                                              <div>
+                                                                <div className="relative group">
+                                                                    <FaCircleCheck
+                                                                        onClick={() => handleAction('accepted')}
+                                                                        className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
+                                                                    <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    {t('accept')}
+                                                                    </span>
+                                                                </div>
+                                                                <div className="relative group">
+                                                                    <FaCircleXmark 
+                                                                    onClick={() => handleAction('rejected')}
+                                                                    className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
+                                                                    <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    {t('reject')}
+                                                                    </span>
+                                                                </div>
+                                                              </div>
+                                                          )}
                                                         </li>
 
                                                     </div>
@@ -316,7 +409,7 @@ const BatchFiles = () => {
                                 ))
                             ) : (
                                 <tr>
-                                <td colSpan="11" className="px-4 py-2 border text-center">
+                                <td colSpan="9" className="px-4 py-2 border text-center">
                                     {t('td_no_results_found')}
                                 </td>
                                 </tr>
@@ -324,130 +417,7 @@ const BatchFiles = () => {
                             </tbody>
                         </table>
                     </div>
-                )}
-
-                {activeButton === 'TRACKING' && (
-                    <div className="overflow-visible">
-                    <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs">
-                        <thead className="rounded bg-[#D95F08] text-white">
-                        <tr className="divide-x divide-gray-200">
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("fileid")}>
-                            <span className="flex items-center justify-between">
-                            {t('file_id')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datecreated")}>
-                            <span className="flex items-center justify-between">
-                            {t('date_created')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateuploaded")}>
-                            <span className="flex items-center justify-between">
-                            {t('date_uploaded')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("filename")}>
-                            <span className="flex items-center justify-between">
-                            {t('file_name')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
-                            <span className="flex items-center justify-between">
-                            {t('status')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("confirmedby")}>
-                            <span className="flex items-center justify-between">
-                            {t('confirmed_by')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateconfirmed")}>
-                            <span className="flex items-center justify-between">
-                            {t('date_confirmed')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("approvedby")}>
-                            <span className="flex items-center justify-between">
-                            {t('approved_by')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateapproved")}>
-                            <span className="flex items-center justify-between">
-                            {t('date_approved')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("uploadedby")}>
-                            <span className="flex items-center justify-between">
-                            {t('uploaded_by')}
-                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody className="text-center divide-y divide-gray-200">
-                        {currentItems.length > 0 ? (
-                            currentItems.map((item, index) => (
-                            <tr key={index} className="cursor-pointer">
-                                <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
-                                <td className="px-4 py-2">{item.datecreated}</td>
-                                <td className="px-4 py-2">{item.dateuploaded}</td>
-                                <td className="px-4 py-2">{item.filename}</td>
-                                <td className="px-4 py-2">{item.status}</td>
-                                <td className="px-4 py-2">{item.confirmedby}</td>
-                                <td className="px-4 py-2">{item.dateconfirmed}</td>
-                                <td className="px-4 py-2">{item.approvedby}</td>
-                                <td className="px-4 py-2">{item.dateapproved}</td>
-                                <td className="px-4 py-2 flex justify-between items-center">
-                                    <div className="text-right w-full">{item.uploadedby}</div>
-                                    <div className="relative">
-                                        <EllipsisVertical
-                                        className="ml-2 cursor-pointer hover:text-[#D95F08]"
-                                        onClick={() => handleEllipsisClick(index)}
-                                        />
-                                        {dropdownVisible === index && (
-                                            <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
-                                                <ul className="flex flex-row gap-1">
-                                                    <div>
-                                                        <li className="px-4 py-2">MSISDN:</li>
-                                                        <li className="px-4 py-2">IP:</li>
-                                                        <li className="px-4 py-2">ACTION: </li>
-                                                    </div>
-                                                    <div>
-                                                        <li className="px-4 py-2 font-medium">0125638761</li>
-                                                        <li className="px-4 py-2 font-medium">101.02.100</li>
-                                                        <li className="px-4 py-2 flex flex-row gap-2">
-                                                            <FaCircleInfo className="w-5 h-5 text-[#19405A] cursor-not-allowed" />
-                                                            <FaCircleCheck className="w-5 h-5 text-[#0EAF00] cursor-not-allowed" />
-                                                            <FaCircleXmark className="w-5 h-5 text-[#BA0000] cursor-not-allowed" />
-                                                        </li>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                            ))
-                        ) : (
-                            <tr>
-                            <td colSpan="11" className="px-4 py-2 border text-center">
-                                {t('td_no_results_found')}
-                            </td>
-                            </tr>
-                        )}
-                        </tbody>
-                    </table>
-                </div>
-                )}
+                  {/* )} */}
 
                 {/* PAGINATION */}
                 <div className="flex justify-center mt-4 space-x-1">
@@ -482,6 +452,8 @@ const BatchFiles = () => {
                     </button>
                 </div>
             </div>
+
+            <ToastContainer />
 
             {isDetailsModalOpen && (
                 <DetailsModal

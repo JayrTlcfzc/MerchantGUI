@@ -9,7 +9,6 @@ export const batchUploadedFiles = async () => {
     const response = await axios.post(`${BASE_URL}/funds/batchUploadedFiles`, data);
 
     const responseData = response.data;
-    // console.log("responseData.Data: "+ responseData.Data);
     
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, batchData: responseData.Data };
@@ -53,52 +52,52 @@ export const batchDetailsData = async (data) => {
 
 }
 
-// export const batchFilesRequest = async () => {
-//   const data = JSON.stringify({ "": "" });
+export const batchFilesRequest = async () => {
+  const data = JSON.stringify({ "": "" });
 
-//   try {
-//     const response = await axios.post(`${BASE_URL}/funds/batchUploadedFiles`, data);
+  try {
+    const response = await axios.post(`${BASE_URL}/funds/batchFilesRequest`, data);
 
-//     const responseData = response.data;
-//     console.log("responseData.Data: "+ responseData.Data);
+    const responseData = response.data;
+    console.log("responseData.Data (REQUEST): "+ responseData.Data);
     
-//     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
-//       return { success: true, batchData: responseData.Data };
-//     } else {
-//       console.log(responseData?.message || "No message");
-//       return { success: false, message: responseData?.message || "Unknown error" };
-//     }
-//   } catch (error) {
-//     console.error("Error in React:", error);
-//     if (error.response) {
-//       console.error("Error Response Data:", error.response.data);
-//     }
-//     return { success: false, message: error.response?.data?.StatusMessage || error.message };
-//   }
+    if (responseData && responseData.StatusMessage === "Successfully fetch data") {
+      return { success: true, batchData: responseData.Data };
+    } else {
+      console.log(responseData?.message || "No message");
+      return { success: false, message: responseData?.message || "Unknown error" };
+    }
+  } catch (error) {
+    console.error("Error in React:", error);
+    if (error.response) {
+      console.error("Error Response Data:", error.response.data);
+    }
+    return { success: false, message: error.response?.data?.StatusMessage || error.message };
+  }
 
-// };
+};
 
-// export const batchFilesTracking = async () => {
-//   const data = JSON.stringify({ "": "" });
+export const batchFilesTracking = async () => {
+  const data = JSON.stringify({ "": "" });
 
-//   try {
-//     const response = await axios.post(`${BASE_URL}/funds/batchUploadedFiles`, data);
+  try {
+    const response = await axios.post(`${BASE_URL}/funds/batchFilesTracking`, data);
 
-//     const responseData = response.data;
-//     console.log("responseData.Data: "+ responseData.Data);
+    const responseData = response.data;
+    console.log("responseData.Data (TRACKING): "+ responseData.Data);
     
-//     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
-//       return { success: true, batchData: responseData.Data };
-//     } else {
-//       console.log(responseData?.message || "No message");
-//       return { success: false, message: responseData?.message || "Unknown error" };
-//     }
-//   } catch (error) {
-//     console.error("Error in React:", error);
-//     if (error.response) {
-//       console.error("Error Response Data:", error.response.data);
-//     }
-//     return { success: false, message: error.response?.data?.StatusMessage || error.message };
-//   }
+    if (responseData && responseData.StatusMessage === "Successfully fetch data") {
+      return { success: true, batchData: responseData.Data };
+    } else {
+      console.log(responseData?.message || "No message");
+      return { success: false, message: responseData?.message || "Unknown error" };
+    }
+  } catch (error) {
+    console.error("Error in React:", error);
+    if (error.response) {
+      console.error("Error Response Data:", error.response.data);
+    }
+    return { success: false, message: error.response?.data?.StatusMessage || error.message };
+  }
 
-// };
+};
