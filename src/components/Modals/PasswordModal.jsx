@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaUserLock } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
+import { encryptPassword } from '../../api/login'
 
 export default function PasswordModal({ onProceed = () => {}, handleClose = () => {} }) {
 
@@ -17,8 +18,21 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
 
   const handleSubmit = () => {
     if (password) {
-      onProceed(); 
-      handleClose(); 
+
+      const allocpassword = encryptPassword(password);
+      const currentpassword = JSON.parse(localStorage.getItem('pow'));
+
+      console.log('current ',currentpassword);
+      console.log('alloc ',allocpassword);
+
+
+      if (allocpassword === currentpassword){
+        onProceed(); 
+        handleClose(); 
+      }else {
+        toast.error('Please enter a valid PASSWORD');
+      }
+     
     } else {
       toast.error('Please enter a valid PASSWORD');
     }

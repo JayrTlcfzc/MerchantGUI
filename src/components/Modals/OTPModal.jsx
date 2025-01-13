@@ -59,15 +59,28 @@ export default function OTPModal({
     }
   };
 
+  // const handleSubmit = () => {
+  //   if (otp.every((digit) => digit !== "")) {
+  //     onProceed(otp.join("")); // Pass concatenated OTP
+  //   } else {
+  //     setError(true);
+  //     setOtp(["", "", "", "", "", ""]); // Reset OTP fields
+  //     toast.error(t("Please enter a valid OTP"));
+  //   }
+  // };
+
   const handleSubmit = () => {
     if (otp.every((digit) => digit !== "")) {
+      console.log("Submitted OTP:", otp.join(""));
       onProceed(otp.join("")); // Pass concatenated OTP
+      handleClose();
     } else {
       setError(true);
-      setOtp(["", "", "", "", "", ""]); // Reset OTP fields
-      toast.error(t("Please enter a valid OTP"));
+      setOtp(["", "", "", "", "", ""]);
+      toast.error("Please enter a valid OTP");
     }
   };
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">

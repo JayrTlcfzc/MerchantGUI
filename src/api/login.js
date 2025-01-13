@@ -1,11 +1,13 @@
 import axios from "axios";
 
+import CryptoJS from 'crypto-js';
+
 const BASE_URL = "http://localhost:3000"; // Replace with your API's base URL
 
 // API call for verifying credentials
 export const verifyCredentials = async (msisdn, username, password) => {
   try {
-    // const response = await axios.post(`${BASE_URL}/auth/verify-credentials`, {
+   
       const response = await axios.post(`${BASE_URL}/auth/otpreq`, {
       msisdn,
       username,
@@ -42,12 +44,17 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
     });
 
     console.log(response.data);
-    
+
 
     if (response.data.StatusCode === 0) {
       const data = JSON.parse(response.data.Data);
+
+      const encryptedPassword = encryptPassword(password);
+
       localStorage.setItem('userData', JSON.stringify(data));
-      localStorage.setItem('pow', JSON.stringify(password));
+      localStorage.setItem('pow', JSON.stringify(encryptedPassword));
+
+
       return {
         success: true,
         message: response.data.StatusMessage,
@@ -65,4 +72,18 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
       message: error.response?.data?.message || error.message,
     });
   }
+};
+
+
+export const encryptPassword = (password) => {
+  const encryptionKey = 'KbPeShVmYq3t6v9y$B&E)H@McQfTjWnZ';  
+  const iv = CryptoJS.enc.Hex.parse('AES-256-CBC'); 
+
+  const encryptedPassword = CryptoJS.AES.encrypt(password, CryptoJS.enc.Utf8.parse(encryptionKey), {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return encryptedPassword.toString();
 };
