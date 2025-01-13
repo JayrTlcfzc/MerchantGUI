@@ -39,7 +39,7 @@ export default function PinModal({
 
   const handleSubmit = () => {
     if (pin.length === 4 && pin.every((digit) => digit !== "")) {
-      onProceed(); 
+      onProceed(pin.join(""));  // Pass the full PIN as a string
       handleClose(); 
     } else {
       toast.error('Please enter a valid PIN');
@@ -47,6 +47,7 @@ export default function PinModal({
       setPin(["", "", "", ""]);
     }
   };
+  
 
   const handleEnterPress = (event) => {
     if (event.key === "Enter") {
