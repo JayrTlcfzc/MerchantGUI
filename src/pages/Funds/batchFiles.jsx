@@ -487,7 +487,8 @@ const BatchFiles = () => {
                 <DetailsModal
                     isOpen={isDetailsModalOpen}
                     onClose={() => setDetailsModalOpen(false)}
-                    handleClose={() => setDetailsModalOpen(false)} 
+                    handleClose={() => setDetailsModalOpen(false)}
+                    batchDetails={'BatchFiles'} 
                 />
             )}
 

@@ -2,24 +2,69 @@ import React, { useState, useEffect } from "react";
 import { X, Search, ChevronDown, ArrowDownUp } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from "react-toastify";
+import { batchDetailsData } from "../../api/batch";
 
-const DetailsModal = ({ handleClose = () => {} }) => {
+const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   const { t, i18n } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [sortConfig, setSortConfig] = useState({ key: "fileid", direction: "ascending" });
+  const [sortConfig, setSortConfig] = useState({ key: "fileId", direction: "ascending" });
+  const [files, setFiles] = useState([]);
+  const [error, setError] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  const [loading, setLoading] = useState(true);
 
-  const data = [
-    { fileid: 1040, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "22504930432", tomsisdn: "2503937282", amount: "1000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1041, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "2431424324", tomsisdn: "4232343434", amount: "1500", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1042, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "45465654", tomsisdn: "44565465", amount: "1500", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1043, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "45646352", tomsisdn: "254543657", amount: "500", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1044, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "1342253454", tomsisdn: "23525453", amount: "2000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1045, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "36546354", tomsisdn: "25454564", amount: "2000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-    { fileid: 1046, referenceid: "", timestamp: "2024-05-17 11:01:12", frommsisdn: "35646353", tomsisdn: "345254353", amount: "2000", reference1: "ABDUL", reference2: "SALARY", walletid: "0", remarks: "FOR PROCESSING" },
-  ];
+  // console.log("FILEID: "+ fileId);
+
+  useEffect(() => {
+    const fetchBatchDetails = async () => {
+      setLoading(true);
+
+      try {
+        const { success, batchDataFile, message } = await batchDetailsData(fileId);
+
+        console.log("batchDataFile: " + batchDataFile);
+
+        if (success) {
+          let parsedData;
+          if (Array.isArray(batchDataFile)) {
+            console.log("HERE AGAIN!!!!");
+            parsedData = batchDataFile[0];
+          } else {
+            parsedData = batchDataFile; 
+          }
+          if (parsedData) {
+            parsedData = Array.isArray(batchDataFile) ? batchDataFile : [batchDataFile];
+            console.log("parsedData: ", parsedData);
+            setFiles(
+              parsedData.map((batchDataFile) => ({
+                FILEID: batchDataFile.fileId || '',
+                REFERENCEID: batchDataFile.referenceId || '',
+                LOADEDTIMESTAMP: batchDataFile.loadedTimeStamp || '',
+                FRMSISDN: batchDataFile.frMsisdn || '',
+                TOMSISDN: batchDataFile.toMsisdn || '',
+                AMOUNT: batchDataFile.amount || '',
+                REFERENCE: batchDataFile.reference || '',
+                REFERENCETO: batchDataFile.referenceTo || '',
+                WALLETID: batchDataFile.walletId || '',
+                REMARKS: batchDataFile.remarks || '',
+              }))
+            );
+          } else {
+            console.log("ERROR!!!");
+          }
+        }
+      } catch (err) {
+        setError(err.message);
+        toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBatchDetails();
+
+  }, [fileId]);
 
   // Available File Extensions Selection
   const fileExtensions = ["CSV", "XLSX", "PDF"];
@@ -38,7 +83,7 @@ const DetailsModal = ({ handleClose = () => {} }) => {
     setSearchInput(event.target.value);
   };
 
-  const sortedData = [...data].sort((a, b) => {
+  const sortedData = [...files].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
@@ -90,8 +135,12 @@ const DetailsModal = ({ handleClose = () => {} }) => {
   const totalTransactions = filteredData.length; 
 
   // Computation to get the Total Amount
-  const totalAmount = filteredData.reduce((sum, item) => sum + Number(item.amount.replaceAll(',', '')), 0); 
-
+  const totalAmount = filteredData.reduce((sum, item) => {
+    // Remove spaces and parse the amount as a number
+    const amount = parseFloat(item.AMOUNT.replace(/\s+/g, ''));
+    return sum + (isNaN(amount) ? 0 : amount); // If not a valid number, return 0
+  }, 0);
+  
   return (
     <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg max-w-max w-full pb-6 border-2 border-[#D95F08]">
@@ -108,6 +157,8 @@ const DetailsModal = ({ handleClose = () => {} }) => {
 
         <div className="flex justify-between items-center mb-6 p-5">
           <div>
+            {/* {batchDetails == 'UploadedFiles' && (<div>HELLO</div>)} */}
+            {/* {batchDetails == 'BatchFiles' && (<div>HELLO</div>)} */}
             <h3 className="text-sm">
               {t('modal_total_transactions')}
               <span className="font-bold">{totalTransactions}</span>
@@ -168,70 +219,70 @@ const DetailsModal = ({ handleClose = () => {} }) => {
         <table className="min-w-content divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
           <thead className="rounded bg-[#D95F08] text-white">
             <tr className="divide-x divide-gray-200">
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"               onClick={() => requestSort("fileid")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"               onClick={() => requestSort("FILEID")}>
                 <span className="flex items-center justify-between">
                   {t('file_id')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("referenceid")}>
+                  onClick={() => requestSort("REFERENCEID")}>
                 <span className="flex items-center justify-between">
                   {t('reference_id')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("timestamp")}>
+                  onClick={() => requestSort("LOADEDTIMESTAMP")}>
                 <span className="flex items-center justify-between">
                   {t('timestamp')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("frommsisdn")}>
+                  onClick={() => requestSort("FRMSISDN")}>
                 <span className="flex items-center justify-between">
                   {t('from_msisdn')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("tomsisdn")}>
+                  onClick={() => requestSort("TOMSISDN")}>
                 <span className="flex items-center justify-between">
                   {t('to_msisdn')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("amount")}>
+                  onClick={() => requestSort("AMOUNT")}>
                 <span className="flex items-center justify-between">
                   {t('amount')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("reference1")}>
+                  onClick={() => requestSort("REFERENCE")}>
                 <span className="flex items-center justify-between">
                   {t('reference_one')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("reference2")}>
+                  onClick={() => requestSort("REFERENCETO")}>
                 <span className="flex items-center justify-between">
                   {t('reference_two')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("walletid")}>
+                  onClick={() => requestSort("WALLETID")}>
                 <span className="flex items-center justify-between">
                   {t('wallet_id')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
               <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("remarks")}>
+                  onClick={() => requestSort("REMARKS")}>
                 <span className="flex items-center justify-between">
                   {t('remarks')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
@@ -243,16 +294,16 @@ const DetailsModal = ({ handleClose = () => {} }) => {
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
                 <tr key={index} className="cursor-pointer">
-                  <td className="px-4 py-2 whitespace-nowrap">{item.fileid}</td>
-                  <td className="px-4 py-2">{item.referenceid}</td>
-                  <td className="px-4 py-2">{item.timestamp}</td>
-                  <td className="px-4 py-2">{item.frommsisdn}</td>
-                  <td className="px-4 py-2">{item.tomsisdn}</td>
-                  <td className="px-4 py-2">{item.amount}</td>
-                  <td className="px-4 py-2">{item.reference1}</td>
-                  <td className="px-4 py-2">{item.reference2}</td>
-                  <td className="px-4 py-2">{item.walletid}</td>
-                  <td className="px-4 py-2">{item.remarks}</td>
+                  <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
+                  <td className="px-4 py-2">{item.REFERENCEID}</td>
+                  <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
+                  <td className="px-4 py-2">{item.FRMSISDN}</td>
+                  <td className="px-4 py-2">{item.TOMSISDN}</td>
+                  <td className="px-4 py-2">{item.AMOUNT}</td>
+                  <td className="px-4 py-2">{item.REFERENCE}</td>
+                  <td className="px-4 py-2">{item.REFERENCETO}</td>
+                  <td className="px-4 py-2">{item.WALLETID}</td>
+                  <td className="px-4 py-2">{item.REMARKS}</td>
                 </tr>
               ))
             ) : (
