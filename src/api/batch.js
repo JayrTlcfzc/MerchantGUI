@@ -101,3 +101,59 @@ export const batchFilesTracking = async () => {
   }
 
 };
+
+export const batchFilesOtpRequest = async (module) => {
+  console.log("module: "+ module);
+  
+  try {
+
+    const data = { TRANSREFERENCE: "", MODULE: module };
+    const response = await axios.post(`${BASE_URL}/auth/batchFilesOtpRequest`, data);
+
+    if (response?.data?.StatusCode === 0) {
+      return {
+        success: true,
+        message: response.data.message || "OTP request successful",
+      };
+    } else {
+      return {
+        success: false,
+        message: response?.data?.StatusMessage || "OTP request failed",
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.response?.data?.message || "An unexpected error occurred",
+    };
+  }
+}
+
+export const batchFilesAction = async (fileId, otpValue, remarks, module) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/funds/batchFilesAction`, {
+      fileId,
+      otpValue,
+      remarks,
+      module
+    });
+    console.log("response.data: " + response.data);
+
+    if (res.success){ 
+      return {
+        success: true,
+        message: res.message || "Batch File Action successfully",
+      };
+    } else{
+      return {
+          success: false,
+          message: res.message || "Batch File Action successfully",
+        };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || "Batch File Action failed",
+    };
+  }
+}

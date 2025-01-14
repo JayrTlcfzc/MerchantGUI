@@ -44,6 +44,10 @@ export default function ConfirmationModal({
       onProceed();
       handleCloseModal();
       return;
+    } if (modalMessage === "APPROVE" || modalMessage === "REJECT" ) {
+      onProceed();
+      handleCloseModal();
+      return;
     }
   
     const lockActions = {

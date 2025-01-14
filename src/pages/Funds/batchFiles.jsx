@@ -4,10 +4,11 @@ import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { toast, ToastContainer } from "react-toastify";
 import { FaFolder } from "react-icons/fa6";
 import StatusModal from '../../components/Modals/statusModal'
-import PasswordModal from '../../components/Modals/PasswordModal'
+import OTPModal from "../../components/Modals/OTPModal";
+import ConfirmationModal from "../../components/Modals/confirmationModal";
 import DetailsModal from "../../components/Modals/detailsModal";
 import { useTranslation } from 'react-i18next';
-import { batchFilesRequest, batchFilesTracking } from "../../api/batch";
+import { batchFilesRequest, batchFilesTracking, batchFilesOtpRequest, batchFilesAction } from "../../api/batch";
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -22,9 +23,14 @@ const BatchFiles = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [modalMessage, setModalMessage] = useState('');
-    const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
+    const [confirmationModalMessage, setConfirmationModalMessage] = useState('');
+    const [module, setModule] = useState('');
+    const [isConfirmationModalOpen, setConfirmationModalOpen] = useState('');
+    const [isOTPModalOpen, setOTPModalOpen] = useState(false);
     const [isDetailsModalOpen, setDetailsModalOpen] = useState(false);
     const [fileId, setFileId] = useState('');
+    const [remarks, setRemarks] = useState('');
+    const [otpValue, setOtpValue] = useState("");
     const [modalState, setModalState] = useState({
         isOpen: false,
         status: "",
@@ -59,6 +65,7 @@ const BatchFiles = () => {
                       UPLOADEDBY: batchData.UPLOADEDBY || '',
                       MSISDN: batchData.MSISDN || '',
                       IP: batchData.IP || '',
+                      REMARKS: batchData.REMARKS || ''
                     }))
                   );
                 } else {
@@ -102,6 +109,7 @@ const BatchFiles = () => {
                       UPLOADEDBY: batchData.UPLOADEDBY || '',
                       MSISDN: batchData.MSISDN || '',
                       IP: batchData.IP || '',
+                      REMARKS: batchData.REMARKS || ''
                     }))
                   );
                 } else {
@@ -125,9 +133,41 @@ const BatchFiles = () => {
           console.log("BATCH: "+batch)
       }, [batch]);
 
-    const handleAction = (modalMessage) => {
+    const handleAction = (modalMessage, confirmModalMessage) => {
         setModalMessage(modalMessage);
-        setPasswordModalOpen(true);
+        setConfirmationModalMessage(confirmModalMessage);
+        setConfirmationModalOpen(true);
+    }
+
+    const handleProceed = async () => {
+        try {
+              const res = await batchFilesOtpRequest(module);
+              console.log("Allocate otp Response:", res);
+
+              if (res.success) {
+                setOTPModalOpen(true);
+              } else {
+                toast.error("OTP Request Error!")
+              }
+
+            } catch (error) {
+              console.error("Error in batch files:", error);
+              setModalState({ isOpen: true, status: "error", message: error.message });
+            }
+    }
+
+    const handleProceedOTP = async (otp) => {
+        setOtpValue(otp);
+        setOTPModalOpen(false);
+
+        try {
+              const res = await batchFilesAction(fileId, otpValue, remarks, module);
+              console.log("Batch Files Response:", res);
+              setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
+            } catch (error) {
+              console.error("Error in batch files action:", error);
+              setModalState({ isOpen: true, status: "error", message: error.message });
+            }
     }
 
     const handleOpenModal = () => {
@@ -356,6 +396,7 @@ const BatchFiles = () => {
                                             onClick={() => {
                                                 handleEllipsisClick(index);
                                                 setFileId(item.FILEID);
+                                                setRemarks(item.REMARKS);
                                             }}
                                             />
                                             {dropdownVisible === index && (
@@ -383,16 +424,38 @@ const BatchFiles = () => {
                                                             {activeButton === 'REQUESTS' && (
                                                               <>
                                                                 <div className="relative group">
-                                                                    <FaCircleCheck
-                                                                        onClick={() => handleAction('accepted')}
-                                                                        className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
-                                                                    <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                    {t('accept')}
-                                                                    </span>
+                                                                    {item.STATUS == "FOR APPROVAL" ? (
+                                                                        <>
+                                                                            <FaCircleCheck
+                                                                                onClick={() => {
+                                                                                    handleAction('confirmed', 'CONFIRM');
+                                                                                    setModule("FUNDS.BATCHCONFIRMALLOCRQ");
+                                                                                }}
+                                                                                className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
+                                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                            {t('accept')}
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                        <FaCircleCheck
+                                                                                onClick={() => {
+                                                                                    handleAction('accepted', 'APPROVE');
+                                                                                    setModule("FUNDS.BATCHAPPRALLCRQ");
+                                                                                }}
+                                                                                className="w-5 h-5 cursor-pointer text-[#0EAF00] hover:text-[#14FF00]" />
+                                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                            {t('accept')}
+                                                                            </span>
+                                                                        </>
+                                                                    )}
                                                                 </div>
                                                                 <div className="relative group">
                                                                     <FaCircleXmark 
-                                                                    onClick={() => handleAction('rejected')}
+                                                                    onClick={() => {
+                                                                        handleAction('rejected', 'REJECT');
+                                                                        setModule("FUNDS.BATCHREJECTALLOCRQ");
+                                                                    }}
                                                                     className="w-5 h-5 cursor-pointer text-[#BA0000] hover:text-[#FF0000]" />
                                                                     <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                                     {t('reject')}
@@ -469,12 +532,23 @@ const BatchFiles = () => {
                 />
             )}
 
-            {isPasswordModalOpen && (
-                <PasswordModal
-                    isOpen={isPasswordModalOpen}
-                    onClose={() => setPasswordModalOpen(false)}
-                    onProceed={handleOpenModal}
-                    handleClose={() => setPasswordModalOpen(false)}
+            {isConfirmationModalOpen && (
+                <ConfirmationModal
+                    modalMessage={confirmationModalMessage}
+                    handleCloseModal={() => {
+                        setConfirmationModalOpen(false);
+                    }}
+                    onProceed={() => {
+                        handleProceed();
+                    }}
+                />
+            )}
+
+            {isOTPModalOpen && (
+                <OTPModal
+                    isOpen={isOTPModalOpen}
+                    handleClose={() => setOTPModalOpen(false)}
+                    onProceed={handleProceedOTP}
                 />
             )}
 

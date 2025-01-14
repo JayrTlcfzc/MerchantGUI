@@ -101,7 +101,7 @@ const ViewPendingSubscriber = () => {
         <button
           key={i}
           onClick={() => paginate(i)}
-          className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-3 py-1 mx-1 hover:bg-[#F3EEEB] rounded-full text-sm ${currentPage === i ? 'bg-[#F4E6DC] text-black' : ' text-gray-700'}`}
         >
           {i}
         </button>

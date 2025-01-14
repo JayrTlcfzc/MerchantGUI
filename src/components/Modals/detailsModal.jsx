@@ -404,7 +404,7 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
                   </span>
                 </th>
                 <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("TOMSISDNTYPE")}>
+                    onClick={() => requestSort("TYPE")}>
                   <span className="flex items-center justify-between">
                     {t('tomsisdn_type')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
@@ -440,7 +440,7 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="10" className="px-4 py-2 border text-center">
+                  <td colSpan="13" className="px-4 py-2 border text-center">
                     {t('td_no_results_found')}
                   </td>
                 </tr>
