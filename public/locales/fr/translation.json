@@ -214,5 +214,7 @@
     "to_msisdn": "AU MSISDN",
     "reference_one": "RÉFÉRENCE 1",
     "reference_two": "RÉFÉRENCE 2",
-    "wallet_id": "ID DE PORTEFEUILLE"
+    "wallet_id": "ID DE PORTEFEUILLE",
+    "to_msisdn_type": "TYPE TOMSISDN",
+    "tomsisdn_type": "TYPE TOMSISDN"
 }

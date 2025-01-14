@@ -24,6 +24,7 @@ const BatchFiles = () => {
     const [modalMessage, setModalMessage] = useState('');
     const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
     const [isDetailsModalOpen, setDetailsModalOpen] = useState(false);
+    const [fileId, setFileId] = useState('');
     const [modalState, setModalState] = useState({
         isOpen: false,
         status: "",
@@ -352,7 +353,10 @@ const BatchFiles = () => {
                                         <div className="relative">
                                             <EllipsisVertical 
                                             className="ml-2 cursor-pointer hover:text-[#D95F08]" 
-                                            onClick={() => handleEllipsisClick(index)}
+                                            onClick={() => {
+                                                handleEllipsisClick(index);
+                                                setFileId(item.FILEID);
+                                            }}
                                             />
                                             {dropdownVisible === index && (
                                             <div ref={dropdownRef} className="absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded shadow-lg z-50 text-left">
@@ -376,8 +380,8 @@ const BatchFiles = () => {
                                                                 {t('details')}
                                                                 </span>
                                                             </div>
-                                                            {activeButton == 'REQUEST' && (
-                                                              <div>
+                                                            {activeButton === 'REQUESTS' && (
+                                                              <>
                                                                 <div className="relative group">
                                                                     <FaCircleCheck
                                                                         onClick={() => handleAction('accepted')}
@@ -394,7 +398,7 @@ const BatchFiles = () => {
                                                                     {t('reject')}
                                                                     </span>
                                                                 </div>
-                                                              </div>
+                                                              </>
                                                           )}
                                                         </li>
 
@@ -461,6 +465,7 @@ const BatchFiles = () => {
                     onClose={() => setDetailsModalOpen(false)}
                     handleClose={() => setDetailsModalOpen(false)}
                     batchDetails={'BatchFiles'} 
+                    fileId={fileId}
                 />
             )}
 
