@@ -1,15 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StatusModal from '../../components/Modals/statusModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import OTPModal from '../../components/Modals/OTPModal';
 import { FaBuildingColumns } from 'react-icons/fa6';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; // Import validation and reset functions
 import { useTranslation } from 'react-i18next';
+import { walletToBank, allocateOtpRequest, bankCollection } from '../../api/walletToBank'
+
 
 const WalletToBank = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   const [isOTPModalOpen, setOTPModalOpen] = useState(false); // OTP modal state
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
+  const [banks, setBanks] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pinValue, setPinValue] = useState("");
+  const [otpValue, setOtpValue] = useState("");
+  
+    useEffect(() => {
+      const fetchUserLevels = async () => {
+        setLoading(true);
+        try {
+          const result = await bankCollection();
+          if (result.success) {
+            const parsedBank = JSON.parse(result.bank);
+            console.log(parsedBank)
+            if (Array.isArray(parsedBank)) {
+              setBanks(parsedBank); 
+            } else {
+              setError('Invalid user level data format');
+            }
+          } else {
+            setError(result.message || 'Invalid data format');
+          }
+        } catch (err) {
+          setError(err.message); // Handle fetch errors
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+      fetchUserLevels();
+    }, []);
+
+
+
 
   const { t, i18n } = useTranslation();
   // Setting initial input
@@ -28,15 +64,40 @@ const WalletToBank = () => {
   const isFormValid = formData.bank && formData.bankaccountfullname && formData.bankaccountnumber && formData.amount && formData.remarks;
 
   const handleAllocate = () => setPasswordModalOpen(true); // Open password modal on click
-  const handleProceedPassword = () => {
-    setPasswordModalOpen(false); // Close password modal
-    setOTPModalOpen(true); // Open OTP modal
+
+
+  const handleProceedPassword = async () => {
+    
+    setPasswordModalOpen(false); 
+    try {
+          const res = await allocateOtpRequest();
+          console.log("Allocate otp Response:", res);
+          setOTPModalOpen(true);
+        } catch (error) {
+          console.error("Error in allocation:", error);
+          setModalState({ isOpen: true, status: "error", message: error.message });
+        } finally {
+          ResetFormData(setFormData, initialFormData);
+        }
+     
   };
 
-  const handleProceedOTP = () => {
-    setOTPModalOpen(false); // Close OTP modal
-    setModalState({ isOpen: true, status: 'success', message: 'Transaction Successful!' }); // Show status modal
-    resetFormData(setFormData, initialFormData)(); // Resetting formData on success
+  const handleProceedOTP = async (otp) => {
+        setOtpValue(otp);
+        const updatedFormData = { ...formData, otp }; // Include OTP in form data
+        setFormData(updatedFormData);
+        setOTPModalOpen(false);
+        console.log('formData ', formData);
+        try {
+          const res = await walletToBank(updatedFormData);
+          console.log("Allocate Cash Response:", res);
+          setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
+        } catch (error) {
+          console.error("Error in allocation:", error);
+          setModalState({ isOpen: true, status: "error", message: error.message });
+        } finally {
+          ResetFormData(setFormData, initialFormData);
+        }
   };
 
   return (
@@ -61,9 +122,11 @@ const WalletToBank = () => {
           className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
         >
           <option value="">Select Bank</option>
-          <option value="Bank A">Bank A</option>
-          <option value="Bank B">Bank B</option>
-          <option value="Bank C">Bank C</option>
+                {banks.map((bank) => (
+                  <option key={bank.ID} value={bank.KEYNAME.toUpperCase()}>
+                    {bank.BANKNAME}
+                  </option>
+                ))}
         </select>
       </div>
       <div className="flex flex-col">
@@ -177,7 +240,7 @@ const WalletToBank = () => {
           onClose={() => {
             setModalState(prev => ({ ...prev, isOpen: false }));
             if (modalState.status === 'success') {
-              resetFormData(setFormData, initialFormData)(); // Resetting formData when modal closes on success
+              ResetFormData(setFormData, initialFormData)(); // Resetting formData when modal closes on success
             }
           }}
           status={modalState.status}
