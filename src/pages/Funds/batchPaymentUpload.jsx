@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import StatusModal from '../../components/Modals/statusModal';
 import { FaUpload } from 'react-icons/fa6';
 import { useTranslation } from 'react-i18next';
+import { batchPaymentUpload } from '../../api/batch';
 
 function BatchPaymentUpload() {
-  const [fileName, setFileName] = useState('No file chosen');
+  const [filename, setFileName] = useState('No file chosen');
+  const [filePath, setFilePath] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
   const { t, i18n } = useTranslation();
@@ -12,21 +14,36 @@ function BatchPaymentUpload() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFileName(file.name);
+      const newFileName = file.name;
+      setFileName(newFileName);
+      setFilePath(`../../../uploads/${newFileName}`);
     } else {
       setFileName('No file chosen');
+      setFilePath('');
     }
   };
 
-  const handleSubmit = () => {
-    if (fileName !== 'No file chosen') {
-      // Simulating successful file upload
-      setStatusMessage({ type: 'success', text: 'File uploaded successfully!' });
+
+  const handleSubmit =  async() => {
+    if (filename !== 'No file chosen') {
+      console.log("FILEPATH: "+ filePath);
+      try {
+
+        const res = await batchPaymentUpload(filename, filePath);
+        if (res.success) {
+          setStatusMessage({ type: 'success', text: 'File uploaded successfully!' });
+        } else {
+          setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
+        }
+        
+      } catch (error) {
+        console.error("Error in batch payment upload:", error);
+        // setModalState({ isOpen: true, status: "error", message: error.message});
+        setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
+      }
     } else {
-      // Handle case where no file is selected
       setStatusMessage({ type: 'error', text: 'No file uploaded. Please upload a file.' });
     }
-    setIsModalOpen(true);
   };
 
   return (
@@ -61,10 +78,11 @@ function BatchPaymentUpload() {
           id="file-upload"
           type="file"
           className="hidden"
+          accept=".xlsx, .xls"
           onChange={handleFileChange}
         />
         <p className="text-gray-600 text-center">Upload batch payment excel file (.xlsx, .xls)</p>
-        <p className="text-gray-400 text-center">{fileName}</p>
+        <p className="text-gray-400 text-center">{filename}</p>
       </div>
 
       {/* Submit Button */}
