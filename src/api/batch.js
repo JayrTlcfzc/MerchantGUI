@@ -162,8 +162,14 @@ export const batchPaymentUpload = async (filename, filePath) => {
   const storedData = JSON.parse(localStorage.getItem("userData"));
   const msisdn = storedData?.msisdn || "unknownUser";
 
+  const payload = {
+    FILENAME: filename,
+    FILEPATH: filePath,
+    MSISDN: msisdn,
+  }
+
   try {
-    const response = await axios.post(`${BASE_URL}/funds/batchPaymentUpload`, filename, filePath, msisdn);
+    const response = await axios.post(`${BASE_URL}/funds/batchPaymentUpload`, payload);
     
     const res = response.data
     if(res.success){
@@ -184,4 +190,12 @@ export const batchPaymentUpload = async (filename, filePath) => {
     };
   }
 
+}
+
+export const fileUpload = async (formData) => {
+  const res = await axios.post(`${BASE_URL}/funds/fileUpload`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 }

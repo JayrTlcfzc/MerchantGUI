@@ -162,8 +162,6 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
 
         <div className="flex justify-between items-center mb-6 p-5">
           <div>
-            {/* {batchDetails == 'UploadedFiles' && (<div>HELLO</div>)} */}
-            {/* {batchDetails == 'BatchFiles' && (<div>HELLO</div>)} */}
             <h3 className="text-sm">
               {t('modal_total_transactions')}
               <span className="font-bold">{totalTransactions}</span>
