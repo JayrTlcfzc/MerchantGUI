@@ -157,3 +157,31 @@ export const batchFilesAction = async (fileId, otpValue, remarks, module) => {
     };
   }
 }
+
+export const batchPaymentUpload = async (filename, filePath) => {
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  const msisdn = storedData?.msisdn || "unknownUser";
+
+  try {
+    const response = await axios.post(`${BASE_URL}/funds/batchPaymentUpload`, filename, filePath, msisdn);
+    
+    const res = response.data
+    if(res.success){
+    return {
+      success: true,
+      message: res.message || "Batch payment uploaded successfully",
+    };
+  }else{
+      return {
+          success: false,
+          message: res.message || "Batch payment uploaded successfully",
+        };
+  }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || "Batch payment uploaded failed",
+    };
+  }
+
+}
