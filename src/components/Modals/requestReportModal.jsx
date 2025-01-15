@@ -5,47 +5,65 @@ import StatusModal from './statusModal';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
 import { transactionTypeCol, requestReport } from '../../api/reports';
+import { parse } from 'postcss';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
 
     const [transTypes, setTransTypes] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [typeOfReport, setTypeOfReport] = useState('');
 
     useEffect(() => {
     const fetchTransactionTypes = async () => {
         setLoading(true);
         try {
-        const result = await transactionTypeCol();
-        console.log("result: " + result.data);
-        if (result.success) {
-            const parsedTransTypes = JSON.parse(result.transactType);
-            console.log(parsedTransTypes)
-            if (Array.isArray(parsedTransTypes)) {
-            setTransTypes(parsedTransTypes); 
 
+        const { success, transactType, message } = await transactionTypeCol();
+
+            if (success) {
+                let parsedData;
+                if (Array.isArray(transactType)) {
+                    parsedData = transactType[0];
+                } else {
+                    parsedData = transactType; 
+                }
+
+                if (parsedData) {
+                    parsedData = Array.isArray(transactType) ? transactType : [transactType];
+                    console.log("parsedData: "+parsedData)
+
+                    setTransTypes(JSON.parse(parsedData));
+
+                }
+                else {
+                    console.log("ERROR!!!");
+                }
             } else {
-            setError('Invalid transaction type data format');
+                setError(result.message || 'Invalid data format');
+                console.log("Unsuccesful");
             }
-        } else {
-            setError(result.message || 'Invalid data format');
-        }
         } catch (err) {
-        setError(err.message); // Handle fetch errors
+            setError(err.message);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
     
     fetchTransactionTypes();
     }, []);
 
+    useEffect(() => {
+        console.log("TRANSTYPES: ", transTypes);
+    }, [transTypes]);
+    
+
     const { t, i18n } = useTranslation();
 
 
     const initialFormData = {
         reportType: '',
-        msisdn: '',
+        msisdn: 'ALL',
         dateFrom: '',
         dateTo: '',
         transType: ''
@@ -137,8 +155,11 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                         <select
                             name="reportType"
                             id="reportType"
-                            value={formData.reportType.toUpperCase()}
-                            onChange={HandleChange(setFormData)}
+                            value={formData.reportType}
+                            onChange={(e) => {
+                                HandleChange(setFormData)(e);
+                                setTypeOfReport(e.target.value);
+                            }}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
                         >
                             <option value="">Please Select Type of Report</option>
@@ -149,56 +170,63 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                             <option value="SUBSCRIBER BONUS COMMISSION">Bonus Commission</option>
                         </select>
                     </div>
-                    <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="msisdn">{t('msisdn')}</label>
-                        <input
-                            name="msisdn"
-                            id="msisdn"
-                            value={formData.msisdn}
-                            onChange={HandleChangeDigitsOnly(setFormData)}
-                            placeholder="MSISDN"
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
-                        />
-                    </div>
-                    <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateFrom">{t('date_from')}</label>
-                        <input
-                            type="date"
-                            name="dateFrom"
-                            id="dateFrom"
-                            value={formData.dateFrom}
-                            onChange={handleInputChange}
-                            className="mt-1 p-2 w-full border border-gray-300 cus:outline-none focus:ring-2 focus:ring-[#23587C]"
-                        />
-                    </div>
-                    <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateTo">{t('date_to')}</label>
-                        <input
-                            type="date"
-                            name="dateTo"
-                            id="dateTo"
-                            value={formData.dateTo}
-                            onChange={handleInputChange}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
-                        />
-                    </div>
-                    <div>
-                        <label className="w-auto text-sm font-medium text-gray-700" htmlFor="transType">{t('modal_transaction_type')}</label>
-                        <select
-                            name="transType"
-                            id="transType"
-                            value={formData.transType.toUpperCase()}
-                            onChange={HandleChange(setFormData)}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
-                        >
-                            <option value="">Please Select Transaction Type</option>
-                            {transTypes.map((transactType) => (
-                                <option key={transactType.ID} value={transactType.KEY.toUpperCase()}>
-                                    {transactType.DESCRIPTION}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+
+                    {typeOfReport !== '' && (
+                        <>
+                            <div>
+                                <label className="w-auto text-sm font-medium text-gray-700" htmlFor="msisdn">{t('msisdn')}</label>
+                                <input
+                                    name="msisdn"
+                                    id="msisdn"
+                                    value={formData.msisdn}
+                                    onChange={HandleChange(setFormData)}
+                                    placeholder="MSISDN"
+                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                                />
+                            </div>
+                            <div>
+                                <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateFrom">{t('date_from')}</label>
+                                <input
+                                    type="date"
+                                    name="dateFrom"
+                                    id="dateFrom"
+                                    value={formData.dateFrom}
+                                    onChange={handleInputChange}
+                                    className="mt-1 p-2 w-full border border-gray-300 cus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                                />
+                            </div>
+                            <div>
+                                <label className="w-auto text-sm font-medium text-gray-700" htmlFor="dateTo">{t('date_to')}</label>
+                                <input
+                                    type="date"
+                                    name="dateTo"
+                                    id="dateTo"
+                                    value={formData.dateTo}
+                                    onChange={handleInputChange}
+                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                                />
+                            </div>
+                            {typeOfReport === 'SUBSCRIBER TRANSACTION REPORTS' && (
+                                <div>
+                                    <label className="w-auto text-sm font-medium text-gray-700" htmlFor="transType">{t('modal_transaction_type')}</label>
+                                    <select
+                                        name="transType"
+                                        id="transType"
+                                        value={formData.transType}
+                                        onChange={HandleChange(setFormData)}
+                                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#23587C]"
+                                    >
+                                        <option value="">Please Select Transaction Type</option>
+                                        {transTypes.map((item) => (
+                                            <option key={item.ID} value={item.KEY}>
+                                                {item.DESCRIPTION}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+                        </>
+                    )}
                     <div className='flex justify-center gap-2'>
                         <button
                             type="submit"

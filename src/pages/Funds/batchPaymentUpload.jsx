@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import StatusModal from '../../components/Modals/statusModal';
 import { FaUpload } from 'react-icons/fa6';
 import { useTranslation } from 'react-i18next';
-import { batchPaymentUpload } from '../../api/batch';
+import { batchPaymentUpload, fileUpload } from '../../api/batch';
+import axios from 'axios';
 
 function BatchPaymentUpload() {
   const [filename, setFileName] = useState('No file chosen');
   const [filePath, setFilePath] = useState('');
+  const [file, setFile] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
   const { t, i18n } = useTranslation();
@@ -16,29 +18,34 @@ function BatchPaymentUpload() {
     if (file) {
       const newFileName = file.name;
       setFileName(newFileName);
-      setFilePath(`../../../uploads/${newFileName}`);
+      setFilePath(`MerchantGUI/uploads/${newFileName}`);
+      setFile(file);
     } else {
       setFileName('No file chosen');
       setFilePath('');
+      setFile(null);
     }
   };
 
-
-  const handleSubmit =  async() => {
-    if (filename !== 'No file chosen') {
+  const handleSubmit = async () => {
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
       console.log("FILEPATH: "+ filePath);
+
       try {
 
+        // const result = await fileUpload(formData);
         const res = await batchPaymentUpload(filename, filePath);
-        if (res.success) {
+
+        if (res.data.success) {
           setStatusMessage({ type: 'success', text: 'File uploaded successfully!' });
+          const result = await fileUpload(formData);
         } else {
           setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
         }
-        
       } catch (error) {
-        console.error("Error in batch payment upload:", error);
-        // setModalState({ isOpen: true, status: "error", message: error.message});
+        console.error('Error in batch payment upload:', error);
         setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
       }
     } else {
@@ -50,7 +57,6 @@ function BatchPaymentUpload() {
     <div className="flex flex-col items-center p-4">
       {/* Header */}
       <div className="flex flex-row text-center mb-6">
-        
         <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">
           <FaUpload className="text-[#D95F08] mr-2" />
           {t('batch_payment_upload')}

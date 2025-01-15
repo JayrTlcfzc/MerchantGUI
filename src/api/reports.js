@@ -9,8 +9,8 @@ export const transactionTypeCol = async () => {
       const response = await axios.post(`${BASE_URL}/reports/transactionTypeCollection`, data);
   
       const responseData = response.data;
-      console.log("RESPONSE DATA: " + responseData.StatusMessage);
-      if (responseData && responseData.StatusMessage === "Success") {
+      
+      if (responseData && responseData.StatusMessage === "Successfully fetch data") {
         return { success: true, transactType: responseData.Data };
       } else {
         console.log(responseData?.StatusMessage || "No message");
