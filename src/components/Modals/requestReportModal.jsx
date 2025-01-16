@@ -4,7 +4,7 @@ import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
-import { transactionTypeCol, requestReport } from '../../api/reports';
+import { transactionTypeCol, requestReport, generateReview } from '../../api/reports';
 import { parse } from 'postcss';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
@@ -53,11 +53,6 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
     fetchTransactionTypes();
     }, []);
 
-    useEffect(() => {
-        console.log("TRANSTYPES: ", transTypes);
-    }, [transTypes]);
-    
-
     const { t, i18n } = useTranslation();
 
 
@@ -101,24 +96,26 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const isFormValid = 
         formData.reportType && 
         formData.msisdn && 
         formData.dateFrom && 
-        formData.dateTo && 
-        formData.transType;
+        formData.dateTo 
+        // formData.transType;
         console.log('request report',formData)
+
         if (isFormValid) {
             const response = await requestReport(formData);
             console.log(response);
-            if(response.success){
+            if (response.success) {
                 setModalState({
                 isOpen: true,
                 status: "success",
                 message: "Requested Report Successfully!",
                 });
                 ResetFormData(setFormData, initialFormData)();
-            }else{
+            } else {
                 setModalState({
                 isOpen: true,
                 status: "error",
@@ -268,6 +265,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 status={modalState.status}
                 message={modalState.message}
             />
+
         </div>
     );
 }
