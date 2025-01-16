@@ -1,21 +1,66 @@
-import React, { useState } from "react";
-import { ClipboardPlus, Search, ArrowDownUp, X} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ClipboardPlus, Search, ArrowDownUp, X, Download} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
 import { useTranslation } from "react-i18next";
+import { generateReview } from '../../api/reports';
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
-    const [sortConfig, setSortConfig] = useState({ key: "reportname", direction: "ascending" });
+    const [sortConfig, setSortConfig] = useState({ key: "ID", direction: "descending" });
     const [openModal, setOpenModal] = useState('');
     const [isViewModalOpen, setViewModalOpen] = useState(false);
+    const { t, i18n } = useTranslation();
+    const [genReviewData, setGenReviewData] = useState([]);
+    const [dateFromArray, setDateFromArray] = useState([]);
+    const [dateToArray, setDateToArray] = useState([]);
+    const [transTypeArray, setTransTypeArray] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const { t, i18n } = useTranslation(); //  Translation
-
-    const data = [
-        { daterequested: "2023-11-29", reportname: "TRANSACTION SUMMARY", reporttype: "BYACCOUNT ALLMSISDN BYTYPE", datefrom: "2023-11-01", dateto: "2023-11-29", transactiontype: "---" },
-    ];
+    useEffect(() => {
+        const fetchGenerateReview = async () => {
+            setLoading(true);
+            try {
+    
+            const { success, rowData, dateFrom, dateTo, transType, message } = await generateReview();
+    
+                if (success) {
+                    let parsedData;
+                    if (Array.isArray(rowData)) {
+                        parsedData = rowData[0];
+                    } else {
+                        parsedData = rowData; 
+                    }
+    
+                    if (parsedData) {
+                        parsedData = Array.isArray(rowData) ? rowData : [rowData];
+                        console.log("parsedData: "+parsedData);
+    
+                        setGenReviewData(JSON.parse(parsedData));
+                        setDateFromArray(dateFrom);
+                        setDateToArray(dateTo);
+                        setTransTypeArray(transType);
+    
+                    }
+                    else {
+                        console.log("ERROR!!!");
+                    }
+                } else {
+                    setError(result.message || 'Invalid data format');
+                    console.log("Unsuccesful");
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+                console.log("GenReviewData: ", genReviewData);
+            }
+        };
+        
+        fetchGenerateReview();
+    }, [isViewModalOpen]);
 
     const handleViewModal = () => setViewModalOpen(true);
 
@@ -28,7 +73,7 @@ const RequestReports = () => {
         setSearchInput(event.target.value);
     };
 
-    const sortedData = [...data].sort((a, b) => {
+    const sortedData = [...genReviewData].sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
         return sortConfig.direction === "ascending" ? -1 : 1;
         }
@@ -36,14 +81,14 @@ const RequestReports = () => {
         return sortConfig.direction === "ascending" ? 1 : -1;
         }
         return 0;
-    });
-
+    });    
+    
     const filteredData = sortedData.filter((item) =>
         Object.values(item).some((val) =>
         String(val).toLowerCase().includes(searchInput.toLowerCase())
         )
     );
-
+    
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -76,6 +121,53 @@ const RequestReports = () => {
         }
         return pageNumbers;
     };
+
+    const getReportStatus = (status) => {
+        if (status == 0) {
+            return (
+            <div className="p-1 bg-[#4CBB17] text-sm text-white rounded-lg">
+                Reports has been generated
+            </div> 
+            )
+        } if (status == 1) {
+            return (
+                <div className="p-1 bg-[#FF5733] text-sm text-white rounded-lg">
+                    Pending
+                </div> 
+            )
+        } if (status == 2) {
+            return (
+                <div className="p-1 bg-sky-600 text-sm text-white rounded-lg">
+                    Processing
+                </div> 
+            )
+        } if (status == 100) {
+            return (
+                <div className="p-1 bg-[#727272] text-sm text-white rounded-lg">
+                    No Records Found
+                </div> 
+            )
+        }
+    }
+
+    const getDownloadButton = (status) => {
+        if (status == 0) {
+            return (
+                <div className="flex">
+                    <button className="flex p-2 m-1 bg-[#408a1e] text-xs text-white rounded-md shadow-lg hover:bg-[#67c73a]">
+                        <Download className="inline-block mr-1 w-4 h-4"/>
+                        CSV
+                    </button>
+                    <button className=" flex p-2 m-1 bg-red-500 text-xs text-white rounded-md shadow-lg hover:bg-[#f66e6e]">
+                        <Download className="inline-block mr-1 w-4 h-4"/>
+                        PDF
+                    </button>
+                </div>
+            )
+        } else {
+            return ('---')
+        }
+    }
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
@@ -125,46 +217,43 @@ const RequestReports = () => {
                     <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md text-xs">
                     <thead className="rounded bg-[#D95F08] text-white">
                         <tr className="divide-x divide-gray-200">
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("daterequested")}>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("ID")}>
                             <span className="flex items-center justify-between">
-                            {t('date_requested')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                {t('report_id')}
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reportname")}>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REPORTEDDATE")}>
                             <span className="flex items-center justify-between">
-                            {t('report_name')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                {t('date_requested')}
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("reporttype")}>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REPORTNAME")}>
                             <span className="flex items-center justify-between">
-                            {t('report_type')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                {t('report_name')}
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("datefrom")}>
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REPORTTYPE")}>
                             <span className="flex items-center justify-between">
+                                {t('report_type')}
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                            </span>
+                        </th>
+                        <th className="px-4 py-2 cursor-pointer group">
                             {t('date_from')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("dateto")}>
-                            <span className="flex items-center justify-between">
+                        <th className="px-4 py-2 cursor-pointer group">
                             {t('date_to')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("transactiontype")}>
-                            <span className="flex items-center justify-between">
+                        <th className="px-4 py-2 cursor-pointer group">
                             {t('transaction_type')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
-                            </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]">
+                        <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"  onClick={() => requestSort("REPORTSTATUS")}>
                             <span className="flex items-center justify-between">
-                            {t('audit_trail')}
-                            <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
+                                {t('report_status')}
+                                <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
                         <th className="px-4 py-2 cursor-deafult group">
@@ -176,27 +265,24 @@ const RequestReports = () => {
                         {currentItems.length > 0 ? (
                         currentItems.map((item, index) => (
                             <tr key={index} className="cursor-pointer">
-                                <td className="px-4 py-2 whitespace-nowrap">{item.daterequested}</td>
-                                <td className="px-4 py-2">{item.reportname}</td>
-                                <td className="px-4 py-2">{item.reporttype}</td>
-                                <td className="px-4 py-2">{item.datefrom}</td>
-                                <td className="px-4 py-2">{item.dateto}</td>
-                                <td className="px-4 py-2">{item.transactiontype}</td>
+                                <td className="px-4 py-2 whitespace-nowrap">{item.ID}</td>
+                                <td className="px-4 py-2 whitespace-nowrap">{item.REPORTEDDATE}</td>
+                                <td className="px-4 py-2">{item.REPORTNAME}</td>
+                                <td className="px-4 py-2">{item.REPORTTYPE}</td>
+                                <td className="px-4 py-2">{dateFromArray[indexOfFirstItem + index]}</td>
+                                <td className="px-4 py-2">{dateToArray[indexOfFirstItem + index]}</td>
+                                <td className="px-4 py-2">{transTypeArray[indexOfFirstItem + index]}</td>
                                 <td className="px-4 py-2">
-                                    <div className="py-1 bg-[#0FBA00] text-sm text-white rounded-lg">
-                                    Request has been generated
-                                    </div>
+                                    {getReportStatus(item.REPORTSTATUS)}
                                 </td>
                                 <td className="px-4 py-2">
-                                    <button className="px-4 py-2 bg-[#23587C] text-sm text-white rounded-md shadow-lg hover:bg-[#2C75A6]">
-                                        {t('download')}
-                                    </button>
+                                    {getDownloadButton(item.REPORTSTATUS)}
                                 </td>
                             </tr>
                         ))
                         ) : (
                         <tr>
-                            <td colSpan="4" className="px-4 py-2 border text-center">
+                            <td colSpan="9" className="px-4 py-2 border text-center">
                             {t('td_no_results_found')}
                             </td>
                         </tr>

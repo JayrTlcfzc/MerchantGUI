@@ -45,14 +45,6 @@ const ViewPendingSubscriber = () => {
   
     fetchPendingSubs();
   }, []);
-  
-
-  // const data = [
-  //   { firstname: "Abdul", lastname: "Jafar", msisdn: 2381389, status: "ACTIVE" },
-  //   { firstname: "Juan", lastname: "Dela Cruz", msisdn: 3458762, status: "DEACTIVE" },
-  //   { firstname: "John", lastname: "Doe", msisdn: 9786432, status: "ACTIVE" },
-  //   { firstname: "Ali", lastname: "Mohammad", msisdn: 12323453, status: "DEACTIVE" },
-  // ];
 
   const { t, i18n } = useTranslation();
 
@@ -112,7 +104,7 @@ const ViewPendingSubscriber = () => {
 
   return (
     <div className="max-h-screen bg-gray-200 p-8">
-      <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+      <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
 
         {/* Page Title */}
         <h2 className="text-2xl font-bold text-gray-800 flex items-center justify-center mb-6">
@@ -149,25 +141,25 @@ const ViewPendingSubscriber = () => {
           <table className="min-w-full divide-y table-auto border-collapse rounded-lg overflow-hidden shadow-md">
             <thead className="rounded bg-[#D95F08] text-white">
               <tr className="divide-x divide-gray-200">
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("firstname")}>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("FIRSTNAME")}>
                   <span className="flex items-center justify-between"> 
                   {t('first_name')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("lastname")}>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("LASTNAME")}>
                   <span className="flex items-center justify-between">
                   {t('last_name')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("msisdn")}>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("MSISDN")}>
                   <span className="flex items-center justify-between">
                   {t('msisdn')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                   </span>
                 </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("status")}>
+                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("STATUS")}>
                   <span className="flex items-center justify-between">
                   {t('status')}
                     <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>

@@ -119,6 +119,7 @@
 
     "request_reports": "DEMANDER DES RAPPORTS",
     "request": "DEMANDE",
+    "report_id": "ID DU RAPPORT",
     "date_requested": "DATE DEMANDÉE",
     "report_name": "NOM DU RAPPORT",
     "report_type": "NOM DU RAPPORT",

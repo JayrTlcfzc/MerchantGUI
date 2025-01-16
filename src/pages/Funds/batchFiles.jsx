@@ -170,14 +170,6 @@ const BatchFiles = () => {
             }
     }
 
-    const handleOpenModal = () => {
-        setModalState({
-            isOpen: true,
-              status: 'success',
-              message: `The file has been successfully ${modalMessage}!`
-          });
-    };
-
     // For Ellipsis Dropdown
     const handleEllipsisClick = (index) => {
         setDropdownVisible(dropdownVisible === index ? null : index);

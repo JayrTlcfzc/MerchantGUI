@@ -119,6 +119,7 @@
 
     "request_reports": "REQUEST REPORTS",
     "request": "REQUEST",
+    "report_id": "REPORT ID",
     "date_requested": "DATE REQUESTED",
     "report_name": "REPORT NAME",
     "report_type": "REPORT TYPE",
