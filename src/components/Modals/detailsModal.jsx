@@ -55,6 +55,13 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
     fetchBatchDetails();
   }, [fileId]);
 
+  const totalTransactions = files.length;
+
+  const totalAmount = files.reduce((sum, item) => {
+    const amount = parseFloat(item.AMOUNT.replace(/\s+/g, ''));
+    return sum + (isNaN(amount) ? 0 : amount);
+  }, 0);
+
   const fileExtensions = ["CSV", "XLSX", "PDF"];
 
   const toggleDropdown = () => {
@@ -68,18 +75,26 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       LOADEDTIMESTAMP: item.LOADEDTIMESTAMP,
       FRMSISDN: item.FRMSISDN,
       TOMSISDN: item.TOMSISDN,
+      FIRSTNAME: item.FIRSTNAME, // Correctly mapped to name
+      LASTNAME: item.LASTNAME,
       AMOUNT: item.AMOUNT,
       REFERENCE: item.REFERENCE,
       REFERENCETO: item.REFERENCETO,
       WALLETID: item.WALLETID,
-      REMARKS: item.REMARKS,
-      FIRSTNAME: item.FIRSTNAME,
-      LASTNAME: item.LASTNAME,
       TYPE: item.TYPE,
+      REMARKS: item.REMARKS === '0' ? 'For Processing' : item.REMARKS, // Correctly mapped to show "For Processing"
     }));
-
+  
+    const tableColumns = ["FILE ID", "REFERENCE ID", "TIMESTAMP", "FROM MSISDN", "TO MSISDN", "FIRST NAME", "LAST NAME", "AMOUNT", "REFERENCE 1", "REFERENCE 2", "WALLET ID", "TOMSISDN TYPE", "REMARKS"];
+  
     if (extension === "CSV") {
-      const csv = Papa.unparse(dataToDownload);
+      const csvContent = [
+        ["Total Transactions", totalTransactions],
+        ["Total Amount", totalAmount.toLocaleString()],
+        tableColumns,
+        ...dataToDownload.map(Object.values)
+      ];
+      const csv = Papa.unparse(csvContent);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -89,19 +104,37 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       link.click();
       document.body.removeChild(link);
     } else if (extension === "XLSX") {
-      const worksheet = XLSX.utils.json_to_sheet(dataToDownload);
+      const worksheetData = [
+        ["Total Transactions", totalTransactions],
+        ["Total Amount", totalAmount.toLocaleString()],
+        tableColumns,
+        ...dataToDownload.map(Object.values)
+      ];
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       XLSX.writeFile(workbook, "batch_details.xlsx");
     } else if (extension === "PDF") {
-      const doc = new jsPDF();
-      doc.autoTable({ html: "#batchDetailsTable" });
+      const doc = new jsPDF({ orientation: "landscape" });
+      const tableRows = dataToDownload.map(Object.values);
+  
+      doc.setFontSize(7);
+      doc.text("Total Transactions: " + totalTransactions, 14, 10);
+      doc.text("Total Amount: " + totalAmount.toLocaleString(), 14, 15);
+  
+      doc.autoTable({
+        head: [tableColumns],
+        body: tableRows,
+        startY: 20,
+        styles: { fontSize: 7 }
+      });
+  
       doc.save("batch_details.pdf");
     }
-
+  
     toast.success(`${extension} is being downloaded`);
     setIsDropdownOpen(false);
-  };
+  };  
 
   const handleSearch = (event) => {
     setSearchInput(event.target.value);
@@ -155,13 +188,6 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
     return pageNumbers;
   };
 
-  const totalTransactions = filteredData.length; 
-
-  const totalAmount = filteredData.reduce((sum, item) => {
-    const amount = parseFloat(item.AMOUNT.replace(/\s+/g, ''));
-    return sum + (isNaN(amount) ? 0 : amount);
-  }, 0);
-  
   return (
     <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg max-w-max w-full pb-6 border-2 border-[#D95F08]">
@@ -235,281 +261,165 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
           )}
         </div>
 
-      {batchDetails === "UploadedFiles" ? (
         <table id="batchDetailsTable" className="min-w-content divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
           <thead className="rounded bg-[#D95F08] text-white">
             <tr className="divide-x divide-gray-200">
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                onClick={() => requestSort("FILEID")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("FILEID")}>
                 <span className="flex items-center justify-between">
                   {t('file_id')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("REFERENCEID")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REFERENCEID")}>
                 <span className="flex items-center justify-between">
                   {t('reference_id')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("LOADEDTIMESTAMP")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("LOADEDTIMESTAMP")}>
                 <span className="flex items-center justify-between">
                   {t('timestamp')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("FRMSISDN")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("FRMSISDN")}>
                 <span className="flex items-center justify-between">
                   {t('from_msisdn')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("TOMSISDN")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("TOMSISDN")}>
                 <span className="flex items-center justify-between">
                   {t('to_msisdn')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("AMOUNT")}>
-                <span className="flex items-center justify-between">
-                  {t('amount')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("REFERENCE")}>
-                <span className="flex items-center justify-between">
-                  {t('reference_one')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("REFERENCETO")}>
-                <span className="flex items-center justify-between">
-                  {t('reference_two')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("WALLETID")}>
-                <span className="flex items-center justify-between">
-                  {t('wallet_id')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("REMARKS")}>
-                <span className="flex items-center justify-between">
-                  {t('remarks')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-center divide-y divide-gray-200">
-            {currentItems.length > 0 ? (
-              currentItems.map((item, index) => (
-                <tr key={index} className="cursor-pointer">
-                  <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
-                  <td className="px-4 py-2">{item.REFERENCEID}</td>
-                  <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
-                  <td className="px-4 py-2">{item.FRMSISDN}</td>
-                  <td className="px-4 py-2">{item.TOMSISDN}</td>
-                  <td className="px-4 py-2">{item.AMOUNT}</td>
-                  <td className="px-4 py-2">{item.REFERENCE}</td>
-                  <td className="px-4 py-2">{item.REFERENCETO}</td>
-                  <td className="px-4 py-2">{item.WALLETID}</td>
-                  <td className="px-4 py-2">{item.REMARKS}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="10" className="px-4 py-2 border text-center">
-                  {t('td_no_results_found')}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      ) : (
-        <table id="batchDetailsTable" className="max-w-screen-md divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
-          <thead className="rounded bg-[#D95F08] text-white">
-            <tr className="divide-x divide-gray-200">
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                onClick={() => requestSort("FILEID")}>
-                <span className="flex items-center justify-between">
-                  {t('file_id')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("REFERENCEID")}>
-                <span className="flex items-center justify-between">
-                  {t('reference_id')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("LOADEDTIMESTAMP")}>
-                <span className="flex items-center justify-between">
-                  {t('timestamp')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("FRMSISDN")}>
-                <span className="flex items-center justify-between">
-                  {t('from_msisdn')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("TOMSISDN")}>
-                <span className="flex items-center justify-between">
-                  {t('to_msisdn')}
-                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                </span>
-              </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("FIRSTNAME")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("FIRSTNAME")}>
                 <span className="flex items-center justify-between">
                   {t('first_name')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("LASTNAME")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("LASTNAME")}>
                 <span className="flex items-center justify-between">
                   {t('last_name')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("AMOUNT")}>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("AMOUNT")}>
                 <span className="flex items-center justify-between">
                   {t('amount')}
                   <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
                 </span>
               </th>
-              <th className="px-4 py-                2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REFERENCE")}>
-                  <span className="flex items-center justify-between">
-                    {t('reference_one')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REFERENCETO")}>
-                  <span className="flex items-center justify-between">
-                    {t('reference_two')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("WALLETID")}>
-                  <span className="flex items-center justify-between">
-                    {t('wallet_id')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("TYPE")}>
-                  <span className="flex items-center justify-between">
-                    {t('tomsisdn_type')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REMARKS")}>
-                  <span className="flex items-center justify-between">
-                    {t('remarks')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REFERENCE")}>
+                <span className="flex items-center justify-between">
+                  {t('reference_one')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REFERENCETO")}>
+                <span className="flex items-center justify-between">
+                  {t('reference_two')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("WALLETID")}>
+                <span className="flex items-center justify-between">
+                  {t('wallet_id')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("TYPE")}>
+                <span className="flex items-center justify-between">
+                  {t('tomsisdn_type')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+              </span>
+            </th>
+            <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]" onClick={() => requestSort("REMARKS")}>
+              <span className="flex items-center justify-between">
+                {t('remarks')}
+                <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody className="text-center divide-y divide-gray-200">
+          {currentItems.length > 0 ? (
+            currentItems.map((item, index) => (
+              <tr key={index} className="cursor-pointer">
+                <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
+                <td className="px-4 py-2">{item.REFERENCEID}</td>
+                <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
+                <td className="px-4 py-2">{item.FRMSISDN}</td>
+                <td className="px-4 py-2">{item.TOMSISDN}</td>
+                <td className="px-4 py-2">{item.FIRSTNAME}</td>
+                <td className="px-4 py-2">{item.LASTNAME}</td>
+                <td className="px-4 py-2">{item.AMOUNT}</td>
+                <td className="px-4 py-2">{item.REFERENCE}</td>
+                <td className="px-4 py-2">{item.REFERENCETO}</td>
+                <td className="px-4 py-2">{item.WALLETID}</td>
+                <td className="px-4 py-2">{item.TYPE}</td>
+                <td className="px-4 py-2">{item.REMARKS}</td>
               </tr>
-            </thead>
-            <tbody className="text-center divide-y divide-gray-200">
-              {currentItems.length > 0 ? (
-                currentItems.map((item, index) => (
-                  <tr key={index} className="cursor-pointer">
-                    <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
-                    <td className="px-4 py-2">{item.REFERENCEID}</td>
-                    <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
-                    <td className="px-4 py-2">{item.FRMSISDN}</td>
-                    <td className="px-4 py-2">{item.TOMSISDN}</td>
-                    <td className="px-4 py-2">{item.FIRSTNAME}</td>
-                    <td className="px-4 py-2">{item.LASTNAME}</td>
-                    <td className="px-4 py-2">{item.AMOUNT}</td>
-                    <td className="px-4 py-2">{item.REFERENCE}</td>
-                    <td className="px-4 py-2">{item.REFERENCETO}</td>
-                    <td className="px-4 py-2">{item.WALLETID}</td>
-                    <td className="px-4 py-2">{item.TYPE}</td>
-                    <td className="px-4 py-2">{item.REMARKS}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="13" className="px-4 py-2 border text-center">
-                    {t('td_no_results_found')}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="13" className="px-4 py-2 border text-center">
+                {t('td_no_results_found')}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
-        {/* PAGINATION */}
-        <div className="flex justify-center mt-4 space-x-1">
-          <button
-            onClick={() => paginate(1)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
-            disabled={currentPage === 1}
-          >
-            «
-          </button>
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
-            disabled={currentPage === 1}
-          >
-            ‹
-          </button>
-          {renderPageNumbers()}
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
-            disabled={currentPage === totalPages}
-          >
-            ›
-          </button>
-          <button
-            onClick={() => paginate(totalPages)}
-            className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
-            disabled={currentPage === totalPages}
-          >
-            »
-          </button>
-        </div>
-
-        <div className="flex justify-center gap-2 mt-6">
-          <button
-            type="submit"
-            onClick={handleClose}
-            className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
-          >
-            {t('modal_ok')}
-          </button>
-        </div>
+      {/* PAGINATION */}
+      <div className="flex justify-center mt-4 space-x-1">
+        <button
+          onClick={() => paginate(1)}
+          className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+          disabled={currentPage === 1}
+        >
+          «
+        </button>
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+          disabled={currentPage === 1}
+        >
+          ‹
+        </button>
+        {renderPageNumbers()}
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+          disabled={currentPage === totalPages}
+        >
+          ›
+        </button>
+        <button
+          onClick={() => paginate(totalPages)}
+          className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"
+          disabled={currentPage === totalPages}
+        >
+          »
+        </button>
       </div>
 
-      <ToastContainer />
+      <div className="flex justify-center gap-2 mt-6">
+        <button
+          type="submit"
+          onClick={handleClose}
+          className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
+        >
+          {t('modal_ok')}
+        </button>
+      </div>
     </div>
-  );
+
+    <ToastContainer />
+  </div>
+);
 };
 
 export default DetailsModal;
