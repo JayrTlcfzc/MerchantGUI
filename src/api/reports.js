@@ -133,3 +133,29 @@ export const downloadPDF = async (pdfData, reportName) => {
       console.error("Error generating PDF:", error);
     }
 };
+
+export const downloadCSV = async (id) => {
+
+  console.log("id: ", id);
+
+  const payload = {
+    ID: id.toString(),
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/reports/downloadCSV`,
+      payload);
+
+      const responseData = response.data;
+      console.log("RESPONSEDATA: ", responseData);
+
+      if (responseData && responseData.message === "Successfully fetch data download path") {
+        return { success: true, data: responseData.Data, dataFile: responseData.data};
+      } else {
+        console.log(responseData?.StatusMessage || "No message");
+        return { success: false, message: responseData?.StatusMessage || "Unknown error" };
+      }
+    } catch (error) {
+      console.error("Error getting CSV path:", error);
+    }
+};

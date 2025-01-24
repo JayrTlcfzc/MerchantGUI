@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ClipboardPlus, Search, ArrowDownUp, X, Download} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
 import { useTranslation } from "react-i18next";
-import { generateReview, generateDataPDF, downloadPDF } from '../../api/reports';
+import { generateReview, generateDataPDF, downloadPDF, downloadCSV } from '../../api/reports';
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -151,15 +151,28 @@ const RequestReports = () => {
         }
     }
 
-    const getDownloadButton = (status) => {
+    const getDownloadButton = (status, id, reportname) => {
         if (status == 0) {
             return (
                 <div className="flex">
-                    <button className="flex p-2 m-1 bg-[#408a1e] text-xs text-white rounded-md shadow-lg hover:bg-[#67c73a]">
-                        <Download className="inline-block mr-1 w-4 h-4"/>
-                        CSV
-                    </button>
-                    <button className=" flex p-2 m-1 bg-red-500 text-xs text-white rounded-md shadow-lg hover:bg-[#f66e6e]">
+                    <a 
+                        download
+                        href="reports/SAMPLE_FILE.zip"
+                    >
+                        <button
+                            onClick={() => {
+                                generateCVS(id)
+                            }}
+                            className="flex p-2 m-1 bg-[#408a1e] text-xs text-white rounded-md shadow-lg hover:bg-[#67c73a]">
+                            <Download className="inline-block mr-1 w-4 h-4"/>
+                            CSV
+                        </button>
+                    </a>
+                    <button
+                        onClick={() => {
+                            fetchGenerateDataPDF(id, reportname)
+                        }}
+                        className=" flex p-2 m-1 bg-red-500 text-xs text-white rounded-md shadow-lg hover:bg-[#f66e6e]">
                         <Download className="inline-block mr-1 w-4 h-4"/>
                         PDF
                     </button>
@@ -207,9 +220,14 @@ const RequestReports = () => {
             }
     }
 
-    // useEffect(() => {
-    //     console.log("PDF DATA: ", pdfData);
-    // }, [pdfData]);
+    const generateCVS = async (itemId) => {
+        try {
+            const {success, message, dataFile} = await downloadCSV(itemId);
+            console.log("dataFile: ", dataFile);
+        } catch {
+            console.log("error in getting csv path");
+        }
+    }
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
@@ -317,11 +335,8 @@ const RequestReports = () => {
                                 <td className="px-4 py-2">
                                     {getReportStatus(item.REPORTSTATUS)}
                                 </td>
-                                <td className="px-4 py-2"
-                                    onClick={() => {
-                                        fetchGenerateDataPDF(item.ID, item.REPORTNAME);
-                                    }}>
-                                    {getDownloadButton(item.REPORTSTATUS)}
+                                <td className="px-4 py-2">
+                                    {getDownloadButton(item.REPORTSTATUS, item.ID, item.REPORTNAME)}
                                 </td>
                             </tr>
                         ))
