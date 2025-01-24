@@ -6,11 +6,29 @@ import { toast, ToastContainer } from "react-toastify";
 export default function OTPModal({
   onProceed = () => {},
   handleClose = () => {},
+  otpBatchFiles
 }) {
   const { t } = useTranslation();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const firstInputRef = useRef(null);
   const [error, setError] = useState(false);
+  const [remarksError, setRemarksError] = useState(false);
+
+  const initialFormData = {
+    remarks: ''
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Reset remarks error when user starts typing
+    if (name === "remarks") {
+      setRemarksError(false);
+    }
+  };
 
   // Autofocus the first input field when the modal opens
   useEffect(() => {
@@ -59,20 +77,28 @@ export default function OTPModal({
     }
   };
 
-  // const handleSubmit = () => {
-  //   if (otp.every((digit) => digit !== "")) {
-  //     onProceed(otp.join("")); // Pass concatenated OTP
-  //   } else {
-  //     setError(true);
-  //     setOtp(["", "", "", "", "", ""]); // Reset OTP fields
-  //     toast.error(t("Please enter a valid OTP"));
-  //   }
-  // };
-
   const handleSubmit = () => {
     if (otp.every((digit) => digit !== "")) {
+      // Check for empty remarks if otpBatchFiles is true
+      if (otpBatchFiles && !formData.remarks.trim()) {
+        setRemarksError(true);
+        toast.error("Remarks cannot be empty.");
+
+        // Focus the remarks input
+        const remarksInput = document.getElementById("remarks");
+        if (remarksInput) {
+          remarksInput.focus();
+        }
+        return;
+      }
+  
       console.log("Submitted OTP:", otp.join(""));
-      onProceed(otp.join("")); // Pass concatenated OTP
+      if (otpBatchFiles) {
+        onProceed(otp.join(""), formData.remarks); // Pass concatenated OTP and Remarks
+      } else {
+        onProceed(otp.join("")); // Pass concatenated OTP
+      }
+  
       handleClose();
     } else {
       setError(true);
@@ -117,8 +143,31 @@ export default function OTPModal({
           ))}
         </div>
 
+        {otpBatchFiles && (
+          <div className="flex flex-col justify-center space-x-2 mb-4">
+            <label htmlFor="remarks" className="text-gray-600 font-semibold mb-1">
+            {t("remarks")}
+            </label>
+            <input
+              id="remarks"
+              name="remarks"
+              type="text"
+              value={formData.remarks}
+              onChange={handleInputChange}
+              className={`mt-1 p-2 w-full border ${
+                remarksError ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring-2 ${
+                remarksError ? "focus:ring-red-500" : "focus:ring-[#23587C]"
+              }`}
+              placeholder="Remarks"
+            />
+          </div>
+        )}
+
         <div className="flex justify-center gap-4">
           <button
+            // disabled={isProceedDisabled}
+            // disabled
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
             onClick={handleSubmit}
           >

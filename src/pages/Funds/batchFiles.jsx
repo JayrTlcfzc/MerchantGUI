@@ -14,7 +14,7 @@ const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
-    const [sortConfig, setSortConfig] = useState({ key: "fileid", direction: "ascending" });
+    const [sortConfig, setSortConfig] = useState({ key: "FILEID", direction: "ascending" });
     const [activeButton, setActiveButton] = useState('REQUESTS');
     const [dropdownVisible, setDropdownVisible] = useState(null);
     const dropdownRef = useRef(null);
@@ -29,8 +29,6 @@ const BatchFiles = () => {
     const [isOTPModalOpen, setOTPModalOpen] = useState(false);
     const [isDetailsModalOpen, setDetailsModalOpen] = useState(false);
     const [fileId, setFileId] = useState('');
-    const [remarks, setRemarks] = useState('');
-    const [otpValue, setOtpValue] = useState("");
     const [modalState, setModalState] = useState({
         isOpen: false,
         status: "",
@@ -156,12 +154,12 @@ const BatchFiles = () => {
             }
     }
 
-    const handleProceedOTP = async (otp) => {
-        setOtpValue(otp);
+    const handleProceedOTP = async (otp, remarks) => {
+        console.log("REMARKS: ", remarks)
         setOTPModalOpen(false);
 
         try {
-              const res = await batchFilesAction(fileId, otpValue, remarks, module);
+              const res = await batchFilesAction(fileId, otp, remarks, module);
               console.log("Batch Files Response:", res);
               setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
             } catch (error) {
@@ -388,7 +386,6 @@ const BatchFiles = () => {
                                             onClick={() => {
                                                 handleEllipsisClick(index);
                                                 setFileId(item.FILEID);
-                                                setRemarks(item.REMARKS);
                                             }}
                                             />
                                             {dropdownVisible === index && (
@@ -406,9 +403,16 @@ const BatchFiles = () => {
                                                         <li className="px-4 py-2 font-medium">{item.IP}</li>
                                                         <li className="px-4 py-2 flex flex-row gap-2">
                                                             <div className="relative group">
-                                                                <FaCircleInfo 
-                                                                onClick={() => setDetailsModalOpen(true)}
-                                                                className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]" />
+                                                                {item.STATUS !== "INVALID" ? (
+                                                                    <FaCircleInfo
+                                                                        onClick={() => setDetailsModalOpen(true)}
+                                                                        className="w-5 h-5 cursor-pointer text-[#19405A] hover:text-[#317CB0]"
+                                                                    />
+                                                                ) : (
+                                                                    <FaCircleInfo
+                                                                        className="w-5 h-5 text-gray-400 cursor-not-allowed"
+                                                                    />
+                                                                )}
                                                                 <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-1 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                                 {t('details')}
                                                                 </span>
@@ -541,6 +545,7 @@ const BatchFiles = () => {
                     isOpen={isOTPModalOpen}
                     handleClose={() => setOTPModalOpen(false)}
                     onProceed={handleProceedOTP}
+                    otpBatchFiles={true}
                 />
             )}
 

@@ -26,6 +26,7 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
         const { success, batchDataFile, message } = await batchDetailsData(fileId);
 
         console.log("batchDataFile: " + batchDataFile);
+        console.log("MESSAGEEE: "+ message);
 
         if (success) {
           let parsedData;

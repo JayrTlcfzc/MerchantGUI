@@ -129,25 +129,29 @@ export const batchFilesOtpRequest = async (module) => {
   }
 }
 
-export const batchFilesAction = async (fileId, otpValue, remarks, module) => {
+export const batchFilesAction = async (fileId, otp, remarks, module) => {
   try {
+    console.log("fileId: "+ fileId);
+    console.log("otpValue: "+ otp);
+    console.log("remarks: "+ remarks);
     const response = await axios.post(`${BASE_URL}/funds/batchFilesAction`, {
       fileId,
-      otpValue,
+      otp,
       remarks,
       module
     });
-    console.log("response.data: " + response.data);
+    console.log("response.data: " , response.data);
+    const resData = response.data;
 
-    if (res.success){ 
+    if (resData.success){ 
       return {
         success: true,
-        message: res.message || "Batch File Action successfully",
+        message: resData.message || "Batch File Action successfully",
       };
     } else{
       return {
           success: false,
-          message: res.message || "Batch File Action successfully",
+          message: resData.message || "Batch File Action successfully",
         };
     }
   } catch (error) {
@@ -198,4 +202,15 @@ export const fileUpload = async (formData) => {
       'Content-Type': 'multipart/form-data',
     },
   });
+  if(res.success){
+    return {
+      success: true,
+      message: res.message || "File uploaded successfully",
+    };
+  }else{
+      return {
+          success: false,
+          message: res.message || "File uploaded unsuccessfully",
+        };
+  }
 }
