@@ -18,7 +18,8 @@ function BatchPaymentUpload() {
     if (file) {
       const newFileName = file.name;
       setFileName(newFileName);
-      setFilePath(`MerchantGUI/uploads/${newFileName}`);
+      // setFilePath(`MerchantGUI/uploads/${newFileName}`);
+      setFilePath(`/var/www/html/MerchantCDI/uploads/${newFileName}`);
       setFile(file);
     } else {
       setFileName('No file chosen');
@@ -34,19 +35,30 @@ function BatchPaymentUpload() {
       console.log("FILEPATH: "+ filePath);
 
       try {
-
-        // const result = await fileUpload(formData);
         const res = await batchPaymentUpload(filename, filePath);
+        console.log("BATCH PAYMENT UPLOAD MESSAGE: "+ res.message);
 
-        if (res.data.success) {
+        if (res.success) {
           setStatusMessage({ type: 'success', text: 'File uploaded successfully!' });
+          console.log("SUCCESS 1!");
           const result = await fileUpload(formData);
+          if (result.success) {
+            console.log("SUCCESS 2!");
+            console.log("FILE UPLOAD MESSAGE: "+ result.message);
+          } else {
+            console.log("FILE UPLOAD MESSAGE: "+ result.message);
+            console.log("ERROR 22!");
+          }
+
         } else {
           setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
+          console.log("ERROR 1!");
+          console.log("MESSAGE: "+ res.message);
         }
       } catch (error) {
         console.error('Error in batch payment upload:', error);
         setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
+        console.log("ERROR 2!");
       }
     } else {
       setStatusMessage({ type: 'error', text: 'No file uploaded. Please upload a file.' });
@@ -67,7 +79,8 @@ function BatchPaymentUpload() {
       <div className="relative w-full max-w-5xl h-80 border-dashed border-2 border-[#23587C] rounded-2xl p-8 mb-6 bg-[#FFFFFF]">
         {/* Download Link */}
         <a 
-          href="/path-to-template-file" 
+          // href="/path-to-template-file" 
+          href="src/assets/Batch-Payment-Template.xlsx"
           download 
           className="absolute -top-8 right-0 text-blue-500 hover:underline"
         >

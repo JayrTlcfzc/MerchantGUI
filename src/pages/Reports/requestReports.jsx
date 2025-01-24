@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ClipboardPlus, Search, ArrowDownUp, X, Download} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
 import { useTranslation } from "react-i18next";
-import { generateReview } from '../../api/reports';
+import { generateReview, generateDataPDF } from '../../api/reports';
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -18,6 +18,8 @@ const RequestReports = () => {
     const [transTypeArray, setTransTypeArray] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [id, setId] = useState('');
+    const [pdfData, setPdfData] = useState([]);
 
     useEffect(() => {
         const fetchGenerateReview = async () => {
@@ -169,6 +171,43 @@ const RequestReports = () => {
         }
     }
 
+    const fetchGenerateDataPDF = async () => {
+        console.log("ID: " + id);
+
+        try {
+    
+            const result = await generateDataPDF(id);
+    
+                if (success) {
+                    let parsedData;
+                    if (Array.isArray(dataFile)) {
+                        parsedData = dataFile[0];
+                    } else {
+                        parsedData = dataFile; 
+                    }
+    
+                    if (parsedData) {
+                        parsedData = Array.isArray(dataFile) ? dataFile : [dataFile];
+                        console.log("parsedData: "+parsedData);
+    
+                        // setPdfData(JSON.parse(parsedData));
+                        setPdfData(parsedData);
+    
+                    }
+                    else {
+                        console.log("ERROR!!!");
+                    }
+                } else {
+                    setError(result.message || 'Invalid data format');
+                    console.log("Unsuccesful");
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                console.log("PDF DATA: ", pdfData);
+        }
+    }
+
     return (
         <div className="max-h-screen bg-gray-200 p-8">
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
@@ -275,7 +314,11 @@ const RequestReports = () => {
                                 <td className="px-4 py-2">
                                     {getReportStatus(item.REPORTSTATUS)}
                                 </td>
-                                <td className="px-4 py-2">
+                                <td className="px-4 py-2"
+                                    onClick={() => {
+                                        setId(item.ID);
+                                        fetchGenerateDataPDF();
+                                    }}>
                                     {getDownloadButton(item.REPORTSTATUS)}
                                 </td>
                             </tr>
