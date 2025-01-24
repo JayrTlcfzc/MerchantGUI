@@ -85,9 +85,51 @@ export const generateDataPDF = async (id) => {
 
   try {
     const response = await axios.post(`${BASE_URL}/reports/generateDataPDF`, payload);
-    return response.data;
+    console.log("RESPONSE . DATA: ",response.data)
+
+    const responseData = response.data;
+    console.log("RESPONSEDATA: ", responseData.data);
+
+    if (responseData && responseData.message === "Successfully fetch data") {
+      return { success: true, data: responseData.Data, dataFile: responseData.data};
+    } else {
+      console.log(responseData?.StatusMessage || "No message");
+      return { success: false, message: responseData?.StatusMessage || "Unknown error" };
+    }
+
   } catch (error) {
     console.error('Error requesting report:', error);
     throw error;
   }
+};
+
+export const downloadPDF = async (pdfData, reportName) => {
+
+  console.log("REPORT NAME: ", reportName);
+  console.log("PDF DATA: ", pdfData);
+
+  const payload = {
+    data: pdfData,
+    reportName: reportName,
+  }
+
+  try {
+    const response = await axios.post(`${BASE_URL}/reports/downloadPDF`,
+      payload,
+      { responseType: 'blob' });
+
+      // Create a URL for the PDF blob
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+      const pdfURL = URL.createObjectURL(pdfBlob);
+
+      // Create a temporary link and trigger download
+      const link = document.createElement("a");
+      link.href = pdfURL;
+      link.download = `${reportName.replace(/\s+/g, '_')}_${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
 };

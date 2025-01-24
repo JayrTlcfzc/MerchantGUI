@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ClipboardPlus, Search, ArrowDownUp, X, Download} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
 import { useTranslation } from "react-i18next";
-import { generateReview, generateDataPDF } from '../../api/reports';
+import { generateReview, generateDataPDF, downloadPDF } from '../../api/reports';
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -18,7 +18,6 @@ const RequestReports = () => {
     const [transTypeArray, setTransTypeArray] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [id, setId] = useState('');
     const [pdfData, setPdfData] = useState([]);
 
     useEffect(() => {
@@ -171,12 +170,13 @@ const RequestReports = () => {
         }
     }
 
-    const fetchGenerateDataPDF = async () => {
-        console.log("ID: " + id);
+    const fetchGenerateDataPDF = async (itemId, reportName) => {
+        console.log("ID: " + itemId);
 
         try {
-    
-            const result = await generateDataPDF(id);
+            const {success, message, dataFile} = await generateDataPDF(itemId);
+            console.log("DATAFILE: ", dataFile);
+            console.log("success: ", success);
     
                 if (success) {
                     let parsedData;
@@ -187,11 +187,12 @@ const RequestReports = () => {
                     }
     
                     if (parsedData) {
-                        parsedData = Array.isArray(dataFile) ? dataFile : [dataFile];
-                        console.log("parsedData: "+parsedData);
+                        console.log("parsedData: ",parsedData);
     
-                        // setPdfData(JSON.parse(parsedData));
-                        setPdfData(parsedData);
+                        const pdfData = JSON.parse(parsedData);
+                        setPdfData(pdfData);
+
+                        const res = await downloadPDF(pdfData, reportName);
     
                     }
                     else {
@@ -203,10 +204,12 @@ const RequestReports = () => {
                 }
             } catch (err) {
                 setError(err.message);
-            } finally {
-                console.log("PDF DATA: ", pdfData);
-        }
+            }
     }
+
+    // useEffect(() => {
+    //     console.log("PDF DATA: ", pdfData);
+    // }, [pdfData]);
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
@@ -316,8 +319,7 @@ const RequestReports = () => {
                                 </td>
                                 <td className="px-4 py-2"
                                     onClick={() => {
-                                        setId(item.ID);
-                                        fetchGenerateDataPDF();
+                                        fetchGenerateDataPDF(item.ID, item.REPORTNAME);
                                     }}>
                                     {getDownloadButton(item.REPORTSTATUS)}
                                 </td>
