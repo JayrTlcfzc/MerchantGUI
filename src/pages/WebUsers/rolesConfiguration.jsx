@@ -357,7 +357,7 @@ const rolesConfiguration = () => {
                 <tbody className="text-center divide-y divide-gray-200">
                   {currentItems.length > 0 ? (
                     currentItems.map((item, index) => (
-                      <tr key={index}>
+                      <tr key={index} className='cursor-default'>
                         <td className="px-4 py-2">{item.ID}</td>
                         <td className="px-4 py-2">{item.MODULE}</td>
                         <td className="px-4 py-2">{item.INTERFACE}</td>
@@ -366,6 +366,7 @@ const rolesConfiguration = () => {
                         <td className="px-4 py-2">{item.RIGHTSINDICATOR}</td>
                         <td className="px-4 py-2">
                           <select
+                            className='cursor-pointer'
                             value={newRole[item.ID] || item.ACTIONSTATUS}
                             onChange={(e) => {
                               const updatedActionStatus = e.target.value;

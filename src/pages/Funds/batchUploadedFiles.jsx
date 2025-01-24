@@ -233,7 +233,7 @@ const BatchUploadedFiles = () => {
             <tbody className="text-center divide-y divide-gray-200">
               {currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
-                  <tr key={index} className="cursor-pointer">
+                  <tr key={index} className="cursor-default">
                       <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
                       <td className="px-4 py-2">{item.CREATEDTIMESTAMP}</td>
                       <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>

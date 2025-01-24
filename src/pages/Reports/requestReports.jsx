@@ -301,13 +301,13 @@ const RequestReports = () => {
                                 <ArrowDownUp className="inline-block ml-1 w-4 h-4"/>
                             </span>
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group">
+                        <th className="px-4 py-2 cursor-default group">
                             {t('date_from')}
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group">
+                        <th className="px-4 py-2 cursor-default group">
                             {t('date_to')}
                         </th>
-                        <th className="px-4 py-2 cursor-pointer group">
+                        <th className="px-4 py-2 cursor-default group">
                             {t('transaction_type')}
                         </th>
                         <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"  onClick={() => requestSort("REPORTSTATUS")}>
@@ -324,7 +324,7 @@ const RequestReports = () => {
                     <tbody className="text-center divide-y divide-gray-200">
                         {currentItems.length > 0 ? (
                         currentItems.map((item, index) => (
-                            <tr key={index} className="cursor-pointer">
+                            <tr key={index} className="cursor-default">
                                 <td className="px-4 py-2 whitespace-nowrap">{item.ID}</td>
                                 <td className="px-4 py-2 whitespace-nowrap">{item.REPORTEDDATE}</td>
                                 <td className="px-4 py-2">{item.REPORTNAME}</td>
