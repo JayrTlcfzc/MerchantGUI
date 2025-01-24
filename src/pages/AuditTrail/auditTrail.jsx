@@ -326,7 +326,7 @@ const AuditTrail = () => {
                             </tr>
                         </thead>
                                             
-                        <tbody className="text-center divide-y divide-gray-200">
+                        <tbody className="text-center divide-y divide-gray-200 cursor-default">
                             {currentItems.length > 0 ? (
                                 currentItems.map((item, index) => (
                                     <tr key={index}>
