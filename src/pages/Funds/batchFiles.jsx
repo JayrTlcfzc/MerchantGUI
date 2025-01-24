@@ -37,135 +37,185 @@ const BatchFiles = () => {
 
     const { t, i18n } = useTranslation();
 
-    useEffect(() => {
+    // For auto-reloading table data
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const result = batch === 'request' ? await batchFilesRequest() : await batchFilesTracking();
+            if (result.success) {
+                const parsedFiles = JSON.parse(result.batchData);
+                if (Array.isArray(parsedFiles)) {
+                    setFiles(
+                        parsedFiles.map((batchData) => ({
+                            FILEID: batchData.FILEID || '',
+                            CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
+                            LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
+                            FILENAME: batchData.FILENAME || '',
+                            STATUS: batchData.STATUS || '',
+                            CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                            DATECONFIRMED: batchData.DATECONFIRMED || '',
+                            APPROVEDBY: batchData.APPROVEDBY || '',
+                            DATEAPPROVED: batchData.DATEAPPROVED || '',
+                            UPLOADEDBY: batchData.UPLOADEDBY || '',
+                            MSISDN: batchData.MSISDN || '',
+                            IP: batchData.IP || '',
+                            REMARKS: batchData.REMARKS || ''
+                        }))
+                    );
+                } else {
+                    setError("Invalid data format");
+                    setFiles([]);
+                }
+            } else {
+                setError(result.message || "Invalid data format");
+                setFiles([]);
+            }
+        } catch (err) {
+            setError(err.message);
+            setFiles([]);
+        } finally {
+            setLoading(false);
+        }
+    };    
 
-        if (batch == 'request') {
-          const fetchBatchFilesRequest = async () => {
-              setLoading(true);
-        
-            try {
-              const result = await batchFilesRequest();
-              if (result.success) {
-                const parsedFiles = JSON.parse(result.batchData);
-                if (Array.isArray(parsedFiles)) {
-                  console.log("REQUEST!!!!");
-                  setFiles(
-                    parsedFiles.map((batchData) => ({
-                      FILEID: batchData.FILEID || '',
-                      CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
-                      LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
-                      FILENAME: batchData.FILENAME || '',
-                      STATUS: batchData.STATUS || '',
-                      CONFIRMEDBY: batchData.CONFIRMEDBY || '',
-                      DATECONFIRMED: batchData.DATECONFIRMED || '',
-                      APPROVEDBY: batchData.APPROVEDBY || '',
-                      DATEAPPROVED: batchData.DATEAPPROVED || '',
-                      UPLOADEDBY: batchData.UPLOADEDBY || '',
-                      MSISDN: batchData.MSISDN || '',
-                      IP: batchData.IP || '',
-                      REMARKS: batchData.REMARKS || ''
-                    }))
-                  );
-                } else {
-                  setError("Invalid account data format");
+    useEffect(() => {
+        if (batch === 'request') {
+            const fetchBatchFilesRequest = async () => {
+                setLoading(true);
+                try {
+                    const result = await batchFilesRequest();
+                    if (result.success) {
+                        const parsedFiles = JSON.parse(result.batchData);
+                        if (Array.isArray(parsedFiles)) {
+                            console.log("REQUEST!!!!");
+                            setFiles(
+                                parsedFiles.map((batchData) => ({
+                                    FILEID: batchData.FILEID || '',
+                                    CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
+                                    LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
+                                    FILENAME: batchData.FILENAME || '',
+                                    STATUS: batchData.STATUS || '',
+                                    CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                                    DATECONFIRMED: batchData.DATECONFIRMED || '',
+                                    APPROVEDBY: batchData.APPROVEDBY || '',
+                                    DATEAPPROVED: batchData.DATEAPPROVED || '',
+                                    UPLOADEDBY: batchData.UPLOADEDBY || '',
+                                    MSISDN: batchData.MSISDN || '',
+                                    IP: batchData.IP || '',
+                                    REMARKS: batchData.REMARKS || ''
+                                }))
+                            );
+                        } else {
+                            setError("Invalid account data format");
+                        }
+                    } else {
+                        setError(result.message || "Invalid data format");
+                        setFiles([]);
+                    }
+                } catch (err) {
+                    setError(err.message);
+                    toast.error(err.message);
+                    setFiles([]);
+                } finally {
+                    setLoading(false);
                 }
-              } else {
-                setError(result.message || "Invalid data format");
-                // toast.error(result.message || "Invalid data format");
-                setFiles([]);
-              }
-            } catch (err) {
-              setError(err.message);
-              toast.error(err.message);
-              setFiles([]);
-            } finally {
-              setLoading(false);
-            }
-          };
-          fetchBatchFilesRequest();
-        } else if (batch == 'tracking') {
+            };
+            fetchBatchFilesRequest();
+        } else if (batch === 'tracking') {
             const fetchBatchFilesTracking = async () => {
-              setLoading(true);
-        
-            try {
-              const result = await batchFilesTracking();
-              if (result.success) {
-                const parsedFiles = JSON.parse(result.batchData);
-                if (Array.isArray(parsedFiles)) {
-                  console.log("TRACKING!!!!");
-                  setFiles(
-                    parsedFiles.map((batchData) => ({
-                      FILEID: batchData.FILEID || '',
-                      CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
-                      LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
-                      FILENAME: batchData.FILENAME || '',
-                      STATUS: batchData.STATUS || '',
-                      CONFIRMEDBY: batchData.CONFIRMEDBY || '',
-                      DATECONFIRMED: batchData.DATECONFIRMED || '',
-                      APPROVEDBY: batchData.APPROVEDBY || '',
-                      DATEAPPROVED: batchData.DATEAPPROVED || '',
-                      UPLOADEDBY: batchData.UPLOADEDBY || '',
-                      MSISDN: batchData.MSISDN || '',
-                      IP: batchData.IP || '',
-                      REMARKS: batchData.REMARKS || ''
-                    }))
-                  );
-                } else {
-                  setError("Invalid account data format");
-                  setFiles([]);
+                setLoading(true);
+                try {
+                    const result = await batchFilesTracking();
+                    if (result.success) {
+                        const parsedFiles = JSON.parse(result.batchData);
+                        if (Array.isArray(parsedFiles)) {
+                            console.log("TRACKING!!!!");
+                            setFiles(
+                                parsedFiles.map((batchData) => ({
+                                    FILEID: batchData.FILEID || '',
+                                    CREATEDTIMESTAMP: batchData.CREATEDTIMESTAMP || '',
+                                    LOADEDTIMESTAMP: batchData.LOADEDTIMESTAMP || '',
+                                    FILENAME: batchData.FILENAME || '',
+                                    STATUS: batchData.STATUS || '',
+                                    CONFIRMEDBY: batchData.CONFIRMEDBY || '',
+                                    DATECONFIRMED: batchData.DATECONFIRMED || '',
+                                    APPROVEDBY: batchData.APPROVEDBY || '',
+                                    DATEAPPROVED: batchData.DATEAPPROVED || '',
+                                    UPLOADEDBY: batchData.UPLOADEDBY || '',
+                                    MSISDN: batchData.MSISDN || '',
+                                    IP: batchData.IP || '',
+                                    REMARKS: batchData.REMARKS || ''
+                                }))
+                            );
+                        } else {
+                            setError("Invalid account data format");
+                            setFiles([]);
+                        }
+                    } else {
+                        setError(result.message || "Invalid data format");
+                        setFiles([]);
+                    }
+                } catch (err) {
+                    setError(err.message);
+                    toast.error(err.message);
+                } finally {
+                    setLoading(false);
                 }
-              } else {
-                setError(result.message || "Invalid data format");
-                // toast.error(result.message || "Invalid data format");
-                setFiles([]);
-              }
-            } catch (err) {
-              setError(err.message);
-              toast.error(err.message);
-            } finally {
-              setLoading(false);
-            }
-          };
-          fetchBatchFilesTracking();
-          }
-          console.log("BATCH: "+batch)
-      }, [batch]);
+            };
+            fetchBatchFilesTracking();
+        }
+        console.log("BATCH: " + batch);
+    }, [batch]);    
 
     const handleAction = (modalMessage, confirmModalMessage) => {
         setModalMessage(modalMessage);
         setConfirmationModalMessage(confirmModalMessage);
         setConfirmationModalOpen(true);
-    }
-
+        fetchData();
+    };
+    
     const handleProceed = async () => {
         try {
-              const res = await batchFilesOtpRequest(module);
-              console.log("Allocate otp Response:", res);
-
-              if (res.success) {
+            const res = await batchFilesOtpRequest(module);
+            console.log("Allocate OTP Response:", res);
+    
+            if (res.success) {
                 setOTPModalOpen(true);
-              } else {
-                toast.error("OTP Request Error!")
-              }
-
-            } catch (error) {
-              console.error("Error in batch files:", error);
-              setModalState({ isOpen: true, status: "error", message: error.message });
+            } else {
+                toast.error("OTP Request Error!");
             }
-    }
-
+        } catch (error) {
+            console.error("Error in batch files:", error);
+            setModalState({ isOpen: true, status: "error", message: error.message });
+        }
+    };
+    
     const handleProceedOTP = async (otp, remarks) => {
-        console.log("REMARKS: ", remarks)
+        console.log("REMARKS: ", remarks);
         setOTPModalOpen(false);
-
+    
         try {
-              const res = await batchFilesAction(fileId, otp, remarks, module);
-              console.log("Batch Files Response:", res);
-              setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
-            } catch (error) {
-              console.error("Error in batch files action:", error);
-              setModalState({ isOpen: true, status: "error", message: error.message });
-            }
+            const res = await batchFilesAction(fileId, otp, remarks, module);
+            console.log("Batch Files Response:", res);
+            setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
+            fetchData();
+        } catch (error) {
+            console.error("Error in batch files action:", error);
+            setModalState({ isOpen: true, status: "error", message: error.message });
+            fetchData();
+        }
+    };    
+
+    // Auto-Refresh Table when closed modal
+    const handleOTPModalClose = () => {
+        setOTPModalOpen(false);
+        fetchData();
+    }
+    
+    // Auto-Refresh Table when closed modal
+    const handleDetailsModalClose = () => {
+        setDetailsModalOpen(false);
+        fetchData();
     }
 
     // For Ellipsis Dropdown
@@ -521,7 +571,7 @@ const BatchFiles = () => {
             {isDetailsModalOpen && (
                 <DetailsModal
                     isOpen={isDetailsModalOpen}
-                    onClose={() => setDetailsModalOpen(false)}
+                    onClose={handleDetailsModalClose}
                     handleClose={() => setDetailsModalOpen(false)}
                     batchDetails={'BatchFiles'} 
                     fileId={fileId}
@@ -543,7 +593,7 @@ const BatchFiles = () => {
             {isOTPModalOpen && (
                 <OTPModal
                     isOpen={isOTPModalOpen}
-                    handleClose={() => setOTPModalOpen(false)}
+                    handleClose={handleOTPModalClose}
                     onProceed={handleProceedOTP}
                     otpBatchFiles={true}
                 />

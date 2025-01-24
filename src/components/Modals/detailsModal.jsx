@@ -3,6 +3,10 @@ import { X, Search, ChevronDown, ArrowDownUp } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from "react-toastify";
 import { batchDetailsData } from "../../api/batch";
+import Papa from "papaparse";
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   const { t, i18n } = useTranslation();
@@ -15,51 +19,31 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   const [itemsPerPage] = useState(5);
   const [loading, setLoading] = useState(true);
 
-  console.log("FILEID: "+ fileId);
-
   useEffect(() => {
-
     const fetchBatchDetails = async () => {
       setLoading(true);
 
       try {
         const { success, batchDataFile, message } = await batchDetailsData(fileId);
-
-        console.log("batchDataFile: " + batchDataFile);
-        console.log("MESSAGEEE: "+ message);
-
         if (success) {
-          let parsedData;
-          if (Array.isArray(batchDataFile)) {
-            console.log("HERE AGAIN!!!!");
-            parsedData = batchDataFile[0];
-          } else {
-            parsedData = batchDataFile; 
-          }
-          if (parsedData) {
-            parsedData = Array.isArray(batchDataFile) ? batchDataFile : [batchDataFile];
-            console.log("parsedData: ", parsedData);
-            setFiles(
-              parsedData.map((batchDataFile) => ({
-                FILEID: batchDataFile.fileId || '',
-                REFERENCEID: batchDataFile.referenceId || '',
-                LOADEDTIMESTAMP: batchDataFile.loadedTimeStamp || '',
-                FRMSISDN: batchDataFile.frMsisdn || '',
-                TOMSISDN: batchDataFile.toMsisdn || '',
-                AMOUNT: batchDataFile.amount || '',
-                REFERENCE: batchDataFile.reference || '',
-                REFERENCETO: batchDataFile.referenceTo || '',
-                WALLETID: batchDataFile.walletId || '',
-                REMARKS: batchDataFile.remarks || '',
-
-                FIRSTNAME: batchDataFile.firstName || '',
-                LASTNAME: batchDataFile.lastName || '',
-                TYPE: batchDataFile.type || '',
-              }))
-            );
-          } else {
-            console.log("ERROR!!!");
-          }
+          let parsedData = Array.isArray(batchDataFile) ? batchDataFile : [batchDataFile];
+          setFiles(
+            parsedData.map((file) => ({
+              FILEID: file.fileId || '',
+              REFERENCEID: file.referenceId || '',
+              LOADEDTIMESTAMP: file.loadedTimeStamp || '',
+              FRMSISDN: file.frMsisdn || '',
+              TOMSISDN: file.toMsisdn || '',
+              AMOUNT: file.amount || '',
+              REFERENCE: file.reference || '',
+              REFERENCETO: file.referenceTo || '',
+              WALLETID: file.walletId || '',
+              REMARKS: file.remarks || '',
+              FIRSTNAME: file.firstName || '',
+              LASTNAME: file.lastName || '',
+              TYPE: file.type || '',
+            }))
+          );
         }
       } catch (err) {
         setError(err.message);
@@ -69,18 +53,52 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       }
     }
     fetchBatchDetails();
-
   }, [fileId]);
 
-  // Available File Extensions Selection
   const fileExtensions = ["CSV", "XLSX", "PDF"];
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
   
-  // Download Function
   const handleDownload = (extension) => {
+    const dataToDownload = files.map(item => ({
+      FILEID: item.FILEID,
+      REFERENCEID: item.REFERENCEID,
+      LOADEDTIMESTAMP: item.LOADEDTIMESTAMP,
+      FRMSISDN: item.FRMSISDN,
+      TOMSISDN: item.TOMSISDN,
+      AMOUNT: item.AMOUNT,
+      REFERENCE: item.REFERENCE,
+      REFERENCETO: item.REFERENCETO,
+      WALLETID: item.WALLETID,
+      REMARKS: item.REMARKS,
+      FIRSTNAME: item.FIRSTNAME,
+      LASTNAME: item.LASTNAME,
+      TYPE: item.TYPE,
+    }));
+
+    if (extension === "CSV") {
+      const csv = Papa.unparse(dataToDownload);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "batch_details.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else if (extension === "XLSX") {
+      const worksheet = XLSX.utils.json_to_sheet(dataToDownload);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "batch_details.xlsx");
+    } else if (extension === "PDF") {
+      const doc = new jsPDF();
+      doc.autoTable({ html: "#batchDetailsTable" });
+      doc.save("batch_details.pdf");
+    }
+
     toast.success(`${extension} is being downloaded`);
     setIsDropdownOpen(false);
   };
@@ -137,14 +155,11 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
     return pageNumbers;
   };
 
-  // To Display Total Transactions
   const totalTransactions = filteredData.length; 
 
-  // Computation to get the Total Amount
   const totalAmount = filteredData.reduce((sum, item) => {
-    // Remove spaces and parse the amount as a number
     const amount = parseFloat(item.AMOUNT.replace(/\s+/g, ''));
-    return sum + (isNaN(amount) ? 0 : amount); // If not a valid number, return 0
+    return sum + (isNaN(amount) ? 0 : amount);
   }, 0);
   
   return (
@@ -220,168 +235,168 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
           )}
         </div>
 
-        {batchDetails === "UploadedFiles" ? (
-          <table className="min-w-content divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
-            <thead className="rounded bg-[#D95F08] text-white">
-              <tr className="divide-x divide-gray-200">
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("FILEID")}>
-                  <span className="flex items-center justify-between">
-                    {t('file_id')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REFERENCEID")}>
-                  <span className="flex items-center justify-between">
-                    {t('reference_id')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("LOADEDTIMESTAMP")}>
-                  <span className="flex items-center justify-between">
-                    {t('timestamp')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("FRMSISDN")}>
-                  <span className="flex items-center justify-between">
-                    {t('from_msisdn')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("TOMSISDN")}>
-                  <span className="flex items-center justify-between">
-                    {t('to_msisdn')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("AMOUNT")}>
-                  <span className="flex items-center justify-between">
-                    {t('amount')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REFERENCE")}>
-                  <span className="flex items-center justify-between">
-                    {t('reference_one')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REFERENCETO")}>
-                  <span className="flex items-center justify-between">
-                    {t('reference_two')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("WALLETID")}>
-                  <span className="flex items-center justify-between">
-                    {t('wallet_id')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REMARKS")}>
-                  <span className="flex items-center justify-between">
-                    {t('remarks')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-center divide-y divide-gray-200">
-              {currentItems.length > 0 ? (
-                currentItems.map((item, index) => (
-                  <tr key={index} className="cursor-pointer">
-                    <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
-                    <td className="px-4 py-2">{item.REFERENCEID}</td>
-                    <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
-                    <td className="px-4 py-2">{item.FRMSISDN}</td>
-                    <td className="px-4 py-2">{item.TOMSISDN}</td>
-                    <td className="px-4 py-2">{item.AMOUNT}</td>
-                    <td className="px-4 py-2">{item.REFERENCE}</td>
-                    <td className="px-4 py-2">{item.REFERENCETO}</td>
-                    <td className="px-4 py-2">{item.WALLETID}</td>
-                    <td className="px-4 py-2">{item.REMARKS}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="10" className="px-4 py-2 border text-center">
-                    {t('td_no_results_found')}
-                  </td>
+      {batchDetails === "UploadedFiles" ? (
+        <table id="batchDetailsTable" className="min-w-content divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
+          <thead className="rounded bg-[#D95F08] text-white">
+            <tr className="divide-x divide-gray-200">
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                onClick={() => requestSort("FILEID")}>
+                <span className="flex items-center justify-between">
+                  {t('file_id')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("REFERENCEID")}>
+                <span className="flex items-center justify-between">
+                  {t('reference_id')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("LOADEDTIMESTAMP")}>
+                <span className="flex items-center justify-between">
+                  {t('timestamp')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("FRMSISDN")}>
+                <span className="flex items-center justify-between">
+                  {t('from_msisdn')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("TOMSISDN")}>
+                <span className="flex items-center justify-between">
+                  {t('to_msisdn')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("AMOUNT")}>
+                <span className="flex items-center justify-between">
+                  {t('amount')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("REFERENCE")}>
+                <span className="flex items-center justify-between">
+                  {t('reference_one')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("REFERENCETO")}>
+                <span className="flex items-center justify-between">
+                  {t('reference_two')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("WALLETID")}>
+                <span className="flex items-center justify-between">
+                  {t('wallet_id')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("REMARKS")}>
+                <span className="flex items-center justify-between">
+                  {t('remarks')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="text-center divide-y divide-gray-200">
+            {currentItems.length > 0 ? (
+              currentItems.map((item, index) => (
+                <tr key={index} className="cursor-pointer">
+                  <td className="px-4 py-2 whitespace-nowrap">{item.FILEID}</td>
+                  <td className="px-4 py-2">{item.REFERENCEID}</td>
+                  <td className="px-4 py-2">{item.LOADEDTIMESTAMP}</td>
+                  <td className="px-4 py-2">{item.FRMSISDN}</td>
+                  <td className="px-4 py-2">{item.TOMSISDN}</td>
+                  <td className="px-4 py-2">{item.AMOUNT}</td>
+                  <td className="px-4 py-2">{item.REFERENCE}</td>
+                  <td className="px-4 py-2">{item.REFERENCETO}</td>
+                  <td className="px-4 py-2">{item.WALLETID}</td>
+                  <td className="px-4 py-2">{item.REMARKS}</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        ) : (
-          <table className="max-w-screen-md divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
-            <thead className="rounded bg-[#D95F08] text-white">
-              <tr className="divide-x divide-gray-200">
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                  onClick={() => requestSort("FILEID")}>
-                  <span className="flex items-center justify-between">
-                    {t('file_id')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("REFERENCEID")}>
-                  <span className="flex items-center justify-between">
-                    {t('reference_id')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("LOADEDTIMESTAMP")}>
-                  <span className="flex items-center justify-between">
-                    {t('timestamp')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("FRMSISDN")}>
-                  <span className="flex items-center justify-between">
-                    {t('from_msisdn')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("TOMSISDN")}>
-                  <span className="flex items-center justify-between">
-                    {t('to_msisdn')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("FIRSTNAME")}>
-                  <span className="flex items-center justify-between">
-                    {t('first_name')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("LASTNAME")}>
-                  <span className="flex items-center justify-between">
-                    {t('last_name')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
-                    onClick={() => requestSort("AMOUNT")}>
-                  <span className="flex items-center justify-between">
-                    {t('amount')}
-                    <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
-                  </span>
-                </th>
-                <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+              ))
+            ) : (
+              <tr>
+                <td colSpan="10" className="px-4 py-2 border text-center">
+                  {t('td_no_results_found')}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      ) : (
+        <table id="batchDetailsTable" className="max-w-screen-md divide-y table-auto border-collapse rounded-lg overflow-visible shadow-md text-xs mx-4">
+          <thead className="rounded bg-[#D95F08] text-white">
+            <tr className="divide-x divide-gray-200">
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                onClick={() => requestSort("FILEID")}>
+                <span className="flex items-center justify-between">
+                  {t('file_id')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("REFERENCEID")}>
+                <span className="flex items-center justify-between">
+                  {t('reference_id')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("LOADEDTIMESTAMP")}>
+                <span className="flex items-center justify-between">
+                  {t('timestamp')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("FRMSISDN")}>
+                <span className="flex items-center justify-between">
+                  {t('from_msisdn')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("TOMSISDN")}>
+                <span className="flex items-center justify-between">
+                  {t('to_msisdn')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("FIRSTNAME")}>
+                <span className="flex items-center justify-between">
+                  {t('first_name')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("LASTNAME")}>
+                <span className="flex items-center justify-between">
+                  {t('last_name')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-2 cursor-pointer group hover:bg-[#E4813A]"
+                  onClick={() => requestSort("AMOUNT")}>
+                <span className="flex items-center justify-between">
+                  {t('amount')}
+                  <ArrowDownUp className="inline-block ml-1 w-4 h-4" />
+                </span>
+              </th>
+              <th className="px-4 py-                2 cursor-pointer group hover:bg-[#E4813A]"
                     onClick={() => requestSort("REFERENCE")}>
                   <span className="flex items-center justify-between">
                     {t('reference_one')}
