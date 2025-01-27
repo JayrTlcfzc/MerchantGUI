@@ -10,6 +10,7 @@ import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormDa
 import { useTranslation } from 'react-i18next';
 import {userLevelCol} from "../../api/webuser";
 import { updateWebUser } from '../../api/apiWebUsers';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 export default function viewWebUsersModal({ handleClose = () => {}, webUserData = {} }) {
 
@@ -18,17 +19,13 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   const [locked, setLocked] = useState(false);
   const [deactivated, setDeactivated] = useState(false);
   const [openModal, setOpenModal] = useState('');
-  
   const [modalMessage, setModalMessage] = useState('');
   const [modalUsername, setModalUsername] = useState('');
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
+  const [levels, setLevels] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-   const [levels, setLevels] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-   
-  
     useEffect(() => {
       const fetchUserLevels = async () => {
         setLoading(true);
@@ -146,6 +143,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     const isFormValid = requiredFields.every(field => field && field.trim() !== "");
   
     if (isFormValid) {
+      setLoading(true);
       try {
         const result = await updateWebUser(formData);
         console.log('Update result:', result);
@@ -156,16 +154,13 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
           status: "successul",
           message: result.message,
         });
-      }else{
-        setModalState({
-          isOpen: true,
-          status: "error",
-          message: result.message,
-        });
-      }
-        // Reset form after success
-        // ResetFormData(setFormData, initialFormData)();
-        // setOnEdit(false);
+        } else{
+          setModalState({
+            isOpen: true,
+            status: "error",
+            message: result.message,
+          });
+        }
       } catch (error) {
         console.error('Error updating user:', error);
   
@@ -174,6 +169,8 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
           status: "error",
           message: t('modal_failed_to_edit_user_level'),
         });
+      } finally {
+        setLoading(false);
       }
     } else {
       setModalState({
@@ -184,10 +181,10 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     }
   };
   
-
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-
+      {loading && (<LoadingModal />)}
+      
           <div className="bg-white rounded-lg shadow-lg max-w-full pb-6 border-2 border-[#D95F08]">
 
             <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>

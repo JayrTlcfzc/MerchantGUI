@@ -5,7 +5,8 @@ import OTPModal from '../../components/Modals/OTPModal';
 import { FaBuildingColumns } from 'react-icons/fa6';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; // Import validation and reset functions
 import { useTranslation } from 'react-i18next';
-import { walletToBank, allocateOtpRequest, bankCollection } from '../../api/walletToBank'
+import { walletToBank, allocateOtpRequest, bankCollection } from '../../api/walletToBank';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 
 const WalletToBank = () => {
@@ -14,40 +15,38 @@ const WalletToBank = () => {
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   const [banks, setBanks] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [pinValue, setPinValue] = useState("");
   const [otpValue, setOtpValue] = useState("");
   
-    useEffect(() => {
-      const fetchUserLevels = async () => {
+  useEffect(() => {
+    const fetchUserLevels = async () => {
+      try {
         setLoading(true);
-        try {
-          const result = await bankCollection();
-          if (result.success) {
-            const parsedBank = JSON.parse(result.bank);
-            console.log(parsedBank)
-            if (Array.isArray(parsedBank)) {
-              setBanks(parsedBank); 
-            } else {
-              setError('Invalid user level data format');
-            }
+        const result = await bankCollection();
+        if (result.success) {
+          const parsedBank = JSON.parse(result.bank);
+          console.log(parsedBank)
+          if (Array.isArray(parsedBank)) {
+            setBanks(parsedBank); 
           } else {
-            setError(result.message || 'Invalid data format');
+            setError('Invalid user level data format');
           }
-        } catch (err) {
-          setError(err.message); // Handle fetch errors
-        } finally {
-          setLoading(false);
+        } else {
+          setError(result.message || 'Invalid data format');
         }
-      };
-    
-      fetchUserLevels();
-    }, []);
-
-
-
+      } catch (err) {
+        setError(err.message); // Handle fetch errors
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchUserLevels();
+  }, []);
 
   const { t, i18n } = useTranslation();
+
   // Setting initial input
   const initialFormData = {
     bank: '',
@@ -70,148 +69,154 @@ const WalletToBank = () => {
     
     setPasswordModalOpen(false); 
     try {
-          const res = await allocateOtpRequest();
-          console.log("Allocate otp Response:", res);
-          setOTPModalOpen(true);
-        } catch (error) {
-          console.error("Error in allocation:", error);
-          setModalState({ isOpen: true, status: "error", message: error.message });
-        } finally {
-          ResetFormData(setFormData, initialFormData);
-        }
+      setLoading(true);
+        const res = await allocateOtpRequest();
+        console.log("Allocate otp Response:", res);
+        setOTPModalOpen(true);
+      } catch (error) {
+        console.error("Error in allocation:", error);
+        setModalState({ isOpen: true, status: "error", message: error.message });
+      } finally {
+        ResetFormData(setFormData, initialFormData);
+        setLoading(false);
+      }
      
   };
 
   const handleProceedOTP = async (otp) => {
-        setOtpValue(otp);
-        const updatedFormData = { ...formData, otp }; // Include OTP in form data
-        setFormData(updatedFormData);
-        setOTPModalOpen(false);
-        console.log('formData ', formData);
-        try {
-          const res = await walletToBank(updatedFormData);
-          console.log("Allocate Cash Response:", res);
-          setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
-        } catch (error) {
-          console.error("Error in allocation:", error);
-          setModalState({ isOpen: true, status: "error", message: error.message });
-        } finally {
-          ResetFormData(setFormData, initialFormData);
-        }
+    setOtpValue(otp);
+    const updatedFormData = { ...formData, otp }; // Include OTP in form data
+    setFormData(updatedFormData);
+    setOTPModalOpen(false);
+    console.log('formData ', formData);
+    try {
+      setLoading(true);
+      const res = await walletToBank(updatedFormData);
+      console.log("Allocate Cash Response:", res);
+      setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
+    } catch (error) {
+      console.error("Error in allocation:", error);
+      setModalState({ isOpen: true, status: "error", message: error.message });
+    } finally {
+      ResetFormData(setFormData, initialFormData);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-     <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
-    <FaBuildingColumns className="text-[#D95F08] mr-2" />
-    {t('wallet_to_bank')}
-  </h2>
-  <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-4xl border-2 border-[#23587C]">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-      <div className="flex flex-col">
-        <label 
-          className="block text-sm font-medium mb-2 truncate" 
-          title={t('bank')} // Tooltip for full label
-        >
-          {t('bank')}
-        </label>
-        <select
-          name="bank"
-          value={formData.bank}
-          onChange={HandleChange(setFormData)}
-          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-        >
-          <option value="">Select Bank</option>
-                {banks.map((bank) => (
-                  <option key={bank.ID} value={bank.KEYNAME.toUpperCase()}>
-                    {bank.BANKNAME}
-                  </option>
-                ))}
-        </select>
+      {loading && (<LoadingModal />)}
+      
+      <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
+        <FaBuildingColumns className="text-[#D95F08] mr-2" />
+        {t('wallet_to_bank')}
+      </h2>
+      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-4xl border-2 border-[#23587C]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          <div className="flex flex-col">
+            <label 
+              className="block text-sm font-medium mb-2 truncate" 
+              title={t('bank')} // Tooltip for full label
+            >
+              {t('bank')}
+            </label>
+            <select
+              name="bank"
+              value={formData.bank}
+              onChange={HandleChange(setFormData)}
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+            >
+              <option value="">Select Bank</option>
+                    {banks.map((bank) => (
+                      <option key={bank.ID} value={bank.KEYNAME.toUpperCase()}>
+                        {bank.BANKNAME}
+                      </option>
+                    ))}
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label 
+              className="block text-sm font-medium mb-2 truncate" 
+              title={t('bank_account_full_name')} // Tooltip for full label
+            >
+              {t('bank_account_full_name')}
+            </label>
+            <input
+              type="text"
+              name="bankaccountfullname"
+              value={formData.bankaccountfullname}
+              onChange={HandleChangeTextOnly(setFormData)}
+              placeholder={t('bank_account_full_name')}
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label 
+              className="block text-sm font-medium mb-2 truncate" 
+              title={t('bank_account_number')} // Tooltip for full label
+            >
+              {t('bank_account_number')}
+            </label>
+            <input
+              type="text"
+              name="bankaccountnumber"
+              value={formData.bankaccountnumber}
+              onChange={HandleChangeDigitsOnly(setFormData)}
+              placeholder={t('bank_account_number')}
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label 
+              className="block text-sm font-medium mb-2 truncate" 
+              title={t('amount')} // Tooltip for full label
+            >
+              {t('amount')}
+            </label>
+            <input
+              type="text"
+              name="amount"
+              value={formData.amount}
+              onChange={HandleChangeDigitsOnly(setFormData)}
+              placeholder={t('amount')}
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label 
+              className="block text-sm font-medium mb-2 truncate" 
+              title={t('remarks')} // Tooltip for full label
+            >
+              {t('remarks')}
+            </label>
+            <input
+              type="text"
+              name="remarks"
+              value={formData.remarks}
+              onChange={HandleChange(setFormData)} // Using general handleChange for remarks
+              placeholder={t('remarks')}
+              className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
+            />
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col">
-        <label 
-          className="block text-sm font-medium mb-2 truncate" 
-          title={t('bank_account_full_name')} // Tooltip for full label
+      <div className="flex justify-center gap-6 mt-6">
+        <button
+          className={`px-8 py-3 tracking-wide shadow-md rounded-lg font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+            isFormValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'
+          }`}
+          onClick={handleAllocate}
+          disabled={!isFormValid}
         >
-          {t('bank_account_full_name')}
-        </label>
-        <input
-          type="text"
-          name="bankaccountfullname"
-          value={formData.bankaccountfullname}
-          onChange={HandleChangeTextOnly(setFormData)}
-          placeholder={t('bank_account_full_name')}
-          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-        />
-      </div>
-      <div className="flex flex-col">
-        <label 
-          className="block text-sm font-medium mb-2 truncate" 
-          title={t('bank_account_number')} // Tooltip for full label
+          {t('submit')}
+        </button>
+        <button 
+          className="px-8 py-3 tracking-wide shadow-md rounded-lg font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
+          onClick={ResetFormData(setFormData, initialFormData)} // Resetting form
         >
-          {t('bank_account_number')}
-        </label>
-        <input
-          type="text"
-          name="bankaccountnumber"
-          value={formData.bankaccountnumber}
-          onChange={HandleChangeDigitsOnly(setFormData)}
-          placeholder={t('bank_account_number')}
-          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-        />
+          {t('reset')}
+        </button>
       </div>
-      <div className="flex flex-col">
-        <label 
-          className="block text-sm font-medium mb-2 truncate" 
-          title={t('amount')} // Tooltip for full label
-        >
-          {t('amount')}
-        </label>
-        <input
-          type="text"
-          name="amount"
-          value={formData.amount}
-          onChange={HandleChangeDigitsOnly(setFormData)}
-          placeholder={t('amount')}
-          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-        />
-      </div>
-      <div className="flex flex-col">
-        <label 
-          className="block text-sm font-medium mb-2 truncate" 
-          title={t('remarks')} // Tooltip for full label
-        >
-          {t('remarks')}
-        </label>
-        <input
-          type="text"
-          name="remarks"
-          value={formData.remarks}
-          onChange={HandleChange(setFormData)} // Using general handleChange for remarks
-          placeholder={t('remarks')}
-          className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
-        />
-      </div>
-    </div>
-  </div>
-  <div className="flex justify-center gap-6 mt-6">
-    <button
-      className={`px-8 py-3 tracking-wide shadow-md rounded-lg font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-        isFormValid ? 'bg-[#23587C] hover:bg-[#2C75A6] focus:ring-[#2C75A6]/50' : 'bg-gray-300 cursor-not-allowed'
-      }`}
-      onClick={handleAllocate}
-      disabled={!isFormValid}
-    >
-      {t('submit')}
-    </button>
-    <button 
-      className="px-8 py-3 tracking-wide shadow-md rounded-lg font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
-      onClick={ResetFormData(setFormData, initialFormData)} // Resetting form
-    >
-      {t('reset')}
-    </button>
-  </div>
 
       {/* Password Modal */}
       {isPasswordModalOpen && (

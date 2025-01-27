@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { batchUploadedFiles } from "../../api/batch";
 import { toast, ToastContainer } from "react-toastify";
 import DetailsModal from "../../components/Modals/detailsModal";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const BatchUploadedFiles = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -14,7 +15,7 @@ const BatchUploadedFiles = () => {
   const [sortConfig, setSortConfig] = useState({ key: "fileid", direction: "ascending" });
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(null);
   const dropdownRef = useRef(null);
   const [isDetailsModalOpen, setDetailsModalOpen] = useState(false);
@@ -137,6 +138,8 @@ const BatchUploadedFiles = () => {
 
   return (
     <div className="max-h-screen bg-gray-200 p-8">
+      {loading && (<LoadingModal />)}
+      
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
         {/* Page Title */}

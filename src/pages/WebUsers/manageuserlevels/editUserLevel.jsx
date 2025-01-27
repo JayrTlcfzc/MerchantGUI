@@ -8,14 +8,15 @@ import { useTranslation } from "react-i18next";
 import { userLevelCol } from "../../../api/webuser";
 import { editUserLevel, userLevelSearch } from "../../../api/manageUserLevels";
 import { toast, ToastContainer } from "react-toastify";
+import LoadingModal from '../../../components/Modals/loadingModal';
 
 const EditUserLevel = () => {
   const { t, i18n } = useTranslation();
   const [levels, setLevels] = useState([]);
   const [userLevel, setUserLevel] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [initialUserLevelData, setInitialUserLevelData] = useState(null); // Store the initial data
+  const [initialUserLevelData, setInitialUserLevelData] = useState([]); // Store the initial data
   const [userLevelData, setUserLevelData] = useState([
     { label: t("session_timeout"), value: "", nameID: "sessionTimeout" },
     { label: t("password_expiry"), value: "", nameID: "passwordExpiry" },
@@ -59,6 +60,7 @@ const EditUserLevel = () => {
 
     const handleShowData = async (userlevel) => {
       try {
+        setLoading(true);
         const { success, dataUserLevel, message } = await userLevelSearch(userlevel);
 
         console.log("userLevelData: " + dataUserLevel);
@@ -95,6 +97,8 @@ const EditUserLevel = () => {
       } catch (error) {
         console.log("ERROR!");
         console.log(error.message);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -131,15 +135,24 @@ const EditUserLevel = () => {
     formData.userLevel = userLevel;
 
     if (isFormValid) {
-      const response = await editUserLevel(formData);
-      console.log("response: " + response);
-      setModalState({
-        isOpen: true,
-        status: "success",
-        message: "Edited User Level Successfully!",
-      });
-
-      // ResetFormData(setUserLevelData, initialFormData)();
+      try {
+        setLoading(true);
+        const response = await editUserLevel(formData);
+        console.log("response: " + response);
+        setModalState({
+          isOpen: true,
+          status: "success",
+          message: "Edited User Level Successfully!",
+        });
+      } catch (error) {
+        setModalState({
+            isOpen: true,
+            status: "error",
+            message: error.message || t("Failed to edit data."),
+        });
+      } finally {
+        setLoading(false);
+      }
     } else {
       setModalState({
         isOpen: true,
@@ -151,6 +164,8 @@ const EditUserLevel = () => {
 
   return (
     <div className="flex items-center justify-center">
+      {loading && (<LoadingModal />)}
+
       <form className=" p-6 rounded-2xl w-full max-w-4xl">
         {/* Fields Container */}
         <div className="border-2 border-[#23587C] bg-white p-4 rounded-2xl">

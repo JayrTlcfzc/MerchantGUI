@@ -6,6 +6,7 @@ import ViewWebUsersModal from '../../components/Modals/viewWebUsersModal';
 import { useTranslation } from 'react-i18next';
 import { viewWebUser, searchWebUser } from "../../api/webUserSearch";
 import { toast, ToastContainer } from 'react-toastify';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USERNAME");
@@ -18,12 +19,14 @@ const ViewWebUsers = () => {
     const [isViewModalOpen, setViewModalOpen] = useState(false);
     const [data, setData] = useState([]);
     const [modalData, setModalData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const { t, i18n } = useTranslation();
 
    
 
     const handleViewModal = async (username) => {
+        setLoading(true);
         try {
           const result = await searchWebUser({ username });
       
@@ -35,6 +38,8 @@ const ViewWebUsers = () => {
           }
         } catch (error) {
           console.error("Error in handleViewModal:", error);
+        } finally {
+            setLoading(false);
         }
       };
       
@@ -59,6 +64,8 @@ const ViewWebUsers = () => {
             USER: userInput,
             SEARCHOPTION: selectUserBy,
         };
+
+        setLoading(true);
     
         try {
             const response = await viewWebUser(params);
@@ -72,6 +79,8 @@ const ViewWebUsers = () => {
         } catch (error) {
             console.error("Error fetching user:", error);
             setData([]); 
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -130,6 +139,7 @@ const ViewWebUsers = () => {
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
+            {loading && (<LoadingModal />)}
             <ToastContainer />
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 

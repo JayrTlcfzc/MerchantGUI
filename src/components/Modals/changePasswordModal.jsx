@@ -4,12 +4,12 @@ import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { useTranslation } from 'react-i18next';
 import changePassword  from '../../api/changepassword';
-
-
+import LoadingModal from '../../components/Modals/loadingModal';
 
 export default function ChangePasswordModal({ handleClose = () => {} }) {
 
     const { t, i18n } = useTranslation();
+    const [loading, setLoading] = useState(false);
     
     // State to manage form data
     const [formData, setFormData] = useState({
@@ -69,6 +69,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
         }
     
         try {
+            setLoading(true);
             const { success, message } = await changePassword(oldPassword, newPassword);
     
             if (success) {
@@ -90,6 +91,8 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                 status: 'error',
                 message: error.message || `${t('modal_changing_password_failed')}`,
             });
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -103,6 +106,8 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
 
     return (
         <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            {loading && (<LoadingModal />)}
+
             <div className="bg-white rounded-lg shadow-lg max-w-xl w-full pb-6 border-2 border-[#D95F08]">
                 <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>
                     <div className='flex flex-row'>

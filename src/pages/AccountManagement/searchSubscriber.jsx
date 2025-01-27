@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { searchSubs } from "../../api/subscriber";
 import { retailersCollection } from "../../api/retailersCollection";
 import { toast, ToastContainer } from "react-toastify";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const SearchSubscriber = () => {
   const { t, i18n } = useTranslation();
@@ -15,6 +16,7 @@ const SearchSubscriber = () => {
   const [optINP, setOptINP] = useState("2");
   const [accountDetails, setAccountDetails] = useState([]);
   const [personalDetails, setPersonalDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
@@ -29,15 +31,18 @@ const SearchSubscriber = () => {
       console.log("Please select both start and end dates.");
       return;
     }
+    setLoading(true);
     const res = await retailersCollection(startDate, endDate);
     if (res.success) {
       toast.success("Successfully Downloaded Retailers List");
       setStartDate(null); // Reset start date
       setEndDate(null);
+      setLoading(false);
     } else {
       toast.error(res.message);
       setStartDate(null); // Reset start date
       setEndDate(null);
+      setLoading(false);
     }
   };
 
@@ -104,6 +109,7 @@ const SearchSubscriber = () => {
 
   return (
     <div className="min-h-screen bg-gray-200 p-8">
+      {loading && (<LoadingModal />)}
       <ToastContainer />
 
       {/* Search Bar */}

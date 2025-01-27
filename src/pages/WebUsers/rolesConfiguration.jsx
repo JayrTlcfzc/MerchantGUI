@@ -8,6 +8,7 @@ import { getRolesConfigTable, updateRoles } from '../../api/rolesConfiguration';
 import { toast, ToastContainer } from "react-toastify";
 import ConfirmationModal from '../../components/Modals/confirmationModal';
 import StatusModal from '../../components/Modals/statusModal';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const rolesConfiguration = () => {
   const { t, i18n} = useTranslation();
@@ -241,6 +242,7 @@ const rolesConfiguration = () => {
   
   return (
     <div className="min-h-screen bg-gray-200 p-8">
+      {loading && (<LoadingModal />)}
       <ToastContainer />
 
       <div className="p-6 bg-white shadow-md rounded-lg">
@@ -274,7 +276,8 @@ const rolesConfiguration = () => {
             className="md:w-1/5 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
             disabled={loading}
           >
-            {loading ? t('loading') : t('get_roles')}
+            {/* {loading ? t('loading') : t('get_roles')} */}
+            {t('get_roles')}
           </button>
         </div>
   

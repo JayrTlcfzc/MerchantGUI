@@ -6,7 +6,8 @@ import PinModal from '../../components/Modals/PinModal';
 import { FaMoneyBills } from 'react-icons/fa6';
 import { HandleChange, HandleChangeDigitsOnly, ResetFormData } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
-import { allocateCash, allocateOtpRequest } from '../../api/allocateCash'
+import { allocateCash, allocateOtpRequest } from '../../api/allocateCash';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const AllocateCash = () => {
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
@@ -15,6 +16,7 @@ const AllocateCash = () => {
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   const [pinValue, setPinValue] = useState("");
   const [otpValue, setOtpValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { t } = useTranslation();
 
@@ -43,6 +45,7 @@ const AllocateCash = () => {
     setOTPModalOpen(true);
 
     try {
+      setLoading(true);
       const res = await allocateOtpRequest();
       console.log("Allocate otp Response:", res);
     } catch (error) {
@@ -50,11 +53,11 @@ const AllocateCash = () => {
       setModalState({ isOpen: true, status: "error", message: error.message });
     } finally {
       ResetFormData(setFormData, initialFormData);
+      setLoading(false);
     }
 
   };
   
-
   const handleProceedOTP = async (otp) => {
     setOtpValue(otp);
     const updatedFormData = { ...formData, otp }; // Include OTP in form data
@@ -62,6 +65,7 @@ const AllocateCash = () => {
     setOTPModalOpen(false);
   
     try {
+      setLoading(true);
       const res = await allocateCash(updatedFormData);
       console.log("Allocate Cash Response:", res);
       setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
@@ -70,10 +74,9 @@ const AllocateCash = () => {
       setModalState({ isOpen: true, status: "error", message: error.message });
     } finally {
       ResetFormData(setFormData, initialFormData);
+      setLoading(false);
     }
   };
-  
-  
 
   // Check if all required fields have values
   const isFormValid = formData.destmsisdn && formData.amount && formData.remarks;
@@ -81,6 +84,8 @@ const AllocateCash = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
+      {loading && (<LoadingModal />)}
+
       <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">
         <FaMoneyBills className="text-[#D95F08] mr-2" />
         {t('allocate_cash')}

@@ -168,6 +168,8 @@
     "modal_old_password": "OLD PASSWORD",
     "modal_new_password": "NEW PASSWORD",
     "modal_confirm_password": "CONFIRM PASSWORD",
+    "modal_fill_all_fields": "Please fill all fields",
+    "modal_passwords_do_not_match": "Passwords do not match",
 
     "modal_password_changed_successfully": "Password changed successfully!",
     "modal_changing_password_failed": "Sorry, changing password failed. Try again later!",

@@ -6,6 +6,7 @@ import { HandleChange } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
 import { GetAuditTrail } from "../../api/getAuditTrails";
 import { toast, ToastContainer } from "react-toastify";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const AuditTrail = () => {
     const [selectUserBy, setSelectUserBy] = useState("ALL");
@@ -15,7 +16,7 @@ const AuditTrail = () => {
     const [itemsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: "username", direction: "ascending" });
     const [auditData, setAuditData] = useState([]); // Store fetched audit trails
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+    const [loading, setLoading] = useState(false); // Loading state
 
     const initialFormData = {
         userinput: 'ALL',
@@ -52,7 +53,7 @@ const AuditTrail = () => {
             return
         }
 
-        setIsLoading(true);
+        setLoading(true);
         try {
             const response = await GetAuditTrail({ formData });
 
@@ -73,7 +74,7 @@ const AuditTrail = () => {
                 message: error.message || t("Failed to fetch data."),
             });
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
@@ -176,6 +177,7 @@ const AuditTrail = () => {
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
+            {loading && (<LoadingModal />)}
             <ToastContainer />
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
@@ -252,9 +254,10 @@ const AuditTrail = () => {
                             className="w-1/5 px-4 py-2 bg-[#D95F08] text-white tracking-wide shadow-md rounded font-bold hover:bg-[#FC8937]"
                             type="button"
                             onClick={handleSubmit}
-                            disabled={isLoading}
+                            disabled={loading}
                         >
-                            {isLoading ? t('loading') : t('view')}
+                            {/* {loading ? t('loading') : t('view')} */}
+                            {t('view')}
                         </button>
                     </div>
                 </div>
