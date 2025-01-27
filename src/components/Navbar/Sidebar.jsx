@@ -16,6 +16,7 @@ import { cn } from "../../lib/utils";
 import logo from "../../assets/nufinlogo.png";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
+  const storedData = JSON.parse(localStorage.getItem('userData'));
   const { t, i18n } = useTranslation();
   const [expandedItem, setExpandedItem] = useState(null);
 
@@ -40,33 +41,33 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       title: `${t('account_management')}`,
       icon: Users,
       subItems: [
-        { title: `${t('register_subscriber')}`, path: "/account/register" },
+        storedData.Modules?.includes('ACCOUNTS.REGISTER') && { title: `${t('register_subscriber')}`, path: "/account/register" },
         { title: `${t('search_subscriber')}`, path: "/account/search" },
-        { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
-      ],
+        storedData.Modules?.includes('ACCOUNTS.PENDINGSUBS') && { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
+      ].filter(Boolean),
     },
     {
       id: "webUsers",
       title: `${t('web_users')}`,
       icon: Search,
       subItems: [
-        { title: `${t('view_web_users')}`, path: "/web-users/view-web-users" },
-        { title: `${t('register_new_user')}`, path: "/web-users/register-new-user" },
-        { title: `${t('manage_user_levels')}`, path: "/web-users/manage-user-level" },
-        { title: `${t('roles_configuration')}`, path: "/web-users/roles-configuration" }
-      ],
+        storedData.Modules?.includes('USERS.SEARCHUSER') && { title: `${t('view_web_users')}`, path: "/web-users/view-web-users" },
+        storedData.Modules?.includes('USERS.REGISTER') && { title: `${t('register_new_user')}`, path: "/web-users/register-new-user" },
+        storedData.Modules?.includes('USERS.NEWUSERSLEVEL') && { title: `${t('manage_user_levels')}`, path: "/web-users/manage-user-level" },
+        storedData.Modules?.includes('USERS.UPDATEROLES') && { title: `${t('roles_configuration')}`, path: "/web-users/roles-configuration" }
+      ].filter(Boolean),
     },
     {
       id: "funds",
       title: `${t('funds')}`,
       icon: DollarSign,
       subItems: [
-        { title: `${t('allocate_cash')}`, path: "/funds/allocate-cash" },
-        { title: `${t('wallet_to_bank')}`, path: "/funds/wallet-to-bank" },
-        { title: `${t('batch_files')}`, path: "/funds/batch-files" },
-        { title: `${t('batch_payment_upload')}`, path: "/funds/batch-payment-upload" },
-        { title: `${t('batch_uploaded_files')}`, path: "/funds/batch-uploaded-files" },
-      ],
+        storedData.Modules?.includes('FUNDS.CASHALLOCATION') && { title: `${t('allocate_cash')}`, path: "/funds/allocate-cash" },
+        storedData.Modules?.includes('FUNDS.WALLETTOBANK') && { title: `${t('wallet_to_bank')}`, path: "/funds/wallet-to-bank" },
+        storedData.Modules?.includes('ACCOUNTS.BATCHREQUESTCOL') && { title: `${t('batch_files')}`, path: "/funds/batch-files" },
+        storedData.Modules?.includes('FUNDS.BATCHALLOCREQUEST') && { title: `${t('batch_payment_upload')}`, path: "/funds/batch-payment-upload" },
+        storedData.Modules?.includes('FUNDS.BATCHUPLOADEDCOL') && { title: `${t('batch_uploaded_files')}`, path: "/funds/batch-uploaded-files" },
+      ].filter(Boolean),
     },
     {
       id: "reports",
@@ -75,13 +76,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       icon: FileText,
       subItems: [
         { title: `${t('request_reports')}`, path: "/reports/request-reports" },
-      ],
+      ].filter(Boolean),
     },
     {
       id: "audit",
       title: `${t('audit_trail')}`,
       icon: History,
-      subItems: [{ title: `${t('audit_trail')}`, path: "/audit-trail" }],
+      subItems: [{ title: `${t('audit_trail')}`, path: "/audit-trail" }].filter(Boolean),
     },
   ];
 
