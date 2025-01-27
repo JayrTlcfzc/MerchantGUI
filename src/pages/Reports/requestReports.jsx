@@ -3,6 +3,7 @@ import { ClipboardPlus, Search, ArrowDownUp, X, Download} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
 import { useTranslation } from "react-i18next";
 import { generateReview, generateDataPDF, downloadPDF, downloadCSV } from '../../api/reports';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const RequestReports = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -187,6 +188,7 @@ const RequestReports = () => {
         console.log("ID: " + itemId);
 
         try {
+            setLoading(true);
             const {success, message, dataFile} = await generateDataPDF(itemId);
             console.log("DATAFILE: ", dataFile);
             console.log("success: ", success);
@@ -217,20 +219,27 @@ const RequestReports = () => {
                 }
             } catch (err) {
                 setError(err.message);
+            } finally {
+                setLoading(false);
             }
     }
 
     const generateCVS = async (itemId) => {
         try {
+            setLoading(true);
             const {success, message, dataFile} = await downloadCSV(itemId);
             console.log("dataFile: ", dataFile);
         } catch {
             console.log("error in getting csv path");
+        } finally {
+            setLoading(false);
         }
     }
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
+            {loading && (<LoadingModal />)}
+
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}

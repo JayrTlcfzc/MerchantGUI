@@ -168,6 +168,8 @@
     "modal_old_password": "ANCIEN MOT DE PASSE",
     "modal_new_password": "NOUVEAU MOT DE PASSE",
     "modal_confirm_password": "CONFIRMEZ LE MOT DE PASSE",
+    "modal_fill_all_fields": "Veuillez remplir tous les champs",
+    "modal_passwords_do_not_match": "Les mots de passe ne correspondent pas",
 
     "modal_password_changed_successfully": "Mot de passe modifié avec succès!",
     "modal_changing_password_failed": "Désolé, la modification du mot de passe a échoué. Réessayez plus tard!",

@@ -7,6 +7,7 @@ import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   const { t, i18n } = useTranslation();
@@ -17,7 +18,7 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBatchDetails = async () => {
@@ -189,7 +190,9 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   };
 
   return (
-    <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50">
+    <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50 px-10">
+      {loading && (<LoadingModal />)}
+
       <div className="bg-white rounded-lg shadow-lg max-w-max w-full pb-6 border-2 border-[#D95F08]">
         <div className="flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2">
           <div className="flex flex-row">
@@ -360,7 +363,7 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
                 <td className="px-4 py-2">{item.REFERENCETO}</td>
                 <td className="px-4 py-2">{item.WALLETID}</td>
                 <td className="px-4 py-2">{item.TYPE}</td>
-                <td className="px-4 py-2">{item.REMARKS}</td>
+                <td className="px-4 py-2 max-w-xs">{item.REMARKS}</td>
               </tr>
             ))
           ) : (

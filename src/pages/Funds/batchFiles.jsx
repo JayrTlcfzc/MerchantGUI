@@ -9,6 +9,7 @@ import ConfirmationModal from "../../components/Modals/confirmationModal";
 import DetailsModal from "../../components/Modals/detailsModal";
 import { useTranslation } from 'react-i18next';
 import { batchFilesRequest, batchFilesTracking, batchFilesOtpRequest, batchFilesAction } from "../../api/batch";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const BatchFiles = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -21,7 +22,7 @@ const BatchFiles = () => {
     const [files, setFiles] = useState([]);
     const [batch, setBatch] = useState('request');
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [confirmationModalMessage, setConfirmationModalMessage] = useState('');
     const [module, setModule] = useState('');
@@ -176,6 +177,7 @@ const BatchFiles = () => {
     
     const handleProceed = async () => {
         try {
+            setLoading(true);
             const res = await batchFilesOtpRequest(module);
             console.log("Allocate OTP Response:", res);
     
@@ -187,6 +189,8 @@ const BatchFiles = () => {
         } catch (error) {
             console.error("Error in batch files:", error);
             setModalState({ isOpen: true, status: "error", message: error.message });
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -195,6 +199,7 @@ const BatchFiles = () => {
         setOTPModalOpen(false);
     
         try {
+            setLoading(true);
             const res = await batchFilesAction(fileId, otp, remarks, module);
             console.log("Batch Files Response:", res);
             setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
@@ -203,6 +208,8 @@ const BatchFiles = () => {
             console.error("Error in batch files action:", error);
             setModalState({ isOpen: true, status: "error", message: error.message });
             fetchData();
+        } finally {
+            setLoading(false);
         }
     };    
 
@@ -296,6 +303,8 @@ const BatchFiles = () => {
 
     return (
         <div className="max-h-screen bg-gray-200 p-8">
+            {loading && (<LoadingModal />)}
+
             <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
                 {/* Page Title */}

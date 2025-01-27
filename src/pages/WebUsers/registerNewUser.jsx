@@ -4,6 +4,7 @@ import { FaUserPlus } from "react-icons/fa6";
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
 import { userLevelCol, registerWebUser } from "../../api/webuser";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const RegisterNewUser = () => {
   const [levels, setLevels] = useState([]);
@@ -76,6 +77,7 @@ const RegisterNewUser = () => {
       formData.status;
       console.log('register account',formData)
       if (isFormValid) {
+        setLoading(true);
         console.log('FormData:', formData);
         const response = await registerWebUser(formData);
         console.log(response);
@@ -86,12 +88,14 @@ const RegisterNewUser = () => {
             message: response.message,
           });
           ResetFormData(setFormData, initialFormData)();
+          setLoading(false);
         } else{
           setModalState({
             isOpen: true,
             status: "error",
             message: response.message,
           });
+          setLoading(false);
         }
       } else {
         setModalState({
@@ -104,6 +108,8 @@ const RegisterNewUser = () => {
 
   return (
     <div className="flex items-center justify-center p-4">
+      {loading && (<LoadingModal />)}
+
       <div className="w-full max-w-4xl">
         {/* Register New User Title outside of the border */}
         <div className="text-center mb-8">

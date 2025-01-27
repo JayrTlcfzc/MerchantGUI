@@ -4,6 +4,7 @@ import { FaUpload } from 'react-icons/fa6';
 import { useTranslation } from 'react-i18next';
 import { batchPaymentUpload, fileUpload } from '../../api/batch';
 import axios from 'axios';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 function BatchPaymentUpload() {
   const [filename, setFileName] = useState('No file chosen');
@@ -12,10 +13,13 @@ function BatchPaymentUpload() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' });
   const { t, i18n } = useTranslation();
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
+    setLoading(true);
     const file = event.target.files[0];
     if (file) {
+      setLoading(false);
       const newFileName = file.name;
       setFileName(newFileName);
       // setFilePath(`MerchantGUI/uploads/${newFileName}`);
@@ -25,6 +29,7 @@ function BatchPaymentUpload() {
       setFileName('No file chosen');
       setFilePath('');
       setFile(null);
+      setLoading(false);
     }
   };
 
@@ -35,6 +40,7 @@ function BatchPaymentUpload() {
       console.log("FILEPATH: "+ filePath);
 
       try {
+        setLoading(true);
         const res = await batchPaymentUpload(filename, filePath);
         console.log("BATCH PAYMENT UPLOAD MESSAGE: "+ res.message);
 
@@ -59,6 +65,8 @@ function BatchPaymentUpload() {
         console.error('Error in batch payment upload:', error);
         setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
         console.log("ERROR 2!");
+      } finally {
+        setLoading(false);
       }
     } else {
       setStatusMessage({ type: 'error', text: 'No file uploaded. Please upload a file.' });
@@ -67,6 +75,8 @@ function BatchPaymentUpload() {
 
   return (
     <div className="flex flex-col items-center p-4">
+      {loading && (<LoadingModal />)}
+
       {/* Header */}
       <div className="flex flex-row text-center mb-6">
         <h2 className="text-2xl font-bold mb-8 text-gray-800 flex items-center text-center">

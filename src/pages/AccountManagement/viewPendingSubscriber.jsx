@@ -3,6 +3,7 @@ import { Search, ArrowDownUp, X } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import { useTranslation } from 'react-i18next';
 import { viewPendingSubs } from "../../api/subscriber";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const ViewPendingSubscriber = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -104,6 +105,8 @@ const ViewPendingSubscriber = () => {
 
   return (
     <div className="max-h-screen bg-gray-200 p-8">
+      {loading && (<LoadingModal />)}
+      
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
 
         {/* Page Title */}

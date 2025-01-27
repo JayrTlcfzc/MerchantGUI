@@ -9,9 +9,11 @@ import {
 import { useTranslation } from "react-i18next";
 import { addUserLevel } from "../../../api/manageUserLevels";
 import { toast, ToastContainer } from "react-toastify";
+import LoadingModal from '../../../components/Modals/loadingModal';
 
 const AddUserLevel = () => {
   const { t, i18n } = useTranslation();
+  const [loading, setLoading] = useState(false);
 
   const initialFormData = {
     userLevel: "",
@@ -44,15 +46,26 @@ const AddUserLevel = () => {
 
     if (isFormValid) {
 
-      const response = await addUserLevel(formData);
-      console.log("response: " + response);
-      setModalState({
-        isOpen: true,
-        status: "success",
-        message: "Added User Level Successfully!",
-      });
+      try {
+        setLoading(true);
+        const response = await addUserLevel(formData);
+        console.log("response: " + response);
+        setModalState({
+          isOpen: true,
+          status: "success",
+          message: "Added User Level Successfully!",
+        });
+        ResetFormData(setFormData, initialFormData)();
+      } catch (error) {
+        setModalState({
+            isOpen: true,
+            status: "error",
+            message: error.message || t("Failed to add data."),
+        });
+      } finally {
+        setLoading(false);
+      }
 
-      ResetFormData(setFormData, initialFormData)();
     } else {
       toast.error('Please fill up the form');
       setModalState({
@@ -65,6 +78,8 @@ const AddUserLevel = () => {
 
   return (
     <div className="w-full flex items-center justify-center">
+      {loading && (<LoadingModal />)}
+
       <form className=" p-6 w-full max-w-4xl">
         {/* Fields Container */}
         <div className="border-2 border-[#23587C] bg-white p-4 rounded-2xl">

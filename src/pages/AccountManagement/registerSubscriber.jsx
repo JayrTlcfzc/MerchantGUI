@@ -5,6 +5,7 @@ import StatusModal from "../../components/Modals/statusModal";
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
 import { accountTypeCol, registerSubscriber } from "../../api/subscriber";
+import LoadingModal from '../../components/Modals/loadingModal';
 
 const RegisterSubscriber = () => {
 
