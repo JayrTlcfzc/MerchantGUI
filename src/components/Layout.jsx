@@ -17,9 +17,11 @@ const formatDateTime = (date) => {
 };
 
 const Layout = ({ children }) => {
+  const storedData = JSON.parse(localStorage.getItem('userData'));
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [hoveredIcon, setHoveredIcon] = useState(null);
-  const [currentUser, setCurrentUser] = useState("IT_ADMIN_MERCHANT"); // Dynamic current user handler
+  const [currentUser, setCurrentUser] = useState(storedData.username); 
+  const [currentUserLevel, setCurrentUserLevel] = useState(storedData.userslevel);
   const [lastLogin, setLastLogin] = useState("");
 
   const { t, i18n } = useTranslation();
@@ -59,6 +61,7 @@ const Layout = ({ children }) => {
             handleMouseLeave={handleMouseLeave}
             hoveredIcon={hoveredIcon}
             username={currentUser} // Dynamic user
+            userslevel={currentUserLevel}
             lastLogin={lastLogin}
           />
         </header>

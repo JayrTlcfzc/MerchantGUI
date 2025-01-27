@@ -5,7 +5,7 @@ import ChangePasswordModal from '../Modals/changePasswordModal';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../Auth/authContext';
 
-const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, lastLogin }) => {
+const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, username, lastLogin }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
     const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
@@ -97,8 +97,10 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, hoveredIcon, username, las
                 {isDropdownOpen && (
                     <div className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl z-50">
                         <div className="p-4">
-                            <p className="font-bold text-white">{username}</p>
+                            <p className="font-bold text-white text-lg">{username}</p>
+                            <p className="font-bold text-white text-base">{userslevel}</p>
                             <p className="text-sm text-white">Last Login: {lastLogin}</p>
+
                             <button
                                 onClick={() => {setIsChangePasswordModalOpen(true);
                                     handleMouseLeave();
