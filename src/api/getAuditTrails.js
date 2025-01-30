@@ -28,7 +28,6 @@ try {
   if (data.StatusMessage === "Success") {
     return { success: true, audit: data.Audit.logs };
   } else {
-    console.log(data.message)
     return { success: false, message: data.message };
   }
   } catch (error) {

@@ -80,7 +80,6 @@ export const generateDataPDF = async (id) => {
     if (responseData && responseData.message === "Successfully fetch data") {
       return { success: true, data: responseData.Data, dataFile: responseData.data};
     } else {
-      console.log(responseData?.StatusMessage || "No message");
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
 
@@ -132,7 +131,6 @@ export const downloadCSV = async (id) => {
       if (responseData && responseData.message === "Successfully fetch data download path") {
         return { success: true, data: responseData.Data, dataFile: responseData.data};
       } else {
-        console.log(responseData?.StatusMessage || "No message");
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };
       }
     } catch (error) {

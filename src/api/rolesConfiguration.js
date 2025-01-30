@@ -12,7 +12,6 @@ export const getRolesConfigTable = async (data) => {
     if (responseData.message === "Success") {
       return { success: true, roles: responseData.roles };
     } else {
-      console.log(responseData?.StatusMessage || "No message");
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {

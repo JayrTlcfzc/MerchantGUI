@@ -13,7 +13,6 @@ export const batchUploadedFiles = async () => {
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, batchData: responseData.Data };
     } else {
-      console.log(responseData?.message || "No message");
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
@@ -32,7 +31,6 @@ export const batchDetailsData = async (data) => {
     if (responseData.message === "Successfully fetch data") {
       return { success: true, batchDataFile: responseData.batchData, message : '' };
     } else {
-      console.log(responseData?.StatusMessage || "No message");
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {
@@ -52,7 +50,6 @@ export const batchFilesRequest = async () => {
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, batchData: responseData.Data };
     } else {
-      console.log(responseData?.message || "No message");
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
@@ -72,7 +69,6 @@ export const batchFilesTracking = async () => {
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, batchData: responseData.Data };
     } else {
-      console.log(responseData?.message || "No message");
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
