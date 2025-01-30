@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as XLSX from "xlsx";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const retailersCollection = async (startDate, endDate) => {
   const formatDate = (date) => {
@@ -32,7 +32,6 @@ export const retailersCollection = async (startDate, endDate) => {
         try {
           dataArray = JSON.parse(data.Data);
         } catch (error) {
-          console.error("Failed to parse data.Data:", error);
           return {
             success: false,
             message: "Invalid JSON format in data.Data.",
@@ -41,7 +40,6 @@ export const retailersCollection = async (startDate, endDate) => {
       } else if (Array.isArray(data.Data)) {
         dataArray = data.Data;
       } else {
-        console.error("Unexpected data.Data type:", typeof data.Data);
         return { success: false, message: "Invalid data.Data format." };
       }
 

@@ -49,7 +49,6 @@ const AddUserLevel = () => {
       try {
         setLoading(true);
         const response = await addUserLevel(formData);
-        console.log("response: " + response);
         setModalState({
           isOpen: true,
           status: "success",

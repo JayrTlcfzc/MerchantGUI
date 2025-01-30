@@ -31,7 +31,6 @@ const BatchUploadedFiles = () => {
         if (result.success) {
           const parsedFiles = JSON.parse(result.batchData);
           if (Array.isArray(parsedFiles)) {
-            console.log("HERE!");
             setFiles(
               parsedFiles.map((batchData) => ({
                 FILEID: batchData.FILEID || '',

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 // Function to generate a request ID in the specified format
 const generateRequestId = () => {
@@ -37,12 +37,12 @@ export const walletToBank = async (formData) => {
       const response = await axios.post(`${BASE_URL}/funds/walletToBank`, requestData);
       
       const res = response.data
-      if(res.success){
+      if (res.success) {
       return {
         success: true,
         message: res.message || "Cash allocated successfully",
       };
-    }else{
+    } else {
         return {
             success: false,
             message: res.message || "Cash allocated successfully",
@@ -55,7 +55,6 @@ export const walletToBank = async (formData) => {
       };
     }
   };
-  
 
 // Allocate OTP Request Function
 export const allocateOtpRequest = async () => {
@@ -81,8 +80,6 @@ export const allocateOtpRequest = async () => {
       };
     }
   };
-  
-
 
   export const bankCollection = async () => {
     const data = JSON.stringify({ "": "" });
@@ -92,19 +89,13 @@ export const allocateOtpRequest = async () => {
   
      
       const responseData = response.data;
-      console.log(responseData)
   
       if (responseData && responseData.StatusMessage === "Success") {
         return { success: true, bank: responseData.Data };
       } else {
-        console.log(responseData?.message || "No message");
         return { success: false, message: responseData?.message || "Unknown error" };
       }
     } catch (error) {
-      console.error("Error in React:", error);
-      if (error.response) {
-        console.error("Error Response Data:", error.response.data);
-      }
       return { success: false, message: error.response?.data?.StatusMessage || error.message };
     }
   };

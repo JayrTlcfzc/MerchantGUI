@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StatusModal from "../../components/Modals/statusModal";
 import { FaUserPlus } from "react-icons/fa6";
+import { toast, ToastContainer } from 'react-toastify';
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
 import { userLevelCol, registerWebUser } from "../../api/webuser";
@@ -18,18 +19,20 @@ const RegisterNewUser = () => {
         const result = await userLevelCol();
         if (result.success) {
           const parsedLevels = JSON.parse(result.level);
-          console.log(parsedLevels)
           if (Array.isArray(parsedLevels)) {
             setLevels(parsedLevels); 
 
           } else {
             setError('Invalid user level data format');
+            toast.error("Invalid user level data format");
           }
         } else {
           setError(result.message || 'Invalid data format');
+          toast.error(result.message || "Invalid user level data format");
         }
       } catch (err) {
-        setError(err.message); // Handle fetch errors
+        setError(err.message);
+        toast.error(err.message);
       } finally {
         setLoading(false);
       }
@@ -75,12 +78,11 @@ const RegisterNewUser = () => {
       formData.department &&
       formData.userLevel &&
       formData.status;
-      console.log('register account',formData)
+
       if (isFormValid) {
         setLoading(true);
-        console.log('FormData:', formData);
         const response = await registerWebUser(formData);
-        console.log(response);
+
         if(response.success){
           setModalState({
             isOpen: true,
@@ -316,6 +318,9 @@ const RegisterNewUser = () => {
         status={modalState.status}
         message={modalState.message}
       />
+
+      <ToastContainer />
+      
     </div>
   );
 };

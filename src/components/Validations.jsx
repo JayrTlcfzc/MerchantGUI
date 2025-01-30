@@ -16,7 +16,6 @@ export const HandleChange = (setFormData) => (e) => {
     }));
   };
   
-
 // Text only restriction
 export const HandleChangeTextOnly = (setFormData) => (e) => {
 const { name, value } = e.target;

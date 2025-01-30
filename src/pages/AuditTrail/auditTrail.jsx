@@ -24,7 +24,6 @@ const AuditTrail = () => {
         dateto: '',
     };
 
-
     const { t, i18n } = useTranslation();
 
     const [formData, setFormData] = useState(initialFormData);

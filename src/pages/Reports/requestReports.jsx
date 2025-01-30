@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from 'react-toastify';
 import { ClipboardPlus, Search, ArrowDownUp, X, Download} from "lucide-react";
 import RequestReportModal from "../../components/Modals/requestReportModal";
 import { useTranslation } from "react-i18next";
@@ -38,7 +39,6 @@ const RequestReports = () => {
     
                     if (parsedData) {
                         parsedData = Array.isArray(rowData) ? rowData : [rowData];
-                        console.log("parsedData: "+parsedData);
     
                         setGenReviewData(JSON.parse(parsedData));
                         setDateFromArray(dateFrom);
@@ -47,17 +47,16 @@ const RequestReports = () => {
     
                     }
                     else {
-                        console.log("ERROR!!!");
+                        toast.error("Something went wrong!");
                     }
                 } else {
                     setError(result.message || 'Invalid data format');
-                    console.log("Unsuccesful");
+                    toast.error("Something went wrong!");
                 }
             } catch (err) {
                 setError(err.message);
             } finally {
                 setLoading(false);
-                console.log("GenReviewData: ", genReviewData);
             }
         };
         
@@ -185,14 +184,10 @@ const RequestReports = () => {
     }
 
     const fetchGenerateDataPDF = async (itemId, reportName) => {
-        console.log("ID: " + itemId);
 
         try {
             setLoading(true);
             const {success, message, dataFile} = await generateDataPDF(itemId);
-            console.log("DATAFILE: ", dataFile);
-            console.log("success: ", success);
-    
                 if (success) {
                     let parsedData;
                     if (Array.isArray(dataFile)) {
@@ -202,23 +197,21 @@ const RequestReports = () => {
                     }
     
                     if (parsedData) {
-                        console.log("parsedData: ",parsedData);
-    
                         const pdfData = JSON.parse(parsedData);
                         setPdfData(pdfData);
 
                         const res = await downloadPDF(pdfData, reportName);
-    
                     }
                     else {
-                        console.log("ERROR!!!");
+                        toast.error(result.message || "Something went wrong!");
                     }
                 } else {
                     setError(result.message || 'Invalid data format');
-                    console.log("Unsuccesful");
+                    toast.error(result.message || "Something went wrong!");
                 }
             } catch (err) {
                 setError(err.message);
+                toast.error(err.message || "Something went wrong!");
             } finally {
                 setLoading(false);
             }
@@ -228,9 +221,8 @@ const RequestReports = () => {
         try {
             setLoading(true);
             const {success, message, dataFile} = await downloadCSV(itemId);
-            console.log("dataFile: ", dataFile);
         } catch {
-            console.log("error in getting csv path");
+            toast.error("Something went wrong!");
         } finally {
             setLoading(false);
         }
@@ -400,6 +392,9 @@ const RequestReports = () => {
                     onProceed={handleProceedStatus}
                 />
             )}
+
+            <ToastContainer />
+
         </div>
     );
 };

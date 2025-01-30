@@ -81,10 +81,8 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     }, [webUserData]);
 
   const handleUseStateToggle = (result) => {
-    console.log('HANDLE USE STATE TOGGLE ',result)
     if (modalMessage === `${t('modal_locked')}` || modalMessage === `${t('modal_unlocked')}`) {
       setLocked(!locked);
-      
     } if (modalMessage === `${t('modal_deactivated')}` || modalMessage === `${t('modal_activated')}`) {
       setDeactivated(!deactivated);
     }
@@ -109,7 +107,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   };
 
   const handleOpenModal = (modalMessage, modalUsername) => {
-    console.log(modalUsername);
     setModalMessage(modalMessage);
     setModalUsername(modalUsername);
     setOpenModal('confirmationModal');
@@ -146,7 +143,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
       setLoading(true);
       try {
         const result = await updateWebUser(formData);
-        console.log('Update result:', result);
         
         if(result.success){
         setModalState({
@@ -162,8 +158,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
           });
         }
       } catch (error) {
-        console.error('Error updating user:', error);
-  
         setModalState({
           isOpen: true,
           status: "error",

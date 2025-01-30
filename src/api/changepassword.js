@@ -1,9 +1,6 @@
 import axios from "axios";
 
-
-// Base URL for your API
-const BASE_URL = "http://localhost:3000"; 
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const changePassword = async (oldPassword, newPassword) => {
    
@@ -15,7 +12,6 @@ const changePassword = async (oldPassword, newPassword) => {
     try {
         
         const response = await axios.post(`${BASE_URL}/changepassword/changePasswordReq`, data);
-        console.log('response' , response.data.StatusCode);
         if (response.data.StatusCode === 0) {
             return {
                 success: true,
@@ -35,5 +31,4 @@ const changePassword = async (oldPassword, newPassword) => {
     }
 };
 
-// Export the function as default
 export default changePassword;

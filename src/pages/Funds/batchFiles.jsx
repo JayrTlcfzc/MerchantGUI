@@ -88,7 +88,6 @@ const BatchFiles = () => {
                     if (result.success) {
                         const parsedFiles = JSON.parse(result.batchData);
                         if (Array.isArray(parsedFiles)) {
-                            console.log("REQUEST!!!!");
                             setFiles(
                                 parsedFiles.map((batchData) => ({
                                     FILEID: batchData.FILEID || '',
@@ -130,7 +129,6 @@ const BatchFiles = () => {
                     if (result.success) {
                         const parsedFiles = JSON.parse(result.batchData);
                         if (Array.isArray(parsedFiles)) {
-                            console.log("TRACKING!!!!");
                             setFiles(
                                 parsedFiles.map((batchData) => ({
                                     FILEID: batchData.FILEID || '',
@@ -165,7 +163,6 @@ const BatchFiles = () => {
             };
             fetchBatchFilesTracking();
         }
-        console.log("BATCH: " + batch);
     }, [batch]);    
 
     const handleAction = (modalMessage, confirmModalMessage) => {
@@ -179,7 +176,6 @@ const BatchFiles = () => {
         try {
             setLoading(true);
             const res = await batchFilesOtpRequest(module);
-            console.log("Allocate OTP Response:", res);
     
             if (res.success) {
                 setOTPModalOpen(true);
@@ -187,7 +183,6 @@ const BatchFiles = () => {
                 toast.error("OTP Request Error!");
             }
         } catch (error) {
-            console.error("Error in batch files:", error);
             setModalState({ isOpen: true, status: "error", message: error.message });
         } finally {
             setLoading(false);
@@ -195,17 +190,14 @@ const BatchFiles = () => {
     };
     
     const handleProceedOTP = async (otp, remarks) => {
-        console.log("REMARKS: ", remarks);
         setOTPModalOpen(false);
     
         try {
             setLoading(true);
             const res = await batchFilesAction(fileId, otp, remarks, module);
-            console.log("Batch Files Response:", res);
             setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
             fetchData();
         } catch (error) {
-            console.error("Error in batch files action:", error);
             setModalState({ isOpen: true, status: "error", message: error.message });
             fetchData();
         } finally {

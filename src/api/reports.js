@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000"; 
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const transactionTypeCol = async () => {
     const data = JSON.stringify({ "": "" });
@@ -13,14 +13,9 @@ export const transactionTypeCol = async () => {
       if (responseData && responseData.StatusMessage === "Successfully fetch data") {
         return { success: true, transactType: responseData.Data };
       } else {
-        console.log(responseData?.StatusMessage || "No message");
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };
       }
     } catch (error) {
-      console.error("Error in React:", error);
-      if (error.response) {
-        console.error("Error Response Data:", error.response.data);
-      }
       return { success: false, message: error.response?.data?.StatusMessage || error.message };
     }
 };
@@ -30,7 +25,6 @@ export const requestReport = async (formData) => {
       const response = await axios.post(`${BASE_URL}/reports/requestReport`, formData);
       return response.data;
     } catch (error) {
-      console.error('Error requesting report:', error);
       throw error;
     }
   };
@@ -65,14 +59,9 @@ export const generateReview = async () => {
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, rowData: responseData.Data, dateFrom: dateFromArray, dateTo: dateToArray, transType: transTypeArray};
     } else {
-      console.log(responseData?.StatusMessage || "No message");
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {
-    console.error("Error in React:", error);
-    if (error.response) {
-      console.error("Error Response Data:", error.response.data);
-    }
     return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 }
@@ -85,10 +74,8 @@ export const generateDataPDF = async (id) => {
 
   try {
     const response = await axios.post(`${BASE_URL}/reports/generateDataPDF`, payload);
-    console.log("RESPONSE . DATA: ",response.data)
 
     const responseData = response.data;
-    console.log("RESPONSEDATA: ", responseData.data);
 
     if (responseData && responseData.message === "Successfully fetch data") {
       return { success: true, data: responseData.Data, dataFile: responseData.data};
@@ -98,15 +85,11 @@ export const generateDataPDF = async (id) => {
     }
 
   } catch (error) {
-    console.error('Error requesting report:', error);
     throw error;
   }
 };
 
 export const downloadPDF = async (pdfData, reportName) => {
-
-  console.log("REPORT NAME: ", reportName);
-  console.log("PDF DATA: ", pdfData);
 
   const payload = {
     data: pdfData,
@@ -130,13 +113,11 @@ export const downloadPDF = async (pdfData, reportName) => {
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error("Error generating PDF:", error);
+      throw error;
     }
 };
 
 export const downloadCSV = async (id) => {
-
-  console.log("id: ", id);
 
   const payload = {
     ID: id.toString(),
@@ -147,7 +128,6 @@ export const downloadCSV = async (id) => {
       payload);
 
       const responseData = response.data;
-      console.log("RESPONSEDATA: ", responseData);
 
       if (responseData && responseData.message === "Successfully fetch data download path") {
         return { success: true, data: responseData.Data, dataFile: responseData.data};
@@ -156,6 +136,6 @@ export const downloadCSV = async (id) => {
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };
       }
     } catch (error) {
-      console.error("Error getting CSV path:", error);
+      throw error;
     }
 };

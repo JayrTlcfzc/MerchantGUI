@@ -13,12 +13,11 @@ const StatusModal = ({ isOpen, onClose, status, message }) => {
   const handleSuccess = () => {
     logout();
     window.location.href = '/login'; // Redirects and reloads the login page
-};
+  };
 
-const handleSuccessul = () => {
-  window.location.href = '/web-users/view-web-users'; // Redirects and reloads the login page
-};
-
+  const handleSuccessul = () => {
+    window.location.href = '/web-users/view-web-users'; // Redirects and reloads the login page
+  };
 
   const handleError = () => {
     // Stay on the page, just close the modal

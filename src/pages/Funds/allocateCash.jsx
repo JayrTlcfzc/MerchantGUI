@@ -47,9 +47,7 @@ const AllocateCash = () => {
     try {
       setLoading(true);
       const res = await allocateOtpRequest();
-      console.log("Allocate otp Response:", res);
     } catch (error) {
-      console.error("Error in allocation:", error);
       setModalState({ isOpen: true, status: "error", message: error.message });
     } finally {
       ResetFormData(setFormData, initialFormData);
@@ -67,10 +65,8 @@ const AllocateCash = () => {
     try {
       setLoading(true);
       const res = await allocateCash(updatedFormData);
-      console.log("Allocate Cash Response:", res);
       setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
     } catch (error) {
-      console.error("Error in allocation:", error);
       setModalState({ isOpen: true, status: "error", message: error.message });
     } finally {
       ResetFormData(setFormData, initialFormData);

@@ -37,7 +37,7 @@ const ViewWebUsers = () => {
             toast.error("Failed to fetch web user:", result.message);
           }
         } catch (error) {
-          console.error("Error in handleViewModal:", error);
+          toast.error(error);
         } finally {
             setLoading(false);
         }
@@ -72,12 +72,10 @@ const ViewWebUsers = () => {
             if (response.success) {
                 setData(response.webusers || []); 
             } else {
-                console.error("Failed to fetch users:", response.message);
                 setData([]);
                 toast.error(response.message);
             }
         } catch (error) {
-            console.error("Error fetching user:", error);
             setData([]); 
         } finally {
             setLoading(false);

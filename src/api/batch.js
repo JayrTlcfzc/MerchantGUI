@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const batchUploadedFiles = async () => {
   const data = JSON.stringify({ "": "" });
@@ -17,10 +17,6 @@ export const batchUploadedFiles = async () => {
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
-    console.error("Error in React:", error);
-    if (error.response) {
-      console.error("Error Response Data:", error.response.data);
-    }
     return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 
@@ -28,13 +24,10 @@ export const batchUploadedFiles = async () => {
 
 export const batchDetailsData = async (data) => {
 
-  // console.log("FILE ID: " + data)
-
   try {
     const response = await axios.post(`${BASE_URL}/funds/batchDetails`, { fileId: data });
 
     const responseData = response.data;
-    console.log("RESPONSE DATA: " + responseData);
 
     if (responseData.message === "Successfully fetch data") {
       return { success: true, batchDataFile: responseData.batchData, message : '' };
@@ -43,10 +36,6 @@ export const batchDetailsData = async (data) => {
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {
-    console.error("Error in React:", error);
-    if (error.response) {
-      console.error("Error Response Data:", error.response.data);
-    }
     return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 
@@ -59,7 +48,6 @@ export const batchFilesRequest = async () => {
     const response = await axios.post(`${BASE_URL}/funds/batchFilesRequest`, data);
 
     const responseData = response.data;
-    console.log("responseData.Data (REQUEST): "+ responseData.Data);
     
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, batchData: responseData.Data };
@@ -68,10 +56,6 @@ export const batchFilesRequest = async () => {
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
-    console.error("Error in React:", error);
-    if (error.response) {
-      console.error("Error Response Data:", error.response.data);
-    }
     return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 
@@ -84,7 +68,6 @@ export const batchFilesTracking = async () => {
     const response = await axios.post(`${BASE_URL}/funds/batchFilesTracking`, data);
 
     const responseData = response.data;
-    console.log("responseData.Data (TRACKING): "+ responseData.Data);
     
     if (responseData && responseData.StatusMessage === "Successfully fetch data") {
       return { success: true, batchData: responseData.Data };
@@ -93,18 +76,13 @@ export const batchFilesTracking = async () => {
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
-    console.error("Error in React:", error);
-    if (error.response) {
-      console.error("Error Response Data:", error.response.data);
-    }
     return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 
 };
 
 export const batchFilesOtpRequest = async (module) => {
-  console.log("module: "+ module);
-  
+
   try {
 
     const data = { TRANSREFERENCE: "", MODULE: module };
@@ -131,16 +109,12 @@ export const batchFilesOtpRequest = async (module) => {
 
 export const batchFilesAction = async (fileId, otp, remarks, module) => {
   try {
-    console.log("fileId: "+ fileId);
-    console.log("otpValue: "+ otp);
-    console.log("remarks: "+ remarks);
     const response = await axios.post(`${BASE_URL}/funds/batchFilesAction`, {
       fileId,
       otp,
       remarks,
       module
     });
-    console.log("response.data: " , response.data);
     const resData = response.data;
 
     if (resData.success){ 
@@ -176,12 +150,12 @@ export const batchPaymentUpload = async (filename, filePath) => {
     const response = await axios.post(`${BASE_URL}/funds/batchPaymentUpload`, payload);
     
     const res = response.data
-    if(res.success){
+    if (res.success) {
     return {
       success: true,
       message: res.message || "Batch payment uploaded successfully",
     };
-  }else{
+  } else {
       return {
           success: false,
           message: res.message || "Batch payment uploaded successfully",
@@ -202,12 +176,12 @@ export const fileUpload = async (formData) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  if(res.success){
+  if (res.success) {
     return {
       success: true,
       message: res.message || "File uploaded successfully",
     };
-  }else{
+  } else {
       return {
           success: false,
           message: res.message || "File uploaded unsuccessfully",

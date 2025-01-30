@@ -92,7 +92,6 @@ export default function OTPModal({
         return;
       }
   
-      console.log("Submitted OTP:", otp.join(""));
       if (otpBatchFiles) {
         onProceed(otp.join(""), formData.remarks); // Pass concatenated OTP and Remarks
       } else {
@@ -107,7 +106,6 @@ export default function OTPModal({
     }
   };
   
-
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
@@ -166,8 +164,6 @@ export default function OTPModal({
 
         <div className="flex justify-center gap-4">
           <button
-            // disabled={isProceedDisabled}
-            // disabled
             className="px-4 py-2 text-white bg-[#23587C] rounded hover:bg-[#2C75A6]"
             onClick={handleSubmit}
           >
