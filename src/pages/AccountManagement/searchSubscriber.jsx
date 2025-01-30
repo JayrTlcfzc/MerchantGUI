@@ -28,7 +28,6 @@ const SearchSubscriber = () => {
 
   const handleSubmitDate = async () => {
     if (!startDate || !endDate) {
-      console.log("Please select both start and end dates.");
       return;
     }
     setLoading(true);
@@ -48,7 +47,7 @@ const SearchSubscriber = () => {
 
   const handleSubmit = async (msisdnParam) => {
     if (!msisdnParam) {
-      toast.error("msisdn required");
+      toast.error("MSISDN required");
       return;
     }
 

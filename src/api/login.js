@@ -1,8 +1,8 @@
 import axios from "axios";
-
 import CryptoJS from 'crypto-js';
 
-const BASE_URL = "http://localhost:3000"; // Replace with your API's base URL
+const BASE_URL = import.meta.env.VITE_API_URL;
+console.log( BASE_URL);
 
 // API call for verifying credentials
 export const verifyCredentials = async (msisdn, username, password) => {
@@ -13,12 +13,11 @@ export const verifyCredentials = async (msisdn, username, password) => {
       username,
       password,
     });
-    console.log(response.data);
     if (response.data.StatusMessage === "Success") {
       return {
         success: true,
         message: response.data.StatusMessage,
-        otp: response.data.otp, // Assuming OTP is included in the response
+        otp: response.data.otp,
       };
     } else {
       return {
@@ -43,9 +42,6 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
       password,
     });
 
-    console.log(response.data);
-
-
     if (response.data.StatusCode === 0) {
       const data = JSON.parse(response.data.Data);
 
@@ -53,7 +49,6 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
 
       localStorage.setItem('userData', JSON.stringify(data));
       localStorage.setItem('pow', JSON.stringify(encryptedPassword));
-
 
       return {
         success: true,
@@ -73,7 +68,6 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
     });
   }
 };
-
 
 export const encryptPassword = (password) => {
   const encryptionKey = 'KbPeShVmYq3t6v9y$B&E)H@McQfTjWnZ';  

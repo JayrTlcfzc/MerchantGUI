@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
+import { toast, ToastContainer } from "react-toastify";
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
 import { transactionTypeCol, requestReport, generateReview } from '../../api/reports';
@@ -32,17 +33,15 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
 
                 if (parsedData) {
                     parsedData = Array.isArray(transactType) ? transactType : [transactType];
-                    console.log("parsedData: "+parsedData)
 
                     setTransTypes(JSON.parse(parsedData));
-
                 }
                 else {
-                    console.log("ERROR!!!");
+                    toast.error("Something went wrong!");
                 }
             } else {
                 setError(result.message || 'Invalid data format');
-                console.log("Unsuccesful");
+                toast.error("Something went wrong!");
             }
         } catch (err) {
             setError(err.message);
@@ -72,7 +71,6 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
     
-
     // State to manage modals and messages
     const [openModal, setOpenModal] = useState('');
     const [modalMessage, setModalMessage] = useState('');
@@ -102,14 +100,12 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
         formData.reportType && 
         formData.msisdn && 
         formData.dateFrom && 
-        formData.dateTo 
-        // formData.transType;
-        console.log('request report',formData)
+        formData.dateTo &&
+        (formData.reportType !== 'Transaction Reports' && formData.transType);
 
         if (isFormValid) {
             try {
                 const response = await requestReport(formData);
-                console.log(response);
                 if (response.success) {
                     setModalState({
                     isOpen: true,
@@ -278,6 +274,8 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                 status={modalState.status}
                 message={modalState.message}
             />
+            
+            <ToastContainer />
 
         </div>
     );

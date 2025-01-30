@@ -38,18 +38,19 @@ const EditUserLevel = () => {
           const result = await userLevelCol();
           if (result.success) {
             const parsedLevels = JSON.parse(result.level);
-            console.log(parsedLevels)
             if (Array.isArray(parsedLevels)) {
               setLevels(parsedLevels); 
-  
             } else {
               setError('Invalid user level data format');
+              toast.error(result.message || "Something went wrong!");
             }
           } else {
             setError(result.message || 'Invalid data format');
+            toast.error(result.message || "Something went wrong!");
           }
         } catch (err) {
-          setError(err.message); // Handle fetch errors
+          setError(err.message);
+          toast.error(err.message || "Something went wrong!");
         } finally {
           setLoading(false);
         }
@@ -62,9 +63,6 @@ const EditUserLevel = () => {
       try {
         setLoading(true);
         const { success, dataUserLevel, message } = await userLevelSearch(userlevel);
-
-        console.log("userLevelData: " + dataUserLevel);
-        console.log("success?: " + success);
 
         if (success) {
           let parsedData;
@@ -84,19 +82,16 @@ const EditUserLevel = () => {
               setUserLevelData(newData);
               setInitialUserLevelData(newData);
             } else {
-              console.error("Parsed data is null or undefined");
+              toast.error(result.message || "Parsed data is null or undefined!");
               setUserLevelData([]);
               setInitialUserLevelData([]);
             }
         } else {
-          console.log("HERE!");
           setUserLevelData([]);
-          console.log(message);
         }
 
       } catch (error) {
-        console.log("ERROR!");
-        console.log(error.message);
+        toast.error(err.message);
       } finally {
         setLoading(false);
       }
@@ -138,7 +133,6 @@ const EditUserLevel = () => {
       try {
         setLoading(true);
         const response = await editUserLevel(formData);
-        console.log("response: " + response);
         setModalState({
           isOpen: true,
           status: "success",

@@ -26,7 +26,6 @@ const Layout = ({ children }) => {
 
   const { t, i18n } = useTranslation();
 
-
   // Mouse enter event on icons
   const handleMouseEnter = (icon) => {
     setHoveredIcon(icon);

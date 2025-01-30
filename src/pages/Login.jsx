@@ -53,7 +53,6 @@ const Login = () => {
           setOtpFromServer(otp); // Store OTP sent by mock server
           setOpenModal("OTPModal"); // Open OTP modal
         }else{
-          console.log("Error message: ", message);
           toast.error(message);
         
         }
@@ -242,10 +241,9 @@ const Login = () => {
             onProceed={async (enteredOtp) => {
               try {
                 const { success, message, data } = await verifyOTP(enteredOtp, formData.msisdn, formData.username, formData.password);
-                console.log('message ', message)
+
                 if (success) {
                   toast.success(message);
-                 
 
                   // || data.isfirstlogon === '1'
                   if (message === "Password expired. Please use forgot password or contact the administrator." || data.isfirstlogon === '1') {
@@ -257,7 +255,7 @@ const Login = () => {
                         setOpenModal("");
                         navigate('/dashboard'); // Navigate to the dashboard on success
                     }
-                }else{
+                } else{
                   toast.error(message);
                  
                 }

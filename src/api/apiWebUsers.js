@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 /**
  * 
@@ -19,7 +19,6 @@ const makeApiRequest = async (endpoint, payload) => {
       return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
-    console.error(`Error during API call to ${endpoint}:`, error);
     throw error;
   }
 };

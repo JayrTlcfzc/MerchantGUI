@@ -76,7 +76,7 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       LOADEDTIMESTAMP: item.LOADEDTIMESTAMP,
       FRMSISDN: item.FRMSISDN,
       TOMSISDN: item.TOMSISDN,
-      FIRSTNAME: item.FIRSTNAME, // Correctly mapped to name
+      FIRSTNAME: item.FIRSTNAME,
       LASTNAME: item.LASTNAME,
       AMOUNT: item.AMOUNT,
       REFERENCE: item.REFERENCE,

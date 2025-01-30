@@ -11,7 +11,7 @@ const RegisterSubscriber = () => {
 
   const [accounts, setAccounts] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchAccountTypes = async () => {
@@ -20,10 +20,8 @@ const RegisterSubscriber = () => {
         const result = await accountTypeCol();
         if (result.success) {
           const parsedAccounts = JSON.parse(result.account);
-          console.log(parsedAccounts)
           if (Array.isArray(parsedAccounts)) {
             setAccounts(parsedAccounts); 
-
           } else {
             setError('Invalid account data format');
           }
@@ -31,7 +29,7 @@ const RegisterSubscriber = () => {
           setError(result.message || 'Invalid data format');
         }
       } catch (err) {
-        setError(err.message); // Handle fetch errors
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -40,8 +38,6 @@ const RegisterSubscriber = () => {
     fetchAccountTypes();
   }, []);
   
-  
-
   const initialFormData = {
     nickname: "",
     mobileNumber: "",
@@ -88,10 +84,9 @@ const RegisterSubscriber = () => {
       formData.accountStatus &&
       formData.firstName &&
       formData.lastName;
-      console.log('register account',formData)
+
       if (isFormValid) {
         const response = await registerSubscriber(formData);
-        console.log(response);
         if(response.success){
           setModalState({
             isOpen: true,
@@ -106,7 +101,6 @@ const RegisterSubscriber = () => {
             message: "Failed to Add User. Please try again.",
           });
        }
-        
       } else {
         setModalState({
           isOpen: true,
@@ -118,6 +112,8 @@ const RegisterSubscriber = () => {
 
   return (
     <div className="min-h-screen bg-gray-200 p-8">
+      {loading && (<LoadingModal />)}
+
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-center">
           <FaMagnifyingGlass className="text-[#D95F08] mr-2" />

@@ -88,10 +88,8 @@ export default function ConfirmationModal({
     if (currentAction) {
       try {
         const result = await currentAction.action(modalUsername);
-        console.log('result', result);
   
         if (result.success) {
-          console.log('yes');
           setLocked(currentAction.lockState);
           onProceed(result);
   
@@ -103,13 +101,10 @@ export default function ConfirmationModal({
         }
       } catch (error) {
         toast.error(currentAction.failureMessage);
-        console.error(`Error ${modalMessage === "LOCKED" ? "locking" : "unlocking"} user:`, error);
       }
     }
   };
   
-  
-
   return (
     <div
       tabIndex={-1} // Makes the div focusable

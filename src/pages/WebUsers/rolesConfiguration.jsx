@@ -28,17 +28,13 @@ const rolesConfiguration = () => {
   const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
 
   useEffect(() => {
-    console.log("rolesDetails:", rolesDetails); // Check the data here
-  }, [rolesDetails]);
-
-  useEffect(() => {
     const fetchUserLevels = async () => {
       setLoading(true);
       try {
         const result = await userLevelCol();
         if (result.success) {
           const parsedLevels = JSON.parse(result.level);
-          console.log(parsedLevels)
+
           if (Array.isArray(parsedLevels)) {
             setLevels(parsedLevels); 
 
@@ -172,7 +168,6 @@ const rolesConfiguration = () => {
       if (result.success) {
         const parsedRoles = JSON.parse(result.roles);
         setRolesDetails(parsedRoles);
-        console.log("RESULT DATA ROLES" + result.roles);
         toast.success("Roles fetched successfully!");
       } else {
         toast.error(result.message || "Failed to fetch roles");
@@ -205,7 +200,6 @@ const rolesConfiguration = () => {
       }
     } catch (error) {
       toast.error("An error occurred while updating the role.");
-      console.error("Error updating role:", error);
     }
   };
 

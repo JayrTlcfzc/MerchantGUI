@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StatusModal from '../../components/Modals/statusModal';
+import { toast, ToastContainer } from 'react-toastify';
 import { FaUpload } from 'react-icons/fa6';
 import { useTranslation } from 'react-i18next';
 import { batchPaymentUpload, fileUpload } from '../../api/batch';
@@ -37,34 +38,26 @@ function BatchPaymentUpload() {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      console.log("FILEPATH: "+ filePath);
 
       try {
         setLoading(true);
         const res = await batchPaymentUpload(filename, filePath);
-        console.log("BATCH PAYMENT UPLOAD MESSAGE: "+ res.message);
 
         if (res.success) {
           setStatusMessage({ type: 'success', text: 'File uploaded successfully!' });
-          console.log("SUCCESS 1!");
           const result = await fileUpload(formData);
           if (result.success) {
-            console.log("SUCCESS 2!");
-            console.log("FILE UPLOAD MESSAGE: "+ result.message);
+            toast.success("File uploaded successfully!");
           } else {
-            console.log("FILE UPLOAD MESSAGE: "+ result.message);
-            console.log("ERROR 22!");
+            toast.success("File uploaded unsuccessfully!");
           }
 
         } else {
           setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
-          console.log("ERROR 1!");
-          console.log("MESSAGE: "+ res.message);
+          toast.success("Error in batch payment upload!");
         }
       } catch (error) {
-        console.error('Error in batch payment upload:', error);
         setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
-        console.log("ERROR 2!");
       } finally {
         setLoading(false);
       }
@@ -128,6 +121,8 @@ function BatchPaymentUpload() {
         status={statusMessage.type}
         message={statusMessage.text}
       />
+
+      <ToastContainer />
     </div>
   );
 }

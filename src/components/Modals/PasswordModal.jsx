@@ -22,10 +22,6 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
       const allocpassword = encryptPassword(password);
       const currentpassword = JSON.parse(localStorage.getItem('pow'));
 
-      console.log('current ',currentpassword);
-      console.log('alloc ',allocpassword);
-
-
       if (allocpassword === currentpassword){
         onProceed(); 
         handleClose(); 

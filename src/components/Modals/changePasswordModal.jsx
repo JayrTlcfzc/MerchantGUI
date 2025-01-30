@@ -179,6 +179,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                     </div>
                 </form>
             </div>
+            
             {openModal === 'confirmationModal' && (
                 <ConfirmationModal
                     openModal={Boolean(openModal)}

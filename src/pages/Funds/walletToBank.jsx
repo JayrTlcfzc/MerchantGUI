@@ -26,7 +26,6 @@ const WalletToBank = () => {
         const result = await bankCollection();
         if (result.success) {
           const parsedBank = JSON.parse(result.bank);
-          console.log(parsedBank)
           if (Array.isArray(parsedBank)) {
             setBanks(parsedBank); 
           } else {
@@ -36,7 +35,7 @@ const WalletToBank = () => {
           setError(result.message || 'Invalid data format');
         }
       } catch (err) {
-        setError(err.message); // Handle fetch errors
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -71,10 +70,8 @@ const WalletToBank = () => {
     try {
       setLoading(true);
         const res = await allocateOtpRequest();
-        console.log("Allocate otp Response:", res);
         setOTPModalOpen(true);
       } catch (error) {
-        console.error("Error in allocation:", error);
         setModalState({ isOpen: true, status: "error", message: error.message });
       } finally {
         ResetFormData(setFormData, initialFormData);
@@ -88,14 +85,11 @@ const WalletToBank = () => {
     const updatedFormData = { ...formData, otp }; // Include OTP in form data
     setFormData(updatedFormData);
     setOTPModalOpen(false);
-    console.log('formData ', formData);
     try {
       setLoading(true);
       const res = await walletToBank(updatedFormData);
-      console.log("Allocate Cash Response:", res);
       setModalState({ isOpen: true, status: res.success ? "success" : "error", message: res.message });
     } catch (error) {
-      console.error("Error in allocation:", error);
       setModalState({ isOpen: true, status: "error", message: error.message });
     } finally {
       ResetFormData(setFormData, initialFormData);
