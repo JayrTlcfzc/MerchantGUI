@@ -2,7 +2,6 @@ import axios from "axios";
 import CryptoJS from 'crypto-js';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-console.log( BASE_URL);
 
 // API call for verifying credentials
 export const verifyCredentials = async (msisdn, username, password) => {
