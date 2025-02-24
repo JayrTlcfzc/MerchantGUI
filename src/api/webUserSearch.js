@@ -2,13 +2,30 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const viewWebUser = async (params) => {
+// export const viewWebUser = async (params) => {
     
+//     try {
+//       const response = await axios.post(`${BASE_URL}/webuser/viewWebUser`, params);
+    
+//       const responseData = response.data
+     
+//       if (responseData && responseData.StatusMessage === "Success") {
+//         return { success: true, webusers: responseData.Accounts };
+//       } else {
+//         return { success: false, message: responseData?.message || "Unknown error" };
+//       }
+//     } catch (error) {
+//       throw error;
+//     }
+//   };
+
+  export const viewWebUser = async (params) => {
+      
     try {
-      const response = await axios.post(`${BASE_URL}/webuser/viewWebUser`, params);
+      const response = await axios.post(`http://localhost:5000/web/usersearch/search-user`, params);
     
       const responseData = response.data
-     
+    
       if (responseData && responseData.StatusMessage === "Success") {
         return { success: true, webusers: responseData.Accounts };
       } else {

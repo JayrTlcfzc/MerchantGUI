@@ -44,6 +44,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         storedData.Modules?.includes('ACCOUNTS.REGISTER') && { title: `${t('register_subscriber')}`, path: "/account/register" },
         { title: `${t('search_subscriber')}`, path: "/account/search" },
         storedData.Modules?.includes('ACCOUNTS.PENDINGSUBS') && { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
+
+        // { title: `${t('register_subscriber')}`, path: "/account/register" },
+        // { title: `${t('search_subscriber')}`, path: "/account/search" },
+        // { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" }
+        
       ].filter(Boolean),
     },
     {

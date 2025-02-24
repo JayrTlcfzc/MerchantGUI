@@ -49,12 +49,21 @@ const AddUserLevel = () => {
       try {
         setLoading(true);
         const response = await addUserLevel(formData);
-        setModalState({
-          isOpen: true,
-          status: "success",
-          message: "Added User Level Successfully!",
+
+        if (response.StatusCode == 0) {
+          setModalState({
+            isOpen: true,
+            status: "success",
+            message: "Added User Level Successfully!",
+          });
+          ResetFormData(setFormData, initialFormData)();
+        } else {
+          setModalState({
+            isOpen: true,
+            status: "error",
+            message: response.message || t("Failed to add data."),
         });
-        ResetFormData(setFormData, initialFormData)();
+        }
       } catch (error) {
         setModalState({
             isOpen: true,
