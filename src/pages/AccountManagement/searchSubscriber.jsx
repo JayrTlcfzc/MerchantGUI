@@ -28,6 +28,7 @@ const SearchSubscriber = () => {
 
   const handleSubmitDate = async () => {
     if (!startDate || !endDate) {
+      toast.error("Dates required");
       return;
     }
     setLoading(true);
@@ -52,6 +53,7 @@ const SearchSubscriber = () => {
     }
 
     try {
+      setLoading(true);
       const { success, account, message } = await searchSubs(
         msisdnParam,
         optINP
@@ -103,6 +105,8 @@ const SearchSubscriber = () => {
       }
     } catch (error) {
       toast.error(error.message || t("search_failed"));
+    } finally {
+      setLoading(false);
     }
   };
 
