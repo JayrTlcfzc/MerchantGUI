@@ -20,14 +20,19 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 //   };
 
   export const viewWebUser = async (params) => {
+
+    const data = {
+      // email: params.USER,
+      username: params.USER
+    }
       
     try {
-      const response = await axios.post(`http://localhost:5000/web/usersearch/search-user`, params);
+      const response = await axios.post(`http://localhost:5000/web/usersearch/search-user`, data);
     
-      const responseData = response.data
+      const responseData = response.data;
     
       if (responseData && responseData.StatusMessage === "Success") {
-        return { success: true, webusers: responseData.Accounts };
+        return { success: true, webusers: responseData.Data };
       } else {
         return { success: false, message: responseData?.message || "Unknown error" };
       }
@@ -36,14 +41,30 @@ const BASE_URL = import.meta.env.VITE_API_URL;
     }
   };
 
+  // export const searchWebUser = async (username) => {
+  //   try {
+  //     const response = await axios.post(`${BASE_URL}/webuser/searchWebUser`, username);
+    
+  //     const responseData = response.data
+    
+  //     if (responseData && responseData.StatusMessage === "Success") {
+  //       return { success: true, webusers: responseData.Accounts };
+  //     } else {
+  //       return { success: false, message: responseData?.message || "Unknown error" };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
+
   export const searchWebUser = async (username) => {
     try {
-      const response = await axios.post(`${BASE_URL}/webuser/searchWebUser`, username);
-    
-      const responseData = response.data
+      const response = await axios.post(`http://localhost:5000/web/usersearch/view-user`, username);
+      
+      const responseData = response.data;
     
       if (responseData && responseData.StatusMessage === "Success") {
-        return { success: true, webusers: responseData.Accounts };
+        return { success: true, webusers: responseData.Data[0] };
       } else {
         return { success: false, message: responseData?.message || "Unknown error" };
       }

@@ -192,6 +192,8 @@
     "modal_failed_to_add_user_level": "Échec de l'ajout du niveau utilisateur.",
     "modal_edited_user_level_successfully": "Niveau utilisateur modifié avec succès!",
     "modal_failed_to_edit_user_level": "Échec de la modification du niveau utilisateur.",
+    "modal_updated_user_successfully": "L'utilisateur a été mis à jour avec succès!",
+    "modal_failed_to_update_user": "Échec de la mise à jour de l'utilisateur. Veuillez réessayer.",
     "modal_successfully_reset": "The user's password has been successfully reset!",
     "modal_the_user_has_been_successfully": "The user has been successfully",
     

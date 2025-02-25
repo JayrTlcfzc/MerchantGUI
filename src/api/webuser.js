@@ -64,7 +64,6 @@ export const userLevelCol = async () => {
 
     try {
       const response = await axios.post(`http://localhost:5000/web/registeruser`, data);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       throw error;

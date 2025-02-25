@@ -145,24 +145,25 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
         const result = await updateWebUser(formData);
         
         if(result.success){
-        setModalState({
-          isOpen: true,
-          status: "successul",
-          message: result.message,
-        });
+          console.log("success");
+          setModalState({
+            isOpen: true,
+            status: "successul",
+            message: result.message,
+          });
         } else{
+            setModalState({
+              isOpen: true,
+              status: "error",
+              message: result.message,
+            });
+        }
+      } catch (error) {
           setModalState({
             isOpen: true,
             status: "error",
-            message: result.message,
+            message: t('modal_failed_to_update_user'),
           });
-        }
-      } catch (error) {
-        setModalState({
-          isOpen: true,
-          status: "error",
-          message: t('modal_failed_to_edit_user_level'),
-        });
       } finally {
         setLoading(false);
       }
@@ -170,7 +171,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
       setModalState({
         isOpen: true,
         status: "error",
-        message: t('modal_failed_to_edit_user_level'),
+        message: t('modal_failed_to_update_user'),
       });
     }
   };
@@ -201,7 +202,8 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="userId">{t('user_id')}</label>
                 <input
-                  disabled={!onEdit}
+                  // disabled={!onEdit}
+                  disabled
                   type="text"
                   name="userId"
                   id="userId"
@@ -329,7 +331,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="status">{t('status')}</label>
                 <select
-                  disabled={onEdit}
+                  disabled={!onEdit}
                   name="status"
                   id="status"
                   value={formData.status}
@@ -344,7 +346,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="locked">{t('locked')}</label>
                 <select
-                  disabled={onEdit}
+                  disabled={!onEdit}
                   name="locked"
                   id="locked"
                   value={formData.locked}
