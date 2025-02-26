@@ -24,7 +24,13 @@ export const userLevelCol = async () => {
   const data = JSON.stringify({ "": "" });
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/getuserlevels/get-user-levels`, data);
+    const response = await axios.post(`http://localhost:5000/web/getuserlevels/get-user-levels`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.GETUSERSLEVELS',
+        'Language': 'EN',
+      },
+    });
 
     const responseData = response.data;
    
@@ -63,7 +69,13 @@ export const userLevelCol = async () => {
   }
 
     try {
-      const response = await axios.post(`http://localhost:5000/web/registeruser`, data);
+      const response = await axios.post(`http://localhost:5000/web/registeruser`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'method': 'USERS.REGISTER',
+          'Language': 'EN',
+        },
+      });
       return response.data;
     } catch (error) {
       throw error;

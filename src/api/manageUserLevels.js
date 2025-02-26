@@ -28,7 +28,13 @@ export const addUserLevel = async (formData) => {
   };
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/manageuserlevel/add-user-level`, data);
+    const response = await axios.post(`http://localhost:5000/web/manageuserlevel/add-user-level`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.NEWUSERSLEVEL',
+        'Language': 'EN',
+      },
+    });
 
     const responseData = response.data;
     return response.data;
@@ -65,7 +71,13 @@ export const editUserLevel = async (formData) => {
   };
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/manageuserlevel/edit-user-level`, data);
+    const response = await axios.post(`http://localhost:5000/web/manageuserlevel/edit-user-level`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.EDITUSERSLEVEL',
+        'Language': 'EN',
+      },
+    });
 
     const responseData = response.data;
     return response.data;
@@ -97,12 +109,17 @@ export const editUserLevel = async (formData) => {
 export const userLevelSearch = async (data) => {
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/getuserlevel/get-user-level`, { userslevel: data });
+    const response = await axios.post(`http://localhost:5000/web/getuserlevel/get-user-level`, { userslevel: data }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.USERSLEVELSEARCH',
+        'Language': 'EN',
+      },
+    });
 
     const responseData = response.data;
     
     if (responseData && responseData.StatusMessage === "Success") {
-      console.log("here: ", responseData.Data);
       const parsed = JSON.parse(responseData.Data);
       return { success: true, dataUserLevel: parsed, message : '' };
     } else {

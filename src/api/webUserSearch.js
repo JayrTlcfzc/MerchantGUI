@@ -27,7 +27,13 @@ const BASE_URL = import.meta.env.VITE_API_URL;
     }
       
     try {
-      const response = await axios.post(`http://localhost:5000/web/usersearch/search-user`, data);
+      const response = await axios.post(`http://localhost:5000/web/usersearch/search-user`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'method': 'USERS.SEARCHUSER',
+          'Language': 'EN',
+        },
+      });
     
       const responseData = response.data;
     
@@ -59,7 +65,13 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
   export const searchWebUser = async (username) => {
     try {
-      const response = await axios.post(`http://localhost:5000/web/usersearch/view-user`, username);
+      const response = await axios.post(`http://localhost:5000/web/usersearch/view-user`, username, {
+        headers: {
+          'Content-Type': 'application/json',
+          'method': 'USERS.GETUSERSLIST',
+          'Language': 'EN',
+        },
+      });
       
       const responseData = response.data;
     
@@ -73,86 +85,86 @@ const BASE_URL = import.meta.env.VITE_API_URL;
     }
   };
 
-  export const lockWebUser = async (username) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/webuser/lockWebUser`, { username });
+  // export const lockWebUser = async (username) => {
+  //   try {
+  //     const response = await axios.post(`${BASE_URL}/webuser/lockWebUser`, { username });
     
-      const responseData = response.data
+  //     const responseData = response.data
 
-      if (responseData && responseData.success) {
-        return { success: true, message: responseData?.message };
-      } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+  //     if (responseData && responseData.success) {
+  //       return { success: true, message: responseData?.message };
+  //     } else {
+  //       return { success: false, message: responseData?.message || "Unknown error" };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
-  export const unlockWebUser = async (username) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/webuser/unlockWebUser`, { username });
+  // export const unlockWebUser = async (username) => {
+  //   try {
+  //     const response = await axios.post(`${BASE_URL}/webuser/unlockWebUser`, { username });
     
-      const responseData = response.data
+  //     const responseData = response.data
 
-      if (responseData && responseData.success) {
-        return { success: true, message: responseData?.message };
-      } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+  //     if (responseData && responseData.success) {
+  //       return { success: true, message: responseData?.message };
+  //     } else {
+  //       return { success: false, message: responseData?.message || "Unknown error" };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
-  export const activeWebUser = async (username) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/webuser/activeWebUser`, { username });
+  // export const activeWebUser = async (username) => {
+  //   try {
+  //     const response = await axios.post(`${BASE_URL}/webuser/activeWebUser`, { username });
     
-      const responseData = response.data
+  //     const responseData = response.data
 
-      if (responseData && responseData.success) {
-        return { success: true, message: responseData?.message };
-      } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+  //     if (responseData && responseData.success) {
+  //       return { success: true, message: responseData?.message };
+  //     } else {
+  //       return { success: false, message: responseData?.message || "Unknown error" };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
-  export const deactiveWebUser = async (username) => {
-    try {
+  // export const deactiveWebUser = async (username) => {
+  //   try {
 
-      const response = await axios.post(`${BASE_URL}/webuser/deactiveWebUser`, { username });
+  //     const response = await axios.post(`${BASE_URL}/webuser/deactiveWebUser`, { username });
     
-      const responseData = response.data
+  //     const responseData = response.data
 
-      if (responseData && responseData.success) {
-        return { success: true, message: responseData?.message };
-      } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+  //     if (responseData && responseData.success) {
+  //       return { success: true, message: responseData?.message };
+  //     } else {
+  //       return { success: false, message: responseData?.message || "Unknown error" };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
-  export const resetWebUser = async (username) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/webuser/resetWebUser`, { username });
+  // export const resetWebUser = async (username) => {
+  //   try {
+  //     const response = await axios.post(`${BASE_URL}/webuser/resetWebUser`, { username });
     
-      const responseData = response.data
+  //     const responseData = response.data
 
-      if (responseData && responseData.success) {
-        return { success: true, message: responseData?.message };
-      } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+  //     if (responseData && responseData.success) {
+  //       return { success: true, message: responseData?.message };
+  //     } else {
+  //       return { success: false, message: responseData?.message || "Unknown error" };
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
 
 

@@ -158,6 +158,15 @@
     "modal_cancel": "ANNULER",
     "modal_save": "SAUVEGARDER",
 
+    "user_locked": "Utilisateur verrouillé avec succès",
+    "lock_failed": "Échec du verrouillage de l'utilisateur",
+    "user_unlocked": "Utilisateur déverrouillé avec succès",
+    "unlock_failed": "Échec du déverrouillage de l'utilisateur",
+    "user_active": "L'utilisateur s'active avec succès",
+    "active_failed": "Échec de l'activation de l'utilisateur",
+    "user_deactive": "Désactivation réussie de l'utilisateur",
+    "deactive_failed": "Échec de la désactivation de l'utilisateur",
+
     "modal_confirmation": "CONFIRMATION",
     "modal_are_you_sure_you_want_to": "Etes-vous sûr de le vouloir",
     "modal_this_user": "Etes-vous sûr de le vouloir?",

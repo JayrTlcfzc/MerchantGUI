@@ -158,6 +158,15 @@
     "modal_cancel": "CANCEL",
     "modal_save": "SAVE",
 
+    "user_locked": "User Locked Successfully",
+    "lock_failed": "Failed to Lock User",
+    "user_unlocked": "User Unlocked Successfully",
+    "unlock_failed": "Failed to Unlock User",
+    "user_active": "User Activate Successfully",
+    "active_failed": "Failed to Activate User",
+    "user_deactive": "User Deactivate Successfully",
+    "deactive_failed": "Failed to Deactivate User",
+
     "modal_confirmation": "CONFIRMATION",
     "modal_are_you_sure_you_want_to": "Are you sure you want to",
     "modal_this_user": "this user?",
