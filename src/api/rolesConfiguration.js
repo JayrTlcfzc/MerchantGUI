@@ -23,7 +23,13 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export const getRolesConfigTable = async (data) => {
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/rolesconfig/get-roles`, { userslevel: data });
+    const response = await axios.post(`http://localhost:5000/web/rolesconfig/get-roles`, { userslevel: data }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.GETROLES',
+        'Language': 'EN',
+      },
+    });
 
     const responseData = response.data;
     if (responseData.StatusMessage === "Success") {
@@ -68,6 +74,12 @@ export const updateRoles = async (userlevel, id, module, actionStatus) => {
       id: id,
       module: module,
       actionstatus: actionStatus
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.UPDATEROLES',
+        'Language': 'EN',
+      },
     });
 
     const responseData = response.data;
