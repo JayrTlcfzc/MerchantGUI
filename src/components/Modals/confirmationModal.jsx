@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { toast, ToastContainer } from "react-toastify";
 import { useTranslation } from 'react-i18next';
 // import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/webUserSearch";
 import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/apiWebUsers";
-import StatusModal from './statusModal';
+import LoadingModal from '../../components/Modals/loadingModal';
 
 export default function ConfirmationModal({
   handleCloseModal,
@@ -19,6 +19,7 @@ export default function ConfirmationModal({
 }) {
   const { t } = useTranslation();
   const modalRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const handleEnterPress = (event) => {
     if (event.key === "Enter") {
@@ -86,6 +87,7 @@ export default function ConfirmationModal({
     const currentAction = lockActions[modalMessage];
   
     if (currentAction) {
+      setLoading(true);
       try {
         const result = await currentAction.action(modalUsername);
   
@@ -101,6 +103,8 @@ export default function ConfirmationModal({
         }
       } catch (error) {
         toast.error(currentAction.failureMessage);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -112,7 +116,7 @@ export default function ConfirmationModal({
       onKeyDown={handleEnterPress}
       className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
     >
-
+      {loading && (<LoadingModal />)}
       <ToastContainer />
       <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
         <div className="flex flex-row justify-center items-center">

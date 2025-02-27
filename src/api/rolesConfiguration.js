@@ -66,11 +66,11 @@ export const getRolesConfigTable = async (data) => {
 
 // }
 
-export const updateRoles = async (userlevel, id, module, actionStatus) => {
+export const updateRoles = async (userLevel, id, module, actionStatus) => {
 
   try {
     const response = await axios.post(`http://localhost:5000/web/rolesconfig/update-roles`, {
-      userslevel: userlevel,
+      userslevel: userLevel,
       id: id,
       module: module,
       actionstatus: actionStatus
@@ -87,10 +87,10 @@ export const updateRoles = async (userlevel, id, module, actionStatus) => {
     if (responseData.StatusMessage === "Success") {
       return { success: true, newRole: responseData.Data };
     } else {
-      return { success: false, message: responseData?.StatusMessage || "Unknown error" };
+      return { success: false, message: responseData?.message || "Unknown error" };
     }
   } catch (error) {
-    return { success: false, message: error.response?.data?.StatusMessage || error.message };
+    return { success: false, message: error.response?.data?.message || error.message };
   }
 
 }
