@@ -183,23 +183,43 @@ const rolesConfiguration = () => {
     } 
   }
 
-  const changeRole = async (userlevel, id, module, actionStatus) => {
+  const changeRole = async () => {
+    if (modalData) {
+      const { userLevel, id, module, actionStatus } = modalData;
 
-    try {
-      const result = await updateRoles(
-        userlevel,
-        id,
-        module,
-        actionStatus
-      );
-  
-      if (result.success) {
-        toast.success("Role updated successfully!");
-      } else {
-        toast.error(result.message || "Failed to update role.");
+      console.log(modalData);
+
+      try {
+        const result = await updateRoles(
+          userLevel,
+          id,
+          module,
+          actionStatus
+        );
+
+        console.log(result)
+    
+        if (result.success) {
+          setNewRole((prev) => ({
+            ...prev,
+            [id]: actionStatus,
+          }));
+    
+          setModalState({
+            isOpen: true,
+              status: 'success',
+              message: `The role has been updated successfully!`
+          });
+        } else {
+          setModalState({
+            isOpen: true,
+              status: 'error',
+              message: result.message || `The role has been updated unsuccessfully!`
+          });
+        }
+      } catch (error) {
+        toast.error("An error occurred while updating the role.");
       }
-    } catch (error) {
-      toast.error("An error occurred while updating the role.");
     }
   };
 
@@ -214,25 +234,25 @@ const rolesConfiguration = () => {
     setModalMessage('');
   };
 
-  const handleUseStateToggle = () => {
-    if (modalData) {
-      const { userLevel, id, module, actionStatus } = modalData;
+  // const handleUseStateToggle = () => {
+  //   if (modalData) {
+  //     const { userLevel, id, module, actionStatus } = modalData;
   
-      // Call the functions with the modal data
-      setNewRole((prev) => ({
-        ...prev,
-        [id]: actionStatus,
-      }));
+  //     // Call the functions with the modal data
+  //     setNewRole((prev) => ({
+  //       ...prev,
+  //       [id]: actionStatus,
+  //     }));
 
-      setModalState({
-        isOpen: true,
-          status: 'success',
-          message: `The role has been updated successfully!`
-      });
+  //     setModalState({
+  //       isOpen: true,
+  //         status: 'success',
+  //         message: `The role has been updated successfully!`
+  //     });
 
-      changeRole(userLevel, id, module, actionStatus);
-    }
-  };
+  //     changeRole(userLevel, id, module, actionStatus);
+  //   }
+  // };
   
   return (
     <div className="min-h-screen bg-gray-200 p-8">
@@ -437,7 +457,8 @@ const rolesConfiguration = () => {
           setModalData={modalData}
           setNewRole={newRole}
           handleCloseModal={handleCloseModal}
-          onProceed={handleUseStateToggle}
+          // onProceed={handleUseStateToggle}
+          onProceed={changeRole}
         />
       )}
       <StatusModal

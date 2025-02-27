@@ -100,21 +100,21 @@ const EditUserLevel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if no changes have been made
-    const isUnchanged =
-      initialUserLevelData &&
-      userLevelData.every(
-        (field, index) => field.value === initialUserLevelData[index].value
-      );
+    // // Check if no changes have been made
+    // const isUnchanged =
+    //   initialUserLevelData &&
+    //   userLevelData.every(
+    //     (field, index) => field.value === initialUserLevelData[index].value
+    //   );
 
-    if (isUnchanged) {
-      setModalState({
-        isOpen: true,
-        status: "error",
-        message: "No changes detected. Please modify the values before saving.",
-      });
-      return;
-    }
+    // if (isUnchanged) {
+    //   setModalState({
+    //     isOpen: true,
+    //     status: "error",
+    //     message: "No changes detected. Please modify the values before saving.",
+    //   });
+    //   return;
+    // }
 
     // Simulate form submission success or failure
     const isFormValid = userLevelData.every(
@@ -133,11 +133,21 @@ const EditUserLevel = () => {
       try {
         setLoading(true);
         const response = await editUserLevel(formData);
-        setModalState({
-          isOpen: true,
-          status: "success",
-          message: "Edited User Level Successfully!",
-        });
+
+        if (response.success) {
+          setModalState({
+            isOpen: true,
+            status: "success",
+            message: "Edited User Level Successfully!",
+          });
+        } else {
+          setModalState({
+            isOpen: true,
+            status: "error",
+            message: response.message,
+          });
+        }
+        
       } catch (error) {
         setModalState({
             isOpen: true,
