@@ -1,7 +1,8 @@
 import axios from "axios";
 import moment from "moment";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 export const GetAuditTrail = async (data) => {
   const { userinput, datefrom, dateto } = data.formData;
@@ -39,7 +40,7 @@ export const GetAuditTrail = async (data) => {
 
 
 try {
-  const response = await axios.post(`http://localhost:5000/audit/get-audit-trail`, {
+  const response = await axios.post(`${BASE_URL}/audit/get-audit-trail`, {
     userid: userinput,
     datefrom: datefrom,
     dateto: dateto,

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 /**
  * 
@@ -12,7 +13,7 @@ const makeApiRequest = async (endpoint, payload, header) => {
   try {
     console.log("payload: ", payload)
     // const response = await axios.post(`${BASE_URL}${endpoint}`, payload);
-    const response = await axios.post(`http://localhost:5000${endpoint}`, payload, header);
+    const response = await axios.post(`${BASE_URL}${endpoint}`, payload, header);
     const responseData = response.data;
 
     if (responseData && (responseData.StatusMessage === "Success" || responseData.success) ) {

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 // export const getRolesConfigTable = async (data) => {
 
@@ -23,7 +24,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export const getRolesConfigTable = async (data) => {
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/rolesconfig/get-roles`, { userslevel: data }, {
+    const response = await axios.post(`${BASE_URL}/web/rolesconfig/get-roles`, { userslevel: data }, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.GETROLES',
@@ -69,7 +70,7 @@ export const getRolesConfigTable = async (data) => {
 export const updateRoles = async (userLevel, id, module, actionStatus) => {
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/rolesconfig/update-roles`, {
+    const response = await axios.post(`${BASE_URL}/web/rolesconfig/update-roles`, {
       userslevel: userLevel,
       id: id,
       module: module,
