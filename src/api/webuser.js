@@ -64,18 +64,36 @@ export const userLevelCol = async () => {
       email: formData.email,
       company: formData.company,
       department: formData.department,
-      userslevel: formData.userLevel,
+      userslevel: formData.userLevel || 'admin',
       status: formData.status
   }
 
-    try {
-      const response = await axios.post(`http://localhost:5000/web/registeruser`, data, {
+ 
+
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+  const sessionid = userData?.sessionId; // Get sessionId safely
+  console.log(sessionid)
+
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/web/registeruser",
+      data,
+      {
         headers: {
-          'Content-Type': 'application/json',
-          'method': 'USERS.REGISTER',
-          'Language': 'EN',
+          "Content-Type": "application/json",
+          "method": "USERS.REGISTER",
+          "Language": "EN",
+          "token": `${sessionid}`, // ✅ Set Cookie header manually
         },
-      });
+        withCredentials: true,
+      }
+    );
+   
+
+
+      console.log(response);
+
       return response.data;
     } catch (error) {
       throw error;

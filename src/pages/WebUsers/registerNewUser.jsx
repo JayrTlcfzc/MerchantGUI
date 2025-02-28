@@ -50,7 +50,7 @@ const RegisterNewUser = () => {
     email: '',
     company: '',
     department: '',
-    userLevel: '',
+    userLevel: 'ADMIN',
     status: '',
   };
 
@@ -76,14 +76,16 @@ const RegisterNewUser = () => {
       formData.email &&
       formData.company &&
       formData.department &&
-      formData.userLevel &&
+      // formData.userLevel &&
       formData.status;
 
       if (isFormValid) {
         setLoading(true);
         const response = await registerWebUser(formData);
 
-        if(response.success){
+
+        console.log(response.statusCode);
+        if(response.statusCode === 0){
           setModalState({
             isOpen: true,
             status: "success",

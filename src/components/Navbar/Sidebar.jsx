@@ -41,9 +41,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       title: `${t('account_management')}`,
       icon: Users,
       subItems: [
-        storedData.Modules?.includes('ACCOUNTS.REGISTER') && { title: `${t('register_subscriber')}`, path: "/account/register" },
+        storedData.modules?.includes('ACCOUNTS.REGISTER') && { title: `${t('register_subscriber')}`, path: "/account/register" },
         { title: `${t('search_subscriber')}`, path: "/account/search" },
-        storedData.Modules?.includes('ACCOUNTS.PENDINGSUBS') && { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
+        storedData.modules?.includes('ACCOUNTS.PENDINGSUBS') && { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
 
         // { title: `${t('register_subscriber')}`, path: "/account/register" },
         // { title: `${t('search_subscriber')}`, path: "/account/search" },
@@ -56,10 +56,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       title: `${t('web_users')}`,
       icon: Search,
       subItems: [
-        storedData.Modules?.includes('USERS.SEARCHUSER') && { title: `${t('view_web_users')}`, path: "/web-users/view-web-users" },
-        storedData.Modules?.includes('USERS.REGISTER') && { title: `${t('register_new_user')}`, path: "/web-users/register-new-user" },
-        storedData.Modules?.includes('USERS.NEWUSERSLEVEL') && { title: `${t('manage_user_levels')}`, path: "/web-users/manage-user-level" },
-        storedData.Modules?.includes('USERS.UPDATEROLES') && { title: `${t('roles_configuration')}`, path: "/web-users/roles-configuration" }
+        storedData.modules?.includes('USERS.SEARCHUSER') && { title: `${t('view_web_users')}`, path: "/web-users/view-web-users" },
+        storedData.modules?.includes('USERS.REGISTER') && { title: `${t('register_new_user')}`, path: "/web-users/register-new-user" },
+        storedData.modules?.includes('USERS.NEWUSERSLEVEL') && { title: `${t('manage_user_levels')}`, path: "/web-users/manage-user-level" },
+        storedData.modules?.includes('USERS.UPDATEROLES') && { title: `${t('roles_configuration')}`, path: "/web-users/roles-configuration" }
       ].filter(Boolean),
     },
     {
@@ -67,11 +67,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       title: `${t('funds')}`,
       icon: DollarSign,
       subItems: [
-        storedData.Modules?.includes('FUNDS.CASHALLOCATION') && { title: `${t('allocate_cash')}`, path: "/funds/allocate-cash" },
-        storedData.Modules?.includes('FUNDS.WALLETTOBANK') && { title: `${t('wallet_to_bank')}`, path: "/funds/wallet-to-bank" },
-        storedData.Modules?.includes('ACCOUNTS.BATCHREQUESTCOL') && { title: `${t('batch_files')}`, path: "/funds/batch-files" },
-        storedData.Modules?.includes('FUNDS.BATCHALLOCREQUEST') && { title: `${t('batch_payment_upload')}`, path: "/funds/batch-payment-upload" },
-        storedData.Modules?.includes('FUNDS.BATCHUPLOADEDCOL') && { title: `${t('batch_uploaded_files')}`, path: "/funds/batch-uploaded-files" },
+        storedData.modules?.includes('FUNDS.CASHALLOCATION') && { title: `${t('allocate_cash')}`, path: "/funds/allocate-cash" },
+        storedData.modules?.includes('FUNDS.WALLETTOBANK') && { title: `${t('wallet_to_bank')}`, path: "/funds/wallet-to-bank" },
+        storedData.modules?.includes('ACCOUNTS.BATCHREQUESTCOL') && { title: `${t('batch_files')}`, path: "/funds/batch-files" },
+        storedData.modules?.includes('FUNDS.BATCHALLOCREQUEST') && { title: `${t('batch_payment_upload')}`, path: "/funds/batch-payment-upload" },
+        storedData.modules?.includes('FUNDS.BATCHUPLOADEDCOL') && { title: `${t('batch_uploaded_files')}`, path: "/funds/batch-uploaded-files" },
       ].filter(Boolean),
     },
     {
