@@ -56,17 +56,21 @@ const AuditTrail = () => {
         try {
             const response = await GetAuditTrail({ formData });
 
-            if (response?.audit) {
-                setAuditData(response.audit); // Update the table data
+            if (response.audit) {
+                console.log(response.audit)
+                // setAuditData(JSON.parse(response.audit));
+                setAuditData(response.audit);
                 setModalState({
                     isOpen: true,
                     status: "success",
                     message: t("Data retrieved successfully."),
                 });
             } else {
+                setAuditData([]);
                 throw new Error("No data found.");
             }
         } catch (error) {
+            setAuditData([]);
             setModalState({
                 isOpen: true,
                 status: "error",
