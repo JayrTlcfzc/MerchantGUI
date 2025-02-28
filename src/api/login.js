@@ -7,13 +7,22 @@ const BASE_URL = 'http://localhost:5000';
 // API call for verifying credentials
 export const verifyCredentials = async (msisdn, username, password) => {
   try {
-   
-      const response = await axios.post(`${BASE_URL}/auth/otpreq`, {
+    const response = await axios.post(`${BASE_URL}/web/auth/loginotpreq`, {
       msisdn,
       username,
       password,
-    });
-    if (response.data.StatusMessage === "Success") {
+  }, {
+      headers: {
+          'Content-Type': 'application/json',
+          'method': 'LOGINOTPREQ',
+          'Language': 'EN',
+          
+      }
+  });
+
+  console.log(response.data.statusCode);
+
+    if (response.data.statusCode === 0) {
       return {
         success: true,
         message: response.data.StatusMessage,
@@ -35,33 +44,51 @@ export const verifyCredentials = async (msisdn, username, password) => {
 // API call for verifying OTP
 export const verifyOTP = async (otp, msisdn, username,password) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/otpres`, {
+    const response = await axios.post(`${BASE_URL}/web/auth/loginotpres`, {
       otp,
       msisdn,
       username,
       password,
-    });
+    },{
+      headers: {
+          'Content-Type': 'application/json',
+          'method': 'LOGINOTPRES',
+          'Language': 'EN'
+      }
+  });
 
-    if (response.data.StatusCode === 0) {
-      const data = JSON.parse(response.data.Data);
-
+    console.log("Full response:", response.data);
+    
+    if (response.data.statusCode === '0') {
+      const data = response.data.data;
+      console.log("dataaa", data);
       const encryptedPassword = encryptPassword(password);
 
-      localStorage.setItem('userData', JSON.stringify(data));
-      localStorage.setItem('pow', JSON.stringify(encryptedPassword));
+      localStorage.setItem("userData", JSON.stringify(data));
+      localStorage.setItem("pow", JSON.stringify(encryptedPassword));
+      
+      // ✅ Retrieve and parse userData
+      const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+      
+      // ✅ Access sessionId safely
+      console.log("Stored sessionId:", storedUserData.sessionId);
+      
 
+     
       return {
         success: true,
-        message: response.data.StatusMessage,
+        message: response.data.statusMessage,
         data,
       };
-    } else if(response.data.StatusCode !== 0) {
+    } else if(response.data.statusCode !== 0) {
+      console.log("ditoooooo");
       return {
         success: false,
         message: response.data.StatusMessage,
       };
     }
   } catch (error) {
+    console.error("Error caught:", error);
     return Promise.reject({
       success: false,
       message: error.response?.data?.message || error.message,

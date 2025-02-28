@@ -65,7 +65,7 @@ export const userLevelCol = async () => {
       email: formData.email,
       company: formData.company,
       department: formData.department,
-      userslevel: formData.userLevel,
+      userslevel: formData.userLevel || 'admin',
       status: formData.status
   }
 
@@ -79,14 +79,23 @@ export const userLevelCol = async () => {
   try {
     const response = await axios.post(
       `${BASE_URL}/web/registeruser`,
+
       data,
       {
         headers: {
-          'Content-Type': 'application/json',
-          'method': 'USERS.REGISTER',
-          'Language': 'EN',
+          "Content-Type": "application/json",
+          "method": "USERS.REGISTER",
+          "Language": "EN",
+          "token": `${sessionid}`, // ✅ Set Cookie header manually
         },
-      });
+        withCredentials: true,
+      }
+    );
+   
+
+
+      console.log(response);
+
       return response.data;
     } catch (error) {
       throw error;
