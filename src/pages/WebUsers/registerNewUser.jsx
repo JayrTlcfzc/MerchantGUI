@@ -220,7 +220,8 @@ const RegisterNewUser = () => {
                 type="email"
                 name="email"
                 id="email"
-                value={formData.email.toUpperCase()}
+                // value={formData.email.toUpperCase()}
+                value={formData.email}
                 onChange={HandleChange(setFormData)}
                 placeholder="Enter email"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"

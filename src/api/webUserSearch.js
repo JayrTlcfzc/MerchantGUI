@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 // export const viewWebUser = async (params) => {
     
@@ -27,7 +28,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
     }
       
     try {
-      const response = await axios.post(`http://localhost:5000/web/usersearch/search-user`, data, {
+      const response = await axios.post(`${BASE_URL}/web/usersearch/search-user`, data, {
         headers: {
           'Content-Type': 'application/json',
           'method': 'USERS.SEARCHUSER',
@@ -65,7 +66,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
   export const searchWebUser = async (username) => {
     try {
-      const response = await axios.post(`http://localhost:5000/web/usersearch/view-user`, username, {
+      const response = await axios.post(`${BASE_URL}/web/usersearch/view-user`, username, {
         headers: {
           'Content-Type': 'application/json',
           'method': 'USERS.GETUSERSLIST',

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 // export const userLevelCol = async () => {
 //     const data = JSON.stringify({ "": "" });
@@ -24,7 +25,7 @@ export const userLevelCol = async () => {
   const data = JSON.stringify({ "": "" });
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/getuserlevels/get-user-levels`, data, {
+    const response = await axios.post(`${BASE_URL}/web/getuserlevels/get-user-levels`, data, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.GETUSERSLEVELS',
@@ -77,7 +78,8 @@ export const userLevelCol = async () => {
 
   try {
     const response = await axios.post(
-      "http://localhost:5000/web/registeruser",
+      `${BASE_URL}/web/registeruser`,
+
       data,
       {
         headers: {

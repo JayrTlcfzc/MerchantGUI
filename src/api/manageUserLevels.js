@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 // export const addUserLevel = async (formData) => {
 
@@ -28,7 +29,7 @@ export const addUserLevel = async (formData) => {
   };
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/manageuserlevel/add-user-level`, data, {
+    const response = await axios.post(`${BASE_URL}/web/manageuserlevel/add-user-level`, data, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.NEWUSERSLEVEL',
@@ -71,7 +72,7 @@ export const editUserLevel = async (formData) => {
   };
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/manageuserlevel/edit-user-level`, data, {
+    const response = await axios.post(`${BASE_URL}/web/manageuserlevel/edit-user-level`, data, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.EDITUSERSLEVEL',
@@ -109,7 +110,7 @@ export const editUserLevel = async (formData) => {
 export const userLevelSearch = async (data) => {
 
   try {
-    const response = await axios.post(`http://localhost:5000/web/getuserlevel/get-user-level`, { userslevel: data }, {
+    const response = await axios.post(`${BASE_URL}/web/getuserlevel/get-user-level`, { userslevel: data }, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.USERSLEVELSEARCH',
