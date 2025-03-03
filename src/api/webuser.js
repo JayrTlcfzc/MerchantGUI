@@ -25,7 +25,7 @@ export const userLevelCol = async () => {
   const data = JSON.stringify({ "": "" });
 
   try {
-    const response = await axios.post(`${BASE_URL}/web/getuserlevels/get-user-levels`, data, {
+    const response = await axios.post(`${BASE_URL}/web/getuserlevels`, data, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.GETUSERSLEVELS',
