@@ -14,7 +14,7 @@ const AuditTrail = () => {
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
-    const [sortConfig, setSortConfig] = useState({ key: "username", direction: "ascending" });
+    const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "descending" });
     const [auditData, setAuditData] = useState([]); // Store fetched audit trails
     const [loading, setLoading] = useState(false); // Loading state
 
