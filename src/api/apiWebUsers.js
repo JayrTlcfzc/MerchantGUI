@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+const sessionid = userData?.sessionId; // Get sessionId safely
+
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -42,6 +45,7 @@ export const lockWebUser = (username) => makeApiRequest("/web/userupdate/update-
     'Content-Type': 'application/json',
     'method': 'USERS.LOCKUSER',
     'Language': 'EN',
+    "token": `${sessionid}`,
   },
 });
 export const unlockWebUser = (username) => makeApiRequest("/web/userupdate/update-unlock", { username }, {
@@ -49,6 +53,7 @@ export const unlockWebUser = (username) => makeApiRequest("/web/userupdate/updat
     'Content-Type': 'application/json',
     'method': 'USERS.UNLOCKUSER',
     'Language': 'EN',
+    "token": `${sessionid}`,
   },
 });
 export const activeWebUser = (username) => makeApiRequest("/web/userupdate/update-active", { username }, {
@@ -56,6 +61,7 @@ export const activeWebUser = (username) => makeApiRequest("/web/userupdate/updat
     'Content-Type': 'application/json',
     'method': 'USERS.ACTIVATEUSER',
     'Language': 'EN',
+    "token": `${sessionid}`,
   },
 });
 export const deactiveWebUser = (username) => makeApiRequest("/web/userupdate/update-deactive", { username }, {
@@ -63,6 +69,7 @@ export const deactiveWebUser = (username) => makeApiRequest("/web/userupdate/upd
     'Content-Type': 'application/json',
     'method': 'USERS.DEACTIVATEUSER',
     'Language': 'EN',
+    "token": `${sessionid}`,
   },
 });
 export const resetWebUser = (username) => makeApiRequest("/web/userupdate/reset-user", { username }, {
@@ -70,6 +77,7 @@ export const resetWebUser = (username) => makeApiRequest("/web/userupdate/reset-
     'Content-Type': 'application/json',
     'method': 'USERS.RESETPASSWORD',
     'Language': 'EN',
+    "token": `${sessionid}`,
   },
 });
 export const updateWebUser = (formData) => makeApiRequest("/web/userupdate/update-user", { 
@@ -91,5 +99,6 @@ export const updateWebUser = (formData) => makeApiRequest("/web/userupdate/updat
     'Content-Type': 'application/json',
     'method': 'USERS.UPDATEUSER',
     'Language': 'EN',
+    "token": `${sessionid}`,
   },
  });

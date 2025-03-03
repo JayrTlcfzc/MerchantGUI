@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+const sessionid = userData?.sessionId; // Get sessionId safely
+
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -34,6 +37,7 @@ export const addUserLevel = async (formData) => {
         'Content-Type': 'application/json',
         'method': 'USERS.NEWUSERSLEVEL',
         'Language': 'EN',
+        "token": `${sessionid}`,
       },
     });
 
@@ -77,6 +81,7 @@ export const editUserLevel = async (formData) => {
         'Content-Type': 'application/json',
         'method': 'USERS.EDITUSERSLEVEL',
         'Language': 'EN',
+        "token": `${sessionid}`,
       },
     });
 
@@ -115,6 +120,7 @@ export const userLevelSearch = async (data) => {
         'Content-Type': 'application/json',
         'method': 'USERS.USERSLEVELSEARCH',
         'Language': 'EN',
+        "token": `${sessionid}`,
       },
     });
 

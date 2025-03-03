@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+const sessionid = userData?.sessionId; // Get sessionId safely
+
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -30,6 +33,7 @@ export const userLevelCol = async () => {
         'Content-Type': 'application/json',
         'method': 'USERS.GETUSERSLEVELS',
         'Language': 'EN',
+        "token": `${sessionid}`,
       },
     });
 
@@ -68,13 +72,6 @@ export const userLevelCol = async () => {
       userslevel: formData.userLevel || 'admin',
       status: formData.status
   }
-
- 
-
-  const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-  const sessionid = userData?.sessionId; // Get sessionId safely
-  console.log(sessionid)
-
 
   try {
     const response = await axios.post(

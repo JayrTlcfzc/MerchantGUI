@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+const sessionid = userData?.sessionId; // Get sessionId safely
+
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -29,6 +32,7 @@ export const getRolesConfigTable = async (data) => {
         'Content-Type': 'application/json',
         'method': 'USERS.GETROLES',
         'Language': 'EN',
+        "token": `${sessionid}`,
       },
     });
 
@@ -80,6 +84,7 @@ export const updateRoles = async (userLevel, id, module, actionStatus) => {
         'Content-Type': 'application/json',
         'method': 'USERS.UPDATEROLES',
         'Language': 'EN',
+        "token": `${sessionid}`,
       },
     });
 

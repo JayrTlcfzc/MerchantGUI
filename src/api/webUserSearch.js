@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+const sessionid = userData?.sessionId; // Get sessionId safely
+
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -33,6 +36,7 @@ const BASE_URL = 'http://localhost:5000';
           'Content-Type': 'application/json',
           'method': 'USERS.SEARCHUSER',
           'Language': 'EN',
+          "token": `${sessionid}`,
         },
       });
     
@@ -71,6 +75,7 @@ const BASE_URL = 'http://localhost:5000';
           'Content-Type': 'application/json',
           'method': 'USERS.GETUSERSLIST',
           'Language': 'EN',
+          "token": `${sessionid}`,
         },
       });
       
