@@ -1,6 +1,9 @@
 import axios from "axios";
 import moment from "moment";
 
+const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+const sessionid = userData?.sessionId; // Get sessionId safely
+
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -49,6 +52,7 @@ try {
       'Content-Type': 'application/json',
       'method': 'USERS.GETAUDITTRAILS',
       'Language': 'EN',
+      "token": `${sessionid}`,
     },
   });
 
