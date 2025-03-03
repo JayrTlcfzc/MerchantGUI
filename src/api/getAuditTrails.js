@@ -44,6 +44,12 @@ try {
     userid: userinput,
     datefrom: datefrom,
     dateto: dateto,
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'method': 'USERS.GETAUDITTRAILS',
+      'Language': 'EN',
+    },
   });
 
   const result = response.data;

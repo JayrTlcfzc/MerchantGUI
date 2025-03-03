@@ -110,7 +110,7 @@ export const editUserLevel = async (formData) => {
 export const userLevelSearch = async (data) => {
 
   try {
-    const response = await axios.post(`${BASE_URL}/web/getuserlevel/get-user-level`, { userslevel: data }, {
+    const response = await axios.post(`${BASE_URL}/web/getuserlevel`, { userslevel: data }, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.USERSLEVELSEARCH',
