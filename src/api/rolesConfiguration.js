@@ -40,10 +40,10 @@ export const getRolesConfigTable = async (data) => {
     if (responseData.StatusMessage === "Success") {
       return { success: true, roles: responseData.Data };
     } else {
-      return { success: false, message: responseData?.message || "Unknown error" };
+      return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {
-    return { success: false, message: error.response?.data?.message || error.message };
+    return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 
 }

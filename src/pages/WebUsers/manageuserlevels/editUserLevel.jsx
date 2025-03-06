@@ -144,7 +144,7 @@ const EditUserLevel = () => {
           setModalState({
             isOpen: true,
             status: "error",
-            message: response.message,
+            message: response.StatusMessage,
           });
         }
         
@@ -152,7 +152,7 @@ const EditUserLevel = () => {
         setModalState({
             isOpen: true,
             status: "error",
-            message: error.message || t("Failed to edit data."),
+            message: error.StatusMessage || t("Failed to edit data."),
         });
       } finally {
         setLoading(false);

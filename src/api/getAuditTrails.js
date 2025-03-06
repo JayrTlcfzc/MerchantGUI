@@ -62,12 +62,12 @@ try {
   if (result.StatusMessage === "Success") {
     return { success: true, audit: result.Data };
   } else {
-    return { success: false, message: result.message };
+    return { success: false, message: result.StatusMessage };
   }
   } catch (error) {
     return Promise.reject({
       success: false,
-      message: error.response?.result?.message || error.message,
+      message: error.response?.result?.StatusMessage || error.message,
     });
   }
 };

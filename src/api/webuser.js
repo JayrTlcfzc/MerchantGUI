@@ -94,9 +94,6 @@ const sessionid = userData?.sessionId; // Get sessionId safely
         withCredentials: true,
       }
     );
-   
-
-
       console.log(response);
 
       return response.data;

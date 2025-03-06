@@ -22,9 +22,9 @@ export const verifyCredentials = async (msisdn, username, password) => {
       }
   });
 
-  console.log(response.data.statusCode);
+  console.log(response.data.StatusCode);
 
-    if (response.data.statusCode === 0) {
+    if (response.data.StatusCode === 0) {
       return {
         success: true,
         message: response.data.StatusMessage,
@@ -38,7 +38,7 @@ export const verifyCredentials = async (msisdn, username, password) => {
   } catch (error) {
     return Promise.reject({
       success: false,
-      message: error.response?.data?.message || error.message,
+      message: error.response?.data?.StatusMessage || error.message,
     });
   }
 };
@@ -62,7 +62,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
 
     console.log("Full response:", response.data);
     
-    if (response.data.statusCode === '0') {
+    if (response.data.StatusCode === 0) {
       const data = response.data.data;
       console.log("dataaa", data);
       const encryptedPassword = encryptPassword(password);
@@ -80,10 +80,10 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
      
       return {
         success: true,
-        message: response.data.statusMessage,
+        message: response.data.StatusMessage,
         data,
       };
-    } else if(response.data.statusCode !== 0) {
+    } else if(response.data.StatusCode !== 0) {
       console.log("ditoooooo");
       return {
         success: false,
@@ -94,7 +94,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
     console.error("Error caught:", error);
     return Promise.reject({
       success: false,
-      message: error.response?.data?.message || error.message,
+      message: error.response?.data?.StatusMessage || error.message,
     });
   }
 };

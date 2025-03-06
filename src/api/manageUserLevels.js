@@ -130,7 +130,7 @@ export const userLevelSearch = async (data) => {
       const parsed = JSON.parse(responseData.Data);
       return { success: true, dataUserLevel: parsed, message : '' };
     } else {
-      return { success: false, message: responseData?.message || "Unknown error" };
+      return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {
     throw error;

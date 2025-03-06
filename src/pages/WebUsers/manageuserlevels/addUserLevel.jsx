@@ -61,14 +61,14 @@ const AddUserLevel = () => {
           setModalState({
             isOpen: true,
             status: "error",
-            message: response.message || t("Failed to add data."),
+            message: response.StatusMessage || t("Failed to add data."),
         });
         }
       } catch (error) {
         setModalState({
             isOpen: true,
             status: "error",
-            message: error.message || t("Failed to add data."),
+            message: error.StatusMessage || t("Failed to add data."),
         });
       } finally {
         setLoading(false);

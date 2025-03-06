@@ -83,13 +83,11 @@ const RegisterNewUser = () => {
         setLoading(true);
         const response = await registerWebUser(formData);
 
-
-        console.log(response.statusCode);
-        if(response.statusCode === 0){
+        if(response.StatusCode === 0){
           setModalState({
             isOpen: true,
             status: "success",
-            message: response.message,
+            message: response.StatusMessage,
           });
           ResetFormData(setFormData, initialFormData)();
           setLoading(false);
@@ -97,7 +95,7 @@ const RegisterNewUser = () => {
           setModalState({
             isOpen: true,
             status: "error",
-            message: response.message,
+            message: response.StatusMessage,
           });
           setLoading(false);
         }

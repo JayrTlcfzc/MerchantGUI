@@ -20,9 +20,9 @@ const makeApiRequest = async (endpoint, payload, header) => {
     const responseData = response.data;
 
     if (responseData && (responseData.StatusMessage === "Success" || responseData.success) ) {
-      return { success: true, webusers: responseData.Accounts || null, message: responseData?.message || null };
+      return { success: true, webusers: responseData.Accounts || null, message: responseData?.StatusMessage || null };
     } else {
-      return { success: false, message: responseData?.message || "Unknown error" };
+      return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }
   } catch (error) {
     throw error;

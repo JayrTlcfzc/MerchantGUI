@@ -45,7 +45,7 @@ const BASE_URL = 'http://localhost:5000';
       if (responseData && responseData.StatusMessage === "Success") {
         return { success: true, webusers: responseData.Data };
       } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
+        return { success: false, message: responseData?.StatusMessage || "Unknown error" };
       }
     } catch (error) {
       throw error;
@@ -84,7 +84,7 @@ const BASE_URL = 'http://localhost:5000';
       if (responseData && responseData.StatusMessage === "Success") {
         return { success: true, webusers: responseData.Data[0] };
       } else {
-        return { success: false, message: responseData?.message || "Unknown error" };
+        return { success: false, message: responseData?.StatusMessage || "Unknown error" };
       }
     } catch (error) {
       throw error;

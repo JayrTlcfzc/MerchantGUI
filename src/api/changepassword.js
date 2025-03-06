@@ -15,7 +15,7 @@ const changePassword = async (oldPassword, newPassword) => {
         if (response.data.StatusCode === 0) {
             return {
                 success: true,
-                message: response.data.message || "Password changed successfully",
+                message: response.data.StatusMessage || "Password changed successfully",
             };
         } else {
             return {
@@ -26,7 +26,7 @@ const changePassword = async (oldPassword, newPassword) => {
     } catch (error) {
         return Promise.reject({
             success: false,
-            message: error.response?.data?.message || "An unexpected error occurred",
+            message: error.response?.data?.StatusMessage || "An unexpected error occurred",
         });
     }
 };
