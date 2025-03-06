@@ -1,8 +1,7 @@
 import axios from "axios";
 import CryptoJS from 'crypto-js';
 
-const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-const sessionid = userData?.sessionId; // Get sessionId safely
+
 
 // const BASE_URL = import.meta.env.VITE_API_URL_NODE;
 const BASE_URL = 'http://localhost:5000';
@@ -19,7 +18,7 @@ export const verifyCredentials = async (msisdn, username, password) => {
           'Content-Type': 'application/json',
           'method': 'LOGINOTPREQ',
           'Language': 'EN',
-          "token": `${sessionid}`,
+          "token": ``,
       }
   });
 
@@ -57,7 +56,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
           'Content-Type': 'application/json',
           'method': 'LOGINOTPRES',
           'Language': 'EN',
-          "token": `${sessionid}`,
+          "token": ``,
       }
   });
 
