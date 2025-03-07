@@ -1,8 +1,5 @@
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-const sessionid = userData?.sessionId; // Get sessionId safely
-
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -32,6 +29,10 @@ export const addUserLevel = async (formData) => {
   };
 
   try {
+
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
     const response = await axios.post(`${BASE_URL}/web/manageuserlevel/add-user-level`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -76,6 +77,10 @@ export const editUserLevel = async (formData) => {
   };
 
   try {
+
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
     const response = await axios.post(`${BASE_URL}/web/manageuserlevel/edit-user-level`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -115,6 +120,10 @@ export const editUserLevel = async (formData) => {
 export const userLevelSearch = async (data) => {
 
   try {
+
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
     const response = await axios.post(`${BASE_URL}/web/getuserlevel`, { userslevel: data }, {
       headers: {
         'Content-Type': 'application/json',

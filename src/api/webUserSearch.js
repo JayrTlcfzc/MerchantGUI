@@ -1,8 +1,5 @@
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-const sessionid = userData?.sessionId; // Get sessionId safely
-
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -31,6 +28,10 @@ const BASE_URL = 'http://localhost:5000';
     }
       
     try {
+
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+      const sessionid = userData?.sessionId;
+
       const response = await axios.post(`${BASE_URL}/web/usersearch/search-user`, data, {
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +70,12 @@ const BASE_URL = 'http://localhost:5000';
   // };
 
   export const searchWebUser = async (username) => {
+
     try {
+
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+      const sessionid = userData?.sessionId;
+    
       const response = await axios.post(`${BASE_URL}/web/usersearch/view-user`, username, {
         headers: {
           'Content-Type': 'application/json',

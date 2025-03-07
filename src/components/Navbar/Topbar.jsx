@@ -4,6 +4,8 @@ import { CircleUser, Globe } from "lucide-react";
 import ChangePasswordModal from '../Modals/changePasswordModal';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../Auth/authContext';
+import { verifyLogout } from '../../api/logout';
+import { toast, ToastContainer } from "react-toastify";
 
 const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, username, lastLogin }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -56,9 +58,21 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
     }, []);
 
     // Logout function
-    const handleLogout = () => {
-        logout();
-        navigate('/login'); // Navigate to login page
+    const handleLogout = async () => {
+        try {
+            const result = await verifyLogout();
+
+            if (result.success) {
+                logout();
+                navigate('/login');
+            } else {
+                toast.error("Error: ", result.message)
+            }
+
+        } catch (err) {
+            toast.error("Error: ", err)
+        }
+        
     };
 
     // Handle change password modal close
@@ -69,6 +83,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
 
     return (
         <div className="ml-auto flex items-center space-x-2 text-lg">
+            <ToastContainer />
             <div
                 className="cursor-default relative"
                 onMouseEnter={() => {

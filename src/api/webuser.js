@@ -1,7 +1,5 @@
 import axios from "axios";
 
-
-
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -25,10 +23,11 @@ const BASE_URL = 'http://localhost:5000';
 
 export const userLevelCol = async () => {
   const data = JSON.stringify({ "": "" });
-  const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-const sessionid = userData?.sessionId; // Get sessionId safely
 
   try {
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
     const response = await axios.post(`${BASE_URL}/web/getuserlevels`, data, {
       headers: {
         'Content-Type': 'application/json',

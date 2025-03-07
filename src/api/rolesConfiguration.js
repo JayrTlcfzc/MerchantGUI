@@ -1,8 +1,5 @@
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-const sessionid = userData?.sessionId; // Get sessionId safely
-
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -27,6 +24,10 @@ const BASE_URL = 'http://localhost:5000';
 export const getRolesConfigTable = async (data) => {
 
   try {
+
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
     const response = await axios.post(`${BASE_URL}/web/rolesconfig/get-roles`, { userslevel: data }, {
       headers: {
         'Content-Type': 'application/json',
@@ -74,6 +75,10 @@ export const getRolesConfigTable = async (data) => {
 export const updateRoles = async (userLevel, id, module, actionStatus) => {
 
   try {
+
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
     const response = await axios.post(`${BASE_URL}/web/rolesconfig/update-roles`, {
       userslevel: userLevel,
       id: id,

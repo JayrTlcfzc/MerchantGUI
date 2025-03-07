@@ -1,9 +1,6 @@
 import axios from "axios";
 import moment from "moment";
 
-const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-const sessionid = userData?.sessionId; // Get sessionId safely
-
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
@@ -43,6 +40,10 @@ export const GetAuditTrail = async (data) => {
 
 
 try {
+
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+  const sessionid = userData?.sessionId;
+  
   const response = await axios.post(`${BASE_URL}/audit/get-audit-trail`, {
     userid: userinput,
     datefrom: datefrom,
