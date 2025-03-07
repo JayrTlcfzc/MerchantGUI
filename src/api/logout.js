@@ -20,11 +20,12 @@ export const verifyLogout = async () => {
       }
   });
 
+  console.log(response);
+
     if (response.data.StatusCode === 0) {
       return {
         success: true,
         message: response.data.StatusMessage,
-        otp: response.data.otp,
       };
     } else {
       return {
@@ -34,7 +35,7 @@ export const verifyLogout = async () => {
   } catch (error) {
     return Promise.reject({
       success: false,
-      message: error.response?.data?.StatusMessage || error.message,
+      message: response?.data?.StatusMessage || error,
     });
   }
 };

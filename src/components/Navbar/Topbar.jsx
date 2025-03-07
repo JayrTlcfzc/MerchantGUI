@@ -65,12 +65,13 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
             if (result.success) {
                 logout();
                 navigate('/login');
+                console.log("res.locals: ", res.locals);
             } else {
-                toast.error("Error: ", result.message)
+                toast.error("Error: " + result.message)
             }
 
         } catch (err) {
-            toast.error("Error: ", err)
+            toast.error("Error: " + err)
         }
         
     };
