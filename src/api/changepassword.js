@@ -1,17 +1,28 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = 'http://localhost:5000';
 
 const changePassword = async (oldPassword, newPassword) => {
    
     const data = {
-        OLDPASSWORD: oldPassword, 
-        PASSWORD: newPassword   
+        oldPassword: oldPassword, 
+        newPassword: newPassword   
     };
 
     try {
+
+        const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+        const sessionid = userData?.sessionId;
         
-        const response = await axios.post(`${BASE_URL}/changepassword/changePasswordReq`, data);
+        const response = await axios.post(`${BASE_URL}/web/user/change-password`, data,{headers: {
+            'Content-Type': 'application/json',
+            'method': 'USERS.CHANGEPASSWORD',
+            'Language': 'EN',
+            "token": `${sessionid}`,
+          }});
+
+
+
         if (response.data.StatusCode === 0) {
             return {
                 success: true,
