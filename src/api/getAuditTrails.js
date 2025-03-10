@@ -41,6 +41,10 @@ export const GetAuditTrail = async (data) => {
 
 try {
 
+  const storedLang = JSON.parse(localStorage.getItem("lang"));
+  const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
+
   const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
   const sessionid = userData?.sessionId;
   
@@ -52,7 +56,7 @@ try {
     headers: {
       'Content-Type': 'application/json',
       'method': 'USERS.GETAUDITTRAILS',
-      'Language': 'EN',
+      'Language': `${language}`,
       "token": `${sessionid}`,
     },
   });
@@ -60,8 +64,8 @@ try {
   const result = response.data;
   // console.log("AUDIT TRAIL: ", result.Data)
 
-  if (result.StatusMessage === "Success") {
-    return { success: true, audit: result.Data };
+  if (result.StatusCode === 0) {
+    return { success: true, audit: result.Data, message: result.StatusMessage };
   } else {
     return { success: false, message: result.StatusMessage };
   }

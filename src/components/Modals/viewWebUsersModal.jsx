@@ -86,23 +86,16 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     } if (modalMessage === `${t('modal_deactivated')}` || modalMessage === `${t('modal_activated')}`) {
       setDeactivated(!deactivated);
     }
-    handleConfirm();
+    handleConfirm(result);
   };
 
-  const handleConfirm = (e) => {
-    let formattedMessage = '';
-    if (modalMessage === `${t('modal_reset_password')}`) {
-      formattedMessage = `${t('modal_reset')}`;
-    } else {
-      formattedMessage = `${modalMessage}`;
-    }
+  const handleConfirm = (result) => {
+    console.log("result: ", result);
 
     setModalState({
       isOpen: true,
         status: 'successul',
-        message: modalMessage === `${t('modal_reset_password')}`
-        ? `${t('modal_successfully_reset')}`
-        : `${t('modal_the_user_has_been_successfully')} ${formattedMessage.toLowerCase()}!`
+        message: result,
     });
   };
 

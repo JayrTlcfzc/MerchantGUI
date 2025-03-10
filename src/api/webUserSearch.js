@@ -29,6 +29,9 @@ const BASE_URL = 'http://localhost:5000';
       
     try {
 
+      const storedLang = JSON.parse(localStorage.getItem("lang"));
+      const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
       const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
       const sessionid = userData?.sessionId;
 
@@ -36,14 +39,14 @@ const BASE_URL = 'http://localhost:5000';
         headers: {
           'Content-Type': 'application/json',
           'method': 'USERS.SEARCHUSER',
-          'Language': 'EN',
+          'Language': `${language}`,
           "token": `${sessionid}`,
         },
       });
     
       const responseData = response.data;
     
-      if (responseData && responseData.StatusMessage === "Success") {
+      if (responseData && responseData.StatusCode === 0) {
         return { success: true, webusers: responseData.Data };
       } else {
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };
@@ -73,6 +76,9 @@ const BASE_URL = 'http://localhost:5000';
 
     try {
 
+      const storedLang = JSON.parse(localStorage.getItem("lang"));
+      const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
       const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
       const sessionid = userData?.sessionId;
     
@@ -80,14 +86,15 @@ const BASE_URL = 'http://localhost:5000';
         headers: {
           'Content-Type': 'application/json',
           'method': 'USERS.GETUSERSLIST',
-          'Language': 'EN',
+          'Language': `${language}`,
           "token": `${sessionid}`,
         },
       });
       
       const responseData = response.data;
+      console.log("responseData.StatusCode: ", responseData.StatusCode);
     
-      if (responseData && responseData.StatusMessage === "Success") {
+      if (responseData && responseData.StatusCode === 0) {
         return { success: true, webusers: responseData.Data[0] };
       } else {
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };
@@ -96,87 +103,3 @@ const BASE_URL = 'http://localhost:5000';
       throw error;
     }
   };
-
-  // export const lockWebUser = async (username) => {
-  //   try {
-  //     const response = await axios.post(`${BASE_URL}/webuser/lockWebUser`, { username });
-    
-  //     const responseData = response.data
-
-  //     if (responseData && responseData.success) {
-  //       return { success: true, message: responseData?.message };
-  //     } else {
-  //       return { success: false, message: responseData?.message || "Unknown error" };
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-  // export const unlockWebUser = async (username) => {
-  //   try {
-  //     const response = await axios.post(`${BASE_URL}/webuser/unlockWebUser`, { username });
-    
-  //     const responseData = response.data
-
-  //     if (responseData && responseData.success) {
-  //       return { success: true, message: responseData?.message };
-  //     } else {
-  //       return { success: false, message: responseData?.message || "Unknown error" };
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-  // export const activeWebUser = async (username) => {
-  //   try {
-  //     const response = await axios.post(`${BASE_URL}/webuser/activeWebUser`, { username });
-    
-  //     const responseData = response.data
-
-  //     if (responseData && responseData.success) {
-  //       return { success: true, message: responseData?.message };
-  //     } else {
-  //       return { success: false, message: responseData?.message || "Unknown error" };
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-  // export const deactiveWebUser = async (username) => {
-  //   try {
-
-  //     const response = await axios.post(`${BASE_URL}/webuser/deactiveWebUser`, { username });
-    
-  //     const responseData = response.data
-
-  //     if (responseData && responseData.success) {
-  //       return { success: true, message: responseData?.message };
-  //     } else {
-  //       return { success: false, message: responseData?.message || "Unknown error" };
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-  // export const resetWebUser = async (username) => {
-  //   try {
-  //     const response = await axios.post(`${BASE_URL}/webuser/resetWebUser`, { username });
-    
-  //     const responseData = response.data
-
-  //     if (responseData && responseData.success) {
-  //       return { success: true, message: responseData?.message };
-  //     } else {
-  //       return { success: false, message: responseData?.message || "Unknown error" };
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-
-

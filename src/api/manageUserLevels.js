@@ -30,6 +30,9 @@ export const addUserLevel = async (formData) => {
 
   try {
 
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
@@ -37,12 +40,11 @@ export const addUserLevel = async (formData) => {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.NEWUSERSLEVEL',
-        'Language': 'EN',
+        'Language': `${language}`,
         "token": `${sessionid}`,
       },
     });
 
-    const responseData = response.data;
     return response.data;
 
   } catch (error) {
@@ -81,16 +83,18 @@ export const editUserLevel = async (formData) => {
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const response = await axios.post(`${BASE_URL}/web/manageuserlevel/edit-user-level`, data, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.EDITUSERSLEVEL',
-        'Language': 'EN',
+        'Language': `${language}`,
         "token": `${sessionid}`,
       },
     });
 
-    const responseData = response.data;
     return response.data;
 
   } catch (error) {
@@ -121,6 +125,9 @@ export const userLevelSearch = async (data) => {
 
   try {
 
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
@@ -128,16 +135,17 @@ export const userLevelSearch = async (data) => {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.USERSLEVELSEARCH',
-        'Language': 'EN',
+        'Language': `${language}`,
         "token": `${sessionid}`,
       },
     });
 
     const responseData = response.data;
+    console.log(responseData);
     
-    if (responseData && responseData.StatusMessage === "Success") {
+    if (responseData && responseData.StatusCode === 0) {
       const parsed = JSON.parse(responseData.Data);
-      return { success: true, dataUserLevel: parsed, message : '' };
+      return { success: true, dataUserLevel: parsed, message : parsed.StatusMessage };
     } else {
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
     }

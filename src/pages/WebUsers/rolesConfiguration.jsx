@@ -160,17 +160,17 @@ const rolesConfiguration = () => {
       toast.error('User Level Required');
       return;
     }
-
     setLoading(true);
+
     try {
       const result = await getRolesConfigTable(userLevel);
-
+      console.log(result);
       if (result.success) {
         const parsedRoles = JSON.parse(result.roles);
         setRolesDetails(parsedRoles);
-        toast.success("Roles fetched successfully!");
+        toast.success(result.message);
       } else {
-        toast.error(result.message || "Failed to fetch roles");
+        toast.error(result.message);
         setRolesDetails([]);
       }
 
@@ -208,13 +208,13 @@ const rolesConfiguration = () => {
           setModalState({
             isOpen: true,
               status: 'success',
-              message: `The role has been updated successfully!`
+              message: result.message
           });
         } else {
           setModalState({
             isOpen: true,
               status: 'error',
-              message: result.message || `The role has been updated unsuccessfully!`
+              message: result.message
           });
         }
       } catch (error) {

@@ -25,6 +25,9 @@ export const getRolesConfigTable = async (data) => {
 
   try {
 
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
@@ -32,16 +35,16 @@ export const getRolesConfigTable = async (data) => {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.GETROLES',
-        'Language': 'EN',
+        'Language': `${language}`,
         "token": `${sessionid}`,
       },
     });
 
     const responseData = response.data;
-    if (responseData.StatusMessage === "Success") {
-      return { success: true, roles: responseData.Data };
+    if (responseData.StatusCode === 0) {
+      return { success: true, roles: responseData.Data, message: responseData.StatusMessage };
     } else {
-      return { success: false, message: responseData?.StatusMessage || "Unknown error" };
+      return { success: false, message: responseData.StatusMessage };
     }
   } catch (error) {
     return { success: false, message: error.response?.data?.StatusMessage || error.message };
@@ -76,6 +79,9 @@ export const updateRoles = async (userLevel, id, module, actionStatus) => {
 
   try {
 
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
@@ -88,20 +94,20 @@ export const updateRoles = async (userLevel, id, module, actionStatus) => {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.UPDATEROLES',
-        'Language': 'EN',
+        'Language': `${language}`,
         "token": `${sessionid}`,
       },
     });
 
     const responseData = response.data;
     
-    if (responseData.StatusMessage === "Success") {
-      return { success: true, newRole: responseData.Data };
+    if (responseData.StatusCode === 0) {
+      return { success: true, newRole: responseData.Data, message: responseData.StatusMessage};
     } else {
-      return { success: false, message: responseData?.message || "Unknown error" };
+      return { success: false, message: responseData.StatusMessage || "Unknown error" };
     }
   } catch (error) {
-    return { success: false, message: error.response?.data?.message || error.message };
+    return { success: false, message: error.response?.data?.StatusMessage || error.message };
   }
 
 }

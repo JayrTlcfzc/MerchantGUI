@@ -138,7 +138,7 @@ const EditUserLevel = () => {
           setModalState({
             isOpen: true,
             status: "success",
-            message: "Edited User Level Successfully!",
+            message: response.StatusMessage,
           });
         } else {
           setModalState({

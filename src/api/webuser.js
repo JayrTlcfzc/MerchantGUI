@@ -25,6 +25,10 @@ export const userLevelCol = async () => {
   const data = JSON.stringify({ "": "" });
 
   try {
+
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
@@ -32,14 +36,14 @@ export const userLevelCol = async () => {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.GETUSERSLEVELS',
-        'Language': 'EN',
+        'Language': `${language}`,
         "token": `${sessionid}`,
       },
     });
 
     const responseData = response.data;
    
-    if (responseData && responseData.StatusMessage === "Success") {
+    if (responseData && responseData.StatusCode === 0) {
       return { success: true, level: responseData.Data };
     } else {
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
@@ -74,6 +78,10 @@ export const userLevelCol = async () => {
   }
 
   try {
+
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId; // Get sessionId safely
 
@@ -87,7 +95,7 @@ export const userLevelCol = async () => {
         headers: {
           "Content-Type": "application/json",
           "method": "USERS.REGISTER",
-          "Language": "EN",
+          "Language": `${language}`,
           "token": `${sessionid}`, // ✅ Set Cookie header manually
         },
         withCredentials: true,

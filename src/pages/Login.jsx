@@ -16,6 +16,10 @@ import ChangePasswordModal from '../components/Modals/changePasswordModal';
 
 const Login = () => {
 
+  if (!localStorage.getItem("lang")) {
+    localStorage.setItem("lang", JSON.stringify({ language: "EN" }));
+  }
+
   const initialFormData = {
     msisdn: '',
     username: '',
@@ -79,6 +83,7 @@ const Login = () => {
   // Handle language change
   const changeLanguage = (language) => {
     i18n.changeLanguage(language); // Update language globally
+    localStorage.setItem("lang", JSON.stringify({ language: `${language}` }));
     setIsLanguageDropdownOpen(false); // Close dropdown after selection
   };
 

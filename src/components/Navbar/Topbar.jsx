@@ -31,6 +31,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
     // Handle language change
     const changeLanguage = (language) => {
         i18n.changeLanguage(language); // Update language globally
+        localStorage.setItem("lang", JSON.stringify({ language: `${language}` }));
         setIsLanguageDropdownOpen(false); // Close dropdown after selection
     };
 
@@ -65,7 +66,6 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
             if (result.success) {
                 logout();
                 navigate('/login');
-                console.log("res.locals: ", res.locals);
             } else {
                 toast.error("Error: " + result.message)
             }

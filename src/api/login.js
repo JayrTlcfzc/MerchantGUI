@@ -1,5 +1,6 @@
 import axios from "axios";
 import CryptoJS from 'crypto-js';
+import { lang } from "moment/moment";
 
 // const BASE_URL = import.meta.env.VITE_API_URL_NODE;
 const BASE_URL = 'http://localhost:5000';
@@ -7,6 +8,10 @@ const BASE_URL = 'http://localhost:5000';
 // API call for verifying credentials
 export const verifyCredentials = async (msisdn, username, password) => {
   try {
+
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const response = await axios.post(`${BASE_URL}/web/auth/loginotpreq`, {
       msisdn,
       username,
@@ -15,7 +20,7 @@ export const verifyCredentials = async (msisdn, username, password) => {
       headers: {
           'Content-Type': 'application/json',
           'method': 'LOGINOTPREQ',
-          'Language': 'EN',
+          'Language': `${language}`,
           "token": ``,
       }
   });
@@ -43,7 +48,12 @@ export const verifyCredentials = async (msisdn, username, password) => {
 
 // API call for verifying OTP
 export const verifyOTP = async (otp, msisdn, username,password) => {
+
   try {
+
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const response = await axios.post(`${BASE_URL}/web/auth/loginotpres`, {
       otp,
       msisdn,
@@ -53,7 +63,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
       headers: {
           'Content-Type': 'application/json',
           'method': 'LOGINOTPRES',
-          'Language': 'EN',
+          'Language': `${language}`,
           "token": ``,
       }
   });
@@ -62,7 +72,6 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
     
     if (response.data.StatusCode === 0) {
       const data = response.data.data;
-      console.log("dataaa", data);
       const encryptedPassword = encryptPassword(password);
 
       localStorage.setItem("userData", JSON.stringify(data));
@@ -74,15 +83,12 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
       // ✅ Access sessionId safely
       console.log("Stored sessionId:", storedUserData.sessionId);
       
-
-     
       return {
         success: true,
         message: response.data.StatusMessage,
         data,
       };
     } else if(response.data.StatusCode !== 0) {
-      console.log("ditoooooo");
       return {
         success: false,
         message: response.data.StatusMessage,

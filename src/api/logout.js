@@ -7,6 +7,9 @@ const BASE_URL = 'http://localhost:5000';
 export const verifyLogout = async () => {
   try {
 
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
@@ -14,13 +17,12 @@ export const verifyLogout = async () => {
     {
       headers: {
           'Content-Type': 'application/json',
-        //   'method': 'LOGINOTPREQ',
-          'Language': 'EN',
+          'Language': `${language}`,
           "token": `${sessionid}`,
       }
   });
 
-  console.log(response);
+  console.log("LOGOUT", response.data);
 
     if (response.data.StatusCode === 0) {
       return {

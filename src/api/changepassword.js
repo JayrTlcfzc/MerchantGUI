@@ -11,13 +11,16 @@ const changePassword = async (oldPassword, newPassword) => {
 
     try {
 
+        const storedLang = JSON.parse(localStorage.getItem("lang"));
+        const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
         const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
         const sessionid = userData?.sessionId;
         
         const response = await axios.post(`${BASE_URL}/web/user/change-password`, data,{headers: {
             'Content-Type': 'application/json',
             'method': 'USERS.CHANGEPASSWORD',
-            'Language': 'EN',
+            'Language': `${language}`,
             "token": `${sessionid}`,
           }});
 

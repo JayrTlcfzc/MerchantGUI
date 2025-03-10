@@ -54,7 +54,7 @@ const AddUserLevel = () => {
           setModalState({
             isOpen: true,
             status: "success",
-            message: "Added User Level Successfully!",
+            message: response.StatusMessage,
           });
           ResetFormData(setFormData, initialFormData)();
         } else {

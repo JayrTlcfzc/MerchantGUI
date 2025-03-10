@@ -12,6 +12,10 @@ const BASE_URL = "http://localhost:5000";
  */
 const makeApiRequest = async (endpoint, payload, extraHeaders = {}) => {
   try {
+
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+
     // Fetch the latest sessionId before each request
     const userData = JSON.parse(localStorage.getItem("userData") || "{}");
     const sessionid = userData?.sessionId; // Ensure it's always up-to-date
@@ -20,15 +24,16 @@ const makeApiRequest = async (endpoint, payload, extraHeaders = {}) => {
 
     const headers = {
       "Content-Type": "application/json",
-      "Language": "EN",
+      "Language": `${language}`,
       "token": sessionid,  
       ...extraHeaders, 
     };
 
     const response = await axios.post(`${BASE_URL}${endpoint}`, payload, { headers });
     const responseData = response.data;
+    console.log("DATA: ", responseData);
 
-    if (responseData && (responseData.StatusMessage === "Success" || responseData.success)) {
+    if (responseData && (responseData.StatusCode === 0)) {
       return { success: true, webusers: responseData.Accounts || null, message: responseData?.StatusMessage || null };
     } else {
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };

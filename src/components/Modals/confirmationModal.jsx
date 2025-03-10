@@ -93,7 +93,7 @@ export default function ConfirmationModal({
   
         if (result.success) {
           setLocked(currentAction.lockState);
-          onProceed(result);
+          onProceed(result.message);
   
           setTimeout(() => {
             closeAllModals();
