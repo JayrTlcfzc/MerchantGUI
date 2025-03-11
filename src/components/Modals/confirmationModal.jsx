@@ -50,33 +50,40 @@ export default function ConfirmationModal({
       handleCloseModal();
       return;
     }
+
+    console.log(modalMessage);
   
     const lockActions = {
-      LOCKED: {
+      // LOCKED: {
+      [t('modal_locked')]:{
         action: lockWebUser,
         lockState: true,
         successMessage: t('user_locked'),
         failureMessage: t('lock_failed'),
       },
-      UNLOCKED: {
+      // UNLOCKED: {
+      [t('modal_unlocked')]:{
         action: unlockWebUser,
         lockState: false,
         successMessage: t('user_unlocked'),
         failureMessage: t('unlock_failed'),
       },
-      ACTIVATED: {
+      // ACTIVATED: {
+      [t('modal_activated')]:{
         action: activeWebUser,
         lockState: false,
         successMessage: t('user_active'),
         failureMessage: t('active_failed'),
       },
-      DEACTIVATED: {
+      // DEACTIVATED: {
+      [t('modal_deactivated')]:{
         action: deactiveWebUser,
         lockState: false,
         successMessage: t('user_deactive'),
         failureMessage: t('deactive_failed'),
       },
-      RESET: {
+      // RESET: {
+      [t('modal_reset')]:{
         action: resetWebUser,
         lockState: false,
         successMessage: t('user_reset'),
@@ -90,6 +97,7 @@ export default function ConfirmationModal({
       setLoading(true);
       try {
         const result = await currentAction.action(modalUsername);
+        console.log(result);
   
         if (result.success) {
           setLocked(currentAction.lockState);
@@ -133,7 +141,7 @@ export default function ConfirmationModal({
 
         <div className="flex justify-center gap-4">
           <button
-            className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0E88004]"
+            className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500]"
             onClick={handleSubmit}
           >
             {t('modal_yes')}

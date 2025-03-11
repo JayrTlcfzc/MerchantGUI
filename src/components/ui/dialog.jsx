@@ -44,7 +44,7 @@ export const Dialog = ({ open, onOpenChange, onConfirm, children }) => {
         {/* OK Button at the bottom */}
         <button
           onClick={handleConfirm}
-          className="mt-4 px-6 py-2 bg-[#23587C] text-white rounded-lg focus:outline-none"
+          className="mt-4 px-6 py-2 text-white bg-[#23587C] rounded-lg hover:bg-[#2C75A6] font-bold tracking-wide shadow-md focus:outline-none focus:ring-2 focus:ring-[#2C75A6]/50 focus:ring-offset-2"
         >
           OK
         </button>
