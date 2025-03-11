@@ -18,13 +18,13 @@ const SearchSubscriber = () => {
   const [personalDetails, setPersonalDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData && storedData.msisdn) {
-      setMsisdn(storedData.msisdn);
-      handleSubmit(storedData.msisdn);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedData = JSON.parse(localStorage.getItem("userData"));
+  //   if (storedData && storedData.msisdn) {
+  //     setMsisdn(storedData.msisdn);
+  //     handleSubmit(storedData.msisdn);
+  //   }
+  // }, []);
 
   const handleSubmitDate = async () => {
     if (!startDate || !endDate) {

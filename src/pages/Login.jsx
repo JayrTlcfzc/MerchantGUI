@@ -251,7 +251,7 @@ const Login = () => {
                   toast.success(message);
 
                   // || data.isfirstlogon === '1'
-                  if (message === "Password expired. Please use forgot password or contact the administrator." || data.isfirstlogon === '1') {
+                  if (message === "Password expired. Please use forgot password or contact the administrator." || data.isFirstLogon === '1') {
                         setOpenModal(""); // Close OTP Modal
                         setOpenModal("ChangePasswordModal"); // Open Change Password Modal
                         
