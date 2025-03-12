@@ -10,6 +10,7 @@ import changePassword from "../api/changepassword";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from "../components/Auth/authContext";
 import ChangePasswordModal from '../components/Modals/changePasswordModal';
+import LoadingModal from "../components/Modals/loadingModal";
 
 // import PasswordModal from "../components/Modals/PasswordModal";
 // import PinModal from "../components/Modals/PinModal";
@@ -33,6 +34,7 @@ const Login = () => {
   const [openModal, setOpenModal] = useState("");
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const languageDropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const { t, i18n } = useTranslation(); // Access i18n instance
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -46,6 +48,7 @@ const Login = () => {
     const isFormValid = formData.msisdn && formData.username && formData.password;
   
     if (isFormValid) {
+      setLoading(true);
       try {
         const { success, message, otp } = await verifyCredentials(
           formData.msisdn,
@@ -62,6 +65,8 @@ const Login = () => {
         }
       } catch (error) {
         toast.error(error.message || "Login Error");
+      } finally {
+        setLoading(false);
       }
     } else {
       toast.error("Please fill in all fields");
@@ -109,6 +114,7 @@ const Login = () => {
 
   return (
     <div className="relative flex flex-row min-h-screen bg-white">
+      {loading && (<LoadingModal />)}
       <ToastContainer />
       <div className="w-full h-screen hidden md:block">
         <img
