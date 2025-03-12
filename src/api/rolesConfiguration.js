@@ -41,7 +41,10 @@ export const getRolesConfigTable = async (data) => {
     });
 
     const responseData = response.data;
-    if (responseData.StatusCode === 0) {
+
+    if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+      return { logout: true, message: responseData?.StatusMessage };
+    } else if (responseData.StatusCode === 0) {
       return { success: true, roles: responseData.Data, message: responseData.StatusMessage };
     } else {
       return { success: false, message: responseData.StatusMessage };
@@ -101,7 +104,9 @@ export const updateRoles = async (userLevel, id, module, actionStatus) => {
 
     const responseData = response.data;
     
-    if (responseData.StatusCode === 0) {
+    if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+      return { logout: true, message: responseData?.StatusMessage };
+    } else if (responseData.StatusCode === 0) {
       return { success: true, newRole: responseData.Data, message: responseData.StatusMessage};
     } else {
       return { success: false, message: responseData.StatusMessage || "Unknown error" };

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 // import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/webUserSearch";
 import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/apiWebUsers";
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function ConfirmationModal({
   handleCloseModal,
@@ -20,6 +21,7 @@ export default function ConfirmationModal({
   const { t } = useTranslation();
   const modalRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleEnterPress = (event) => {
     if (event.key === "Enter") {
@@ -97,9 +99,11 @@ export default function ConfirmationModal({
       setLoading(true);
       try {
         const result = await currentAction.action(modalUsername);
-        console.log(result);
   
-        if (result.success) {
+        if (result.logout) {
+          toast.error(result.message);
+          navigate('/login');
+        } else if (result.success) {
           setLocked(currentAction.lockState);
           onProceed(result.message);
   

@@ -10,10 +10,12 @@ import { useTranslation } from "react-i18next";
 import { addUserLevel } from "../../../api/manageUserLevels";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingModal from '../../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 const AddUserLevel = () => {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const initialFormData = {
     userLevel: "",
@@ -50,7 +52,10 @@ const AddUserLevel = () => {
         setLoading(true);
         const response = await addUserLevel(formData);
 
-        if (response.StatusCode == 0) {
+        if (response.logout) {
+          toast.error(response.message);
+          navigate('/login');
+        } else if (response.StatusCode == 0) {
           setModalState({
             isOpen: true,
             status: "success",

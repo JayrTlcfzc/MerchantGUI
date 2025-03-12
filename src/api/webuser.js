@@ -42,8 +42,10 @@ export const userLevelCol = async () => {
     });
 
     const responseData = response.data;
-   
-    if (responseData && responseData.StatusCode === 0) {
+
+    if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+      return { logout: true, message: responseData?.StatusMessage };
+    } else if (responseData && responseData.StatusCode === 0) {
       return { success: true, level: responseData.Data };
     } else {
       return { success: false, message: responseData?.StatusMessage || "Unknown error" };
@@ -85,8 +87,6 @@ export const userLevelCol = async () => {
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId; // Get sessionId safely
 
-    console.log(sessionid)
-
     const response = await axios.post(
       `${BASE_URL}/web/registeruser`,
 
@@ -101,9 +101,13 @@ export const userLevelCol = async () => {
         withCredentials: true,
       }
     );
-      console.log(response);
 
-      return response.data;
+      if (response.StatusCode === 97 || response.StatusCode === 93) {
+        return { logout: true, message: response?.StatusMessage };
+      } else {
+        return response.data;
+      }
+
     } catch (error) {
       throw error;
     }

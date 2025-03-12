@@ -9,6 +9,7 @@ import { userLevelCol } from "../../../api/webuser";
 import { editUserLevel, userLevelSearch } from "../../../api/manageUserLevels";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingModal from '../../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 const EditUserLevel = () => {
   const { t, i18n } = useTranslation();
@@ -16,6 +17,7 @@ const EditUserLevel = () => {
   const [userLevel, setUserLevel] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const [initialUserLevelData, setInitialUserLevelData] = useState([]); // Store the initial data
   const [userLevelData, setUserLevelData] = useState([
     { label: t("session_timeout"), value: "", nameID: "sessionTimeout" },
@@ -36,7 +38,10 @@ const EditUserLevel = () => {
         setLoading(true);
         try {
           const result = await userLevelCol();
-          if (result.success) {
+          if (result.logout) {
+            toast.error(result.message);
+            navigate('/login');
+          } else if (result.success) {
             const parsedLevels = JSON.parse(result.level);
             if (Array.isArray(parsedLevels)) {
               setLevels(parsedLevels); 
@@ -62,9 +67,12 @@ const EditUserLevel = () => {
     const handleShowData = async (userlevel) => {
       try {
         setLoading(true);
-        const { success, dataUserLevel, message } = await userLevelSearch(userlevel);
+        const { success, dataUserLevel, message, logout } = await userLevelSearch(userlevel);
 
-        if (success) {
+        if (logout) {
+          toast.error(message);
+          navigate('/login');
+        } else if (success) {
           let parsedData;
             if (Array.isArray(dataUserLevel)) {
               parsedData = dataUserLevel[0]; 
@@ -134,7 +142,10 @@ const EditUserLevel = () => {
         setLoading(true);
         const response = await editUserLevel(formData);
 
-        if (response.success) {
+        if (response.logout) {
+          toast.error(response.message);
+          navigate('/login');
+        } else if (response.success) {
           setModalState({
             isOpen: true,
             status: "success",

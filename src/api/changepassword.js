@@ -24,9 +24,12 @@ const changePassword = async (oldPassword, newPassword) => {
             "token": `${sessionid}`,
           }});
 
-
-
-        if (response.data.StatusCode === 0) {
+        if (response.data.StatusCode === 97 || response.data.StatusCode === 93) {
+            return {
+                logout: true,
+                message: response?.StatusMessage
+            };
+        } else  if (response.data.StatusCode === 0) {
             return {
                 success: true,
                 message: response.data.StatusMessage || "Password changed successfully",

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { viewWebUser, searchWebUser } from "../../api/webUserSearch";
 import { toast, ToastContainer } from 'react-toastify';
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 const ViewWebUsers = () => {
     const [selectUserBy, setSelectUserBy] = useState("USERNAME");
@@ -20,22 +21,24 @@ const ViewWebUsers = () => {
     const [data, setData] = useState([]);
     const [modalData, setModalData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const { t, i18n } = useTranslation();
-
-   
 
     const handleViewModal = async (username) => {
         setLoading(true);
         try {
           const result = await searchWebUser({ username });
       
-          if (result.success) {
-            setModalData(result.webusers);
-            setViewModalOpen(true);
-          } else {
-            toast.error("Failed to fetch web user:", result.message);
-          }
+            if (result.logout) {
+                toast.error(result.message);
+                navigate('/login');
+            } else if (result.success) {
+                setModalData(result.webusers);
+                setViewModalOpen(true);
+            } else {
+                toast.error("Failed to fetch web user:", result.message);
+            }
         } catch (error) {
           toast.error(error);
         } finally {
@@ -43,7 +46,6 @@ const ViewWebUsers = () => {
         }
       };
       
-
     const handleProceedStatus = () => {
         setViewModalOpen(false)
         setModalState({ isOpen: true, status: 'success', message: 'Action Successful!' });
@@ -69,7 +71,10 @@ const ViewWebUsers = () => {
     
         try {
             const response = await viewWebUser(params);
-            if (response.success) {
+            if (response.logout) {
+                toast.error(response.message);
+                navigate('/login');
+            } else if (response.success) {
                 setData(response.webusers || []); 
             } else {
                 setData([]);

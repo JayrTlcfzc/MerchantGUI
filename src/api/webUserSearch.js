@@ -46,7 +46,9 @@ const BASE_URL = 'http://localhost:5000';
     
       const responseData = response.data;
     
-      if (responseData && responseData.StatusCode === 0) {
+      if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+        return { logout: true, message: responseData?.StatusMessage };
+      } else if (responseData && responseData.StatusCode === 0) {
         return { success: true, webusers: responseData.Data };
       } else {
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };
@@ -94,7 +96,9 @@ const BASE_URL = 'http://localhost:5000';
       const responseData = response.data;
       console.log("responseData.StatusCode: ", responseData.StatusCode);
     
-      if (responseData && responseData.StatusCode === 0) {
+      if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+        return { logout: true, message: responseData?.StatusMessage };
+      } else if (responseData && responseData.StatusCode === 0) {
         return { success: true, webusers: responseData.Data[0] };
       } else {
         return { success: false, message: responseData?.StatusMessage || "Unknown error" };

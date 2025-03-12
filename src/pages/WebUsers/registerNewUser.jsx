@@ -6,26 +6,31 @@ import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormDa
 import { useTranslation } from 'react-i18next';
 import { userLevelCol, registerWebUser } from "../../api/webuser";
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterNewUser = () => {
   const [levels, setLevels] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserLevels = async () => {
       setLoading(true);
       try {
         const result = await userLevelCol();
-        if (result.success) {
+        if (result.logout) {
+          toast.error(result.message);
+          navigate('/login');
+        } else if (result.success) {
           const parsedLevels = JSON.parse(result.level);
-          if (Array.isArray(parsedLevels)) {
-            setLevels(parsedLevels); 
+            if (Array.isArray(parsedLevels)) {
+              setLevels(parsedLevels); 
 
-          } else {
-            setError('Invalid user level data format');
-            toast.error("Invalid user level data format");
-          }
+            } else {
+              setError('Invalid user level data format');
+              toast.error("Invalid user level data format");
+            }
         } else {
           setError(result.message || 'Invalid data format');
           toast.error(result.message || "Invalid user level data format");
@@ -82,6 +87,11 @@ const RegisterNewUser = () => {
       if (isFormValid) {
         setLoading(true);
         const response = await registerWebUser(formData);
+
+        if (response.logout) {
+          toast.error(response.message);
+          navigate('/login');
+        }
 
         if(response.StatusCode === 0){
           setModalState({

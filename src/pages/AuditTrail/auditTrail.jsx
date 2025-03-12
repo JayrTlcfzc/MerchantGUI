@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { GetAuditTrail } from "../../api/getAuditTrails";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 const AuditTrail = () => {
     const [selectUserBy, setSelectUserBy] = useState("ALL");
@@ -17,6 +18,7 @@ const AuditTrail = () => {
     const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "descending" });
     const [auditData, setAuditData] = useState([]); // Store fetched audit trails
     const [loading, setLoading] = useState(false); // Loading state
+    const navigate = useNavigate();
 
     const initialFormData = {
         userinput: 'ALL',
@@ -56,7 +58,10 @@ const AuditTrail = () => {
         try {
             const response = await GetAuditTrail({ formData });
 
-            if (response.audit) {
+            if (response.logout) {
+                toast.error(response.message);
+                navigate('/login');
+            } else if (response.audit) {
                 setAuditData(response.audit);
                 setModalState({
                     isOpen: true,

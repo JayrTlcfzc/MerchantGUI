@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
+import { toast, ToastContainer } from 'react-toastify';
 import StatusModal from './statusModal';
 import { useTranslation } from 'react-i18next';
 import changePassword  from '../../api/changepassword';
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function ChangePasswordModal({ handleClose = () => {} }) {
 
     const { t, i18n } = useTranslation();
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     
     // State to manage form data
     const [formData, setFormData] = useState({
@@ -70,9 +73,12 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
     
         try {
             setLoading(true);
-            const { success, message } = await changePassword(oldPassword, newPassword);
+            const { success, message, logout } = await changePassword(oldPassword, newPassword);
     
-            if (success) {
+            if (logout) {
+                toast.error(message);
+                navigate('/login');
+            } else if (success) {
                 setModalState({
                     isOpen: true,
                     status: 'successcp',
@@ -107,6 +113,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
     return (
         <div className="fixed -inset-2 flex items-center justify-center z-50 bg-black bg-opacity-50">
             {loading && (<LoadingModal />)}
+            <ToastContainer />
 
             <div className="bg-white rounded-lg shadow-lg max-w-xl w-full pb-6 border-2 border-[#D95F08]">
                 <div className='flex justify-between flex-row items-center bg-[#D95F08] rounded-t-sx p-2'>

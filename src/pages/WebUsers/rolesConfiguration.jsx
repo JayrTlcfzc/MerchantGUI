@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ConfirmationModal from '../../components/Modals/confirmationModal';
 import StatusModal from '../../components/Modals/statusModal';
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 const rolesConfiguration = () => {
   const { t, i18n} = useTranslation();
@@ -26,13 +27,17 @@ const rolesConfiguration = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [sortConfig, setSortConfig] = useState({ key: "id", direction: "ascending" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserLevels = async () => {
       setLoading(true);
       try {
         const result = await userLevelCol();
-        if (result.success) {
+        if (result.logout) {
+          toast.error(result.message);
+          navigate('/login');
+        } else if (result.success) {
           const parsedLevels = JSON.parse(result.level);
 
           if (Array.isArray(parsedLevels)) {
@@ -165,7 +170,10 @@ const rolesConfiguration = () => {
     try {
       const result = await getRolesConfigTable(userLevel);
       console.log(result);
-      if (result.success) {
+      if (result.logout) {
+        toast.error(result.message);
+        navigate('/login');
+      } else if (result.success) {
         const parsedRoles = JSON.parse(result.roles);
         setRolesDetails(parsedRoles);
         toast.success(result.message);
@@ -199,7 +207,10 @@ const rolesConfiguration = () => {
 
         console.log(result)
     
-        if (result.success) {
+        if (result.logout) {
+          toast.error(result.message);
+          navigate('/login');
+        } else if (result.success) {
           setNewRole((prev) => ({
             ...prev,
             [id]: actionStatus,

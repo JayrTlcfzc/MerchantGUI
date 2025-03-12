@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import {userLevelCol} from "../../api/webuser";
 import { updateWebUser } from '../../api/apiWebUsers';
 import LoadingModal from '../../components/Modals/loadingModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function viewWebUsersModal({ handleClose = () => {}, webUserData = {} }) {
 
@@ -25,6 +26,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   const [levels, setLevels] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
     useEffect(() => {
       const fetchUserLevels = async () => {
@@ -137,7 +139,10 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
       try {
         const result = await updateWebUser(formData);
         
-        if(result.success){
+        if (result.logout) {
+          toast.error(result.message);
+          navigate('/login');
+        } else if(result.success){
           console.log("success");
           setModalState({
             isOpen: true,
@@ -172,6 +177,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       {loading && (<LoadingModal />)}
+      <ToastContainer />
       
           <div className="bg-white rounded-lg shadow-lg max-w-full pb-6 border-2 border-[#D95F08]">
 

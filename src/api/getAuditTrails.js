@@ -62,9 +62,10 @@ try {
   });
 
   const result = response.data;
-  // console.log("AUDIT TRAIL: ", result.Data)
 
-  if (result.StatusCode === 0) {
+  if (result.StatusCode === 97 || result.StatusCode === 93) {
+    return { logout: true, message: result?.StatusMessage };
+  } else if (result.StatusCode === 0) {
     return { success: true, audit: result.Data, message: result.StatusMessage };
   } else {
     return { success: false, message: result.StatusMessage };

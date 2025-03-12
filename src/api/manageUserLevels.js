@@ -45,7 +45,11 @@ export const addUserLevel = async (formData) => {
       },
     });
 
-    return response.data;
+    if (response.StatusCode === 97 || response.StatusCode === 93) {
+      return { logout: true, message: response?.StatusMessage };
+    } else {
+      return response.data;
+    }
 
   } catch (error) {
     throw error;
@@ -95,7 +99,11 @@ export const editUserLevel = async (formData) => {
       },
     });
 
-    return response.data;
+    if (response.StatusCode === 97 || response.StatusCode === 93) {
+      return { logout: true, message: response?.StatusMessage };
+    } else {
+      return response.data;
+    }
 
   } catch (error) {
     throw error;
@@ -143,7 +151,9 @@ export const userLevelSearch = async (data) => {
     const responseData = response.data;
     console.log(responseData);
     
-    if (responseData && responseData.StatusCode === 0) {
+    if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+      return { logout: true, message: responseData?.StatusMessage };
+    } else if (responseData && responseData.StatusCode === 0) {
       const parsed = JSON.parse(responseData.Data);
       return { success: true, dataUserLevel: parsed, message : parsed.StatusMessage };
     } else {
