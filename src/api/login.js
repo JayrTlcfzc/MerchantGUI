@@ -16,7 +16,7 @@ export const verifyCredentials = async (msisdn, username, password) => {
       msisdn,
       username,
       password,
-  }, {
+    }, {
       headers: {
           'Content-Type': 'application/json',
           'method': 'LOGINOTPREQ',
@@ -25,9 +25,7 @@ export const verifyCredentials = async (msisdn, username, password) => {
       }
   });
 
-  console.log(response.data.StatusCode);
-
-    if (response.data.StatusCode === 0) {
+  if (response.data.StatusCode === 0) {
       return {
         success: true,
         message: response.data.StatusMessage,
@@ -67,10 +65,13 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
           "token": ``,
       }
   });
-
-    console.log("Full response:", response.data);
     
-    if (response.data.StatusCode === 0) {
+    if (response.data.StatusCode === 97 || response.data.StatusCode === 93) {
+      return {
+        logout: true,
+        message: response.data.StatusMessage
+      };
+    } else if (response.data.StatusCode === 0) {
       const data = response.data.data;
       const encryptedPassword = encryptPassword(password);
 

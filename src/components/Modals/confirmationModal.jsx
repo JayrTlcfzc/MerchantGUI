@@ -43,7 +43,7 @@ export default function ConfirmationModal({
   
   
   const handleSubmit = async () => {
-    if (modalMessage === "CHANGE THE ROLE OF") {
+    if (modalMessage === t('modal_change_the_role_of')) {
       onProceed();
       handleCloseModal();
       return;

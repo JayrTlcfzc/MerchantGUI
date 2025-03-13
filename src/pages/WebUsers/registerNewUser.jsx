@@ -113,7 +113,7 @@ const RegisterNewUser = () => {
         setModalState({
           isOpen: true,
           status: "error",
-          message: "Failed to Add User. Please try again.",
+          message: t('modal_failed_to_add_user'),
         });
       }
   };

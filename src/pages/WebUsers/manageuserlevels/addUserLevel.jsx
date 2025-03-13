@@ -66,14 +66,14 @@ const AddUserLevel = () => {
           setModalState({
             isOpen: true,
             status: "error",
-            message: response.StatusMessage || t("Failed to add data."),
+            message: response.StatusMessage || t('modal_failed_to_add_user_level'),
         });
         }
       } catch (error) {
         setModalState({
             isOpen: true,
             status: "error",
-            message: error.StatusMessage || t("Failed to add data."),
+            message: error.StatusMessage || t('modal_failed_to_add_user_level'),
         });
       } finally {
         setLoading(false);
@@ -84,7 +84,7 @@ const AddUserLevel = () => {
       setModalState({
         isOpen: true,
         status: "error",
-        message: "Failed to Add User Level. Please try again.",
+        message: t('modal_failed_to_add_user_level'),
       });
     }
   };

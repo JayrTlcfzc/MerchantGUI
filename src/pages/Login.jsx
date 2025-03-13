@@ -12,9 +12,6 @@ import { useAuth } from "../components/Auth/authContext";
 import ChangePasswordModal from '../components/Modals/changePasswordModal';
 import LoadingModal from "../components/Modals/loadingModal";
 
-// import PasswordModal from "../components/Modals/PasswordModal";
-// import PinModal from "../components/Modals/PinModal";
-
 const Login = () => {
 
   if (!localStorage.getItem("lang")) {
@@ -26,7 +23,6 @@ const Login = () => {
     username: '',
     password: ''
   };
-
 
   const [otpFromServer, setOtpFromServer] = useState("");
   const [formData, setFormData] = useState(initialFormData);
@@ -50,21 +46,23 @@ const Login = () => {
     if (isFormValid) {
       setLoading(true);
       try {
-        const { success, message, otp } = await verifyCredentials(
+        const result = await verifyCredentials(
           formData.msisdn,
           formData.username,
           formData.password
         );
   
-        if (success) {
-          setOtpFromServer(otp); // Store OTP sent by mock server
+        if (result.logout) {
+          toast.error(result.message);
+        } else if (result.success) {
+          setOtpFromServer(result.otp); // Store OTP sent by mock server
           setOpenModal("OTPModal"); // Open OTP modal
         }else{
-          toast.error(message);
+          toast.error(result.message);
         
         }
       } catch (error) {
-        toast.error(error.message || "Login Error");
+        toast.error(result.message || "Login Error");
       } finally {
         setLoading(false);
       }
@@ -116,6 +114,7 @@ const Login = () => {
     <div className="relative flex flex-row min-h-screen bg-white">
       {loading && (<LoadingModal />)}
       <ToastContainer />
+
       <div className="w-full h-screen hidden md:block">
         <img
           src={LoginImage}
@@ -244,16 +243,20 @@ const Login = () => {
         )}
       </div>
 
-      
-     
-
       {openModal === "OTPModal" && (
           <OTPModal
             onProceed={async (enteredOtp) => {
               try {
-                const { success, message, data } = await verifyOTP(enteredOtp, formData.msisdn, formData.username, formData.password);
+                const { success, message, data, logout } = await verifyOTP(enteredOtp, formData.msisdn, formData.username, formData.password);
 
-                if (success) {
+                if (logout) {
+                  toast.error(message);
+                  setTimeout(() => {
+                    setOpenModal("");
+                  }, 6000);
+
+
+                } else if (success) {
                   toast.success(message);
 
                   // || data.isfirstlogon === '1'
@@ -299,9 +302,6 @@ const Login = () => {
         />
       )}
 
-
-      {/* <PasswordModal openModal={Boolean(openModal)} handleClose={() => setOpenModal('')} /> */}
-      {/* <PinModal openModal={Boolean(openModal)} handleClose={() to setOpenModal('')} /> */}
     </div>
   );
 };

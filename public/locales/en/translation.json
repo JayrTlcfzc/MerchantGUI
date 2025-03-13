@@ -67,6 +67,14 @@
     "otp_msisdn": "OTP MSISDN",
     "department": "DEPARTMENT",
     "submit": "SUBMIT",
+    "enter_username": "Enter username",
+    "enter_msisdn": "Enter MSISDN",
+    "enter_otp_msisdn": "Enter OTP MSISDN",
+    "enter_firstname": "Enter first name",
+    "enter_lastname": "Enter last name",
+    "enter_email": "Enter email",
+    "enter_company": "Enter company",
+    "enter_department": "Enter department",
 
     "manage_user_levels": "MANAGE USER LEVELS",
     "add_user_level": "ADD USER LEVEL",
@@ -140,6 +148,7 @@
     "funds": "FUNDS",
     "reports": "REPORTS",
 
+    "last_login": "Last Login",
     "change_password": "Change Password",
     "logout": "Logout",
 
@@ -172,6 +181,7 @@
     "modal_this_user": "this user?",
     "modal_yes": "YES",
     "modal_no": "NO",
+    "modal_change_the_role_of": "CHANGE THE ROLE OF",
 
     "modal_change_password": "CHANGE PASSWORD",
     "modal_old_password": "OLD PASSWORD",
@@ -229,5 +239,8 @@
     "reference_one": "REFERENCE 1",
     "reference_two": "REFERENCE 2",
     "wallet_id": "WALLET ID",
-    "tomsisdn_type": "TOMSISDN TYPE"
+    "tomsisdn_type": "TOMSISDN TYPE",
+
+    "remarks_cannot_be_empty": "Remarks cannot be empty",
+    "enter_valid_otp": "Please enter a valid OTP"
 }

@@ -163,7 +163,7 @@ const EditUserLevel = () => {
         setModalState({
             isOpen: true,
             status: "error",
-            message: error.StatusMessage || t("Failed to edit data."),
+            message: error.StatusMessage || t("modal_failed_to_edit_user_level"),
         });
       } finally {
         setLoading(false);
@@ -172,7 +172,7 @@ const EditUserLevel = () => {
       setModalState({
         isOpen: true,
         status: "error",
-        message: "Failed to Edit User Level. Please try again.",
+        message: t('modal_failed_to_edit_user_level'),
       });
     }
   };

@@ -398,7 +398,7 @@ const rolesConfiguration = () => {
                             value={newRole[item.ID] || item.ACTIONSTATUS}
                             onChange={(e) => {
                               const updatedActionStatus = e.target.value;
-                              handleOpenModal(`CHANGE THE ROLE OF`, {  
+                              handleOpenModal(t('modal_change_the_role_of'), {  
                                 userLevel: item.USERSLEVEL,
                                 id: item.ID,
                                 module: item.MODULE,

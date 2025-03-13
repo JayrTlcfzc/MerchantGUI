@@ -67,6 +67,14 @@
     "otp_msisdn": "OTP MSISDN",
     "department": "DÉPARTEMENT",
     "submit": "SOUMETTRE",
+    "enter_username": "Entrez le nom d'utilisateur",
+    "enter_msisdn": "Entrez MSISDN",
+    "enter_otp_msisdn": "Entrez OTP MSISDN",
+    "enter_firstname": "Entrez le prénom",
+    "enter_lastname": "Entrez le nom de famille",
+    "enter_email": "Entrez l'e-mail",
+    "enter_company": "Entrez l'entreprise",
+    "enter_department": "Entrez le département",
 
     "manage_user_levels": "GÉRER LES NIVEAUX D'UTILISATEUR",
     "add_user_level": "AJOUTER UN NIVEAU D'UTILISATEUR",
@@ -140,6 +148,7 @@
     "funds": "FONDS",
     "reports": "RAPPORTS",
 
+    "last_login": "Dernière connexion",
     "change_password": "Changer Le Mot De Passe",
     "logout": "Déconnexion",
 
@@ -169,9 +178,10 @@
 
     "modal_confirmation": "CONFIRMATION",
     "modal_are_you_sure_you_want_to": "Etes-vous sûr de le vouloir",
-    "modal_this_user": "Etes-vous sûr de le vouloir?",
+    "modal_this_user": "cet utilisateur?",
     "modal_yes": "OUI",
     "modal_no": "NON",
+    "modal_change_the_role_of": "CHANGER LE RÔLE DE",
 
     "modal_change_password": "CHANGER LE MOT DE PASSE",
     "modal_old_password": "ANCIEN MOT DE PASSE",
@@ -230,5 +240,8 @@
     "reference_two": "RÉFÉRENCE 2",
     "wallet_id": "ID DE PORTEFEUILLE",
     "to_msisdn_type": "TYPE TOMSISDN",
-    "tomsisdn_type": "TYPE TOMSISDN"
+    "tomsisdn_type": "TYPE TOMSISDN",
+
+    "remarks_cannot_be_empty": "Les remarques ne peuvent pas être vides",
+    "enter_valid_otp": "Veuillez saisir un OTP valide"
 }

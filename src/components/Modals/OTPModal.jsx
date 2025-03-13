@@ -78,11 +78,12 @@ export default function OTPModal({
   };
 
   const handleSubmit = () => {
+
     if (otp.every((digit) => digit !== "")) {
       // Check for empty remarks if otpBatchFiles is true
       if (otpBatchFiles && !formData.remarks.trim()) {
         setRemarksError(true);
-        toast.error("Remarks cannot be empty.");
+        toast.error(t("remarks_cannot_be_empty"));
 
         // Focus the remarks input
         const remarksInput = document.getElementById("remarks");
@@ -98,11 +99,11 @@ export default function OTPModal({
         onProceed(otp.join("")); // Pass concatenated OTP
       }
   
-      handleClose();
+      // handleClose();
     } else {
       setError(true);
       setOtp(["", "", "", "", "", ""]);
-      toast.error("Please enter a valid OTP");
+      toast.error(t("enter_valid_otp"));
     }
   };
   

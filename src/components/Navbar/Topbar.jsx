@@ -115,7 +115,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
                         <div className="p-4">
                             <p className="font-bold text-white text-lg">{username}</p>
                             <p className="font-bold text-white text-base">{userslevel}</p>
-                            <p className="text-sm text-white">Last Login: {lastLogin}</p>
+                            <p className="text-sm text-white">{t('last_login')}: {lastLogin}</p>
 
                             <button
                                 onClick={() => {setIsChangePasswordModalOpen(true);
