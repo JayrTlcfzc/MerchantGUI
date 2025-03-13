@@ -44,11 +44,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         storedData.modules?.includes('ACCOUNTS.REGISTER') && { title: `${t('register_subscriber')}`, path: "/account/register" },
         { title: `${t('search_subscriber')}`, path: "/account/search" },
         storedData.modules?.includes('ACCOUNTS.PENDINGSUBS') && { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" },
-
-        // { title: `${t('register_subscriber')}`, path: "/account/register" },
-        // { title: `${t('search_subscriber')}`, path: "/account/search" },
-        // { title: `${t('view_pending_subscriber')}`, path: "/account/view-pending" }
-        
       ].filter(Boolean),
     },
     {
@@ -95,7 +90,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     <div
       className={cn(
         "bg-white h-screen transition-all duration-300 ease-in-out relative",
-        "rounded-tr-2xl rounded-br-2xl z-10" // Increased the radius to 2xl
+        "rounded-tr-2xl rounded-br-2xl z-10"
       )}
     >
       <button
@@ -115,7 +110,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="transition-all duration-300 w-24 border border-gray-300 rounded"
             />
             <span className="text-4xl mt-2 text-[#23587C]">N U F I N</span>{" "}
-            {/* Updated text size and color */}
           </div>
         </Link>
       )}

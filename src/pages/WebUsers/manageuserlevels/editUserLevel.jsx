@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import StatusModal from "../../../components/Modals/statusModal";
 import {
   HandleChangeDigitsOnly2,
-  ResetFormData,
 } from "../../../components/Validations";
 import { useTranslation } from "react-i18next";
 import { userLevelCol } from "../../../api/webuser";
@@ -16,7 +15,6 @@ const EditUserLevel = () => {
   const [levels, setLevels] = useState([]);
   const [userLevel, setUserLevel] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [initialUserLevelData, setInitialUserLevelData] = useState([]); // Store the initial data
   const [userLevelData, setUserLevelData] = useState([
@@ -46,15 +44,12 @@ const EditUserLevel = () => {
             if (Array.isArray(parsedLevels)) {
               setLevels(parsedLevels); 
             } else {
-              setError('Invalid user level data format');
               toast.error(result.message || "Something went wrong!");
             }
           } else {
-            setError(result.message || 'Invalid data format');
             toast.error(result.message || "Something went wrong!");
           }
         } catch (err) {
-          setError(err.message);
           toast.error(err.message || "Something went wrong!");
         } finally {
           setLoading(false);
@@ -107,22 +102,6 @@ const EditUserLevel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // // Check if no changes have been made
-    // const isUnchanged =
-    //   initialUserLevelData &&
-    //   userLevelData.every(
-    //     (field, index) => field.value === initialUserLevelData[index].value
-    //   );
-
-    // if (isUnchanged) {
-    //   setModalState({
-    //     isOpen: true,
-    //     status: "error",
-    //     message: "No changes detected. Please modify the values before saving.",
-    //   });
-    //   return;
-    // }
 
     // Simulate form submission success or failure
     const isFormValid = userLevelData.every(

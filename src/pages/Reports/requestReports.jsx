@@ -18,7 +18,6 @@ const RequestReports = () => {
     const [dateFromArray, setDateFromArray] = useState([]);
     const [dateToArray, setDateToArray] = useState([]);
     const [transTypeArray, setTransTypeArray] = useState([]);
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [pdfData, setPdfData] = useState([]);
 
@@ -28,7 +27,6 @@ const RequestReports = () => {
             try {
     
             const { success, rowData, dateFrom, dateTo, transType, message } = await generateReview();
-    
                 if (success) {
                     let parsedData;
                     if (Array.isArray(rowData)) {
@@ -44,17 +42,15 @@ const RequestReports = () => {
                         setDateFromArray(dateFrom);
                         setDateToArray(dateTo);
                         setTransTypeArray(transType);
-    
                     }
                     else {
-                        toast.error("Something went wrong!");
+                        toast.error(message);
                     }
                 } else {
-                    setError(result.message || 'Invalid data format');
-                    toast.error("Something went wrong!");
+                    toast.error(message);
                 }
             } catch (err) {
-                setError(err.message);
+                toast.error(message);
             } finally {
                 setLoading(false);
             }
@@ -127,25 +123,25 @@ const RequestReports = () => {
         if (status == 0) {
             return (
             <div className="p-1 bg-[#4CBB17] text-sm text-white rounded-lg">
-                Reports has been generated
+                {t('reports_generated')}
             </div> 
             )
         } if (status == 1) {
             return (
                 <div className="p-1 bg-[#FF5733] text-sm text-white rounded-lg">
-                    Pending
+                    {t('pending')}
                 </div> 
             )
         } if (status == 2) {
             return (
                 <div className="p-1 bg-sky-600 text-sm text-white rounded-lg">
-                    Processing
+                    {t('processing')}
                 </div> 
             )
         } if (status == 100) {
             return (
                 <div className="p-1 bg-[#727272] text-sm text-white rounded-lg">
-                    No Records Found
+                    {t('no_records_found')}
                 </div> 
             )
         }
@@ -194,6 +190,7 @@ const RequestReports = () => {
                         parsedData = dataFile[0];
                     } else {
                         parsedData = dataFile; 
+                        toast.error(message);
                     }
     
                     if (parsedData) {
@@ -203,14 +200,12 @@ const RequestReports = () => {
                         const res = await downloadPDF(pdfData, reportName);
                     }
                     else {
-                        toast.error(result.message || "Something went wrong!");
+                        toast.error(message || "Something went wrong!");
                     }
                 } else {
-                    setError(result.message || 'Invalid data format');
-                    toast.error(result.message || "Something went wrong!");
+                    toast.error(message || "Something went wrong!");
                 }
             } catch (err) {
-                setError(err.message);
                 toast.error(err.message || "Something went wrong!");
             } finally {
                 setLoading(false);
@@ -368,7 +363,7 @@ const RequestReports = () => {
                 >
                     ‹
                 </button>
-                {renderPageNumbers()} {/* PAGE NUMBERS */}
+                {renderPageNumbers()}
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     className="px-3 py-1 bg-none text-xl text-[#19405A] font-bold rounded-full hover:bg-[#F3EEEB]"

@@ -3,24 +3,14 @@ import axios from "axios";
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = "http://localhost:5000";
 
-/**
- * 
- * @param {string} endpoint 
- * @param {object} payload 
- * @param {object} extraHeaders 
- * @returns {Promise<object>} 
- */
 const makeApiRequest = async (endpoint, payload, extraHeaders = {}) => {
   try {
 
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
-    // Fetch the latest sessionId before each request
     const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-    const sessionid = userData?.sessionId; // Ensure it's always up-to-date
-
-    console.log("Updated sessionId: ", sessionid);
+    const sessionid = userData?.sessionId;
 
     const headers = {
       "Content-Type": "application/json",
@@ -32,7 +22,7 @@ const makeApiRequest = async (endpoint, payload, extraHeaders = {}) => {
     const response = await axios.post(`${BASE_URL}${endpoint}`, payload, { headers });
     const responseData = response.data;
 
-    if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+    if (responseData.StatusCode === 97 || responseData.StatusCode === 93 || responseData.StatusCode === 98) {
       return { logout: true, message: responseData?.StatusMessage };
     } else if (responseData && responseData.StatusCode === 0) {
       return { success: true, webusers: responseData.Accounts || null, message: responseData?.StatusMessage || null };

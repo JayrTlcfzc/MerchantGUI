@@ -3,7 +3,6 @@ import StatusModal from "../../../components/Modals/statusModal";
 import {
   HandleChange,
   HandleChangeDigitsOnly,
-  HandleChangeTextOnly,
   ResetFormData,
 } from "../../../components/Validations";
 import { useTranslation } from "react-i18next";
@@ -13,9 +12,6 @@ import LoadingModal from '../../../components/Modals/loadingModal';
 import { useNavigate } from 'react-router-dom';
 
 const AddUserLevel = () => {
-  const { t, i18n } = useTranslation();
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const initialFormData = {
     userLevel: "",
@@ -27,7 +23,9 @@ const AddUserLevel = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-
+  const { t, i18n } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [modalState, setModalState] = useState({
     isOpen: false,
     status: "",

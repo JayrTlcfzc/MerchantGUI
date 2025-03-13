@@ -8,14 +8,16 @@ import { verifyLogout } from '../../api/logout';
 import { toast, ToastContainer } from "react-toastify";
 
 const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, username, lastLogin }) => {
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
     const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
     const [disableHover, setDisableHover] = useState(false);
+
     const dropdownRef = useRef(null);
     const languageDropdownRef = useRef(null);
     const navigate = useNavigate();
-    const { t, i18n } = useTranslation(); // Access i18n instance
+    const { t, i18n } = useTranslation();
     const { logout } = useAuth();
     
     // Toggle profile dropdown
@@ -110,6 +112,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
                             : "#D95F08"
                     }
                 />
+                
                 {isDropdownOpen && (
                     <div className="absolute -right-10 mt-2 w-64 bg-[#23587C] text-black shadow-lg rounded-tl-lg rounded-bl-3xl z-50">
                         <div className="p-4">
@@ -131,6 +134,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
                         </div>
                     </div>
                 )}
+
             </div>
             <div
                 className="cursor-pointer relative"

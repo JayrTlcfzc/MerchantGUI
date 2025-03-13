@@ -9,10 +9,30 @@ import LoadingModal from '../../components/Modals/loadingModal';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterNewUser = () => {
+
+  const initialFormData = {
+    username: '',
+    msisdn: '',
+    otpMsisdn: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    department: '',
+    userLevel: 'ADMIN',
+    status: '',
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const { t, i18n } = useTranslation();
   const [levels, setLevels] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    status: "",
+    message: "",
+  });
 
   useEffect(() => {
     const fetchUserLevels = async () => {
@@ -28,15 +48,12 @@ const RegisterNewUser = () => {
               setLevels(parsedLevels); 
 
             } else {
-              setError('Invalid user level data format');
-              toast.error("Invalid user level data format");
+              toast.error(t('invalid_userlevel_data_format'));
             }
         } else {
-          setError(result.message || 'Invalid data format');
-          toast.error(result.message || "Invalid user level data format");
+          toast.error(result.message || t('invalid_userlevel_data_format'));
         }
       } catch (err) {
-        setError(err.message);
         toast.error(err.message);
       } finally {
         setLoading(false);
@@ -45,28 +62,6 @@ const RegisterNewUser = () => {
   
     fetchUserLevels();
   }, []);
-
-  const initialFormData = {
-    username: '',
-    msisdn: '',
-    otpMsisdn: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    company: '',
-    department: '',
-    userLevel: 'ADMIN',
-    status: '',
-  };
-
-  const { t, i18n } = useTranslation();
-  const [formData, setFormData] = useState(initialFormData);
-
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    status: "",
-    message: "",
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,7 +118,6 @@ const RegisterNewUser = () => {
       {loading && (<LoadingModal />)}
 
       <div className="w-full max-w-4xl">
-        {/* Register New User Title outside of the border */}
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center">
             <FaUserPlus className="text-[#D95F08] mr-2" />
@@ -135,7 +129,6 @@ const RegisterNewUser = () => {
           </p>
         </div>
 
-        {/* Form container with border and new border color */}
         <div className="border-2 border-[#23587C] rounded-2xl p-8 bg-white shadow-lg">
           <span className="font-bold text-2xl text-[#23587C] mb-10">
           {t('account_details')}
@@ -228,8 +221,7 @@ const RegisterNewUser = () => {
                 type="email"
                 name="email"
                 id="email"
-                // value={formData.email.toUpperCase()}
-                value={formData.email}
+                value={formData.email.toUpperCase()}
                 onChange={HandleChange(setFormData)}
                 placeholder="Enter email"
                 className="w-full px-4 py-2 rounded-lg border border-[#23587C] focus:outline-none focus:ring-1 focus:ring-[#23587C]"

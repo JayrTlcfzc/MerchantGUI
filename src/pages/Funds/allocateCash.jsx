@@ -10,17 +10,7 @@ import { allocateCash, allocateOtpRequest } from '../../api/allocateCash';
 import LoadingModal from '../../components/Modals/loadingModal';
 
 const AllocateCash = () => {
-  const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
-  const [isPinModalOpen, setPinModalOpen] = useState(false);
-  const [isOTPModalOpen, setOTPModalOpen] = useState(false);
-  const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
-  const [pinValue, setPinValue] = useState("");
-  const [otpValue, setOtpValue] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const { t } = useTranslation();
-
-  // Initial input state
   const initialFormData = {
     destmsisdn: '',
     amount: '',
@@ -30,6 +20,14 @@ const AllocateCash = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
+  const [isPinModalOpen, setPinModalOpen] = useState(false);
+  const [isOTPModalOpen, setOTPModalOpen] = useState(false);
+  const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
+  const [pinValue, setPinValue] = useState("");
+  const [otpValue, setOtpValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleAllocate = () => setPasswordModalOpen(true); // Open password modal on click
 
@@ -76,7 +74,6 @@ const AllocateCash = () => {
 
   // Check if all required fields have values
   const isFormValid = formData.destmsisdn && formData.amount && formData.remarks;
-
 
   return (
     <div className="flex flex-col items-center justify-center p-4">

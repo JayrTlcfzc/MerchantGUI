@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Folder, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
+import { Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
 import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { toast, ToastContainer } from "react-toastify";
 import { FaFolder } from "react-icons/fa6";
@@ -12,6 +12,8 @@ import { batchFilesRequest, batchFilesTracking, batchFilesOtpRequest, batchFiles
 import LoadingModal from '../../components/Modals/loadingModal';
 
 const BatchFiles = () => {
+
+    const { t, i18n } = useTranslation();
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
@@ -21,7 +23,6 @@ const BatchFiles = () => {
     const dropdownRef = useRef(null);
     const [files, setFiles] = useState([]);
     const [batch, setBatch] = useState('request');
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [confirmationModalMessage, setConfirmationModalMessage] = useState('');
@@ -35,8 +36,6 @@ const BatchFiles = () => {
         status: "",
         message: "",
     });
-
-    const { t, i18n } = useTranslation();
 
     // For auto-reloading table data
     const fetchData = async () => {
@@ -64,15 +63,15 @@ const BatchFiles = () => {
                         }))
                     );
                 } else {
-                    setError("Invalid data format");
+                    toast.error(result.message);
                     setFiles([]);
                 }
             } else {
-                setError(result.message || "Invalid data format");
+                toast.error(result.message);
                 setFiles([]);
             }
         } catch (err) {
-            setError(err.message);
+            toast.error(err.message);
             setFiles([]);
         } finally {
             setLoading(false);
@@ -106,14 +105,13 @@ const BatchFiles = () => {
                                 }))
                             );
                         } else {
-                            setError("Invalid account data format");
+                            toast.error(result.message);
                         }
                     } else {
-                        setError(result.message || "Invalid data format");
+                        toast.error(result.message);
                         setFiles([]);
                     }
                 } catch (err) {
-                    setError(err.message);
                     toast.error(err.message);
                     setFiles([]);
                 } finally {
@@ -147,15 +145,14 @@ const BatchFiles = () => {
                                 }))
                             );
                         } else {
-                            setError("Invalid account data format");
+                            toast.error(result.message);
                             setFiles([]);
                         }
                     } else {
-                        setError(result.message || "Invalid data format");
+                        toast.error(result.message);
                         setFiles([]);
                     }
                 } catch (err) {
-                    setError(err.message);
                     toast.error(err.message);
                 } finally {
                     setLoading(false);
@@ -180,7 +177,7 @@ const BatchFiles = () => {
             if (res.success) {
                 setOTPModalOpen(true);
             } else {
-                toast.error("OTP Request Error!");
+                toast.error(t('otp_req_error'));
             }
         } catch (error) {
             setModalState({ isOpen: true, status: "error", message: error.message });
@@ -531,7 +528,6 @@ const BatchFiles = () => {
                             </tbody>
                         </table>
                     </div>
-                  {/* )} */}
 
                 {/* PAGINATION */}
                 <div className="flex justify-center mt-4 space-x-1">

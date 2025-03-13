@@ -5,39 +5,11 @@ import StatusModal from "../../components/Modals/statusModal";
 import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; 
 import { useTranslation } from 'react-i18next';
 import { accountTypeCol, registerSubscriber } from "../../api/subscriber";
+import { toast, ToastContainer } from "react-toastify";
 import LoadingModal from '../../components/Modals/loadingModal';
 
 const RegisterSubscriber = () => {
 
-  const [accounts, setAccounts] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchAccountTypes = async () => {
-      setLoading(true);
-      try {
-        const result = await accountTypeCol();
-        if (result.success) {
-          const parsedAccounts = JSON.parse(result.account);
-          if (Array.isArray(parsedAccounts)) {
-            setAccounts(parsedAccounts); 
-          } else {
-            setError('Invalid account data format');
-          }
-        } else {
-          setError(result.message || 'Invalid data format');
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchAccountTypes();
-  }, []);
-  
   const initialFormData = {
     nickname: "",
     mobileNumber: "",
@@ -66,13 +38,38 @@ const RegisterSubscriber = () => {
   
   const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState(initialFormData);
-
+  const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [modalState, setModalState] = useState({
     isOpen: false,
     status: "",
     message: "",
   });
 
+  useEffect(() => {
+    const fetchAccountTypes = async () => {
+      setLoading(true);
+      try {
+        const result = await accountTypeCol();
+        if (result.success) {
+          const parsedAccounts = JSON.parse(result.account);
+          if (Array.isArray(parsedAccounts)) {
+            setAccounts(parsedAccounts); 
+          } else {
+            toast.error(result.message);
+          }
+        } else {
+          toast.error(result.message);
+        }
+      } catch (err) {
+        toast.error(result.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAccountTypes();
+  }, []);
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -87,25 +84,25 @@ const RegisterSubscriber = () => {
 
       if (isFormValid) {
         const response = await registerSubscriber(formData);
-        if(response.success){
+        if (response.success){
           setModalState({
             isOpen: true,
             status: "success",
-            message: "Added User Successfully!",
+            message: t('modal_added_user_successfully'),
           });
           ResetFormData(setFormData, initialFormData)();
-       }else{
+       } else {
           setModalState({
             isOpen: true,
             status: "error",
-            message: "Failed to Add User. Please try again.",
+            message: t('modal_failed_to_add_user'),
           });
        }
       } else {
         setModalState({
           isOpen: true,
           status: "error",
-          message: "Failed to Add User. Please try again.",
+          message: t('modal_failed_to_add_user'),
         });
       }
     };
@@ -113,6 +110,7 @@ const RegisterSubscriber = () => {
   return (
     <div className="min-h-screen bg-gray-200 p-8">
       {loading && (<LoadingModal />)}
+      <ToastContainer />
 
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-center">
@@ -182,7 +180,6 @@ const RegisterSubscriber = () => {
                   </option>
                 ))}
               </select>
-
 
             </div>
             <div>

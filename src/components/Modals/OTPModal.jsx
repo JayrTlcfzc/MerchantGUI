@@ -8,17 +8,17 @@ export default function OTPModal({
   handleClose = () => {},
   otpBatchFiles
 }) {
-  const { t } = useTranslation();
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const firstInputRef = useRef(null);
-  const [error, setError] = useState(false);
-  const [remarksError, setRemarksError] = useState(false);
 
   const initialFormData = {
     remarks: ''
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [error, setError] = useState(false);
+  const [remarksError, setRemarksError] = useState(false);
+  const { t } = useTranslation();
+  const firstInputRef = useRef(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

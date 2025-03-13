@@ -1,6 +1,5 @@
 import axios from "axios";
 import CryptoJS from 'crypto-js';
-import { lang } from "moment/moment";
 
 // const BASE_URL = import.meta.env.VITE_API_URL_NODE;
 const BASE_URL = 'http://localhost:5000';
@@ -8,9 +7,8 @@ const BASE_URL = 'http://localhost:5000';
 // API call for verifying credentials
 export const verifyCredentials = async (msisdn, username, password) => {
   try {
-
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
     const response = await axios.post(`${BASE_URL}/web/auth/loginotpreq`, {
       msisdn,
@@ -48,9 +46,8 @@ export const verifyCredentials = async (msisdn, username, password) => {
 export const verifyOTP = async (otp, msisdn, username,password) => {
 
   try {
-
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
     const response = await axios.post(`${BASE_URL}/web/auth/loginotpres`, {
       otp,
@@ -66,7 +63,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
       }
   });
     
-    if (response.data.StatusCode === 97 || response.data.StatusCode === 93) {
+    if (response.data.StatusCode === 97 || response.data.StatusCode === 93 || response.data.StatusCode === 98) {
       return {
         logout: true,
         message: response.data.StatusMessage
@@ -77,13 +74,7 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
 
       localStorage.setItem("userData", JSON.stringify(data));
       localStorage.setItem("pow", JSON.stringify(encryptedPassword));
-      
-      // ✅ Retrieve and parse userData
-      const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}"); 
-      
-      // ✅ Access sessionId safely
-      console.log("Stored sessionId:", storedUserData.sessionId);
-      
+     
       return {
         success: true,
         message: response.data.StatusMessage,
@@ -96,7 +87,6 @@ export const verifyOTP = async (otp, msisdn, username,password) => {
       };
     }
   } catch (error) {
-    console.error("Error caught:", error);
     return Promise.reject({
       success: false,
       message: error.response?.data?.StatusMessage || error.message,

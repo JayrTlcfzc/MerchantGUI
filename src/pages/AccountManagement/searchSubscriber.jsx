@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaMagnifyingGlass, FaAddressCard } from "react-icons/fa6";
@@ -18,23 +18,15 @@ const SearchSubscriber = () => {
   const [personalDetails, setPersonalDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("userData"));
-  //   if (storedData && storedData.msisdn) {
-  //     setMsisdn(storedData.msisdn);
-  //     handleSubmit(storedData.msisdn);
-  //   }
-  // }, []);
-
   const handleSubmitDate = async () => {
     if (!startDate || !endDate) {
-      toast.error("Dates required");
+      toast.error(t("dates_required"));
       return;
     }
     setLoading(true);
     const res = await retailersCollection(startDate, endDate);
     if (res.success) {
-      toast.success("Successfully Downloaded Retailers List");
+      toast.success(t("success_download_retailers"));
       setStartDate(null); // Reset start date
       setEndDate(null);
       setLoading(false);
@@ -48,7 +40,7 @@ const SearchSubscriber = () => {
 
   const handleSubmit = async (msisdnParam) => {
     if (!msisdnParam) {
-      toast.error("MSISDN required");
+      toast.error(t("msisdn_required"));
       return;
     }
 

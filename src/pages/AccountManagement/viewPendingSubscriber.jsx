@@ -3,16 +3,17 @@ import { Search, ArrowDownUp, X } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import { useTranslation } from 'react-i18next';
 import { viewPendingSubs } from "../../api/subscriber";
+import { toast, ToastContainer } from "react-toastify";
 import LoadingModal from '../../components/Modals/loadingModal';
 
 const ViewPendingSubscriber = () => {
+  
+  const { t, i18n } = useTranslation();
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [sortConfig, setSortConfig] = useState({ key: "firstname", direction: "ascending" });
-
-   const [accounts, setAccounts] = useState([]);
-  const [error, setError] = useState(null);
+  const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,13 +33,13 @@ const ViewPendingSubscriber = () => {
               }))
             );
           } else {
-            setError("Invalid account data format");
+            toast.error(result.message);
           }
         } else {
-          setError(result.message || "Invalid data format");
+          toast.error(result.message);
         }
       } catch (err) {
-        setError(err.message);
+        toast.error(result.message);
       } finally {
         setLoading(false);
       }
@@ -46,8 +47,6 @@ const ViewPendingSubscriber = () => {
   
     fetchPendingSubs();
   }, []);
-
-  const { t, i18n } = useTranslation();
 
   const handleSearch = (event) => {
     setSearchInput(event.target.value);
@@ -106,6 +105,7 @@ const ViewPendingSubscriber = () => {
   return (
     <div className="max-h-screen bg-gray-200 p-8">
       {loading && (<LoadingModal />)}
+      <ToastContainer />
       
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
 

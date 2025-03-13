@@ -3,20 +3,6 @@ import axios from "axios";
 // const BASE_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = 'http://localhost:5000';
 
-// export const addUserLevel = async (formData) => {
-
-//   try {
-//     const response = await axios.post(`${BASE_URL}/webuser/addUserLevel`, formData);
-
-//     const responseData = response.data;
-//     return response.data;
-
-//   } catch (error) {
-//     throw error;
-//   }
-
-// };
-
 export const addUserLevel = async (formData) => {
 
   const data = {
@@ -31,7 +17,7 @@ export const addUserLevel = async (formData) => {
   try {
 
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
@@ -45,7 +31,7 @@ export const addUserLevel = async (formData) => {
       },
     });
 
-    if (response.StatusCode === 97 || response.StatusCode === 93) {
+    if (response.StatusCode === 97 || response.StatusCode === 93 || response.StatusCode === 98) {
       return { logout: true, message: response?.StatusMessage };
     } else {
       return response.data;
@@ -56,20 +42,6 @@ export const addUserLevel = async (formData) => {
   }
 
 };
-
-// export const editUserLevel = async (formData) => {
-
-//   try {
-//     const response = await axios.post(`${BASE_URL}/webuser/editUserLevel`, formData);
-
-//     const responseData = response.data;
-//     return response.data;
-
-//   } catch (error) {
-//     throw error;
-//   }
-
-// };
 
 export const editUserLevel = async (formData) => {
 
@@ -88,7 +60,7 @@ export const editUserLevel = async (formData) => {
     const sessionid = userData?.sessionId;
 
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
     const response = await axios.post(`${BASE_URL}/web/manageuserlevel/edit-user-level`, data, {
       headers: {
@@ -99,7 +71,7 @@ export const editUserLevel = async (formData) => {
       },
     });
 
-    if (response.StatusCode === 97 || response.StatusCode === 93) {
+    if (response.StatusCode === 97 || response.StatusCode === 93  || response.StatusCode === 98) {
       return { logout: true, message: response?.StatusMessage };
     } else {
       return response.data;
@@ -111,30 +83,12 @@ export const editUserLevel = async (formData) => {
 
 };
 
-// export const userLevelSearch = async (data) => {
-
-//   try {
-//     const response = await axios.post(`${BASE_URL}/webuser/userLevelSearch`, { userLevel: data });
-
-//     const responseData = response.data;
-    
-//     if (responseData && responseData.StatusMessage === "Success") {
-//       return { success: true, dataUserLevel: responseData.userLevelData, message : '' };
-//     } else {
-//       return { success: false, message: responseData?.message || "Unknown error" };
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
-
-// };
-
 export const userLevelSearch = async (data) => {
 
   try {
 
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
@@ -151,7 +105,7 @@ export const userLevelSearch = async (data) => {
     const responseData = response.data;
     console.log(responseData);
     
-    if (responseData.StatusCode === 97 || responseData.StatusCode === 93) {
+    if (responseData.StatusCode === 97 || responseData.StatusCode === 93 || responseData.StatusCode === 98) {
       return { logout: true, message: responseData?.StatusMessage };
     } else if (responseData && responseData.StatusCode === 0) {
       const parsed = JSON.parse(responseData.Data);

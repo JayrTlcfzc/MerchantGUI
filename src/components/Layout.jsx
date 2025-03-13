@@ -23,7 +23,6 @@ const Layout = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(storedData.username); 
   const [currentUserLevel, setCurrentUserLevel] = useState(storedData.userslevel);
   const [lastLogin, setLastLogin] = useState("");
-
   const { t, i18n } = useTranslation();
 
   // Mouse enter event on icons
@@ -59,7 +58,7 @@ const Layout = ({ children }) => {
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
             hoveredIcon={hoveredIcon}
-            username={currentUser} // Dynamic user
+            username={currentUser}
             userslevel={currentUserLevel}
             lastLogin={lastLogin}
           />

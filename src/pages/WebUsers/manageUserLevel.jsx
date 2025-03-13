@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 const ManageUserLevel = () => {
   const [activeTab, setActiveTab] = useState("add");
-
   const { t, i18n } = useTranslation();
 
   return (

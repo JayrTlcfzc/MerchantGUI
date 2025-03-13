@@ -14,7 +14,6 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [sortConfig, setSortConfig] = useState({ key: "fileId", direction: "ascending" });
   const [files, setFiles] = useState([]);
-  const [error, setError] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -45,9 +44,10 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
               TYPE: file.type || '',
             }))
           );
+        } else {
+          toast.error(message);
         }
       } catch (err) {
-        setError(err.message);
         toast.error(err.message);
       } finally {
         setLoading(false);
@@ -83,12 +83,13 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       REFERENCETO: item.REFERENCETO,
       WALLETID: item.WALLETID,
       TYPE: item.TYPE,
-      REMARKS: item.REMARKS === '0' ? 'For Processing' : item.REMARKS, // Correctly mapped to show "For Processing"
+      REMARKS: item.REMARKS === '0' ? 'For Processing' : item.REMARKS,
     }));
   
     const tableColumns = ["FILE ID", "REFERENCE ID", "TIMESTAMP", "FROM MSISDN", "TO MSISDN", "FIRST NAME", "LAST NAME", "AMOUNT", "REFERENCE 1", "REFERENCE 2", "WALLET ID", "TOMSISDN TYPE", "REMARKS"];
   
-    if (extension === "CSV") {
+    // Download CSV
+    if (extension === "CSV") { 
       const csvContent = [
         ["Total Transactions", totalTransactions],
         ["Total Amount", totalAmount.toLocaleString()],
@@ -104,7 +105,9 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } else if (extension === "XLSX") {
+    } 
+    // Download XLSX
+    else if (extension === "XLSX") { 
       const worksheetData = [
         ["Total Transactions", totalTransactions],
         ["Total Amount", totalAmount.toLocaleString()],
@@ -115,7 +118,9 @@ const DetailsModal = ({ batchDetails, fileId, handleClose = () => {} }) => {
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       XLSX.writeFile(workbook, "batch_details.xlsx");
-    } else if (extension === "PDF") {
+    }
+    // Download PDF
+    else if (extension === "PDF") { 
       const doc = new jsPDF({ orientation: "landscape" });
       const tableRows = dataToDownload.map(Object.values);
   

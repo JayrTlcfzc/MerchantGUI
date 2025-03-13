@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Eye, Search, X, ArrowDownUp } from "lucide-react";
+import { Search, X, ArrowDownUp } from "lucide-react";
 import { FaEye } from "react-icons/fa6";
 import { HandleChange } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
@@ -10,15 +10,6 @@ import LoadingModal from '../../components/Modals/loadingModal';
 import { useNavigate } from 'react-router-dom';
 
 const AuditTrail = () => {
-    const [selectUserBy, setSelectUserBy] = useState("ALL");
-    const [labelText, setLabelText] = useState("USER ID");
-    const [searchInput, setSearchInput] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
-    const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "descending" });
-    const [auditData, setAuditData] = useState([]); // Store fetched audit trails
-    const [loading, setLoading] = useState(false); // Loading state
-    const navigate = useNavigate();
 
     const initialFormData = {
         userinput: 'ALL',
@@ -26,10 +17,17 @@ const AuditTrail = () => {
         dateto: '',
     };
 
-    const { t, i18n } = useTranslation();
-
     const [formData, setFormData] = useState(initialFormData);
-
+    const { t, i18n } = useTranslation();
+    const [selectUserBy, setSelectUserBy] = useState("ALL");
+    const [labelText, setLabelText] = useState("USER ID");
+    const [searchInput, setSearchInput] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "descending" });
+    const [auditData, setAuditData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const [modalState, setModalState] = useState({
         isOpen: false,
         status: "",
@@ -50,7 +48,7 @@ const AuditTrail = () => {
 
        // Validate inputs
         if (!userinput || !datefrom || !dateto) {
-            toast.error('Please fill up the form');
+            toast.error(t("modal_fill_all_fields"));
             return
         }
 
@@ -77,7 +75,7 @@ const AuditTrail = () => {
             setModalState({
                 isOpen: true,
                 status: "error",
-                message: error.message || t("Failed to fetch data."),
+                message: error.message || t("failed_fetch"),
             });
         } finally {
             setLoading(false);
@@ -151,7 +149,6 @@ const AuditTrail = () => {
             );
         }
     
-        
         for (let i = startPage; i <= endPage; i++) {
             pageNumbers.push(
                 <button
@@ -164,7 +161,6 @@ const AuditTrail = () => {
             );
         }
     
-      
         if (endPage < totalPages) {
             pageNumbers.push(
                 <button
@@ -180,7 +176,6 @@ const AuditTrail = () => {
         return pageNumbers;
     };
     
-
     return (
         <div className="max-h-screen bg-gray-200 p-8">
             {loading && (<LoadingModal />)}
@@ -200,10 +195,10 @@ const AuditTrail = () => {
                             <label className="block mb-1 text-gray-700">{t('select_user_by')}</label>
                             <select
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
-                                value={selectUserBy} // Controlled select value
+                                value={selectUserBy}
                                 onChange={(e) => {
                                     const selectedValue = e.target.value;
-                                    setSelectUserBy(selectedValue); // Update `selectUserBy`
+                                    setSelectUserBy(selectedValue);
                                     setFormData((prev) => ({
                                         ...prev,
                                         userinput: selectedValue === 'ALL' ? 'ALL' : '', // Reset userinput for USERID
@@ -226,13 +221,11 @@ const AuditTrail = () => {
                                         HandleChange(setFormData)(e); // Allow input changes only for USER ID
                                     }
                                 }}
-                                placeholder={selectUserBy} // Dynamically set placeholder
+                                placeholder={selectUserBy}
                                 readOnly={selectUserBy === 'ALL'} // Make input non-editable for 'ALL'
                                 className="w-full px-4 py-2 border rounded-md shadow-md text-gray-600 focus:outline-none"
                             />
                         </div>
-
-
 
                          <div className="w-1/5">
                             <label className="block mb-1 text-gray-700">{t('date_from')}</label>
@@ -262,7 +255,6 @@ const AuditTrail = () => {
                             onClick={handleSubmit}
                             disabled={loading}
                         >
-                            {/* {loading ? t('loading') : t('view')} */}
                             {t('view')}
                         </button>
                     </div>

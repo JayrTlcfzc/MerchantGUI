@@ -22,7 +22,6 @@ const ViewWebUsers = () => {
     const [modalData, setModalData] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
     const { t, i18n } = useTranslation();
 
     const handleViewModal = async (username) => {
@@ -37,7 +36,7 @@ const ViewWebUsers = () => {
                 setModalData(result.webusers);
                 setViewModalOpen(true);
             } else {
-                toast.error("Failed to fetch web user:", result.message);
+                toast.error(result.message);
             }
         } catch (error) {
           toast.error(error);
@@ -276,7 +275,7 @@ const ViewWebUsers = () => {
                                     <td className="px-4 py-2">{item.status}</td>
                                     <td className="px-4 py-2 flex justify-center h-full cursor-pointer">
                                     <Eye
-                                        onClick={() => handleViewModal(item.username)} // Pass the username here
+                                        onClick={() => handleViewModal(item.username)}
                                         className="hover:text-[#D95F08]"
                                     />
                                     </td>

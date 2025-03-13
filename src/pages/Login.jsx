@@ -7,7 +7,7 @@ import { Globe } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { verifyCredentials, verifyOTP } from "../api/login";
 import changePassword from "../api/changepassword";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../components/Auth/authContext";
 import ChangePasswordModal from '../components/Modals/changePasswordModal';
 import LoadingModal from "../components/Modals/loadingModal";
@@ -24,17 +24,19 @@ const Login = () => {
     password: ''
   };
 
+  const languageDropdownRef = useRef(null);
+  const { t, i18n } = useTranslation(); 
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [otpFromServer, setOtpFromServer] = useState("");
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [openModal, setOpenModal] = useState("");
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  const languageDropdownRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const { t, i18n } = useTranslation(); // Access i18n instance
-  const navigate = useNavigate();
-  const { login } = useAuth();
 
+  // Show Password
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -57,9 +59,8 @@ const Login = () => {
         } else if (result.success) {
           setOtpFromServer(result.otp); // Store OTP sent by mock server
           setOpenModal("OTPModal"); // Open OTP modal
-        }else{
+        } else{
           toast.error(result.message);
-        
         }
       } catch (error) {
         toast.error(result.message || "Login Error");
@@ -67,7 +68,7 @@ const Login = () => {
         setLoading(false);
       }
     } else {
-      toast.error("Please fill in all fields");
+      toast.error(t('modal_fill_all_fields'));
     }
   };
 
@@ -87,7 +88,7 @@ const Login = () => {
   const changeLanguage = (language) => {
     i18n.changeLanguage(language); // Update language globally
     localStorage.setItem("lang", JSON.stringify({ language: `${language}` }));
-    setIsLanguageDropdownOpen(false); // Close dropdown after selection
+    setIsLanguageDropdownOpen(false);
   };
 
   // Handle clicks inside language dropdown
@@ -146,7 +147,6 @@ const Login = () => {
                 onChange={HandleChangeDigitsOnly(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('Enter your MSISDN')}
-                required
               />
             </div>
 
@@ -166,7 +166,6 @@ const Login = () => {
                 onChange={HandleChange(setFormData)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('Enter your username')}
-                required
               />
             </div>
 
@@ -186,7 +185,6 @@ const Login = () => {
                 onKeyDown={handleEnterPress}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#23587C] focus:border-transparent"
                 placeholder={t('********************')}
-                required
               />
             </div>
 
@@ -255,7 +253,6 @@ const Login = () => {
                     setOpenModal("");
                   }, 6000);
 
-
                 } else if (success) {
                   toast.success(message);
 
@@ -274,7 +271,7 @@ const Login = () => {
                  
                 }
               } catch (error) {
-                toast.error(error.message || "Invalid OTP");
+                toast.error(error.message || t('enter_valid_otp'));
               }
             }}
             handleClose={() => setOpenModal("")}
@@ -285,17 +282,15 @@ const Login = () => {
         <ChangePasswordModal
           onSubmit={async (newPassword) => {
             try {
-              // Assume `changePassword` is a function to handle the password update
               const { success, message } = await changePassword(oldPassword, newPassword);
               if (success) {
-                toast.success(message || "Password changed successfully");
+                toast.success(message || t('modal_password_changed_successfully'));
                 setOpenModal(""); 
-                // navigate('/dashboard'); 
               } else {
-                toast.error(message || "Failed to change password");
+                toast.error(message || t('modal_changing_password_failed'));
               }
             } catch (error) {
-              toast.error(error.message || "Error changing password");
+              toast.error(error.message || t('modal_changing_password_failed'));
             }
           }}
           handleClose={() => setOpenModal("")}

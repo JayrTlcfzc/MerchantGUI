@@ -3,21 +3,30 @@ import StatusModal from '../../components/Modals/statusModal';
 import PasswordModal from '../../components/Modals/PasswordModal';
 import OTPModal from '../../components/Modals/OTPModal';
 import { FaBuildingColumns } from 'react-icons/fa6';
-import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations'; // Import validation and reset functions
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations';
 import { useTranslation } from 'react-i18next';
+import { toast, ToastContainer } from "react-toastify";
 import { walletToBank, allocateOtpRequest, bankCollection } from '../../api/walletToBank';
 import LoadingModal from '../../components/Modals/loadingModal';
 
-
 const WalletToBank = () => {
+
+  const initialFormData = {
+    bank: '',
+    bankaccountfullname: '',
+    bankaccountnumber: '',
+    amount: '',
+    remarks: '',
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
   const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
-  const [isOTPModalOpen, setOTPModalOpen] = useState(false); // OTP modal state
+  const [isOTPModalOpen, setOTPModalOpen] = useState(false);
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   const [banks, setBanks] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [pinValue, setPinValue] = useState("");
   const [otpValue, setOtpValue] = useState("");
+  const { t, i18n } = useTranslation();
   
   useEffect(() => {
     const fetchUserLevels = async () => {
@@ -29,13 +38,13 @@ const WalletToBank = () => {
           if (Array.isArray(parsedBank)) {
             setBanks(parsedBank); 
           } else {
-            setError('Invalid user level data format');
+            toast.error(result.message);
           }
         } else {
-          setError(result.message || 'Invalid data format');
+          toast.error(result.message);
         }
       } catch (err) {
-        setError(err.message);
+        toast.error(err);
       } finally {
         setLoading(false);
       }
@@ -44,20 +53,6 @@ const WalletToBank = () => {
     fetchUserLevels();
   }, []);
 
-  const { t, i18n } = useTranslation();
-
-  // Setting initial input
-  const initialFormData = {
-    bank: '',
-    bankaccountfullname: '',
-    bankaccountnumber: '',
-    amount: '',
-    remarks: '',
-  };
-
-  // Passing input
-  const [formData, setFormData] = useState(initialFormData);
-
   // Check if all fields have values
   const isFormValid = formData.bank && formData.bankaccountfullname && formData.bankaccountnumber && formData.amount && formData.remarks;
 
@@ -65,8 +60,8 @@ const WalletToBank = () => {
 
 
   const handleProceedPassword = async () => {
-    
     setPasswordModalOpen(false); 
+
     try {
       setLoading(true);
         const res = await allocateOtpRequest();
@@ -77,7 +72,7 @@ const WalletToBank = () => {
         ResetFormData(setFormData, initialFormData);
         setLoading(false);
       }
-     
+
   };
 
   const handleProceedOTP = async (otp) => {
@@ -85,6 +80,7 @@ const WalletToBank = () => {
     const updatedFormData = { ...formData, otp }; // Include OTP in form data
     setFormData(updatedFormData);
     setOTPModalOpen(false);
+
     try {
       setLoading(true);
       const res = await walletToBank(updatedFormData);
@@ -100,6 +96,7 @@ const WalletToBank = () => {
   return (
     <div className="flex flex-col items-center justify-center p-4">
       {loading && (<LoadingModal />)}
+      <ToastContainer />
       
       <h2 className="text-2xl font-bold mb-8 flex items-center text-center">
         <FaBuildingColumns className="text-[#D95F08] mr-2" />
@@ -110,7 +107,7 @@ const WalletToBank = () => {
           <div className="flex flex-col">
             <label 
               className="block text-sm font-medium mb-2 truncate" 
-              title={t('bank')} // Tooltip for full label
+              title={t('bank')}
             >
               {t('bank')}
             </label>
@@ -131,7 +128,7 @@ const WalletToBank = () => {
           <div className="flex flex-col">
             <label 
               className="block text-sm font-medium mb-2 truncate" 
-              title={t('bank_account_full_name')} // Tooltip for full label
+              title={t('bank_account_full_name')}
             >
               {t('bank_account_full_name')}
             </label>
@@ -147,7 +144,7 @@ const WalletToBank = () => {
           <div className="flex flex-col">
             <label 
               className="block text-sm font-medium mb-2 truncate" 
-              title={t('bank_account_number')} // Tooltip for full label
+              title={t('bank_account_number')}
             >
               {t('bank_account_number')}
             </label>
@@ -163,7 +160,7 @@ const WalletToBank = () => {
           <div className="flex flex-col">
             <label 
               className="block text-sm font-medium mb-2 truncate" 
-              title={t('amount')} // Tooltip for full label
+              title={t('amount')}
             >
               {t('amount')}
             </label>
@@ -179,7 +176,7 @@ const WalletToBank = () => {
           <div className="flex flex-col">
             <label 
               className="block text-sm font-medium mb-2 truncate" 
-              title={t('remarks')} // Tooltip for full label
+              title={t('remarks')}
             >
               {t('remarks')}
             </label>
@@ -187,7 +184,7 @@ const WalletToBank = () => {
               type="text"
               name="remarks"
               value={formData.remarks}
-              onChange={HandleChange(setFormData)} // Using general handleChange for remarks
+              onChange={HandleChange(setFormData)}
               placeholder={t('remarks')}
               className="p-3 border rounded-md shadow-sm w-full focus:outline-none focus:ring-1 focus:ring-[#23587C]"
             />
@@ -206,7 +203,7 @@ const WalletToBank = () => {
         </button>
         <button 
           className="px-8 py-3 tracking-wide shadow-md rounded-lg font-bold bg-[#BFC3D2] text-gray-800 hover:bg-[#9D9D9D] focus:outline-none focus:ring-2 focus:ring-[#9D9D9D]/50 focus:ring-offset-2"
-          onClick={ResetFormData(setFormData, initialFormData)} // Resetting form
+          onClick={ResetFormData(setFormData, initialFormData)}
         >
           {t('reset')}
         </button>

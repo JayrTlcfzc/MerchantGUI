@@ -123,6 +123,12 @@
     "batch_payment_upload": "TÉLÉCHARGEMENT DE PAIEMENT PAR LOTS",
     "upload_file": "TÉLÉCHARGER LE FICHIER",
 
+    "file_upload_success": "Fichier téléchargé avec succès!",
+    "file_upload_failed": "Erreur lors du téléchargement du paiement par lots!",
+    "no_file_uploaded": "Aucun fichier téléchargé. Veuillez télécharger un fichier",
+    "download_template_file" : "Télécharger le fichier modèle",
+    "upload_batch_excel": "Télécharger le fichier Excel de paiement par lots",
+
     "batch_uploaded_files": "FICHIERS TÉLÉCHARGÉS PAR LOTS",
 
     "request_reports": "DEMANDER DES RAPPORTS",
@@ -133,6 +139,11 @@
     "report_type": "NOM DU RAPPORT",
     "transaction_type": "TYPE DE TRANSACTION",
     "report_status": "ÉTAT DU RAPPORT",
+
+    "reports_generated": "Des rapports ont été générés",
+    "pending": "En attente",
+    "processing": "Traitement",
+    "no_records_found": "Aucun enregistrement trouvé",
 
     "audit_trail": "PISTE D'AUDIT",
     "select_user": "SÉLECTIONNER UN UTILISATEUR", 
@@ -191,7 +202,7 @@
     "modal_passwords_do_not_match": "Les mots de passe ne correspondent pas",
 
     "modal_password_changed_successfully": "Mot de passe modifié avec succès!",
-    "modal_changing_password_failed": "Désolé, la modification du mot de passe a échoué. Réessayez plus tard!",
+    "modal_changing_password_failed": "Impossible de changer le mot de passe!",
 
     "modal_authentication": "AUTHENTIFICATION",
     "modal_please_enter_your": "Veuillez entrer votre",
@@ -202,6 +213,8 @@
 
     "modal_types_of_report": "TYPES DE RAPPORTS",
     "modal_transaction_type": "TYPE DE TRANSACTION",
+    "modal_request_success": "Rapport demandé avec succès!",
+    "modal_request_failed": "Échec de la demande de rapport. Veuillez réessayer!",
 
     "modal_cash_allocated_successfully": "Trésorerie allouée avec succès!",
     "modal_transaction_successfully": "Transaction réussie!",
@@ -216,6 +229,8 @@
     "modal_successfully_reset": "The user's password has been successfully reset!",
     "modal_the_user_has_been_successfully": "The user has been successfully",
     
+    "invalid_userlevel_data_format": "Format de données de niveau utilisateur non valide",
+
     "modal_success": "Succès!",
     "modal_error": "Erreur!",
     "modal_ok": "D'ACCORD",
@@ -239,9 +254,17 @@
     "reference_one": "RÉFÉRENCE 1",
     "reference_two": "RÉFÉRENCE 2",
     "wallet_id": "ID DE PORTEFEUILLE",
-    "to_msisdn_type": "TYPE TOMSISDN",
     "tomsisdn_type": "TYPE TOMSISDN",
 
     "remarks_cannot_be_empty": "Les remarques ne peuvent pas être vides",
-    "enter_valid_otp": "Veuillez saisir un OTP valide"
+    "enter_valid_otp": "Veuillez saisir un OTP valide",
+    "enter_valid_password": "Veuillez entrer un mot de passe valide",
+    "otp_req_error": "Erreur de demande OTP!",
+
+    "dates_required": "Dates requises",
+    "msisdn_required": "MSISDN requis",
+    "userlevel_required": "Niveau d'utilisateur requis",
+
+    "success_download_retailers": "Liste des détaillants téléchargée avec succès",
+    "failed_fetch": "Échec de la récupération des données"
 }

@@ -3,12 +3,11 @@ import axios from "axios";
 // const BASE_URL = import.meta.env.VITE_API_URL_NODE;
 const BASE_URL = 'http://localhost:5000';
 
-// API call for verifying credentials
 export const verifyLogout = async () => {
   try {
 
     const storedLang = JSON.parse(localStorage.getItem("lang"));
-    const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+    const language = (storedLang?.language).toUpperCase() || "EN";
 
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
@@ -21,8 +20,6 @@ export const verifyLogout = async () => {
           "token": `${sessionid}`,
       }
   });
-
-  console.log("LOGOUT", response.data);
 
     if (response.data.StatusCode === 0) {
       return {

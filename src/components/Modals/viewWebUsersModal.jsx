@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { FaUser, FaUserPen } from 'react-icons/fa6'
+import { FaUserPen } from 'react-icons/fa6'
 import { X } from "lucide-react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
-import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
+import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly } from '../Validations';
 import { useTranslation } from 'react-i18next';
 import {userLevelCol} from "../../api/webuser";
 import { updateWebUser } from '../../api/apiWebUsers';
@@ -15,6 +15,24 @@ import { useNavigate } from 'react-router-dom';
 
 export default function viewWebUsersModal({ handleClose = () => {}, webUserData = {} }) {
 
+  const initialFormData = {
+    userId: '',
+    username: '',
+    msisdn: '',
+    otp: '',
+    company: '',
+    email: '',
+    firstname: '',
+    lastname: '',
+    department: '',
+    status: '',
+    locked: '',
+    dateRegistered: '',
+    dateModified: '',
+    userslevel: '',
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
   const { t, i18n } = useTranslation();
   const [onEdit, setOnEdit] = useState(false);
   const [locked, setLocked] = useState(false);
@@ -24,7 +42,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   const [modalUsername, setModalUsername] = useState('');
   const [modalState, setModalState] = useState({ isOpen: false, status: '', message: '' });
   const [levels, setLevels] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -39,13 +56,13 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               setLevels(parsedLevels); 
   
             } else {
-              setError('Invalid user level data format');
+              toast.error(result.message);
             }
           } else {
-            setError(result.message || 'Invalid data format');
+            toast.error(result.message);
           }
         } catch (err) {
-          setError(err.message); // Handle fetch errors
+          toast.error(result.message);
         } finally {
           setLoading(false);
         }
@@ -54,25 +71,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
       fetchUserLevels();
     }, []);
   
-    const initialFormData = {
-      userId: '',
-      username: '',
-      msisdn: '',
-      otp: '',
-      company: '',
-      email: '',
-      firstname: '',
-      lastname: '',
-      department: '',
-      status: '',
-      locked: '',
-      dateRegistered: '',
-      dateModified: '',
-      userslevel: '',
-    };
-  
-    const [formData, setFormData] = useState(initialFormData);
-
     useEffect(() => {
       if (webUserData) {
         setFormData((prevData) => ({
@@ -92,8 +90,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   };
 
   const handleConfirm = (result) => {
-    console.log("result: ", result);
-
     setModalState({
       isOpen: true,
         status: 'successul',
@@ -107,7 +103,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
     setOpenModal('confirmationModal');
   };
   
-
   const handleCloseModal = () => {
     setOpenModal('');
     setModalMessage('');
@@ -136,6 +131,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   
     if (isFormValid) {
       setLoading(true);
+
       try {
         const result = await updateWebUser(formData);
         
@@ -143,7 +139,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
           toast.error(result.message);
           navigate('/login');
         } else if(result.success){
-          console.log("success");
           setModalState({
             isOpen: true,
             status: "successul",
@@ -201,7 +196,6 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <div>
                 <label className="block text-sm font-medium text-gray-700" htmlFor="userId">{t('user_id')}</label>
                 <input
-                  // disabled={!onEdit}
                   disabled
                   type="text"
                   name="userId"
@@ -387,7 +381,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
               <button
                 onClick={() => handleOpenModal(t('modal_reset'), formData.username)}
                 className="px-4 py-2 text-white bg-[#E88B00] rounded hover:bg-[#FFA51E] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={onEdit} // Disable when editing
+                disabled={onEdit}
               >
                 {t('modal_reset_password')}
               </button>
@@ -397,7 +391,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   <button
                   onClick={() => handleOpenModal(t('modal_locked'), formData.username)}
                     className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={onEdit} // Disable when editing
+                    disabled={onEdit}
                   >
                     {t('modal_lock')}
                   </button>
@@ -405,7 +399,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   <button
                   onClick={() => handleOpenModal(t('modal_unlocked'), formData.username)}
                     className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={onEdit} // Disable when editing
+                    disabled={onEdit}
                   >
                     {t('modal_unlock')}
                   </button>
@@ -415,7 +409,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   <button
                     onClick={() => handleOpenModal(t('modal_deactivated'), formData.username)}
                     className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={onEdit} // Disable when editing
+                    disabled={onEdit}
                   >
                     {t('modal_deactivate')}
                   </button>
@@ -423,7 +417,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   <button
                     onClick={() => handleOpenModal(t('modal_activated'), formData.username)}
                     className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={onEdit} // Disable when editing
+                    disabled={onEdit}
                   >
                     {t('modal_activate')}
                   </button>
@@ -447,23 +441,22 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   </button>
                 )}
 
-                <button
-                  className="px-4 py-2 text-black bg-[#DCDCDC] rounded hover:bg-[#9D9D9D] font-bold"
-                  onClick={() => {
-                    setOnEdit(false); // Exit edit mode when cancel is clicked
-                    handleClose();
-                  }}
-                >
-                  {t('modal_cancel')}
-                </button>
+                {onEdit && (
+                  <button
+                    className="px-4 py-2 text-black bg-[#DCDCDC] rounded hover:bg-[#9D9D9D] font-bold"
+                    onClick={() => {
+                      setOnEdit(false);
+                    }}
+                  >
+                    {t('modal_cancel')}
+                  </button>
+                )}
               </div>
             </div>
-
 
           </div>
           {openModal === 'confirmationModal' && (
             <ConfirmationModal
-            
               openModal={Boolean(openModal)}
               modalMessage={modalMessage}
               modalUsername={modalUsername}

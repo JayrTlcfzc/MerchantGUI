@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Folders, Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
-import { FaCircleInfo, FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
+import { Search, ArrowDownUp, X, EllipsisVertical } from "lucide-react";
+import { FaCircleInfo } from "react-icons/fa6";
 import { FaFolder } from "react-icons/fa6";
 import { useTranslation } from 'react-i18next';
 import { batchUploadedFiles } from "../../api/batch";
@@ -14,7 +14,6 @@ const BatchUploadedFiles = () => {
   const [itemsPerPage] = useState(5);
   const [sortConfig, setSortConfig] = useState({ key: "fileid", direction: "ascending" });
   const [files, setFiles] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(null);
   const dropdownRef = useRef(null);
@@ -48,14 +47,12 @@ const BatchUploadedFiles = () => {
               }))
             );
           } else {
-            setError("Invalid account data format");
+            toast.error(result.message || "Invalid data format");
           }
         } else {
-          setError(result.message || "Invalid data format");
           toast.error(result.message || "Invalid data format");
         }
       } catch (err) {
-        setError(err.message);
         toast.error(err.message);
       } finally {
         setLoading(false);
@@ -138,6 +135,7 @@ const BatchUploadedFiles = () => {
   return (
     <div className="max-h-screen bg-gray-200 p-8">
       {loading && (<LoadingModal />)}
+      <ToastContainer />
       
       <div className="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-lg">
 
@@ -333,8 +331,7 @@ const BatchUploadedFiles = () => {
           </button>
         </div>
       </div>
-      <ToastContainer />
-
+      
       {isDetailsModalOpen && (
         <DetailsModal
           isOpen={isDetailsModalOpen}

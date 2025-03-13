@@ -4,7 +4,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import { FaUpload } from 'react-icons/fa6';
 import { useTranslation } from 'react-i18next';
 import { batchPaymentUpload, fileUpload } from '../../api/batch';
-import axios from 'axios';
 import LoadingModal from '../../components/Modals/loadingModal';
 
 function BatchPaymentUpload() {
@@ -44,25 +43,24 @@ function BatchPaymentUpload() {
         const res = await batchPaymentUpload(filename, filePath);
 
         if (res.success) {
-          setStatusMessage({ type: 'success', text: 'File uploaded successfully!' });
+          setStatusMessage({ type: 'success', text: t('file_upload_success') });
           const result = await fileUpload(formData);
           if (result.success) {
-            toast.success("File uploaded successfully!");
+            toast.success(t('file_upload_success'));
           } else {
-            toast.success("File uploaded unsuccessfully!");
+            toast.error(t('file_upload_failed'));
           }
 
         } else {
-          setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
-          toast.success("Error in batch payment upload!");
+          setStatusMessage({ type: 'error', text: t('file_upload_failed') });
         }
       } catch (error) {
-        setStatusMessage({ type: 'error', text: 'Error in batch payment upload.' });
+        setStatusMessage({ type: 'error', text: t('file_upload_failed') });
       } finally {
         setLoading(false);
       }
     } else {
-      setStatusMessage({ type: 'error', text: 'No file uploaded. Please upload a file.' });
+      setStatusMessage({ type: 'error', text: t('no_file_uploaded') });
     }
   };
 
@@ -86,7 +84,7 @@ function BatchPaymentUpload() {
           download 
           className="absolute -top-8 right-0 text-blue-500 hover:underline"
         >
-          Download Template File (.xlsx)
+          {t('download_template_file')} (.xlsx)
         </a>
 
         <label
@@ -102,7 +100,7 @@ function BatchPaymentUpload() {
           accept=".xlsx, .xls"
           onChange={handleFileChange}
         />
-        <p className="text-gray-600 text-center">Upload batch payment excel file (.xlsx, .xls)</p>
+        <p className="text-gray-600 text-center">{t('upload_batch_excel')} (.xlsx, .xls)</p>
         <p className="text-gray-400 text-center">{filename}</p>
       </div>
 

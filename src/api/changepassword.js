@@ -12,7 +12,7 @@ const changePassword = async (oldPassword, newPassword) => {
     try {
 
         const storedLang = JSON.parse(localStorage.getItem("lang"));
-        const language = (storedLang?.language).toUpperCase() || "Unknown Language";
+        const language = (storedLang?.language).toUpperCase() || "EN";
 
         const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
         const sessionid = userData?.sessionId;
@@ -24,7 +24,7 @@ const changePassword = async (oldPassword, newPassword) => {
             "token": `${sessionid}`,
           }});
 
-        if (response.data.StatusCode === 97 || response.data.StatusCode === 93) {
+        if (response.data.StatusCode === 97 || response.data.StatusCode === 93 || response.data.StatusCode === 98) {
             return {
                 logout: true,
                 message: response?.StatusMessage

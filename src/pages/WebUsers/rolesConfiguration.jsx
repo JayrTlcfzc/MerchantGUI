@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FaUsersGear } from 'react-icons/fa6';
 import { Search, ArrowDownUp, X } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../../components/Validations';
 import { userLevelCol } from "../../api/webuser";
 import { getRolesConfigTable, updateRoles } from '../../api/rolesConfiguration';
 import { toast, ToastContainer } from "react-toastify";
@@ -13,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 
 const rolesConfiguration = () => {
   const { t, i18n} = useTranslation();
-  const [error, setError] = useState(null);
   const [userLevel, setUserLevel] = useState("");
   const [newRole, setNewRole] = useState("")
   const [openModal, setOpenModal] = useState('');
@@ -44,13 +42,13 @@ const rolesConfiguration = () => {
             setLevels(parsedLevels); 
 
           } else {
-            setError('Invalid user level data format');
+            toast.error(result.message);
           }
         } else {
-          setError(result.message || 'Invalid data format');
+          toast.error(result.message);
         }
       } catch (err) {
-        setError(err.message); // Handle fetch errors
+        toast.error(err);
       } finally {
         setLoading(false);
       }
@@ -131,7 +129,6 @@ const rolesConfiguration = () => {
         );
     }
 
-    
     for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(
             <button
@@ -144,7 +141,6 @@ const rolesConfiguration = () => {
         );
     }
 
-  
     if (endPage < totalPages) {
         pageNumbers.push(
             <button
@@ -162,7 +158,7 @@ const rolesConfiguration = () => {
 
   const handleSubmit = async (userlevel) => {
     if (!userLevel) {
-      toast.error('User Level Required');
+      toast.error(t('userlevel_required'));
       return;
     }
     setLoading(true);
@@ -183,7 +179,7 @@ const rolesConfiguration = () => {
       }
 
     } catch (error) {
-      toast.error("ERROR!");
+      toast.error(error.message);
       setRolesDetails([]);
 
     } finally {
@@ -195,8 +191,6 @@ const rolesConfiguration = () => {
     if (modalData) {
       const { userLevel, id, module, actionStatus } = modalData;
 
-      console.log(modalData);
-
       try {
         const result = await updateRoles(
           userLevel,
@@ -205,8 +199,6 @@ const rolesConfiguration = () => {
           actionStatus
         );
 
-        console.log(result)
-    
         if (result.logout) {
           toast.error(result.message);
           navigate('/login');
@@ -229,7 +221,7 @@ const rolesConfiguration = () => {
           });
         }
       } catch (error) {
-        toast.error("An error occurred while updating the role.");
+        toast.error(error.message);
       }
     }
   };
@@ -244,26 +236,6 @@ const rolesConfiguration = () => {
     setOpenModal('');
     setModalMessage('');
   };
-
-  // const handleUseStateToggle = () => {
-  //   if (modalData) {
-  //     const { userLevel, id, module, actionStatus } = modalData;
-  
-  //     // Call the functions with the modal data
-  //     setNewRole((prev) => ({
-  //       ...prev,
-  //       [id]: actionStatus,
-  //     }));
-
-  //     setModalState({
-  //       isOpen: true,
-  //         status: 'success',
-  //         message: `The role has been updated successfully!`
-  //     });
-
-  //     changeRole(userLevel, id, module, actionStatus);
-  //   }
-  // };
   
   return (
     <div className="min-h-screen bg-gray-200 p-8">
@@ -301,7 +273,6 @@ const rolesConfiguration = () => {
             className="md:w-1/5 px-6 py-2 tracking-wide shadow-md rounded font-bold bg-[#D95F08] text-white hover:bg-[#FC8937]"
             disabled={loading}
           >
-            {/* {loading ? t('loading') : t('get_roles')} */}
             {t('get_roles')}
           </button>
         </div>
@@ -468,7 +439,6 @@ const rolesConfiguration = () => {
           setModalData={modalData}
           setNewRole={newRole}
           handleCloseModal={handleCloseModal}
-          // onProceed={handleUseStateToggle}
           onProceed={changeRole}
         />
       )}

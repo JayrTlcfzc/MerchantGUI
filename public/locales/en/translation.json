@@ -123,6 +123,12 @@
     "batch_payment_upload": "BATCH PAYMENT UPLOAD",
     "upload_file": "UPLOAD FILE",
 
+    "file_upload_success": "File uploaded successfully!",
+    "file_upload_failed": "Error in batch payment upload!",
+    "no_file_uploaded": "No file uploaded. Please upload a file",
+    "download_template_file" : "Download Template File",
+    "upload_batch_excel": "Upload batch payment excel file",
+
     "batch_uploaded_files": "BATCH UPLOADED FILES",
 
     "request_reports": "REQUEST REPORTS",
@@ -133,6 +139,11 @@
     "report_type": "REPORT TYPE",
     "transaction_type": "TRANSACTION TYPE",
     "report_status": "REPORT STATUS",
+
+    "reports_generated": "Reports has been generated",
+    "pending": "Pending",
+    "processing": "Processing",
+    "no_records_found": "No Records Found",
 
     "audit_trail": "AUDIT TRAIL",
     "select_user": "SELECT USER", 
@@ -191,7 +202,7 @@
     "modal_passwords_do_not_match": "Passwords do not match",
 
     "modal_password_changed_successfully": "Password changed successfully!",
-    "modal_changing_password_failed": "Sorry, changing password failed. Try again later!",
+    "modal_changing_password_failed": "Failed to change password!",
 
     "modal_authentication": "AUTHENTICATION",
     "modal_please_enter_your": "Please enter your",
@@ -202,6 +213,8 @@
 
     "modal_types_of_report": "TYPES OF REPORT",
     "modal_transaction_type": "TRANSACTION TYPE",
+    "modal_request_success": "Report Requested Successfully!",
+    "modal_request_failed": "Failed to Request a Report. Please try again!",
 
     "modal_cash_allocated_successfully": "Cash Allocated Successfully!",
     "modal_transaction_successfully": "Transaction Successful!",
@@ -215,6 +228,8 @@
     "modal_failed_to_update_user": "Failed to Update User. Please try again.",
     "modal_successfully_reset": "The user's password has been successfully reset!",
     "modal_the_user_has_been_successfully": "The user has been successfully",
+
+    "invalid_userlevel_data_format": "Invalid user level data format",
 
     "modal_success": "Success!",
     "modal_error": "Error!",
@@ -242,5 +257,14 @@
     "tomsisdn_type": "TOMSISDN TYPE",
 
     "remarks_cannot_be_empty": "Remarks cannot be empty",
-    "enter_valid_otp": "Please enter a valid OTP"
+    "enter_valid_otp": "Please enter a valid OTP",
+    "enter_valid_password": "Please enter a valid Password",
+    "otp_req_error": "OTP Request Error!",
+
+    "dates_required": "Dates Required",
+    "msisdn_required": "MSISDN Required",
+    "userlevel_required": "Userlevel Required",
+
+    "success_download_retailers": "Successfully Downloaded Retailers List",
+    "failed_fetch": "Failed to fetch data"
 }

@@ -102,7 +102,6 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
         }
     };
     
-
     const handleEnterPress = (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
@@ -197,6 +196,7 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
                     }}
                 />
             )}
+
             <StatusModal
                 isOpen={modalState.isOpen}
                 onClose={() => {

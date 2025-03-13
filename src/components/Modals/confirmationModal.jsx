@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { toast, ToastContainer } from "react-toastify";
 import { useTranslation } from 'react-i18next';
-// import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/webUserSearch";
 import { lockWebUser, unlockWebUser , activeWebUser, deactiveWebUser, resetWebUser } from "../../api/apiWebUsers";
 import LoadingModal from '../../components/Modals/loadingModal';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +37,7 @@ export default function ConfirmationModal({
   }, []);
 
   const closeAllModals = () => {
-    handleCloseModal(); // Close the modal
+    handleCloseModal();
   };
   
   
@@ -52,39 +51,32 @@ export default function ConfirmationModal({
       handleCloseModal();
       return;
     }
-
-    console.log(modalMessage);
   
     const lockActions = {
-      // LOCKED: {
       [t('modal_locked')]:{
         action: lockWebUser,
         lockState: true,
         successMessage: t('user_locked'),
         failureMessage: t('lock_failed'),
       },
-      // UNLOCKED: {
       [t('modal_unlocked')]:{
         action: unlockWebUser,
         lockState: false,
         successMessage: t('user_unlocked'),
         failureMessage: t('unlock_failed'),
       },
-      // ACTIVATED: {
       [t('modal_activated')]:{
         action: activeWebUser,
         lockState: false,
         successMessage: t('user_active'),
         failureMessage: t('active_failed'),
       },
-      // DEACTIVATED: {
       [t('modal_deactivated')]:{
         action: deactiveWebUser,
         lockState: false,
         successMessage: t('user_deactive'),
         failureMessage: t('deactive_failed'),
       },
-      // RESET: {
       [t('modal_reset')]:{
         action: resetWebUser,
         lockState: false,
@@ -106,7 +98,6 @@ export default function ConfirmationModal({
         } else if (result.success) {
           setLocked(currentAction.lockState);
           onProceed(result.message);
-  
           setTimeout(() => {
             closeAllModals();
           }, 1000);

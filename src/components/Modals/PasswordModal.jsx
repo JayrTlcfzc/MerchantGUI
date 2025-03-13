@@ -25,12 +25,12 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
       if (allocpassword === currentpassword){
         onProceed(); 
         handleClose(); 
-      }else {
-        toast.error('Please enter a valid PASSWORD');
+      } else {
+        toast.error(t('enter_valid_password'));
       }
      
     } else {
-      toast.error('Please enter a valid PASSWORD');
+      toast.error(t('enter_valid_password'));
     }
   };
 
@@ -41,8 +41,9 @@ export default function PasswordModal({ onProceed = () => {}, handleClose = () =
     }
   };  
 
+  // Update the password state
   const handleChange = (e) => {
-    setPassword(e.target.value); // Update the password state
+    setPassword(e.target.value);
   };
 
   return (

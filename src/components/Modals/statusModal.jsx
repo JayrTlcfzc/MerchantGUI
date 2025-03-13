@@ -3,12 +3,10 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import { FaCircleCheck, FaTriangleExclamation } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../Auth/authContext";
-import { useNavigate } from "react-router-dom";
 
 const StatusModal = ({ isOpen, onClose, status, message }) => {
   const { t } = useTranslation();
   const { logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleSuccess = () => {
     logout();

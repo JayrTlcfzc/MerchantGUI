@@ -9,7 +9,7 @@ export default function PinModal({
 }) {
   const { t, i18n } = useTranslation();
   const [pin, setPin] = useState(["", "", "", ""]);
-  const firstInputRef = useRef(null); // Ref for the first input
+  const firstInputRef = useRef(null);
   const [error, setError] = useState(false);
 
   // Autofocus on the first input field when the modal opens
@@ -48,7 +48,6 @@ export default function PinModal({
     }
   };
   
-
   const handleEnterPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();

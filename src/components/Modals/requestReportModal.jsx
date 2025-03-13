@@ -3,24 +3,32 @@ import { X } from "lucide-react";
 import ConfirmationModal from './confirmationModal';
 import StatusModal from './statusModal';
 import { toast, ToastContainer } from "react-toastify";
-import { HandleChange, HandleChangeDigitsOnly, HandleChangeTextOnly, ResetFormData } from '../Validations';
+import { HandleChange, ResetFormData } from '../Validations';
 import { useTranslation } from 'react-i18next';
 import { transactionTypeCol, requestReport, generateReview } from '../../api/reports';
-import { parse } from 'postcss';
 import LoadingModal from '../../components/Modals/loadingModal';
 
 export default function RequestReportsModal({ handleClose = () => {} }) {
 
+    const initialFormData = {
+        reportType: '',
+        msisdn: 'ALL',
+        dateFrom: '',
+        dateTo: '',
+        transType: ''
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
     const [transTypes, setTransTypes] = useState([]);
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [typeOfReport, setTypeOfReport] = useState('');
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
     const fetchTransactionTypes = async () => {
         setLoading(true);
-        try {
 
+        try {
         const { success, transactType, message } = await transactionTypeCol();
 
             if (success) {
@@ -37,14 +45,13 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                     setTransTypes(JSON.parse(parsedData));
                 }
                 else {
-                    toast.error("Something went wrong!");
+                    toast.error(message);
                 }
             } else {
-                setError(result.message || 'Invalid data format');
-                toast.error("Something went wrong!");
+                toast.error(message);
             }
         } catch (err) {
-            setError(err.message);
+            toast.error(err);
         } finally {
             setLoading(false);
         }
@@ -52,19 +59,6 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
     
     fetchTransactionTypes();
     }, []);
-
-    const { t, i18n } = useTranslation();
-
-
-    const initialFormData = {
-        reportType: '',
-        msisdn: 'ALL',
-        dateFrom: '',
-        dateTo: '',
-        transType: ''
-    };
-
-    const [formData, setFormData] = useState(initialFormData);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -110,21 +104,21 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
                     setModalState({
                     isOpen: true,
                     status: "success",
-                    message: "Requested Report Successfully!",
+                    message: t('modal_request_success'),
                     });
                     ResetFormData(setFormData, initialFormData)();
                 } else {
                     setModalState({
                     isOpen: true,
                     status: "error",
-                    message: "Failed to Request Report. Please try again.",
+                    message: t('modal_request_failed'),
                     });
                 }
             } catch {
                 setModalState({
                     isOpen: true,
                     status: "error",
-                    message: "Failed to Request Report. Please try again.",
+                    message: t('modal_request_failed'),
                 });
             } finally {
                 setLoading(false);
@@ -133,7 +127,7 @@ export default function RequestReportsModal({ handleClose = () => {} }) {
             setModalState({
                 isOpen: true,
                 status: "error",
-                message: "Failed to Request Report. Please try again.",
+                message: t('modal_request_failed'),
             });
         }
     };
