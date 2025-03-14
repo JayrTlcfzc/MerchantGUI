@@ -358,7 +358,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   id="dateRegistered"
                   value={formData.dateRegistered}
                   onChange={HandleChange(setFormData)}
-                  placeholder="2023-11-19 14:35:00"
+                  placeholder="N/A"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
@@ -370,7 +370,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   id="dateModified"
                   value={formData.dateModified}
                   onChange={HandleChange(setFormData)}
-                  placeholder="2024-04-19 21:45:00"
+                  placeholder="N/A"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#23587C]"
                 />
               </div>
@@ -389,7 +389,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
 
                 {formData.locked === 'NO' ? (
                   <button
-                  onClick={() => handleOpenModal(t('modal_locked'), formData.username)}
+                  onClick={() => handleOpenModal(t('modal_lock'), formData.username)}
                     className="px-4 py-2 text-white bg-[#C80202] rounded hover:bg-[#F71010] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={onEdit}
                   >
@@ -397,7 +397,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   </button>
                 ) : (
                   <button
-                  onClick={() => handleOpenModal(t('modal_unlocked'), formData.username)}
+                  onClick={() => handleOpenModal(t('modal_unlock'), formData.username)}
                     className="px-4 py-2 text-white bg-[#0FBA00] rounded hover:bg-[#0C9500] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={onEdit}
                   >
@@ -407,7 +407,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
 
                 {formData.status === 'ACTIVE' ? (
                   <button
-                    onClick={() => handleOpenModal(t('modal_deactivated'), formData.username)}
+                    onClick={() => handleOpenModal(t('modal_deactivate'), formData.username)}
                     className="px-4 py-2 text-white bg-[#3F3F3F] rounded hover:bg-[#4D4D4D] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={onEdit}
                   >
@@ -415,7 +415,7 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleOpenModal(t('modal_activated'), formData.username)}
+                    onClick={() => handleOpenModal(t('modal_activate'), formData.username)}
                     className="px-4 py-2 text-white bg-[#CDC600] rounded hover:bg-[#F2EA06] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={onEdit}
                   >

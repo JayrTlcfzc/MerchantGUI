@@ -13,7 +13,7 @@ export const userLevelCol = async () => {
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
-    const response = await axios.post(`${BASE_URL}/web/getuserlevels`, data, {
+    const response = await axios.post(`${BASE_URL}/web/userslevel/getuserlevels`, data, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.GETUSERSLEVELS',

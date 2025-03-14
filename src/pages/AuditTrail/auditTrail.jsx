@@ -211,7 +211,7 @@ const AuditTrail = () => {
                         </div>
 
                         <div className="w-1/5">
-                            <label className="block mb-1 text-gray-700">{labelText}</label>
+                            <label className="block mb-1 text-gray-700">{t('user_id')}</label>
                             <input
                                 type="text"
                                 name="userinput"

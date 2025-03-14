@@ -74,7 +74,13 @@ const ViewWebUsers = () => {
                 toast.error(response.message);
                 navigate('/login');
             } else if (response.success) {
-                setData(response.webusers || []); 
+                const users = response.webusers || [];
+                setData(users);
+
+                if (users.length === 0) {
+                    toast.error(t('td_no_results_found'));
+                }
+
             } else {
                 setData([]);
                 toast.error(response.message);

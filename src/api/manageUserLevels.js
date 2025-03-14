@@ -93,7 +93,7 @@ export const userLevelSearch = async (data) => {
     const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
     const sessionid = userData?.sessionId;
 
-    const response = await axios.post(`${BASE_URL}/web/getuserlevel`, { userslevel: data }, {
+    const response = await axios.post(`${BASE_URL}/web/userslevel/getuserlevelinfo`, { userslevel: data }, {
       headers: {
         'Content-Type': 'application/json',
         'method': 'USERS.USERSLEVELSEARCH',
@@ -103,7 +103,6 @@ export const userLevelSearch = async (data) => {
     });
 
     const responseData = response.data;
-    console.log(responseData);
     
     if (responseData.StatusCode === 97 || responseData.StatusCode === 93 || responseData.StatusCode === 98) {
       return { logout: true, message: responseData?.StatusMessage };

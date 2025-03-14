@@ -53,25 +53,25 @@ export default function ConfirmationModal({
     }
   
     const lockActions = {
-      [t('modal_locked')]:{
+      [t('modal_lock')]:{
         action: lockWebUser,
         lockState: true,
         successMessage: t('user_locked'),
         failureMessage: t('lock_failed'),
       },
-      [t('modal_unlocked')]:{
+      [t('modal_unlock')]:{
         action: unlockWebUser,
         lockState: false,
         successMessage: t('user_unlocked'),
         failureMessage: t('unlock_failed'),
       },
-      [t('modal_activated')]:{
+      [t('modal_activate')]:{
         action: activeWebUser,
         lockState: false,
         successMessage: t('user_active'),
         failureMessage: t('active_failed'),
       },
-      [t('modal_deactivated')]:{
+      [t('modal_deactivate')]:{
         action: deactiveWebUser,
         lockState: false,
         successMessage: t('user_deactive'),

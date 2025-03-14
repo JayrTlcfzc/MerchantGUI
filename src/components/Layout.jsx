@@ -53,7 +53,10 @@ const Layout = ({ children }) => {
         {/* Header overlapping the sidebar */}
         <header className="bg-[#23587C] text-white p-4 flex justify-between items-center -ml-16">
          
-          <img src={Logo} className="fixed left-20 rounded z-0" alt="Logo" />
+        {!isSidebarOpen && (
+          <img src={Logo} className="absolute left-20 rounded z-0" alt="Logo" />
+        )}
+
           <Topbar
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
