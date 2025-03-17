@@ -92,8 +92,8 @@ export default function viewWebUsersModal({ handleClose = () => {}, webUserData 
   const handleConfirm = (result) => {
     setModalState({
       isOpen: true,
-        status: 'successul',
-        message: result,
+      status: 'successul',
+      message: result,
     });
   };
 

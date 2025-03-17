@@ -36,12 +36,6 @@ export default function ChangePasswordModal({ handleClose = () => {} }) {
         setFormData({ ...formData, [name]: value });
     };
 
-    // Open confirmation modal with a specific message
-    const handleOpenModal = (modalMessage) => {
-        setModalMessage(modalMessage);
-        setOpenModal('confirmationModal');
-    };
-
     // Close confirmation modal
     const handleCloseModal = () => {
         setOpenModal('');
