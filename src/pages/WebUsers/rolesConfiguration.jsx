@@ -165,7 +165,6 @@ const rolesConfiguration = () => {
 
     try {
       const result = await getRolesConfigTable(userLevel);
-      console.log(result);
       if (result.logout) {
         toast.error(result.message);
         navigate('/login');

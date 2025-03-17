@@ -7,7 +7,6 @@ import { useAuth } from "../Auth/authContext";
 const StatusModal = ({ isOpen, onClose, status, message }) => {
   const { t } = useTranslation();
   const { logout } = useAuth();
-  console.log("status: ", status);
 
   const handleSuccess = () => {
     logout();
