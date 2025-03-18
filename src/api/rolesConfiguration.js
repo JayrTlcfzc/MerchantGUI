@@ -22,7 +22,7 @@ export const getRolesConfigTable = async (data) => {
     });
 
     const responseData = response.data;
-
+    
     if (responseData.StatusCode === 97 || responseData.StatusCode === 93 || responseData.StatusCode === 98) {
       return { logout: true, message: responseData?.StatusMessage };
     } else if (responseData.StatusCode === 0) {

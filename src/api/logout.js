@@ -21,16 +21,18 @@ export const verifyLogout = async () => {
       }
   });
 
-    if (response.data.StatusCode === 0) {
-      return {
-        success: true,
-        message: response.data.StatusMessage,
-      };
-    } else {
-      return {
-        message: response.data.StatusMessage,
-      };
-    }
+  if (response.data.StatusCode === 97 || response.data.StatusCode === 93 || response.data.StatusCode === 98) {
+    return { logout: true, message: response?.StatusMessage };
+  } else if (response.data.StatusCode === 0) {
+    return {
+      success: true,
+      message: response.data.StatusMessage,
+    };
+  } else {
+    return {
+      message: response.data.StatusMessage,
+    };
+  }
   } catch (error) {
     return Promise.reject({
       success: false,

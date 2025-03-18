@@ -65,7 +65,7 @@ const Topbar = ({ handleMouseEnter, handleMouseLeave, userslevel, hoveredIcon, u
         try {
             const result = await verifyLogout();
 
-            if (result.success) {
+            if (result.success || result.logout) {
                 logout();
                 navigate('/login');
             } else {
