@@ -31,7 +31,7 @@ export const addUserLevel = async (formData) => {
       },
     });
 
-    if (response.StatusCode === 97 || response.StatusCode === 93 || response.StatusCode === 98) {
+    if (response.data.StatusCode === 97 || response.data.StatusCode === 93 || response.data.StatusCode === 98) {
       return { logout: true, message: response?.StatusMessage };
     } else {
       return response.data;
