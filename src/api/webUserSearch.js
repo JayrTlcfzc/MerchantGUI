@@ -6,8 +6,8 @@ const BASE_URL = 'http://localhost:5000';
   export const viewWebUser = async (params) => {
 
     const data = {
-      // email: params.USER,
-      username: params.USER
+      useroption: params.SEARCHOPTION,
+      userinput: params.USER
     }
       
     try {

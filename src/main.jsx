@@ -24,7 +24,7 @@ import Layout from "./components/Layout";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProvider>
       <Router>
         <Routes>
@@ -100,5 +100,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Routes>
       </Router>
     </AuthProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

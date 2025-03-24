@@ -65,53 +65,63 @@ const RegisterNewUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Simulate form submission success or failure
-    const isFormValid =
-      formData.username &&
-      formData.msisdn &&
-      formData.otpMsisdn &&
-      formData.firstName &&
-      formData.lastName &&
-      formData.email &&
-      formData.company &&
-      formData.department &&
-      // formData.userLevel &&
-      formData.status;
-
-      if (isFormValid) {
-        setLoading(true);
-        const response = await registerWebUser(formData);
-
-        if (response.logout) {
-          toast.error(response.message);
-          navigate('/login');
-        }
-
-        if(response.StatusCode === 0){
-          setModalState({
-            isOpen: true,
-            status: "success",
-            message: response.StatusMessage,
-          });
-          ResetFormData(setFormData, initialFormData)();
-          setLoading(false);
-        } else{
-          setModalState({
-            isOpen: true,
-            status: "error",
-            message: response.StatusMessage,
-          });
-          setLoading(false);
-        }
+  
+    // Convert necessary fields to uppercase
+    const formattedData = {
+      ...formData,
+      username: formData.username.toUpperCase(),
+      firstName: formData.firstName.toUpperCase(),
+      lastName: formData.lastName.toUpperCase(),
+      email: formData.email.toUpperCase(),
+      company: formData.company.toUpperCase(),
+      department: formData.department.toUpperCase(),
+      userLevel: formData.userLevel?.toUpperCase(), // Ensure optional fields don't cause errors
+      status: formData.status.toUpperCase(),
+    };
+  
+    // Validate form fields
+    const isFormValid = Object.values(formattedData).every(value => value !== "");
+  
+    if (!isFormValid) {
+      setModalState({
+        isOpen: true,
+        status: "error",
+        message: t('modal_failed_to_add_user'),
+      });
+      return;
+    }
+  
+    setLoading(true);
+    try {
+      const response = await registerWebUser(formattedData);
+  
+      if (response.logout) {
+        toast.error(response.message);
+        navigate('/login');
+        return;
+      }
+  
+      if (response.StatusCode === 0) {
+        setModalState({
+          isOpen: true,
+          status: "success",
+          message: response.StatusMessage,
+        });
+        ResetFormData(setFormData, initialFormData)();
       } else {
         setModalState({
           isOpen: true,
           status: "error",
-          message: t('modal_failed_to_add_user'),
+          message: response.StatusMessage,
         });
       }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   return (
     <div className="flex items-center justify-center p-4">
