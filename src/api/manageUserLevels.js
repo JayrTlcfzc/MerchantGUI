@@ -117,3 +117,38 @@ export const userLevelSearch = async (data) => {
   }
 
 };
+
+export const addUsersModuleRel = async (formData) => {
+
+  const data = {
+    description: formData.description,
+    module: formData.module.toUpperCase(),
+  };
+
+  try {
+
+    const storedLang = JSON.parse(localStorage.getItem("lang"));
+    const language = (storedLang?.language).toUpperCase() || "EN";
+
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}"); 
+    const sessionid = userData?.sessionId;
+
+    const response = await axios.post(`${BASE_URL}/web/rolesconfig/add-roles`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'method': 'USERS.ADDUSERMODULE',
+        'Language': `${language}`,
+        "token": `${sessionid}`,
+      },
+    });
+
+    if (response.data.StatusCode === 97 || response.data.StatusCode === 93 || response.data.StatusCode === 98) {
+      return { logout: true, message: response?.StatusMessage };
+    } else {
+      return response.data;
+    }
+
+  } catch (error) {
+    throw error;
+  }
+};

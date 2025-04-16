@@ -266,5 +266,10 @@
     "userlevel_required": "Userlevel Required",
 
     "success_download_retailers": "Successfully Downloaded Retailers List",
-    "failed_fetch": "Failed to fetch data"
+    "failed_fetch": "Failed to fetch data",
+    "add_users_module_rel": "ADD USERS MODULE REL",
+    "enter_description": "Enter Description",
+    "enter_module": "Enter Moduel"
+   
+
 }
